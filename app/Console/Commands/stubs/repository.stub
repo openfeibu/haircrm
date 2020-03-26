@@ -1,0 +1,20 @@
+<?php
+
+namespace $repository_namespace;
+
+use $repository_interface_namespace\$repository_interface;
+use App\Repositories\Eloquent\BaseRepository;
+
+class $class_name extends BaseRepository implements $repository_interface
+{
+
+    public function boot()
+    {
+        $this->fieldSearchable = config('model.$model_var_name.$model_var_name.search');
+    }
+    public function model()
+    {
+        return config('model.$model_var_name.$model_var_name.model');
+    }
+
+}

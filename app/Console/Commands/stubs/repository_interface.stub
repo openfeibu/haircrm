@@ -1,0 +1,7 @@
+<?php
+
+namespace $repository_interface_namespace;
+
+interface $repository_interface
+{
+}
