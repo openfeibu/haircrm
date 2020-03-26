@@ -22,3 +22,12 @@
 		{!!Form::Close()!!}
 	</div>
 </div>
+<script>
+	layui.use(['form', 'layer', 'laytpl', 'jquery'], function () {
+		var form = layui.form, $ = layui.jquery;
+		form.on('select(role)', function (data) {
+			layer.load();
+			window.location.href = data.value;
+		});
+	});
+</script>
