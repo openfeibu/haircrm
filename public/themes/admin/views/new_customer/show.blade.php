@@ -119,7 +119,7 @@
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.remark') }}</label>
                         <div class="layui-input-block">
-                            <textarea name="remark" id="remark" placeholder="请输入 {{ trans('new_customer.label.remark') }}" class="layui-textarea"></textarea>
+                            <textarea name="remark" id="remark" placeholder="请输入 {{ trans('new_customer.label.remark') }}" class="layui-textarea">{!! $new_customer->remark !!}</textarea>
                         </div>
                     </div>
                     <input type="hidden" name="_method" value="PUT">
