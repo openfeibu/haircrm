@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/admin');
 });
 Route::get('/categories', 'CategoryController@getCategories')->name('category.index');
 Route::get('/categories_tree', 'CategoryController@getCategoriesTree')->name('category.tree');
