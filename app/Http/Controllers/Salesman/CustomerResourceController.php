@@ -149,6 +149,14 @@ class CustomerResourceController extends BaseController
                 ->redirect();
         }
     }
+    public function getCustomer(Request $request)
+    {
+        $customer = $this->repository->find($request->id,['address']);
+        return $this->response
+            ->success()
+            ->data($customer->toArray())
+            ->json();
+    }
     public function import(Request $request)
     {
         return $this->response->title(trans('salesman.name'))

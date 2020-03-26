@@ -12,7 +12,7 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('category')}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">上级</label>
+                        <label class="layui-form-label">上级 *</label>
 
                         <div class="layui-input-block">
                             <select name="parent_id" id="parent_id" lay-filter="parent_id">
@@ -26,7 +26,7 @@
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('supplier.name') }}</label>
+                        <label class="layui-form-label">{{ trans('supplier.name') }} *</label>
 
                         <div class="layui-input-block">
                             @inject('supplierRepository','App\Repositories\Eloquent\SupplierRepository')
@@ -49,7 +49,7 @@
                         <div class="layui-form-mid layui-word-aux">比如"1B/613"，就不勾选该字段，此时批量应该换行</div>
                     </div>
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('category.label.name') }}</label>
+                        <label class="layui-form-label">{{ trans('category.label.name') }} *</label>
 
                         <div class="layui-input-block">
                             <textarea name="categories" placeholder="" class="layui-textarea"></textarea>

@@ -12,7 +12,7 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('customer')}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">客户名称</label>
+                        <label class="layui-form-label">客户名称 *</label>
 
                         <div class="layui-input-block">
                             <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">

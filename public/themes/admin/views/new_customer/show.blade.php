@@ -12,7 +12,7 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('new_customer/'.$new_customer->id)}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">业务员</label>
+                        <label class="layui-form-label">业务员 *</label>
                         <div class="layui-input-block">
                             <select name="salesman_id" lay-filter="checkBox" lay-verify="required">
                                 <option value="">请选择业务员</option>
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.mark') }}</label>
+                        <label class="layui-form-label">{{ trans('new_customer.label.mark') }} *</label>
                         <div class="layui-input-block">
                             <select name="mark" lay-filter="checkBox" lay-verify="required">
                                 @foreach(trans('new_customer.mark') as $key => $mark)
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.company_name') }}</label>
+                        <label class="layui-form-label">{{ trans('new_customer.label.company_name') }} *</label>
 
                         <div class="layui-input-block">
                             <input type="text" name="company_name" lay-verify="required" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.company_name') }}" class="layui-input" value="{{ $new_customer->company_name }}">
@@ -48,9 +48,9 @@
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.nickname') }}</label>
+                        <label class="layui-form-label">{{ trans('new_customer.label.nickname') }} *</label>
                         <div class="layui-input-block">
-                            <input type="text" name="nickname"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.nickname') }}" class="layui-input" value="{{ $new_customer->nickname }}">
+                            <input type="text" name="nickname" lay-verify="required" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.nickname') }}" class="layui-input" value="{{ $new_customer->nickname }}">
                         </div>
                     </div>
 

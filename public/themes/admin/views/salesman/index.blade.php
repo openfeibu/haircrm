@@ -47,6 +47,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80}
+                ,{field:'email',title:'{{ trans('salesman.label.email') }}',edit:'text'}
                 ,{field:'name',title:'{{ trans('salesman.label.name') }}',edit:'text'}
                 ,{field:'en_name',title:'{{ trans('salesman.label.en_name') }}',edit:'text'}
                 ,{field:'entry_date',title:'{{ trans('salesman.label.entry_date') }}'}

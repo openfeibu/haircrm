@@ -12,19 +12,19 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('salesman/'.$salesman->id)}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">{{ trans("salesman.label.email") }}</label>
+                        <label class="layui-form-label">{{ trans("salesman.label.email") }} *</label>
                         <div class="layui-input-inline">
                             <input type="text" name="email" value="{{ $salesman->email }}" lay-verify="email|required" autocomplete="off" placeholder="请输入{{ trans("salesman.label.email") }}" class="layui-input" >
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">{{ trans("salesman.label.name") }}</label>
+                        <label class="layui-form-label">{{ trans("salesman.label.name") }} *</label>
                         <div class="layui-input-inline">
                             <input type="text" name="name" value="{{ $salesman->name }}" lay-verify="required" autocomplete="off" placeholder="请输入{{ trans("salesman.label.name") }}" class="layui-input" >
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">{{ trans("salesman.label.en_name") }}</label>
+                        <label class="layui-form-label">{{ trans("salesman.label.en_name") }} *</label>
                         <div class="layui-input-inline">
                             <input type="text" name="en_name" value="{{ $salesman->en_name }}"  autocomplete="off" placeholder="请输入{{ trans("salesman.label.en_name") }}" class="layui-input" >
                         </div>
@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="layui-form-item">
-                        <label class="layui-form-label">{{ trans("admin_user.label.roles") }}</label>
+                        <label class="layui-form-label">{{ trans("admin_user.label.roles") }} *</label>
                         <div class="layui-input-block">
                             @foreach($roles as $key => $role)
                                 <input type="radio" name="roles[]" value="{{ $role->id }}" title="{{ $role->name }}" {{ !($salesman->hasRole($role->slug)) ? :'checked'}}>

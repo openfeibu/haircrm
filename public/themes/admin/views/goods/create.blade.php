@@ -12,14 +12,14 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('goods')}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">选择分类</label>
+                        <label class="layui-form-label">选择分类 *</label>
                         <div class="layui-input-inline">
                             <input type="text" name="category_id" id="category_tree"lay-verify="tree" autocomplete="off" placeholder="请选择分类(加载中)" class="layui-input">
                         </div>
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">选择尺寸</label>
+                        <label class="layui-form-label">选择尺寸 *</label>
                         <div class="fb-form-item-box fb-clearfix">
                             @foreach($attribute_values as $key => $attribute_value)
                             <div class="layui-input-block">

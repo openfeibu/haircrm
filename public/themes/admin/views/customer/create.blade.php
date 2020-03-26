@@ -12,7 +12,7 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('customer')}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">业务员</label>
+                        <label class="layui-form-label">业务员 *</label>
                         <div class="layui-input-block">
                             <select name="salesman_id" lay-filter="checkBox" lay-verify="required">
                                 <option value="">请选择业务员</option>
@@ -24,7 +24,7 @@
 
                     </div>
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">客户名称</label>
+                        <label class="layui-form-label">客户名称 *</label>
 
                         <div class="layui-input-block">
                             <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">

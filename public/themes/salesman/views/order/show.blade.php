@@ -45,7 +45,7 @@
                             <div class="fb-form-item-box fb-clearfix">
                                 <div class="layui-input-block">
                                     @inject('customerRepository','App\Repositories\Eloquent\CustomerRepository')
-                                    <select name="customer_id" id="customer_id" lay-filter="" >
+                                    <select name="customer_id" id="customer_id" lay-filter="customer" >
                                         <option value="">请选择客户</option>
                                         @foreach($customerRepository->getSalesmanCustomers(Auth::user()->id) as $key => $customer)
                                             <option value="{{ $customer->id }}" @if($customer->id == $order->customer_id) selected @endif>{{ $customer->name }}</option>
@@ -137,6 +137,34 @@
             });
             return false;
         });
+
+        form.on('select(customer)', function(data){
+            var customer_id = data.value;
+            if(!customer_id)
+            {
+                return false;
+            }
+            var ajax_data = {'_token':"{!! csrf_token() !!}",id:customer_id};
+            var load = layer.load();
+            $.ajax({
+                url : "{{ guard_url('get_customer') }}",
+                data : ajax_data,
+                type : 'get',
+                success : function (data) {
+                    layer.close(load);
+                    if(data.code == 0) {
+                        $("#address").text(data.data.address ? data.data.address : '')
+                    }else{
+                        layer.msg(data.message);
+                    }
+                },
+                error : function (jqXHR, textStatus, errorThrown) {
+                    layer.close(load);
+                    $.ajax_error(jqXHR, textStatus, errorThrown);
+                }
+            });
+        });
+
     });
 
 </script>

@@ -12,14 +12,14 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('goods/'.$goods->id)}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('goods.label.name') }}</label>
+                        <label class="layui-form-label">{{ trans('goods.label.name') }} *</label>
                         <div class="layui-input-block">
                             <p class="input-p">{{ $goods->name }}</p>
                         </div>
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">选择尺寸</label>
+                        <label class="layui-form-label">选择尺寸 *</label>
                         <div class="fb-form-item-box fb-clearfix">
                             @foreach($attribute_values as $key => $attribute_value)
                             <div class="layui-input-block">

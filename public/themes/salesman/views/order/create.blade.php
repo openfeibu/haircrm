@@ -12,13 +12,13 @@
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('order')}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">选择分类</label>
+                        <label class="layui-form-label">选择分类 *</label>
                         <div class="layui-input-inline">
                             <input type="text" name="category_id" id="category_tree"lay-verify="tree" autocomplete="off" placeholder="请选择分类(加载中)" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item fb-form-item2 " id="goods_attributes" style="display:none;">
-                        <label class="layui-form-label">选择尺寸</label>
+                        <label class="layui-form-label">选择尺寸 *</label>
                         <div class="fb-form-item-box fb-clearfix">
                             <div class="layui-input-block">
                                 <p class="input-p a-select" id="size">
@@ -57,11 +57,11 @@
                     <form class="layui-form" action="" lay-filter="fb-form">
 
                         <div class="layui-form-item fb-form-item">
-                            <label class="layui-form-label">客户</label>
+                            <label class="layui-form-label">客户 *</label>
                             <div class="fb-form-item-box fb-clearfix">
                                 <div class="layui-input-block">
                                     @inject('customerRepository','App\Repositories\Eloquent\CustomerRepository')
-                                    <select name="customer_id" id="customer_id" lay-filter="" >
+                                    <select name="customer_id" id="customer_id" lay-filter="customer" >
                                         <option value="">请选择客户</option>
                                         @foreach($customerRepository->getSalesmanCustomers(Auth::user()->id) as $key => $customer)
                                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="layui-form-item fb-form-item2">
-                            <label class="layui-form-label">地址</label>
+                            <label class="layui-form-label">地址 *</label>
                             <div class="fb-form-item-box" >
                                 <div class="layui-input-block" style="width: 410px;">
                                     <textarea name="address" id="address" placeholder="请输入地址" class="layui-textarea"></textarea>
@@ -269,6 +269,33 @@
                 }
             });
             return false;
+        });
+
+        form.on('select(customer)', function(data){
+            var customer_id = data.value;
+            if(!customer_id)
+            {
+                return false;
+            }
+            var ajax_data = {'_token':"{!! csrf_token() !!}",id:customer_id};
+            var load = layer.load();
+            $.ajax({
+                url : "{{ guard_url('get_customer') }}",
+                data : ajax_data,
+                type : 'get',
+                success : function (data) {
+                    layer.close(load);
+                    if(data.code == 0) {
+                        $("#address").text(data.data.address ? data.data.address : '')
+                    }else{
+                        layer.msg(data.message);
+                    }
+                },
+                error : function (jqXHR, textStatus, errorThrown) {
+                    layer.close(load);
+                    $.ajax_error(jqXHR, textStatus, errorThrown);
+                }
+            });
         });
     });
 
