@@ -25,9 +25,10 @@ class CustomerExport implements FromCollection,WithEvents
 
     public $count = 0;
 
-    public function __construct($ids=[])
+    public function __construct($ids=[],$search=[])
     {
         $this->ids = $ids;
+        $this->search = $search;
     }
 
     public function collection()
@@ -35,12 +36,15 @@ class CustomerExport implements FromCollection,WithEvents
 
         $title = '客户信息表';
 
-        if($this->ids)
-        {
-            $customers = Customer::whereIn('id',$this->ids)->orderBy('id','desc')->get();
-        }else{
-            $customers = Customer::orderBy('id','desc')->get();
-        }
+        $customers = app(Customer::class)
+            ->when($this->ids ,function ($query) {
+                return $query->whereIn('id',$this->ids);
+            })->when($this->search ,function ($query){
+                foreach($this->search as $field => $value)
+                {
+                    return $query->where($field,'like','%'.$value.'%');
+                }
+            })->orderBy('id','desc')->get();
         $this->count = $customers->count();
         $header_data = [
             [trans('customer.label.name'),trans('salesman.label.name'),trans('customer.label.ig'),trans('customer.label.from'),trans('customer.label.email'),trans('customer.label.mobile'),trans('customer.label.imessage'),trans('customer.label.whatsapp'),trans('customer.label.address'),trans('customer.label.order_count')]

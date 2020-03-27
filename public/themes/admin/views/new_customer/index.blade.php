@@ -60,7 +60,7 @@
                 ,{field:'ig_sec',title:'{{ trans('new_customer.label.ig_sec') }}',edit:'text'}
                 ,{field:'facebook',title:'{{ trans('new_customer.label.facebook') }}',edit:'text'}
                 ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}'}
-                ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}',templet:'#markTpl', width:100, fixed: 'right'}
+                ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:100, fixed: 'right'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:160, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
@@ -119,7 +119,20 @@
                 }
                 data_id_obj[i] = v.id; i++
             });
-            window.location.href=url+paramStr;
+            $(".search_key").each(function(){
+                var name = $(this).attr('name');
+                if(i == 0)
+                {
+                    paramStr += "?search["+name+"]="+$(this).val();
+                }else{
+                    paramStr += "&search["+name+"]="+$(this).val();
+                }
+                i++
+            });
+            var load =layer.load();
+            window.location.href = url+paramStr;
+            layer.close(load);
+
         }
 
     })

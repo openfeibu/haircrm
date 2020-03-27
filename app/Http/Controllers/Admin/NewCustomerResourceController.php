@@ -236,6 +236,7 @@ class NewCustomerResourceController extends BaseController
         $data = $request->all();
         $ids = $data['ids'] ?? [];
         $name = '收集客户信息表'.date('YmdHis').'.xlsx';
-        return Excel::download(new NewCustomerExport($ids), $name);
+        $search = $request->input('search',[]);
+        return Excel::download(new NewCustomerExport($ids,$search), $name);
     }
 }

@@ -114,7 +114,19 @@
                 }
                 data_id_obj[i] = v.id; i++
             });
-            window.location.href=url+paramStr;
+            $(".search_key").each(function(){
+                var name = $(this).attr('name');
+                if(i == 0)
+                {
+                    paramStr += "?search["+name+"]="+$(this).val();
+                }else{
+                    paramStr += "&search["+name+"]="+$(this).val();
+                }
+                i++
+            });
+            var load =layer.load();
+            window.location.href = url+paramStr;
+            layer.close(load);
         }
 
     })

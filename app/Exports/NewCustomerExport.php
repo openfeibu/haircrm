@@ -25,9 +25,10 @@ class NewCustomerExport implements FromCollection,WithEvents
 
     public $count = 0;
 
-    public function __construct($ids=[])
+    public function __construct($ids=[],$search=[])
     {
         $this->ids = $ids;
+        $this->search = $search;
     }
 
     public function collection()
@@ -35,12 +36,16 @@ class NewCustomerExport implements FromCollection,WithEvents
 
         $title = '客户信息表';
 
-        if($this->ids)
-        {
-            $new_customers = NewCustomer::whereIn('id',$this->ids)->orderBy('id','desc')->get();
-        }else{
-            $new_customers = NewCustomer::orderBy('id','desc')->get();
-        }
+        $new_customers = app(NewCustomer::class)
+            ->when($this->ids ,function ($query) {
+                return $query->whereIn('id',$this->ids);
+            })->when($this->search ,function ($query){
+                foreach($this->search as $field => $value)
+                {
+                    return $query->where($field,'like','%'.$value.'%');
+                }
+            })->orderBy('id','desc')->get();
+
         $this->count = $new_customers->count();
         $header_data = [
             [trans('salesman.label.name'),trans('new_customer.label.company_name'),trans('new_customer.label.company_website'),trans('new_customer.label.nickname'),trans('new_customer.label.email'),trans('new_customer.label.mobile'),trans('new_customer.label.imessage'),trans('new_customer.label.whatsapp'),trans('new_customer.label.main_product'),trans('new_customer.label.ig'),trans('new_customer.label.ig_follower_count'),trans('new_customer.label.ig_sec'),trans('new_customer.label.facebook'),trans('new_customer.label.mark'),trans('new_customer.label.remark')]
