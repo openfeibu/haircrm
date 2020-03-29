@@ -6,16 +6,24 @@ use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Category;
+use App\Repositories\Eloquent\AttributeRepository;
+use App\Repositories\Eloquent\AttributeValueRepository;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\CategoryRepository;
 use Tree;
 
 class CategoryResourceController extends BaseController
 {
-    public function __construct(CategoryRepository $category)
+    public function __construct(
+        CategoryRepository $category,
+        AttributeRepository $attributeRepository,
+        AttributeValueRepository $attributeValueRepository
+    )
     {
         parent::__construct();
         $this->repository = $category;
+        $this->attributeRepository = $attributeRepository;
+        $this->attributeValueRepository = $attributeValueRepository;
         $this->repository
             ->pushCriteria(\App\Repositories\Criteria\RequestCriteria::class);
     }
@@ -160,7 +168,33 @@ class CategoryResourceController extends BaseController
                 ->redirect();
         }
     }
+    public function getAttributeContent(Request $request)
+    {
+        $category_id = $request->category_id;
+        $attribute_id = $this->repository->getAttributeId($category_id);
 
+        $content = '';
+        if(!$attribute_id)
+        {
+            return $this->response->title(trans('category.name'))
+                ->data(compact('content','attribute_id'))
+                ->json();
+        }
+        $attribute = $this->attributeRepository->find($attribute_id);
+        $attribute_values = $this->attributeValueRepository->getAttributeValues($attribute_id);
+
+        $content = $this->response->title(trans('attribute.name'))
+            ->layout('render')
+            ->view('attribute.content')
+            ->data(compact('attribute_values','attribute_id','attribute'))
+            ->http()->getContent();
+
+        return $this->response->title(trans('category.name'))
+            ->data(compact('content','attribute_id'))
+            ->json();
+
+
+    }
     /*
      *
      $categories = $this->repository->get();

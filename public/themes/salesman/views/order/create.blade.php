@@ -39,7 +39,7 @@
                         <tr>
                             <th lay-data="{field:'id',width:80}">ID</th>
                             <th lay-data="{field:'goods_name',width:280}">商品名称</th>
-                            <th lay-data="{field:'attribute_value'}">尺寸</th>
+                            <th lay-data="{field:'attribute_value'}">属性</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
                             <th lay-data="{field:'number', edit: 'text'}">数量</th>
                             <th lay-data="{field:'score',title:'{{ trans('app.actions') }}', width:120, align: 'right',toolbar:'#barDemo'}">操作</th>
@@ -92,6 +92,7 @@
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>
 
+
 <script>
     var sizes = {};
     layui.use(['treeSelect', 'form', 'layer'], function () {
@@ -117,6 +118,8 @@
             spread: [1],
             // 点击回调
             click: function(obj){
+                sizes = {};
+                $("#goods_attributes").hide();
                 var load = layer.load();
                 var ajax_data = {};
                 ajax_data['_token'] = "{!! csrf_token() !!}";
@@ -131,17 +134,25 @@
                         {
                             layer.msg(data.message);
                         }
-                        if(!$.isEmptyObject(data.data))
+                        if(!$.isEmptyObject(data.data.goods))
                         {
-                            $("#goods_attributes").show();
+                            var goods = data.data.goods;
+
+
                             $('#size').html("");
                             var html = '';
-                            $.each(data.data.attribute_values,function (i,val) {
-                                val['goods_name'] = data.data.name;
+                            $.each(data.data.goods_list,function (i,val) {
+                                //val['goods_name'] = val['goods_name'];
                                 sizes[i] = val;
                                 html += "<a href='javascript:;' class='layui-btn layui-btn-warm' i="+i+">"+val.attribute_value+"</a>";
+                                console.log(sizes);
                             })
-                            $('#size').html(html);
+                            if(goods.attribute_id) {
+                                $("#goods_attributes").show();
+                                $('#size').html(html);
+                            } else{
+                                $.onNodeClick(sizes[0]);
+                            }
                         }else{
                             layer.msg("该分类下未发现产品，请先添加产品");
                         }
@@ -195,7 +206,7 @@
             {
                 for (var i=0;i<tableData.length;i++)
                 {
-                    if(tableData[i]['id'] == node.id)
+                    if(tableData[i]['list_id'] == node.list_id)
                     {
                         var number = tableData[i]['number'];
                         number++;
@@ -243,10 +254,11 @@
             if(!tableData)
             {
                 layer.msg("请先添加订单产品");
+                return false;
             }
             if(!customer_id || !address)
             {
-                layer.msg("客户、地址、业务员必填");
+                layer.msg("客户、地址必填");
                 return false;
             }
             var ajax_data = {'_token':"{!! csrf_token() !!}",customer_id:customer_id,address:address,'carts':tableData};

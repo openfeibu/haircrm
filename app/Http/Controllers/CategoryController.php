@@ -23,7 +23,7 @@ class CategoryController extends BaseController
     }
     public function getCategoriesTree(Request $request)
     {
-        $categories = $this->repository->getCategoriesSelectTree();
+        $categories = $this->repository->getCategoriesSelectTreeCache();
         return $categories;
     }
 }

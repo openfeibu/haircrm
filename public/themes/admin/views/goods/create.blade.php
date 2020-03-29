@@ -11,24 +11,27 @@
         <div class="layui-col-md12">
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('goods')}}" method="post" lay-filter="fb-form">
+                    <input type="hidden" name="attribute_id" autocomplete="off" placeholder="" class="layui-input" value="0" id="attribute_id">
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">选择分类 *</label>
                         <div class="layui-input-inline">
                             <input type="text" name="category_id" id="category_tree"lay-verify="tree" autocomplete="off" placeholder="请选择分类(加载中)" class="layui-input">
                         </div>
                     </div>
-
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">选择尺寸 *</label>
-                        <div class="fb-form-item-box fb-clearfix">
-                            @foreach($attribute_values as $key => $attribute_value)
-                            <div class="layui-input-block">
-                                <input type="checkbox" name="attribute_value[{{ $attribute_value['id'] }}]" lay-skin="primary" title="{{ $attribute_value['value'] }}" checked="">
-                                <input type="text" name="purchase_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.purchase_price') }}" class="layui-input minInput">
-                                <input type="text" name="selling_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.selling_price') }}" class="layui-input minInput">
-                            </div>
-                            @endforeach
+                        <label class="layui-form-label">{{ trans('goods.label.purchase_price') }}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="goods_purchase_price" autocomplete="off" placeholder="" class="layui-input">
                         </div>
+                    </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('goods.label.selling_price') }}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="goods_selling_price" autocomplete="off" placeholder="" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item fb-form-item2" id="attribute_content" style="display: none;">
+
                     </div>
 
                     {!!Form::token()!!}
@@ -59,6 +62,7 @@
             type: 'get',
             // 占位符
             placeholder: '请选择分类',
+            accordion:true,//手风琴模式
             //多选
             showCheckbox: false,
             //连线
@@ -73,29 +77,59 @@
                 var ajax_data = {};
                 ajax_data['_token'] = "{!! csrf_token() !!}";
                 ajax_data['category_id'] = obj.id;
+                $("#attribute_content").hide().html("");
                 $.ajax({
                     url : "{{ guard_url('category_goods') }}",
                     data : ajax_data,
                     type : 'get',
                     success : function (data) {
+                        $("#attribute_id").val(0);
                         if(data.code != 0)
                         {
                             layer.close(load);
                             layer.msg(data.message);
+                            return false;
                         }
                         if(!$.isEmptyObject(data.data))
                         {
                             window.location.href = "{{ guard_url('goods') }}/"+data.data.id;
-                        }else{
-                            layer.close(load);
+                            return false;
                         }
 
+                        $.ajax({
+                            url : "{{ guard_url('attribute_content') }}",
+                            data : ajax_data,
+                            type : 'get',
+                            success : function (data) {
+                                layer.close(load);
+                                if(data.code != 0)
+                                {
+                                    layer.close(load);
+                                    layer.msg(data.message);
+                                    return false;
+                                }
+                                var attribute_id = data.data.attribute_id;
+                                var html = data.data.content;
+                                if(attribute_id)
+                                {
+                                    $("#attribute_id").val(attribute_id);
+                                    $("#attribute_content").show().html(html);
+                                }
+
+                            },
+                            error : function (jqXHR, textStatus, errorThrown) {
+                                layer.close(load);
+                                $.ajax_error(jqXHR, textStatus, errorThrown);
+                            }
+                        });
                     },
                     error : function (jqXHR, textStatus, errorThrown) {
                         layer.close(load);
-                        layer.msg('服务器出错');
+                        $.ajax_error(jqXHR, textStatus, errorThrown);
                     }
                 });
+
+
             },
             // 加载完成后的回调函数
             success: function (d) {

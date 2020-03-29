@@ -24,17 +24,25 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
                 'id' => $category->id,
                 'parent_id' => $category->parent_id,
                 'order' => $category->order,
+                'attribute_id' => $category->attribute_id,
                 'spread' => true
             ];
             $data[$key]['children'] = $this->getCategories($category->id);
         }
         return $data;
     }
-    public function getCategoriesSelectTree($parent_id=0)
+    public function getCategoriesSelectTreeCache($parent_id=0)
     {
         if (Cache::has('categories_select_tree')) {
             return Cache::get('categories_select_tree');
         }
+        $data = $this->getCategoriesSelectTree($parent_id);
+        Cache::forever('categories_select_tree', $data);
+        return $data;
+    }
+    public function getCategoriesSelectTree($parent_id=0)
+    {
+
         $data = [];
         $categories = $this->where('parent_id',$parent_id)->orderBy('order','asc')->orderBy('id','asc')->get();
         foreach ($categories as $key => $category)
@@ -45,11 +53,11 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
                 'id' => $category->id,
                 'parent_id' => $category->parent_id,
                 'order' => $category->order,
+                'attribute_id' => $category->attribute_id,
                 'spread' => false
             ];
             $data[$key]['children'] = $this->getCategoriesSelectTree($category->id);
         }
-        Cache::forever('categories_select_tree', $data);
         return $data;
     }
     public function forgetCategoriesSelectTree()
@@ -99,4 +107,32 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return $category->supplier_id;
 
     }
+    public function getAttributeId($category_id)
+    {
+        $category = $this->where('id',$category_id)->first(['id','parent_id','attribute_id']);
+
+        if(!$category->attribute_id)
+        {
+            if(!$category->parent_id)
+            {
+                return 0;
+            }
+            return $this->getAttributeId($category->parent_id);
+        }
+        return $category->attribute_id;
+
+    }
+    public function getAttributeContent(Request $request)
+    {
+        $attribute_id = $request->id;
+        $attribute = $this->repository->find($attribute_id);
+        $attribute_values = $this->attributeValueRepository->getAttributeValues($attribute_id);
+
+        $content = $this->title(trans('attribute.name'))
+            ->view('attribute.content')
+            ->data(compact('attribute_values','attribute_id'))
+            ->render();
+        var_dump($content);exit;
+    }
+
 }

@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 Route::get('/categories', 'CategoryController@getCategories')->name('category.index');
 Route::get('/categories_tree', 'CategoryController@getCategoriesTree')->name('category.tree');
+Route::get('/attribute_content', 'AttributeController@getContent')->name('attribute.content');
+
 // Admin  routes  for user
 Route::group([
     'namespace' => 'Admin',
@@ -75,6 +77,8 @@ Route::group([
     Route::get('/new_customer_download', 'NewCustomerResourceController@download')->name('new_customer.download');
 
     Route::resource('goods', 'GoodsResourceController');
+    Route::post('/goods/update_attribute','GoodsResourceController@updateAttribute')->name('goods.update_attribute');
+    Route::post('/goods/destroy_list', 'GoodsResourceController@destroyList')->name('goods.destroy_list');
     Route::resource('goods_attribute_value', 'GoodsAttributeValueResourceController');
     Route::post('/goods_attribute_value/destroyAll', 'GoodsAttributeValueResourceController@destroyAll')->name('goods_attribute_value.destroy_all');
     Route::get('/category_goods','GoodsResourceController@categoryGoods')->name('goods.category_goods');
@@ -86,6 +90,9 @@ Route::group([
     Route::post('/order/destroyAll', 'OrderResourceController@destroyAll')->name('order.destroy_all');
     Route::get('/order_download/purchase_order', 'OrderResourceController@downloadPurchaseOrder')->name('order.download_purchase_order');
     Route::get('/order_download/quotation_list', 'OrderResourceController@downloadQuotationList')->name('order.download_quotation_list');
+
+
+    Route::get('/attribute_content', 'CategoryResourceController@getAttributeContent')->name('category.attribute_content');
 
     Route::resource('admin_user', 'AdminUserResourceController');
     Route::post('/admin_user/destroyAll', 'AdminUserResourceController@destroyAll')->name('admin_user.destroy_all');

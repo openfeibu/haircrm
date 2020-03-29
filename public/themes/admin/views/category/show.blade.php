@@ -34,7 +34,20 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">非必选，如 Best virgin hair - Lace 分类下，选了A仓，则该分类下的所有子分类默认为 A仓（除非子类选了其他仓）</div>
                     </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('attribute.name') }} *</label>
 
+                        <div class="layui-input-block">
+                            @inject('attributeRepository','App\Repositories\Eloquent\AttributeRepository')
+                            <select name="attribute_id" id="attribute_id">
+                                <option value="0">默认上级</option>
+                                @foreach($attributeRepository->orderBy('id','asc')->get() as $key => $attribute)
+                                    <option value="{{ $attribute['id'] }}" @if($attribute->id == $category->attribute_id) selected @endif>{!! $attribute['name'] !!}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">非必选，如 Best virgin hair，选了 属性尺寸，则该分类下的所有子分类默认属性尺寸（除非子类选了其他属性）。该分类下的商品将采用该属性</div>
+                    </div>
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('category.label.name') }}</label>
 

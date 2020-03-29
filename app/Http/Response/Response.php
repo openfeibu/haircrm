@@ -108,7 +108,7 @@ abstract class Response
      * @return theme page
      *
      */
-    protected function http()
+    public function http()
     {
         Form::populate($this->getFormData());
 

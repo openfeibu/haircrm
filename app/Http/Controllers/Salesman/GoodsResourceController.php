@@ -45,16 +45,10 @@ class GoodsResourceController extends BaseController
                 ->redirect();
         }
 
-        $goods_attribute_values_obj = $this->goodsAttributeValueRepository->join('attribute_values','attribute_values.id','goods_attribute_value.attribute_value_id')->where('goods_id',$goods->id)->get(['goods_attribute_value.id','goods_attribute_value.goods_id', 'goods_attribute_value.attribute_value_id','goods_attribute_value.selling_price','attribute_values.value as attribute_value']);
-        $goods_attribute_values = [];
+        $goods_list = $this->repository->getGoodsList($goods->id,['goods_attribute_value.purchase_price','goods_attribute_value.selling_price','goods_attribute_value.id as goods_attribute_value_id','goods.name as goods_name','goods.id','goods.id as goods_id','goods.category_id','goods.attribute_id','goods.category_ids','goods.selling_price as goods_selling_price','attribute_values.value as attribute_value']);
 
-        foreach ($goods_attribute_values_obj as $key => $goods_attribute_value)
-        {
-            $goods_attribute_values[$goods_attribute_value->attribute_value_id] = $goods_attribute_value->toArray();
-        }
-        $goods->attribute_values = $goods_attribute_values;
         return $this->response->message(trans('messages.operation.success'))
-            ->data($goods->toArray())
+            ->data(compact('goods','goods_list'))
             ->status("success")
             ->url(guard_url('goods'))
             ->redirect();

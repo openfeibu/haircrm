@@ -6,6 +6,7 @@ use App\Exports\PurchaseOrderExport;
 use App\Exports\QuotationListExport;
 use App\Http\Controllers\Salesman\ResourceController as BaseController;
 use App\Models\Customer;
+use App\Models\Goods;
 use App\Models\GoodsAttributeValue;
 use App\Models\Order;
 use App\Models\OrderGoods;
@@ -84,11 +85,16 @@ class OrderResourceController extends BaseController
             $purchase_price = $selling_price = $number = 0;
             foreach ($carts as $key => $cart)
             {
-                $carts[$key]['purchase_price'] = $cart['purchase_price'] = GoodsAttributeValue::where('id',$cart['id'])->value('purchase_price');
+                if(!$cart['attribute_id']) {
+                    $carts[$key]['purchase_price'] = $cart['purchase_price'] = Goods::where('id',$cart['goods_id'])->value('purchase_price');
+                }else{
+                    $carts[$key]['purchase_price'] = $cart['purchase_price'] = GoodsAttributeValue::where('id',$cart['goods_attribute_value_id'])->value('purchase_price');
+                }
                 $purchase_price += $cart['purchase_price'] * $cart['number'];
                 $selling_price += $cart['selling_price'] * $cart['number'];
                 $number += $cart['number'];
             }
+
             $attributes['purchase_price'] = $purchase_price;
             $attributes['selling_price'] = $selling_price;
             $attributes['number'] = $number;
@@ -104,9 +110,9 @@ class OrderResourceController extends BaseController
                     'order_sn' => $order->order_sn,
                     'goods_id' => $cart['goods_id'],
                     'goods_name' => $cart['goods_name'],
-                    'attribute_value_id' => $cart['attribute_value_id'],
-                    'attribute_value' => $cart['attribute_value'],
-                    'goods_attribute_value_id' => $cart['id'],
+                    'attribute_value_id' => $cart['attribute_value_id'] ?? 0,
+                    'attribute_value' => $cart['attribute_value'] ?? '',
+                    'goods_attribute_value_id' => $cart['goods_attribute_value_id'] ?? 0,
                     'purchase_price' => $cart['purchase_price'],
                     'selling_price' => $cart['selling_price'],
                     'number' => $cart['number'],

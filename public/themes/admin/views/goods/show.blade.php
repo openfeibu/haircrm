@@ -17,25 +17,39 @@
                             <p class="input-p">{{ $goods->name }}</p>
                         </div>
                     </div>
-
                     <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">选择尺寸 *</label>
-                        <div class="fb-form-item-box fb-clearfix">
-                            @foreach($attribute_values as $key => $attribute_value)
-                            <div class="layui-input-block">
-                                @if(in_array($attribute_value['id'],$goods->attr_value_id_arr))
-                                <input type="checkbox" name="attribute_value[{{ $attribute_value['id'] }}]" lay-skin="primary" title="{{ $attribute_value['value'] }}" checked="">
-                                <input type="text" name="purchase_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.purchase_price') }}" class="layui-input minInput" value="{{ $goods_attribute_values[$attribute_value['id']]['purchase_price'] }}">
-                                <input type="text" name="selling_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.selling_price') }}" class="layui-input minInput" value="{{ $goods_attribute_values[$attribute_value['id']]['selling_price'] }}">
-                                @else
-                                    <input type="checkbox" name="attribute_value[{{ $attribute_value['id'] }}]" lay-skin="primary" title="{{ $attribute_value['value'] }}" checked="">
-                                    <input type="text" name="purchase_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.purchase_price') }}" class="layui-input minInput">
-                                    <input type="text" name="selling_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.selling_price') }}" class="layui-input minInput">
-                                @endif
-                            </div>
-                            @endforeach
+                        <label class="layui-form-label">{{ trans('goods.label.purchase_price') }}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="goods_purchase_price" autocomplete="off" placeholder="" class="layui-input" value="{{ $goods->purchase_price }}">
                         </div>
                     </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('goods.label.selling_price') }}</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="goods_selling_price" autocomplete="off" placeholder="" class="layui-input" value="{{ $goods->selling_price }}">
+                        </div>
+                    </div>
+                    @if($goods->attribute_id && $attribute)
+                        <div class="layui-form-item fb-form-item2">
+                            <label class="layui-form-label">选择{{ $attribute['name'] }} *</label>
+                            <div class="fb-form-item-box fb-clearfix">
+                                @foreach($attribute_values as $key => $attribute_value)
+                                    <div class="layui-input-block">
+                                        @if(in_array($attribute_value['id'],$goods->attr_value_id_arr))
+                                            <input type="checkbox" name="attribute_value[{{ $attribute_value['id'] }}]" lay-skin="primary" title="{{ $attribute_value['value'] }}" checked="">
+                                            <input type="text" name="purchase_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.purchase_price') }}" class="layui-input minInput" value="{{ $goods_attribute_values[$attribute_value['id']]['purchase_price'] }}">
+                                            <input type="text" name="selling_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.selling_price') }}" class="layui-input minInput" value="{{ $goods_attribute_values[$attribute_value['id']]['selling_price'] }}">
+                                        @else
+                                            <input type="checkbox" name="attribute_value[{{ $attribute_value['id'] }}]" lay-skin="primary" title="{{ $attribute_value['value'] }}" checked="">
+                                            <input type="text" name="purchase_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.purchase_price') }}" class="layui-input minInput">
+                                            <input type="text" name="selling_price[{{ $attribute_value['id'] }}]" lay-verify="title" autocomplete="off" placeholder="{{ trans('goods.label.selling_price') }}" class="layui-input minInput">
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
 
                     {!!Form::token()!!}
                     <input type="hidden" name="_method" value="PUT">

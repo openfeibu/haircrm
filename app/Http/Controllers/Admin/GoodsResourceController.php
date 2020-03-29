@@ -35,16 +35,22 @@ class GoodsResourceController extends BaseController
     {
         $limit = $request->input('limit',config('app.limit'));
         if ($this->response->typeIs('json')) {
-            $goods_list = GoodsAttributeValue::rightJoin('goods','goods.id','=','goods_attribute_value.goods_id')
-                ->join('attribute_values','attribute_values.id','=','goods_attribute_value.attribute_value_id')
+            $goods_list = Goods::leftJoin('goods_attribute_value','goods.id','=','goods_attribute_value.goods_id')
+                ->leftJoin('attribute_values','attribute_values.id','=','goods_attribute_value.attribute_value_id')
                 ->orderBy('goods.id','desc')
                 ->orderBy('attribute_values.order','asc')
                 ->orderBy('attribute_values.id','asc')
-                ->paginate($limit,['goods_attribute_value.*','goods.name as goods_name','goods.category_id','goods.category_ids','attribute_values.value as attribute_value']);
+                ->paginate($limit,['goods_attribute_value.purchase_price','goods_attribute_value.selling_price','goods_attribute_value.id as goods_attribute_value_id','goods.name as goods_name','goods.id','goods.id as goods_id','goods.category_id','goods.attribute_id','goods.category_ids','goods.purchase_price as goods_purchase_price','goods.selling_price as goods_selling_price','attribute_values.value as attribute_value']);
 
             foreach ($goods_list as $Key => $goods)
             {
+                if(!$goods->attribute_id)
+                {
+                    $goods->purchase_price = $goods->goods_purchase_price;
+                    $goods->selling_price = $goods->goods_selling_price;
+                }
                 $goods->goods_name = $goods->goods_name.' '.$goods->attribute_value;
+                $goods->list_id = $goods->goods_id .'-'. $goods->goods_attribute_value_id;
             }
             return $this->response
                 ->success()
@@ -52,7 +58,7 @@ class GoodsResourceController extends BaseController
                 ->data($goods_list->toArray()['data'])
                 ->output();
         }
-        $categories = $this->categoryRepository->getCategoriesSelectTree();
+        $categories = $this->categoryRepository->getCategoriesSelectTreeCache();
 
         $categories = json_encode($categories);
 
@@ -95,29 +101,33 @@ class GoodsResourceController extends BaseController
 
             $i = 0;
             $goods_attribute_values = [];
-            foreach ($attributes['attribute_value'] as $key => $status)
+            if(isset($attributes['attribute_value']))
             {
-                $attribute_value_id = $key;
-                $status = translate_on_off($status);
-                $purchase_price = $attributes['purchase_price'][$attribute_value_id];
-                $selling_price = $attributes['selling_price'][$attribute_value_id];
-                if($status && $purchase_price && $selling_price){
-                    $goods_attribute_values[] = [
-                        'attribute_value_id' => $attribute_value_id,
-                        'purchase_price' => $purchase_price,
-                        'selling_price' => $selling_price
-                    ];
+                foreach ($attributes['attribute_value'] as $key => $status)
+                {
+                    $attribute_value_id = $key;
+                    $status = translate_on_off($status);
+                    $purchase_price = $attributes['purchase_price'][$attribute_value_id];
+                    $selling_price = $attributes['selling_price'][$attribute_value_id];
+                    if($status && $purchase_price && $selling_price){
+                        $goods_attribute_values[] = [
+                            'attribute_value_id' => $attribute_value_id,
+                            'purchase_price' => $purchase_price,
+                            'selling_price' => $selling_price
+                        ];
+                    }
+                    $i++;
                 }
-                $i++;
+                if(!$goods_attribute_values)
+                {
+                    return $this->response->message("至少选择一个尺寸，且进货价、出售价不能为空")
+                        ->code(400)
+                        ->status('error')
+                        ->url(guard_url('goods/create'))
+                        ->redirect();
+                }
             }
-            if(!$goods_attribute_values)
-            {
-                return $this->response->message("至少选择一个尺寸，且进货价、出售价不能为空")
-                    ->code(400)
-                    ->status('error')
-                    ->url(guard_url('goods/create'))
-                    ->redirect();
-            }
+
             $categories_name_arr = $this->categoryRepository->whereIn('id',$category_id_arr)->orderBy('id','asc')->pluck('name')->toArray();
             $categories_names = implode(" ",$categories_name_arr);
 
@@ -125,6 +135,9 @@ class GoodsResourceController extends BaseController
                 'category_id' => $category_id,
                 'category_ids' => $category_ids,
                 'name' => $categories_names,
+                'attribute_id' => $attributes['attribute_id'],
+                'purchase_price' => $attributes['goods_purchase_price'],
+                'selling_price' => $attributes['goods_selling_price']
             ]);
             foreach ($goods_attribute_values as $key => $goods_attribute_value)
             {
@@ -160,12 +173,15 @@ class GoodsResourceController extends BaseController
         {
             $goods_attribute_values[$goods_attribute_value->attribute_value_id] = $goods_attribute_value->toArray();
         }
-
-        $attribute = $this->attributeRepository->where('id',1)->first();
-        $attribute_values = $this->attributeValueRepository->getAttributeValues($attribute->id);
+        $attribute = $attribute_values = [];
+        if($goods->attribute_id)
+        {
+            $attribute = $this->attributeRepository->where('id',$goods->attribute_id)->first()->toArray();
+            $attribute_values = $this->attributeValueRepository->getAttributeValues($attribute['id'])->toArray();
+        }
 
         return $this->response->title(trans('app.view') . ' ' . trans('goods.name'))
-            ->data(compact('goods','goods_attribute_values','attribute_values'))
+            ->data(compact('goods','goods_attribute_values','attribute','attribute_values'))
             ->view($view)
             ->output();
     }
@@ -178,6 +194,7 @@ class GoodsResourceController extends BaseController
 
             $i = 0;
             $attribute_value_id_arr = $goods_attribute_values = [];
+
             foreach ($attributes['attribute_value'] as $key => $status)
             {
                 $attribute_value_id = $key;
@@ -212,7 +229,10 @@ class GoodsResourceController extends BaseController
                     ]);
                 }
             }
-
+            $goods->update([
+                'purchase_price' => $attributes['goods_purchase_price'],
+                'selling_price' => $attributes['goods_selling_price']
+            ]);
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('goods.name')]))
                 ->code(0)
                 ->status('success')
@@ -282,20 +302,83 @@ class GoodsResourceController extends BaseController
                 ->url(guard_url('goods'))
                 ->redirect();
         }
+        $goods_list = $this->repository->getGoodsList($goods->id);
 
+        /*
         $goods_attribute_values_obj = $this->goodsAttributeValueRepository->join('attribute_values','attribute_values.id','goods_attribute_value.attribute_value_id')->where('goods_id',$goods->id)->get(['goods_attribute_value.*','attribute_values.value as attribute_value']);
         $goods_attribute_values = [];
 
         foreach ($goods_attribute_values_obj as $key => $goods_attribute_value)
         {
             $goods_attribute_values[$goods_attribute_value->attribute_value_id] = $goods_attribute_value->toArray();
+            $goods_attribute_values['list_id'] = $goods->id.'-'.$goods_attribute_value->id;
         }
         $goods->attribute_values = $goods_attribute_values;
+        $goods->list_id = $goods->id;
+        */
         return $this->response->message(trans('messages.operation.success'))
-            ->data($goods->toArray())
+            ->data(compact('goods','goods_list'))
             ->status("success")
             ->url(guard_url('goods'))
             ->redirect();
     }
 
+    /* 列表页编辑 list_id = goods_id .'-' . goods_attribute_value_id */
+    public function updateAttribute(Request $request)
+    {
+        $list_id = $request->list_id;
+        $list_id_arr = explode('-',$list_id);
+        $attributes = $request->all();
+        unset($attributes['list_id'],$attributes['_token']);
+        if(isset($list_id_arr[1]) && $list_id_arr[1])
+        {
+            GoodsAttributeValue::where('id',$list_id_arr[1])->update($attributes);
+        }
+        else{
+            Goods::where('id',$list_id_arr[0])->update($attributes);
+        }
+        return $this->response->message(trans('messages.success.updated', ['Module' => trans('goods.name')]))
+            ->code(0)
+            ->status('success')
+            ->url(guard_url('goods'))
+            ->redirect();
+    }
+    public function destroyList(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $list_ids = $data['list_ids'];
+            foreach ($list_ids as $list_id)
+            {
+                $list_id_arr = explode('-',$list_id);
+                if(isset($list_id_arr[1]) && $list_id_arr[1])
+                {
+                    $goods_attribute_value = $this->goodsAttributeValueRepository->find($list_id_arr[1],['goods_id']);
+                    $this->goodsAttributeValueRepository->delete([$list_id_arr[1]]);
+                    GoodsAttributeValue::where('id',$list_id_arr[1])->delete();
+                    $is_exist_goods_attribute_value = $this->goodsAttributeValueRepository->where('goods_id',$goods_attribute_value->goods_id)->first(['id']);
+                    if(!$is_exist_goods_attribute_value)
+                    {
+                        $this->repository->delete([$goods_attribute_value->goods_id]);
+                    }
+                }
+                else{
+                    $this->repository->delete([$list_ids[0]]);
+                }
+            }
+
+            return $this->response->message(trans('messages.success.deleted', ['Module' => trans('goods.name')]))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('goods'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('goods'))
+                ->redirect();
+        }
+    }
 }
