@@ -161,7 +161,6 @@ class NewCustomerResourceController extends BaseController
     }
     public function submitImport(Request $request)
     {
-
         set_time_limit(0);
         $file = $request->file;
         isVaildExcel($file);
@@ -190,8 +189,10 @@ class NewCustomerResourceController extends BaseController
                 foreach ($header_keys as $header_key => $header_i) {
                     $data[$i][$header_key] = $res[$i][$header_i];
                 }
-                if($data[$i]['company_name']) {
-                    $salesman_name = $data[$i]['salesman_name'];
+                if(isset($data[$i]['salesman_name']) && $data[$i]['salesman_name'])
+                {
+                    $salesman_name = $data[$i]['salesman_name'] ;
+
                     if (isset($salesmen[$salesman_name])) {
                         $salesman_id = $salesmen[$salesman_name];
                     } else {
@@ -199,10 +200,16 @@ class NewCustomerResourceController extends BaseController
                         $salesman_id = $salesman ? $salesman->id : 0;
                         $salesmen[$salesman_name] = $salesman_id;
                     }
-                    $data[$i]['salesman_id'] = $salesman_id;
-                    $data[$i]['created_at'] = $data[$i]['updated_at'] = date('Y-m-d H:i:s');
-                    $success_count++;
+                }else{
+                    $salesman_id = 1;
+                    $salesman = $this->salesmanRepository->where('id', $salesman_id)->first(['name']);
+                    $data[$i]['salesman_name'] = $salesman->name;
+                    $salesmen[$salesman->name] = $salesman_id;
                 }
+                $data[$i]['salesman_id'] = $salesman_id;
+                $data[$i]['created_at'] = $data[$i]['updated_at'] = date('Y-m-d H:i:s');
+                $success_count++;
+
             }
         }
 

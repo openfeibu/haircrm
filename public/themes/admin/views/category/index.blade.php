@@ -90,7 +90,6 @@
                                     layer.msg(data.message);
                                     return false;
                                 }
-
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
                                 layer.close(load);
