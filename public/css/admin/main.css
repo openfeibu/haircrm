@@ -4,9 +4,10 @@ body{background: #f5f5f5;}
 .layui-side-menu{background:#fff;width: 200px;overflow-x: hidden;}
 .layui-side-menu .layui-nav{margin-top: 20px;background-color: #fff !important;}
 .layui-side-scroll{width: 220px;}
-.logo{height: 50px;text-align: center;line-height: 50px;color: #fff;width: 200px;font-size: 24px;font-weight: bold;;box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);background-color: #42a2eb;}
-.layui-header{background: #42a2eb;height: 50px;    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
-.layui-header .layui-nav{background: #42a2eb;color: #fff;height: 50px;}
+.logo{height: 50px;text-align: center;line-height: 50px;color: #fff;width: 200px;font-size: 24px;font-weight: bold;;box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);background-color: #1E9FFF;}
+.logo img{height: 50px;display: block;margin: 0 auto;}
+.layui-header{background: #1E9FFF;height: 50px;    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
+.layui-header .layui-nav{background: #1E9FFF;color: #fff;height: 50px;}
 .layui-header .layui-nav .layui-nav-item{height: 50px;line-height: 50px;}
 .layui-header .layui-nav .layui-nav-item > a{color: #fff;}
 .layui-header .layui-nav .layui-nav-item > a:hover{color: #fff;}
@@ -19,7 +20,7 @@ body{background: #f5f5f5;}
 .layui-nav-bar{background: #666;height: 2px;}
 .layui-side-menu{z-index:1000;}
 .layui-nav-tree .layui-nav-item{background: none;margin: 5px 0;}
-.layui-nav-tree .layui-this{background-color: #42a2eb!important;}
+.layui-nav-tree .layui-this{background-color: #1E9FFF!important;}
 .layui-nav-tree .layui-this > a{color: #fff!important;}
 .layui-nav-itemed>a{color: #333!important;}
 .layui-nav-itemed>a .layui-nav-more{border-color:transparent transparent #666}
@@ -29,7 +30,7 @@ body{background: #f5f5f5;}
 .layui-nav-tree .layui-nav-bar{background-color: #eee;display: none;}
 .layui-nav-tree .layui-nav-item dl a{height: 45px;line-height: 45px;text-indent:30px;}
 .layui-badge{float: right;margin-top: 10px;}
-.layuiadmin-big-font{font-size: 30px;text-align: center;color: #42a2eb;padding: 20px 0;;}
+.layuiadmin-big-font{font-size: 30px;text-align: center;color: #1E9FFF;padding: 20px 0;;}
 .layui-nav .layui-nav-more{border-top-color:rgba(125, 125, 125, 0.7)}
 .layui-nav-itemed>.layui-nav-child{background-color:#eee !important}
 .layui-nav-tree .layui-nav-child a{color: #666;}
@@ -106,15 +107,15 @@ body{background: #f5f5f5;}
 .fb-form-item .layui-input-block{float: left;margin:0 5px 5px 5px;width: 200px;}
 .fb-form-item2 .layui-input-block{float: left;margin:0 5px 5px 5px;width: 300px;}
 .fb-form-item-box{margin-left: 120px;;}
-.layui-form-select dl dd.layui-this{background-color: #42a2eb;}
+.layui-form-select dl dd.layui-this{background-color: #1E9FFF;}
 .fb-form-item2 .layui-input-block .minInput{width: 100px;float: left;margin-left: 10px;}
 .fb-form-item2 .layui-input-block .minInput2{width: 80px;float: left;margin-left: 10px;line-height: 38px;color:#FF5722;font-weight:  bold;font-size: 16px;}
 .fb-form-item2 .layui-form-checkbox{float: left;width: 60px;}
-.layui-form-checked[lay-skin=primary] i{background-color: #42a2eb; border-color:#42a2eb !important}
-.layui-form-checkbox[lay-skin=primary]:hover i{ border-color:#42a2eb !important}
-.layui-btn-submit{background-color: #42a2eb;}
-.layui-laypage .layui-laypage-curr .layui-laypage-em{background-color: #42a2eb;}
-.layui-laypage a:hover{color: #42a2eb;}
+.layui-form-checked[lay-skin=primary] i{background-color: #1E9FFF; border-color:#1E9FFF !important}
+.layui-form-checkbox[lay-skin=primary]:hover i{ border-color:#1E9FFF !important}
+.layui-btn-submit{background-color: #1E9FFF;}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{background-color: #1E9FFF;}
+.layui-laypage a:hover{color: #1E9FFF;}
 .hidden{display: none;}
 .numInput{}
 .layui-input.layui-table-edit{border:1px solid #FF5722 !important}
@@ -308,3 +309,9 @@ button.layui-close{
     float: right;
     cursor: pointer;
 }
+.layui-card-box .layui-card-header b{font-size: 16px;}
+.layui-card-box .layui-card-header label{font-size: 12px;color: #999}
+.layui-card-box  .layuiadmin-big-font span{font-size: 14px;}
+.layui-card-box .layui-card-body {height: 70px}
+.layui-card-box  .layuiadmin-big-font span.c1{color: red}
+.layui-card-box  .layuiadmin-big-font span.c2{color: #5FB878}
