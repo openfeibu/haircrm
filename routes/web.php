@@ -62,6 +62,7 @@ Route::group([
     Route::post('/upload/{config}/{path?}', 'UploadController@upload')->where('path', '(.*)');
 
     Route::resource('category', 'CategoryResourceController');
+    Route::get('/attribute_content', 'CategoryResourceController@getAttributeContent')->name('category.attribute_content');
 
     Route::resource('customer', 'CustomerResourceController');
     Route::get('get_customer', 'CustomerResourceController@getCustomer')->name('customer.get_customer');
@@ -91,8 +92,6 @@ Route::group([
     Route::get('/order_download/purchase_order', 'OrderResourceController@downloadPurchaseOrder')->name('order.download_purchase_order');
     Route::get('/order_download/quotation_list', 'OrderResourceController@downloadQuotationList')->name('order.download_quotation_list');
 
-
-    Route::get('/attribute_content', 'CategoryResourceController@getAttributeContent')->name('category.attribute_content');
 
     Route::resource('admin_user', 'AdminUserResourceController');
     Route::post('/admin_user/destroyAll', 'AdminUserResourceController@destroyAll')->name('admin_user.destroy_all');

@@ -134,5 +134,14 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             ->render();
         var_dump($content);exit;
     }
+    public function getSubIds($category_id=0,$sub_ids=[]){
+        $ids = Category::where('parent_id',$category_id)->pluck('id')->toArray();
+        $sub_ids = array_merge($sub_ids,$ids);
+        foreach ($ids as $key=> $id)
+        {
+            $sub_ids = $this->getSubIds($id,$sub_ids);
+        }
+        return $sub_ids;
+    }
 
 }

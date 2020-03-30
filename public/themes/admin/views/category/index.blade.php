@@ -74,24 +74,34 @@
                     });
 
                 } else if(type === 'del'){ //删除节点
-                    var load = layer.load();
+                    layer.confirm('将删除该分类（包括子分类）及该分类下（包括子分类下）的产品，确定删除？', function(index){
+                        layer.close(index);
+                        var load = layer.load();
+                        $.ajax({
+                            url : "{{ guard_url('category') }}"+'/'+data.id,
+                            data : ajax_data,
+                            type : 'delete',
+                            success : function (data) {
+                                layer.close(load);
+                                if(data.code == 0)
+                                {
 
-                    $.ajax({
-                        url : "{{ guard_url('category') }}"+'/'+data.id,
-                        data : ajax_data,
-                        type : 'delete',
-                        success : function (data) {
-                            layer.close(load);
-                        },
-                        error : function (jqXHR, textStatus, errorThrown) {
-                            layer.close(load);
-                            layer.msg('服务器出错');
-                        }
-                    });
+                                }else{
+                                    layer.msg(data.message);
+                                    return false;
+                                }
+
+                            },
+                            error : function (jqXHR, textStatus, errorThrown) {
+                                layer.close(load);
+                                $.ajax_error(jqXHR, textStatus, errorThrown);
+                            }
+                        });
+                    })
+                    return false;
                 };
             }
         });
 
-        $('select').val('xx');
     });
 </script>

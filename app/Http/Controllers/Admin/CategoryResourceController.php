@@ -6,8 +6,10 @@ use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Category;
+use App\Models\Goods;
 use App\Repositories\Eloquent\AttributeRepository;
 use App\Repositories\Eloquent\AttributeValueRepository;
+use App\Repositories\Eloquent\GoodsRepository;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\CategoryRepository;
 use Tree;
@@ -17,13 +19,15 @@ class CategoryResourceController extends BaseController
     public function __construct(
         CategoryRepository $category,
         AttributeRepository $attributeRepository,
-        AttributeValueRepository $attributeValueRepository
+        AttributeValueRepository $attributeValueRepository,
+        GoodsRepository $goodsRepository
     )
     {
         parent::__construct();
         $this->repository = $category;
         $this->attributeRepository = $attributeRepository;
         $this->attributeValueRepository = $attributeValueRepository;
+        $this->goodsRepository = $goodsRepository;
         $this->repository
             ->pushCriteria(\App\Repositories\Criteria\RequestCriteria::class);
     }
@@ -130,6 +134,17 @@ class CategoryResourceController extends BaseController
     public function destroy(Request $request,Category $category)
     {
         try {
+            $goods_ids = Goods::whereRaw("FIND_IN_SET('".$category->id."',`category_ids`)")->pluck('id')->toArray();
+            $sub_ids = $this->repository->getSubIds($category->id);
+
+            if($goods_ids)
+            {
+                $this->goodsRepository->forceDelete($goods_ids);
+            }
+            if($sub_ids)
+            {
+                $this->repository->forceDelete($sub_ids);
+            }
             $this->repository->forceDelete([$category->id]);
             $this->repository->forgetCategoriesSelectTree();
             return $this->response->message(trans('messages.success.deleted', ['Module' => trans('category.name')]))
@@ -147,6 +162,7 @@ class CategoryResourceController extends BaseController
                 ->redirect();
         }
     }
+    /*
     public function destroyAll(Request $request)
     {
         try {
@@ -168,6 +184,7 @@ class CategoryResourceController extends BaseController
                 ->redirect();
         }
     }
+    */
     public function getAttributeContent(Request $request)
     {
         $category_id = $request->category_id;
