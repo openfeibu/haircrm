@@ -12,7 +12,7 @@
                 <form class="form-horizontal" method="POST" action="{{ guard_url('customer_import/submit') }}" enctype="multipart/form-data"  id="customer_submit_import_form">
                     <div class="layui-row layui-col-space10">
                         <div class="tabel-btn layui-col-md12">
-                            <button class="layui-btn layui-btn-warm "><a href="{{url('image/original/system/customer_template.xlsx')}}">下载模板</a></button>
+                            <button class="layui-btn layui-btn-warm "><a href="{{url('image/original/system/salesman_customer_template.xlsx')}}">下载模板</a></button>
                         </div>
                          <div class="tabel-btn layui-col-md12">
                             {{ csrf_field() }}
