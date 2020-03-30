@@ -136,8 +136,8 @@ class GoodsResourceController extends BaseController
                 'category_ids' => $category_ids,
                 'name' => $categories_names,
                 'attribute_id' => $attributes['attribute_id'],
-                'purchase_price' => $attributes['goods_purchase_price'],
-                'selling_price' => $attributes['goods_selling_price']
+                'purchase_price' => $attributes['goods_purchase_price'] ? $attributes['goods_purchase_price'] : 0,
+                'selling_price' => $attributes['goods_selling_price'] ? $attributes['goods_selling_price'] : 0,
             ]);
             foreach ($goods_attribute_values as $key => $goods_attribute_value)
             {
