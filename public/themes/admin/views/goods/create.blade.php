@@ -92,7 +92,7 @@
                         }
                         if(!$.isEmptyObject(data.data))
                         {
-                            window.location.href = "{{ guard_url('goods') }}/"+data.data.id;
+                            window.location.href = "{{ guard_url('goods') }}/"+data.data.goods.id;
                             return false;
                         }
 

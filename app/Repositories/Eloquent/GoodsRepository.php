@@ -14,7 +14,7 @@ class GoodsRepository extends BaseRepository implements GoodsRepositoryInterface
     }
     public function getGoodsList($id,$columns=[])
     {
-        $columns = $columns ?? ['goods_attribute_value.purchase_price','goods_attribute_value.selling_price','goods_attribute_value.id as goods_attribute_value_id','goods.name as goods_name','goods.id','goods.id as goods_id','goods.category_id','goods.attribute_id','goods.category_ids','goods.purchase_price as goods_purchase_price','goods.selling_price as goods_selling_price','attribute_values.value as attribute_value'];
+        $columns = $columns ? $columns : ['goods_attribute_value.purchase_price','goods_attribute_value.selling_price','goods_attribute_value.id as goods_attribute_value_id','goods.name as goods_name','goods.id','goods.id as goods_id','goods.category_id','goods.attribute_id','goods.category_ids','goods.purchase_price as goods_purchase_price','goods.selling_price as goods_selling_price','attribute_values.value as attribute_value'];
 
 
         $goods_list = Goods::leftJoin('goods_attribute_value','goods.id','=','goods_attribute_value.goods_id')
