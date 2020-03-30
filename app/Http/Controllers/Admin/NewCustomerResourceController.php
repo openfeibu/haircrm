@@ -185,6 +185,7 @@ class NewCustomerResourceController extends BaseController
         $salesmen = [];
         $success_count=0;
         $count = $all_sheet_count-1;
+
         for ($i=1;$i<$all_sheet_count;$i++)
         {
             if(count($res[$i])>0)
