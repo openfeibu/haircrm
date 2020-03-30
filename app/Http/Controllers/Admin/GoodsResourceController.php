@@ -230,8 +230,8 @@ class GoodsResourceController extends BaseController
                 }
             }
             $goods->update([
-                'purchase_price' => $attributes['goods_purchase_price'],
-                'selling_price' => $attributes['goods_selling_price']
+                'purchase_price' => $attributes['goods_purchase_price'] ? $attributes['goods_purchase_price'] : 0,
+                'selling_price' => $attributes['goods_selling_price'] ? $attributes['goods_selling_price'] : 0,
             ]);
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('goods.name')]))
                 ->code(0)
