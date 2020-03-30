@@ -181,8 +181,39 @@ class NewCustomerResourceController extends BaseController
         $count = $all_sheet_count-1;
         for ($i=1;$i<$all_sheet_count;$i++)
         {
-            if($res[$i])
+            if(count($res[$i])>0)
             {
+                if(isset($res[$i][0]) && $res[$i][0])
+                {
+                    if(strpos($res[$i][0],'客户') !== false)
+                    {
+                        continue;
+                    }
+                    $reg="/(\d{4})[\.|\-|~](\d{2})[\.|\-|~](\d{2})/";
+                    if(preg_match($reg,$res[$i][0],$parts))
+                    {
+                        if(checkdate($parts[2],$parts[3],$parts[1]))
+                        {
+                            continue;
+                        }
+                    }
+                }
+                if(isset($res[$i][1]) && $res[$i][1])
+                {
+                    if(strpos($res[$i][1],'客户') !== false)
+                    {
+                        continue;
+                    }
+                    $reg="/(\d{4})[\.|\-|~](\d{2})[\.|\-|~](\d{2})/";
+                    if(preg_match($reg,$res[$i][1],$parts))
+                    {
+                        if(checkdate($parts[2],$parts[3],$parts[1]))
+                        {
+                            continue;
+                        }
+                    }
+                }
+
                 foreach ($header_keys as $header_key => $header_i) {
                     $data[$i][$header_key] = $res[$i][$header_i];
                 }
