@@ -49,7 +49,7 @@ class GoodsResourceController extends BaseController
                     $goods->purchase_price = $goods->goods_purchase_price;
                     $goods->selling_price = $goods->goods_selling_price;
                 }
-                $goods->goods_name = $goods->goods_name.' '.$goods->attribute_value;
+                //$goods->goods_name = $goods->goods_name.' '.$goods->attribute_value;
                 $goods->list_id = $goods->goods_id .'-'. $goods->goods_attribute_value_id;
             }
             return $this->response
