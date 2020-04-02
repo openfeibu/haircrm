@@ -106,6 +106,32 @@
                     </div>
                 </div>
             </div>
+			<div class="power-box  fb-clearfix">
+				<p>常用功能</p>
+				<div class="power-box-con">
+					<div class="power-box-item layui-col-md2">
+						<a href="#">
+							添加订单
+						</a>
+					</div>	
+					<div class="power-box-item layui-col-md2">
+						<a href="#">
+							添加客户
+						</a>
+					</div>	
+					<div class="power-box-item layui-col-md2">
+						<a href="#">
+							添加产品
+						</a>
+					</div>	
+					<div class="power-box-item layui-col-md2">
+						<a href="#">
+							营销邮箱
+						</a>
+					</div>	
+				</div>	
+			</div>
         </div>
     </div>
 </div>
+<div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>

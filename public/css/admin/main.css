@@ -315,3 +315,8 @@ button.layui-close{
 .layui-card-box .layui-card-body {height: 70px}
 .layui-card-box  .layuiadmin-big-font span.c1{color: red}
 .layui-card-box  .layuiadmin-big-font span.c2{color: #5FB878}
+.power-box{background:#fff;margin:30px 0;padding:20px;border-radius:5px;font-size:16px;box-shadow:0 1px 2px 0 rgba(0,0,0,.05)}
+.power-box-con{margin-top:20px;}
+.power-box-item a{display:block;width:80%;margin:10px auto;text-align:center;background-image: linear-gradient(#4481eb, #1E9FFF);padding:20px 0;color:#fff;font-size:14px;border-radius:5px;}
+.copy{position:absolute;bottom:0;background:none;width:100%;text-align:center;height:40px;line-height:40px;}
+.demo-tree-box{background:#fff;border-radius:5px;padding:20px;}
