@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['order_sn','customer_id','customer_name','address','salesman_id','salesman_name','purchase_price','selling_price','number'],
+        'fillable'     => ['order_sn','customer_id','customer_name','address','salesman_id','salesman_name','purchase_price','selling_price','number','order_status','shipping_status','pay_status','payment_id','payment_name','payment_sn','tracking_number'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],
@@ -33,8 +33,26 @@ return [
             'customer_name' => 'like',
             'salesman_id' => '=',
             'salesman_name' => 'like'
-
         ],
+        'btn_class' => [
+            'order_status' => [
+                'unconfirmed' => 'layui-btn-primary',
+                'confirmed' => 'layui-btn-normal',
+                'cancelled' => 'layui-btn-warm',
+                'returned' => 'layui-btn-danger',
+            ],
+            'shipping_status' => [
+                'unshipped' => 'layui-btn-primary',
+                'shipped' => 'layui-btn-normal',
+                'received' => 'layui-btn-normal',
+                'returned' => 'layui-btn-danger',
+            ],
+            'pay_status' => [
+                'unpaid' => 'layui-btn-primary',
+                'paid' => 'layui-btn-normal',
+                'refunded' => 'layui-btn-danger',
+            ],
+        ]
     ],
     'order_goods'     => [
         'model'        => 'App\Models\OrderGoods',

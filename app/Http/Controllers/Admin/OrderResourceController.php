@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exceptions\OutputServerMessageException;
 use App\Exports\PurchaseOrderExport;
 use App\Exports\QuotationListExport;
 use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderGoods;
+use App\Models\Payment;
 use App\Repositories\Eloquent\CustomerRepository;
 use App\Repositories\Eloquent\OrderGoodsRepository;
+use App\Repositories\Eloquent\PaymentRepository;
 use App\Repositories\Eloquent\SalesmanRepository;
 use App\Repositories\Eloquent\SupplierRepository;
 use Illuminate\Http\Request;
@@ -23,7 +26,8 @@ class OrderResourceController extends BaseController
         OrderGoodsRepository $orderGoodsRepository,
         SalesmanRepository $salesmanRepository,
         CustomerRepository $customerRepository,
-        SupplierRepository $supplierRepository
+        SupplierRepository $supplierRepository,
+        PaymentRepository $paymentRepository
     )
     {
         parent::__construct();
@@ -32,6 +36,7 @@ class OrderResourceController extends BaseController
         $this->salesmanRepository = $salesmanRepository;
         $this->customerRepository = $customerRepository;
         $this->supplierRepository = $supplierRepository;
+        $this->paymentRepository = $paymentRepository;
         $this->repository
             ->pushCriteria(\App\Repositories\Criteria\RequestCriteria::class);
     }
@@ -240,5 +245,161 @@ class OrderResourceController extends BaseController
         $ids = $data['ids'];
         $name = '报价表'.date('YmdHis').'.xlsx';
         return Excel::download(new QuotationListExport($ids), $name);
+    }
+    //付款
+    public function pay(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $id = $attributes['id'];
+            $order = $this->repository->find($id);
+            $payment = $this->paymentRepository->find($attributes['payment_id']);
+            if($order->pay_status == 'paid')
+            {
+                throw new OutputServerMessageException(trans('messages.operation.illegal'));
+            }
+            $order->update([
+                'pay_status' => 'paid',
+                'payment_id' => $payment->id,
+                'payment_name' => $payment->name,
+                'payment_sn' => $attributes['payment_sn']
+            ]);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('order'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('order'))
+                ->redirect();
+        }
+    }
+    //发货
+    public function toDelivery(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $id = $attributes['id'];
+            $order = $this->repository->find($id);
+
+            if($order->shipping_status == 'shipped')
+            {
+                throw new OutputServerMessageException(trans('messages.operation.illegal'));
+            }
+            $order->update([
+                'shipping_status' => 'shipped',
+                'tracking_number' => $attributes['tracking_number']
+            ]);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('order'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('order'))
+                ->redirect();
+        }
+    }
+    //取消
+    public function cancel(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $id = $attributes['id'];
+            $order = $this->repository->find($id);
+
+            if($order->shipping_status == 'shipped')
+            {
+                throw new OutputServerMessageException(trans('messages.operation.illegal'));
+            }
+            $order->update([
+                'order_status' => 'cancelled',
+                'pay_status' => 'refunded',
+            ]);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('order'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('order'))
+                ->redirect();
+        }
+    }
+    //收获
+    public function receive(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $id = $attributes['id'];
+            $order = $this->repository->find($id);
+
+            if($order->shipping_status != 'shipped')
+            {
+                throw new OutputServerMessageException(trans('messages.operation.illegal'));
+            }
+            $order->update([
+                'shipping_status' => 'received',
+            ]);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('order'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('order'))
+                ->redirect();
+        }
+    }
+    public function returnOrder(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $id = $attributes['id'];
+            $order = $this->repository->find($id);
+
+            if($order->shipping_status != 'received')
+            {
+                throw new OutputServerMessageException(trans('messages.operation.illegal'));
+            }
+            $order->update([
+                'order_status' => 'returned',
+                'shipping_status' => 'refunded',
+                'pay_status' => 'refunded'
+            ]);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('order'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('order'))
+                ->redirect();
+        }
     }
 }
