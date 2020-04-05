@@ -11,13 +11,14 @@
         <div class="layui-col-md12">
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('customer')}}" method="post" lay-filter="fb-form">
+                    <input name="new_customer_id" type="hidden" value="{{ $new_customer_id }}">
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">业务员 *</label>
                         <div class="layui-input-block">
                             <select name="salesman_id" lay-filter="checkBox" lay-verify="required">
                                 <option value="">请选择业务员</option>
                                 @foreach($salesmen as $key => $salesman)
-                                    <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
+                                    <option value="{{ $salesman->id }}" @if($salesman->id == $customer->salesman_id) selected @endif>{{ $salesman->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -27,7 +28,7 @@
                         <label class="layui-form-label">客户名称 *</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">
+                            <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input" value="{{ $customer->name }}">
                         </div>
 
                     </div>
@@ -35,7 +36,7 @@
                         <label class="layui-form-label">IG号</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="ig" lay-verify="title" autocomplete="off" placeholder="请输入IG号" class="layui-input">
+                            <input type="text" name="ig" lay-verify="title" autocomplete="off" placeholder="请输入IG号" class="layui-input" value="{{ $customer->ig }}">
                         </div>
 
                     </div>
@@ -43,7 +44,7 @@
                         <label class="layui-form-label">手机号</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="mobile" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+                            <input type="text" name="mobile" autocomplete="off" placeholder="请输入手机号" class="layui-input" value="{{ $customer->mobile }}">
                         </div>
 
                     </div>
@@ -52,7 +53,7 @@
                         <label class="layui-form-label">邮箱</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="email" autocomplete="off" placeholder="请输入邮箱" class="layui-input">
+                            <input type="text" name="email"  autocomplete="off" placeholder="请输入邮箱" class="layui-input" value="{{ $customer->email }}">
                         </div>
 
                     </div>
@@ -61,7 +62,7 @@
                         <label class="layui-form-label">imessage</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="imessage" autocomplete="off" placeholder="请输入imessage" class="layui-input">
+                            <input type="text" name="imessage" autocomplete="off" placeholder="请输入imessage" class="layui-input" value="{{ $customer->imessage }}">
                         </div>
 
                     </div>
@@ -69,7 +70,7 @@
                         <label class="layui-form-label">whatsapp</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="whatsapp" autocomplete="off" placeholder="请输入whatsapp" class="layui-input">
+                            <input type="text" name="whatsapp" autocomplete="off" placeholder="请输入whatsapp" class="layui-input" value="{{ $customer->whatsapp }}">
                         </div>
 
                     </div>

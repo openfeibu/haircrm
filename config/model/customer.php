@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name','salesman_id','salesman_name','ig','from','email','mobile','imessage','whatsapp','address','order_count','created_at','updated_at','deleted_at'],
+        'fillable'     => ['name','salesman_id','new_customer_id','salesman_name','ig','from','email','mobile','imessage','whatsapp','address','order_count','created_at','updated_at','deleted_at'],
         'translate'    => [],
         'upload_folder' => '/customer',
         'encrypt'      => ['id'],

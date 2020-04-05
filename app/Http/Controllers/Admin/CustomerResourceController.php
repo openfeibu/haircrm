@@ -6,6 +6,7 @@ use App\Exports\CustomerExport;
 use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Imports\CustomerImport;
 use App\Models\Customer;
+use App\Repositories\Eloquent\NewCustomerRepository;
 use App\Repositories\Eloquent\SalesmanRepository;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\CustomerRepository;
@@ -15,12 +16,14 @@ class CustomerResourceController extends BaseController
 {
     public function __construct(
         CustomerRepository $customer,
+        NewCustomerRepository $newCustomerRepository,
         SalesmanRepository $salesmanRepository
     )
     {
         parent::__construct();
         $this->repository = $customer;
         $this->salesmanRepository= $salesmanRepository;
+        $this->newCustomerRepository = $newCustomerRepository;
         $this->repository
             ->pushCriteria(\App\Repositories\Criteria\RequestCriteria::class);
     }
@@ -47,10 +50,22 @@ class CustomerResourceController extends BaseController
         $customer = $this->repository->newInstance([]);
 
         $salesmen = $this->salesmanRepository->getActiveSalesmen();
+        $new_customer_id = $request->get('new_customer_id','');
+        if($new_customer_id)
+        {
+            $new_customer = $this->newCustomerRepository->find($new_customer_id);
+            $customer->name = $new_customer->nickname;
+            $customer->email = $new_customer->email;
+            $customer->ig = $new_customer->ig;
+            $customer->mobile = $new_customer->mobile;
+            $customer->imessage = $new_customer->imessage;
+            $customer->whatsapp = $new_customer->mobile;
+            $customer->salesman_id = $new_customer->salesman_id;
+        }
 
         return $this->response->title(trans('customer.name'))
             ->view('customer.create')
-            ->data(compact('customer','salesmen'))
+            ->data(compact('customer','salesmen','new_customer_id'))
             ->output();
     }
     public function store(Request $request)
@@ -59,6 +74,10 @@ class CustomerResourceController extends BaseController
             $attributes = $request->all();
 
             $salesman = $this->salesmanRepository->find($attributes['salesman_id']);
+            if(isset($attributes['new_customer_id']) && $attributes['new_customer_id'])
+            {
+                $this->newCustomerRepository->update(['mark' => 'order'],$attributes['new_customer_id']);
+            }
             $attributes['salesman_name'] = $salesman->name;
             $customer = $this->repository->create($attributes);
 

@@ -28,6 +28,9 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
+    @{{# if(d.mark == 'new'){ }}
+    <a class="layui-btn layui-btn-sm" href="{{ guard_url('customer/create') }}?new_customer_id=@{{ d.id }}">下单客户</a>
+    @{{# } }}
     <a class="layui-btn layui-btn-sm" href="{{ guard_url('new_customer') }}/@{{ d.id }}">{{ trans('app.edit') }}</a>
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>
@@ -61,7 +64,7 @@
                 ,{field:'facebook',title:'{{ trans('new_customer.label.facebook') }}',edit:'text'}
                 ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}'}
                 ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:100, fixed: 'right'}
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:160, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:240, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true

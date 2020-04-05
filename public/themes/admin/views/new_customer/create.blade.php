@@ -21,6 +21,7 @@
                             </select>
                         </div>
                     </div>
+                    <!--
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.mark') }} *</label>
                         <div class="layui-input-block">
@@ -31,6 +32,7 @@
                             </select>
                         </div>
                     </div>
+                    -->
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.company_name') }}</label>
 
