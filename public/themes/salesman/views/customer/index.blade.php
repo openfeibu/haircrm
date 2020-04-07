@@ -9,15 +9,34 @@
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
             <div class="tabel-message">
-                <div class="layui-inline tabel-btn">
-                    <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('customer/create') }}">{{ trans('app.add') }} {{ trans('customer.name') }}</a></button>
-                    <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('customer_import') }}">批量上传</a></button>
-                    <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
+                <div class="layui-block mb10">
+                    <div class="layui-inline tabel-btn">
+                        <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('customer/create') }}">{{ trans('app.add') }} {{ trans('customer.name') }}</a></button>
+                        <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('customer_import') }}">批量上传</a></button>
+                        <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
+                    </div>
                 </div>
-                <div class="layui-inline">
-                    <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('customer.label.name') }}" autocomplete="off">
+                <div class="layui-block mb10">
+                    <div class="layui-inline">
+                        <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('customer.label.name') }}" autocomplete="off">
+                    </div>
+                    <div class="layui-inline">
+                        <input class="layui-input search_key" name="email" id="demoReload" placeholder="{{ trans('new_customer.label.email') }}" autocomplete="off">
+                    </div>
+                    <div class="layui-inline">
+                        <input class="layui-input search_key" name="mobile" id="demoReload" placeholder="{{ trans('new_customer.label.mobile') }}" autocomplete="off">
+                    </div>
+                    <div class="layui-inline">
+                        <input class="layui-input search_key" name="ig" id="demoReload" placeholder="{{ trans('new_customer.label.ig') }}" autocomplete="off">
+                    </div>
+                    <div class="layui-inline">
+                        <input class="layui-input search_key" name="imessage" id="demoReload" placeholder="{{ trans('new_customer.label.imessage') }}" autocomplete="off">
+                    </div>
+                    <div class="layui-inline">
+                        <input class="layui-input search_key" name="whatsapp" id="demoReload" placeholder="{{ trans('new_customer.label.whatsapp') }}" autocomplete="off">
+                    </div>
+                    <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
                 </div>
-                <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
             </div>
 
             <table id="fb-table" class="layui-table"  lay-filter="fb-table">

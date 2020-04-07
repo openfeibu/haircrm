@@ -29,6 +29,11 @@ return [
         'perPage'      => '20',
         'search'        => [
             'name'  => 'like',
+            'email' => 'like',
+            'mobile' => 'like',
+            'ig' => 'like',
+            'imessage' => 'like',
+            'whatsapp' => 'like',
         ],
         'from' => [
             'ins','facebook','客户介绍','其他'
@@ -61,6 +66,12 @@ return [
         'perPage'      => '20',
         'search'        => [
             'nickname'  => 'like',
+            'company_name'  => 'like',
+            'email' => 'like',
+            'mobile' => 'like',
+            'ig' => 'like',
+            'imessage' => 'like',
+            'whatsapp' => 'like',
         ],
         'excel' => [
             '公司名称' => 'company_name',
