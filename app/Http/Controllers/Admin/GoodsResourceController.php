@@ -34,10 +34,18 @@ class GoodsResourceController extends BaseController
     public function index(Request $request)
     {
         $limit = $request->input('limit',config('app.limit'));
+        $search = $request->get('search',[]);
         if ($this->response->typeIs('json')) {
+
             $goods_list = Goods::leftJoin('goods_attribute_value','goods.id','=','goods_attribute_value.goods_id')
-                ->leftJoin('attribute_values','attribute_values.id','=','goods_attribute_value.attribute_value_id')
-                ->orderBy('goods.id','desc')
+                ->leftJoin('attribute_values','attribute_values.id','=','goods_attribute_value.attribute_value_id');
+            $goods_list = $goods_list->when($search ,function ($query) use ($search){
+                foreach($search as $field => $value)
+                {
+                    return $query->where('goods.'.$field,'like','%'.$value.'%');
+                }
+            });
+            $goods_list = $goods_list->orderBy('goods.id','desc')
                 ->orderBy('attribute_values.order','asc')
                 ->orderBy('attribute_values.id','asc')
                 ->paginate($limit,['goods_attribute_value.purchase_price','goods_attribute_value.selling_price','goods_attribute_value.id as goods_attribute_value_id','goods.name as goods_name','goods.id','goods.id as goods_id','goods.category_id','goods.attribute_id','goods.category_ids','goods.purchase_price as goods_purchase_price','goods.selling_price as goods_selling_price','attribute_values.value as attribute_value']);

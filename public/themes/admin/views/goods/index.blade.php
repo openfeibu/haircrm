@@ -14,7 +14,7 @@
                     <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
                 </div>
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="search_name" id="demoReload" placeholder="{{ trans('goods.label.name') }}" autocomplete="off">
+                    <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('goods.label.name') }}" autocomplete="off">
                 </div>
                 <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
             </div>

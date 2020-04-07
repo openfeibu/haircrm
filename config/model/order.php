@@ -68,7 +68,6 @@ return [
         'revision'     => ['goods_id'],
         'perPage'      => '20',
         'search'        => [
-            'title'  => 'goods_id',
         ],
     ],
 ];

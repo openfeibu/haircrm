@@ -8,6 +8,10 @@ use App\Models\Goods;
 
 class GoodsRepository extends BaseRepository implements GoodsRepositoryInterface
 {
+    public function boot()
+    {
+        $this->fieldSearchable = config('model.goods.goods.search');
+    }
     public function model()
     {
         return config('model.goods.goods.model');
