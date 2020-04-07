@@ -26,10 +26,7 @@
         </div>
     </div>
 </div>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-sm" href="{{ guard_url('order') }}/@{{ d.id }}">{{ trans('app.edit') }}</a>
-    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
-</script>
+@include('order/handle_content')
 
 <script>
     var main_url = "{{guard_url('order')}}";
@@ -51,8 +48,13 @@
                 ,{field:'address',title:'{{ trans('app.address') }}', width:120}
                 ,{field:'selling_price',title:'{{ trans('order.label.selling_price') }}', width:120}
                 ,{field:'number',title:'{{ trans('order.label.number') }}', width:120}
+                ,{field:'order_status_desc',title:'{{ trans('order.label.order_status') }}', width:120,templet:"#order_status_tpl"}
+                ,{field:'shipping_status_desc',title:'{{ trans('order.label.shipping_status') }}', width:120,templet:"#shipping_status_tpl"}
+                ,{field:'pay_status_desc',title:'{{ trans('order.label.pay_status') }}', width:120,templet:"#pay_status_tpl"}
+                ,{field:'tracking_number',title:'{{ trans('order.label.tracking_number') }}', width:120}
+                ,{field:'payment_sn',title:'{{ trans('order.label.payment_sn') }}', width:120}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:280, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true
@@ -89,6 +91,8 @@
 </script>
 
 {!! Theme::partial('common_handle_js') !!}
+@include('order/handle_js')
+
 <script>
     layui.use(['jquery','element','table'], function() {
         var $ = layui.$;
@@ -144,6 +148,13 @@
                 data_id_obj[i] = v.id; i++
             });
             window.location.href=url+paramStr;
+        }
+        $.extend_tool = function (obj) {
+            var data = obj.data;
+            data['_token'] = "{!! csrf_token() !!}";
+            data['nPage'] = $(".layui-laypage-curr em").eq(1).text();
+
+            order_handle[obj.event] ? order_handle[obj.event].call(this,data) : '';
         }
     })
 </script>

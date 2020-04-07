@@ -1,4 +1,5 @@
 <script>
+    var active = {};
     layui.use(['jquery','element','table','laytpl'], function() {
         var table = layui.table;
         var form = layui.form;

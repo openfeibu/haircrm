@@ -18,9 +18,12 @@ use Illuminate\Http\Request;
 use App\Repositories\Eloquent\OrderRepository;
 use Excel;
 use Auth;
+use App\Traits\Order\Handle as OrderHandle;
 
 class OrderResourceController extends BaseController
 {
+    use OrderHandle;
+
     public function __construct(
         OrderRepository $orderRepository,
         OrderGoodsRepository $orderGoodsRepository,
@@ -45,7 +48,7 @@ class OrderResourceController extends BaseController
             $orders = $this->repository
                 ->where('salesman_id',Auth::user()->id)
                 ->orderBy('id','desc')
-                ->paginate($limit,['id','order_sn','customer_id','customer_name','address','salesman_id','salesman_name','selling_price','number','created_at']);
+                ->paginate($limit,['id','order_sn','customer_id','customer_name','address','salesman_id','salesman_name','selling_price','number','order_status','shipping_status','pay_status','payment_id','payment_name','payment_sn','tracking_number','created_at']);
 
             return $this->response
                 ->success()
@@ -233,18 +236,4 @@ class OrderResourceController extends BaseController
         }
     }
 
-    public function downloadPurchaseOrder(Request $request)
-    {
-        $data = $request->all();
-        $ids = $data['ids'];
-        $name = '采购表'.date('YmdHis').'.xlsx';
-        return Excel::download(new PurchaseOrderExport($ids), $name);
-    }
-    public function downloadQuotationList(Request $request)
-    {
-        $data = $request->all();
-        $ids = $data['ids'];
-        $name = '报价表'.date('YmdHis').'.xlsx';
-        return Excel::download(new QuotationListExport($ids), $name);
-    }
 }

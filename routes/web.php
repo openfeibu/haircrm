@@ -89,6 +89,7 @@ Route::group([
 
     Route::resource('order', 'OrderResourceController');
     Route::post('/order/destroyAll', 'OrderResourceController@destroyAll')->name('order.destroy_all');
+
     Route::post('/order/pay', 'OrderResourceController@pay')->name('order.pay');
     Route::post('/order/to_delivery', 'OrderResourceController@toDelivery')->name('order.to_delivery');
     Route::post('/order/cancel', 'OrderResourceController@cancel')->name('order.cancel');
@@ -142,6 +143,13 @@ Route::group([
 
     Route::resource('order', 'OrderResourceController');
     Route::post('/order/destroyAll', 'OrderResourceController@destroyAll')->name('order.destroy_all');
+
+    Route::post('/order/pay', 'OrderResourceController@pay')->name('order.pay');
+    Route::post('/order/to_delivery', 'OrderResourceController@toDelivery')->name('order.to_delivery');
+    Route::post('/order/cancel', 'OrderResourceController@cancel')->name('order.cancel');
+    Route::post('/order/receive', 'OrderResourceController@receive')->name('order.receive');
+    Route::post('/order/return', 'OrderResourceController@returnOrder')->name('order.return');
+
     Route::get('/order_download/quotation_list', 'OrderResourceController@downloadQuotationList')->name('order.download_quotation_list');
     Route::get('/category_goods','GoodsResourceController@categoryGoods')->name('goods.category_goods');
     Route::get('locked', 'UserController@locked');

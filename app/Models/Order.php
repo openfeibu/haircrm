@@ -21,18 +21,18 @@ class Order extends BaseModel
 
     public function getOrderStatusDescAttribute()
     {
-        return $this->attributes['order_status'] ? trans('order.order_status.'.$this->attributes['order_status']) : '';
+        return isset($this->attributes['order_status']) ? trans('order.order_status.'.$this->attributes['order_status']) : '';
     }
     public function getShippingStatusDescAttribute()
     {
-        return $this->attributes['order_status'] ? trans('order.shipping_status.'.$this->attributes['shipping_status']) : '';
+        return isset($this->attributes['shipping_status']) ? trans('order.shipping_status.'.$this->attributes['shipping_status']) : '';
     }
     public function getPayStatusDescAttribute()
     {
-        return $this->attributes['pay_status'] ? trans('order.pay_status.'.$this->attributes['pay_status']) : '';
+        return isset($this->attributes['pay_status']) ? trans('order.pay_status.'.$this->attributes['pay_status']) : '';
     }
     public function getOperationAttribute()
     {
-        return $this->attributes ? app(OrderRepository::class)->operation($this->attributes) : [];
+        return isset($this->attributes['order_status']) ? app(OrderRepository::class)->operation($this->attributes) : [];
     }
 }
