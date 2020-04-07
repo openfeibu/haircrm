@@ -843,3 +843,30 @@ if (!function_exists('guard_prefix')) {
         return empty(getenv('guard')) ? 'user' : current(explode(".", getenv('guard')));
     }
 }
+//同比增长的函数
+//$a 是今日数据
+//$b 是上个期限的数据
+if (!function_exists('rate_of_increase')) {
+    function rate_of_increase($a,$b)
+    {
+        $a = (int)$a;
+        $b = (int)$b;
+        if($a==$b){
+            return "0.00%";
+        }elseif($b==0&&$a>0){
+            return "+100%";
+        }elseif($a==0&&$b>0){
+            return "-100%";
+        }elseif($a>$b){
+            $c = round(($a-$b)/$b,2);
+            $c = $c*100;
+            return '+'.$c."%";
+        }elseif($a<$b){
+            $c = round(($a-$b)/$b,2);
+            $c = $c*100;
+            return $c."%";
+        }else{
+            return "系统错误";
+        }
+    }
+}
