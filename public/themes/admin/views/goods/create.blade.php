@@ -114,6 +114,7 @@
                                 {
                                     $("#attribute_id").val(attribute_id);
                                     $("#attribute_content").show().html(html);
+                                    form.render();
                                 }
 
                             },
