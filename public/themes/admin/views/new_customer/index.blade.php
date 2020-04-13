@@ -39,7 +39,7 @@
                     <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
                 </div>
             </div>
-            
+
             <table id="fb-table" class="layui-table"  lay-filter="fb-table">
 
             </table>

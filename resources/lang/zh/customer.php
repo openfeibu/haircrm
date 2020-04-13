@@ -14,6 +14,8 @@ return [
         'whatsapp' => 'whatsapp',
         'address' => '地址',
         'order_count' => '下单数',
+        'remark' => '备注',
+        'chat_app_account' => '联系app及账号',
     ],
     'add' => '添加客户',
 ];

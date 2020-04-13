@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name','salesman_id','new_customer_id','salesman_name','ig','from','email','mobile','imessage','whatsapp','address','order_count','created_at','updated_at','deleted_at'],
+        'fillable'     => ['name','salesman_id','new_customer_id','salesman_name','ig','from','email','mobile','imessage','whatsapp','address','order_count','remark','chat_app_account','created_at','updated_at','deleted_at'],
         'translate'    => [],
         'upload_folder' => '/customer',
         'encrypt'      => ['id'],
@@ -49,6 +49,8 @@ return [
             '地址' => 'address' ,
             '业务员' => 'salesman_name',
             '下单次数' => 'order_count',
+            '备注' => 'remark',
+            '联系app及账号' => 'chat_app_account'
         ],
     ],
     'new_customer'     => [

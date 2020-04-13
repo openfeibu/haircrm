@@ -75,6 +75,8 @@
                 ,{field:'whatsapp',title:'{{ trans('customer.label.whatsapp') }}',edit:'text'}
                 ,{field:'address',title:'{{ trans('customer.label.address') }}',edit:'text'}
                 ,{field:'order_count',title:'{{ trans('customer.label.order_count') }}',edit:'text'}
+                ,{field:'remark',title:'{{ trans('customer.label.remark') }}',edit:'text'}
+                ,{field:'chat_app_account',title:'{{ trans('customer.label.chat_app_account') }}',edit:'text'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
