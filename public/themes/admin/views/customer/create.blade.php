@@ -83,6 +83,22 @@
 
                     </div>
                     <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.remark') }}</label>
+
+                        <div class="layui-input-block">
+                            <textarea name="remark" placeholder="请输入{{ trans('customer.label.remark') }}" class="layui-textarea"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.chat_app_account') }}</label>
+
+                        <div class="layui-input-block">
+                            <textarea name="chat_app_account" placeholder="请输入{{ trans('customer.label.chat_app_account') }}" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">客户来源</label>
 
                         <div class="layui-input-block">

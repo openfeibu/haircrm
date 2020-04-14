@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name','en_name','entry_date','password', 'api_token', 'remember_token','active','order','status','created_at','updated_at'],
+        'fillable'     => ['email','name','en_name','entry_date','password', 'api_token', 'remember_token','active','order','status','created_at','updated_at'],
         'translate'    => [],
         'upload_folder' => '/salesman',
         'encrypt'      => ['id'],

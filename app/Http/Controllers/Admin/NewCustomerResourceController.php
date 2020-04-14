@@ -188,7 +188,7 @@ class NewCustomerResourceController extends BaseController
 
         for ($i=1;$i<$all_sheet_count;$i++)
         {
-            if(count($res[$i])>0)
+            if(count(array_filter($res[$i]))>2)
             {
                 if(isset($res[$i][0]) && $res[$i][0])
                 {
