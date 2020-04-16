@@ -6,6 +6,7 @@ use App\Exports\CustomerExport;
 use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Imports\CustomerImport;
 use App\Models\Customer;
+use App\Models\Salesman;
 use App\Repositories\Eloquent\NewCustomerRepository;
 use App\Repositories\Eloquent\SalesmanRepository;
 use Illuminate\Http\Request;
@@ -198,7 +199,6 @@ class CustomerResourceController extends BaseController
         {
             $header_keys[$excel_key_arr[$header]] = $key;
         }
-
         $data = [];
         $salesmen = [];
         $success_count=0;
@@ -210,16 +210,19 @@ class CustomerResourceController extends BaseController
                 foreach ($header_keys as $header_key => $header_i) {
                     $data[$i][$header_key] = $res[$i][$header_i];
                 }
+
                 if($data[$i]['name'])
                 {
                     $salesman_name = $data[$i]['salesman_name'];
                     if (isset($salesmen[$salesman_name])) {
                         $salesman_id = $salesmen[$salesman_name];
                     } else {
-                        $salesman = $this->salesmanRepository->where('name', $salesman_name)->first(['id']);
+                        $salesman = Salesman::where('name', $salesman_name)->orWhere('en_name',$salesman_name)->first(['id','name']);
+                        $salesman_name = $salesman ? $salesman->name : $salesman_name;
                         $salesman_id = $salesman ? $salesman->id : 0;
                         $salesmen[$salesman_name] = $salesman_id;
                     }
+                    $data[$i]['salesman_name'] = $salesman_name;
                     $data[$i]['salesman_id'] = $salesman_id;
                     $data[$i]['created_at'] = $data[$i]['updated_at'] = date('Y-m-d H:i:s');
                     $success_count++;

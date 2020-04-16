@@ -43,7 +43,7 @@ return [
             'IG号' => 'ig',
             '客户来源'=>'from',
             '邮箱' => 'email',
-            '手机号' => 'mobile',
+            '手机号码' => 'mobile',
             'imessage' => 'imessage',
             'whatsapp' => 'whatsapp',
             '地址' => 'address' ,
