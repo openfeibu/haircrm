@@ -64,7 +64,7 @@
             ,url: '{{guard_url('customer')}}'
             ,cols: [[
                 {checkbox: true, fixed: true}
-                ,{field:'id',title:'ID', width:80}
+                ,{field:'id',title:'ID', width:80,sort:true}
                 ,{field:'name',title:'{{ trans('customer.label.name') }}',edit:'text'}
                 ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}'}
                 ,{field:'ig',title:'{{ trans('customer.label.ig') }}',edit:'text'}
@@ -77,6 +77,7 @@
                 ,{field:'order_count',title:'{{ trans('customer.label.order_count') }}',edit:'text'}
                 ,{field:'remark',title:'{{ trans('customer.label.remark') }}',edit:'text'}
                 ,{field:'chat_app_account',title:'{{ trans('customer.label.chat_app_account') }}', width:240,edit:'text'}
+                ,{field:'level',title:'{{ trans('customer.label.level') }}', width:240,edit:'text',sort:true}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'

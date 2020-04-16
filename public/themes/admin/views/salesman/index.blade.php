@@ -51,6 +51,9 @@
                 ,{field:'name',title:'{{ trans('salesman.label.name') }}',edit:'text'}
                 ,{field:'en_name',title:'{{ trans('salesman.label.en_name') }}',edit:'text'}
                 ,{field:'entry_date',title:'{{ trans('salesman.label.entry_date') }}'}
+                ,{field:'ig',title:'{{ trans('salesman.label.ig') }}',edit:'text'}
+                ,{field:'imessage',title:'{{ trans('salesman.label.imessage') }}',edit:'text'}
+                ,{field:'mobile',title:'{{ trans('salesman.label.mobile') }}',edit:'text'}
                 ,{field:'order',title:'{{ trans('app.order') }}'}
                 ,{field:'active',title:'{{ trans('salesman.label.active') }}',width:120,templet:'#activeTpl'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}

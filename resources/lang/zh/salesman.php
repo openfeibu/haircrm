@@ -10,5 +10,8 @@ return [
         'en_name' => '英文名',
         'active' => '在职',
         'entry_date' => '入职时间',
+        'ig' => 'IG',
+        'imessage' => 'IMessage',
+        'mobile' => '号码',
     ],
 ];

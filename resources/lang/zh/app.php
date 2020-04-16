@@ -114,4 +114,6 @@ return [
     'English' => '英文',
     'upload' => '上传',
     'file' => '文件',
+
+    'weight' => '重量',
 ];

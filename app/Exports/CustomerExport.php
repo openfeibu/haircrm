@@ -47,7 +47,7 @@ class CustomerExport implements FromCollection,WithEvents
             })->orderBy('id','desc')->get();
         $this->count = $customers->count();
         $header_data = [
-            [trans('customer.label.name'),trans('salesman.label.name'),trans('customer.label.ig'),trans('customer.label.from'),trans('customer.label.email'),trans('customer.label.mobile'),trans('customer.label.imessage'),trans('customer.label.whatsapp'),trans('customer.label.address'),trans('customer.label.order_count')]
+            [trans('customer.label.name'),trans('salesman.label.name'),trans('customer.label.ig'),trans('customer.label.from'),trans('customer.label.email'),trans('customer.label.mobile'),trans('customer.label.imessage'),trans('customer.label.whatsapp'),trans('customer.label.address'),trans('customer.label.order_count'),trans('customer.label.remark')]
         ];
         $customer_data = [];
         $i = $sn = 0;
@@ -55,7 +55,7 @@ class CustomerExport implements FromCollection,WithEvents
         {
             $sn++;
             $customer_data[$i] = [
-                $customer->name,$customer->salesman_name,$customer->ig,$customer->from,$customer->email,$customer->mobile,$customer->imessage,$customer->whatsapp,$customer->address,$customer->order_count
+                $customer->name,$customer->salesman_name,$customer->ig,$customer->from,$customer->email,$customer->mobile,$customer->imessage,$customer->whatsapp,$customer->address,$customer->order_count,$customer->remark
             ];
             $i++;
 
@@ -71,7 +71,7 @@ class CustomerExport implements FromCollection,WithEvents
             AfterSheet::class  => function(AfterSheet $event) {
 
                 //设置列宽
-                $columns = ['A','B','C','D','E','F','G','H','I','J'];
+                $columns = ['A','B','C','D','E','F','G','H','I','J','K'];
                 foreach ($columns as $key => $column)
                 {
                     $event->sheet->getDelegate()->getColumnDimension($column)->setWidth(15);
@@ -83,14 +83,14 @@ class CustomerExport implements FromCollection,WithEvents
                     $event->sheet->getDelegate()->getRowDimension($i)->setRowHeight(30);
                 }
                 //设置区域单元格垂直居中
-                $event->sheet->getDelegate()->getStyle('A1:J'.($this->count+1))->getAlignment()->setVertical('center');
-                $event->sheet->getDelegate()->getStyle('A1:J'.($this->count+1))->getAlignment()->setHorizontal('center');
+                $event->sheet->getDelegate()->getStyle('A1:K'.($this->count+1))->getAlignment()->setVertical('center');
+                $event->sheet->getDelegate()->getStyle('A1:K'.($this->count+1))->getAlignment()->setHorizontal('center');
                // $event->sheet->getDelegate()->getStyle('A4:H4')->getAlignment()->setHorizontal('left');
 
                 //$event->sheet->getDelegate()->getRowDimension(2)->setRowHeight(50);
 
-                $event->sheet->getDelegate()->getStyle('A1:J1')->getFont()->setSize('16');
-                $event->sheet->getDelegate()->getStyle('A2:J'.($this->count+1))->getFont()->setSize('15');
+                $event->sheet->getDelegate()->getStyle('A1:K1')->getFont()->setSize('16');
+                $event->sheet->getDelegate()->getStyle('A2:K'.($this->count+1))->getFont()->setSize('15');
 
             }
         ];

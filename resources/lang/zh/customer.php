@@ -16,6 +16,7 @@ return [
         'order_count' => '下单数',
         'remark' => '备注',
         'chat_app_account' => 'app:你的账号:客户账号',
+        'level' => '等级',
     ],
     'add' => '添加客户',
 ];

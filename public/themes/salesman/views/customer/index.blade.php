@@ -76,6 +76,7 @@
                 ,{field:'order_count',title:'{{ trans('customer.label.order_count') }}',edit:'text'}
                 ,{field:'remark',title:'{{ trans('customer.label.remark') }}',edit:'text'}
                 ,{field:'chat_app_account',title:'{{ trans('customer.label.chat_app_account') }}',edit:'text'}
+                ,{field:'level',title:'{{ trans('customer.label.level') }}', width:240,edit:'text',sort:true}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'

@@ -53,6 +53,16 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">非必选，如 Best virgin hair，选了 属性尺寸，则该分类下的所有子分类默认属性尺寸（除非子类选了其他属性）。该分类下的商品将采用该属性</div>
                     </div>
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('app.weight') }} *</label>
+
+                        <div class="layui-input-inline">
+                            <input name="weight" value="" class="layui-input"> kg
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">非必填，如 Best virgin hair，填了 0.5 ，则该分类下的所有子分类默认 0.5kg（除非子类填了其他重量）。该分类下的商品将采用该重量</div>
+                    </div>
+
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">批量标志</label>
 
