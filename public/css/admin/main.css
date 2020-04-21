@@ -17,6 +17,7 @@ body{background: #f5f5f5;}
 .layui-header .layui-nav .layui-nav-mored {
 	border-color: transparent transparent #fff
 }
+.layui-input-line{width:100% !important;}
 .layui-nav-bar{background: #666;height: 2px;}
 .layui-side-menu{z-index:1000;}
 .layui-nav-tree .layui-nav-item{background: none;margin: 5px 0;}

@@ -20,7 +20,7 @@
                     <div class="layui-form-item fb-form-item2 " id="goods_attributes" style="display:none;">
                         <label class="layui-form-label">选择尺寸 *</label>
                         <div class="fb-form-item-box fb-clearfix">
-                            <div class="layui-input-block">
+                            <div class="layui-input-block layui-input-line">
                                 <p class="input-p a-select" id="size">
 
                                 </p>
@@ -41,6 +41,7 @@
                             <th lay-data="{field:'goods_name',width:280}">商品名称</th>
                             <th lay-data="{field:'attribute_value'}">属性</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
+                            <th lay-data="{field:'weight'}">{{ trans('order.label.weight') }}</th>
                             <th lay-data="{field:'number', edit: 'text'}">数量</th>
                             <th lay-data="{field:'score',title:'{{ trans('app.actions') }}', width:120, align: 'right',toolbar:'#barDemo'}">操作</th>
                         </tr>
@@ -55,7 +56,37 @@
                 </table>
                 <div class="fb-main-table">
                     <form class="layui-form" action="" lay-filter="fb-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.weight') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="weight">0</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" id="freight_content">
+                            <label class="layui-form-label">{{ trans('order.label.freight') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="freight">0</p>
+                            </div>
+                        </div>
 
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('goods.label.selling_price') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="selling_price">0</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.paypal_fee') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="paypal_fee">0</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.total') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="total">0</p>
+                            </div>
+                        </div>
                         <div class="layui-form-item fb-form-item">
                             <label class="layui-form-label">客户 *</label>
                             <div class="fb-form-item-box fb-clearfix">
@@ -171,6 +202,8 @@
     });
 </script>
 
+@include('order/handle_cart')
+
 <script>
 
     layui.use(['element',"table",'form',"jquery"], function(){
@@ -187,64 +220,9 @@
         table.on('tool(cart)', function(obj){
             if(obj.event === 'del'){
                 obj.del();
+                handle_number();
             }
         });
-        form.on('checkbox', function(obj){
-            var check = $(obj.othis).hasClass("layui-form-checked");
-            if(check){
-                $(obj.othis).parents(".layui-input-block").find(".numInput").show()
-            }else{
-                $(obj.othis).parents(".layui-input-block").find(".numInput").hide()
-
-            }
-        });
-
-        $.onNodeClick = function (node) {
-            var tableData = layui.table.cache.cart;
-            var flag = false;
-            if(tableData != null)
-            {
-                for (var i=0;i<tableData.length;i++)
-                {
-                    if(tableData[i]['list_id'] == node.list_id)
-                    {
-                        var number = tableData[i]['number'];
-                        number++;
-                        tableData[i]['number'] = number;
-                        flag = true;
-                    }else{
-                        flag = flag ? flag : false;
-                    }
-                }
-                if(flag == true)
-                {
-                    table.reload("cart",{data:tableData});
-                }else{
-                    appendTbody(node)
-                }
-            }else{
-                appendTbody(node)
-            }
-        }
-        function appendTbody(node) {
-            var data = [];
-            var tableData = layui.table.cache.cart;
-            if(tableData != null)
-            {
-                for (var i=0;i<tableData.length;i++)
-                {
-                    data.push(tableData[i]);
-                }
-            }
-            node.number = 1;
-            data.push(node);
-            table.reload("cart",{data:data});
-        }
-        $("body").on('click','#size a',function () {
-            var i = $(this).attr('i');
-            var node = sizes[i];
-            $.onNodeClick(node);
-        })
 
         //监听提交
         form.on('submit(submit_btn)', function(data){
@@ -281,33 +259,6 @@
                 }
             });
             return false;
-        });
-
-        form.on('select(customer)', function(data){
-            var customer_id = data.value;
-            if(!customer_id)
-            {
-                return false;
-            }
-            var ajax_data = {'_token':"{!! csrf_token() !!}",id:customer_id};
-            var load = layer.load();
-            $.ajax({
-                url : "{{ guard_url('get_customer') }}",
-                data : ajax_data,
-                type : 'get',
-                success : function (data) {
-                    layer.close(load);
-                    if(data.code == 0) {
-                        $("#address").text(data.data.address ? data.data.address : '')
-                    }else{
-                        layer.msg(data.message);
-                    }
-                },
-                error : function (jqXHR, textStatus, errorThrown) {
-                    layer.close(load);
-                    $.ajax_error(jqXHR, textStatus, errorThrown);
-                }
-            });
         });
     });
 

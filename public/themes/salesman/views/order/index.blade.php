@@ -48,6 +48,10 @@
                 ,{field:'address',title:'{{ trans('app.address') }}', width:120}
                 ,{field:'selling_price',title:'{{ trans('order.label.selling_price') }}', width:120}
                 ,{field:'number',title:'{{ trans('order.label.number') }}', width:120}
+                ,{field:'weight',title:'{{ trans('order.label.weight') }}', width:120}
+                ,{field:'freight',title:'{{ trans('order.label.freight') }}', width:120}
+                ,{field:'paypal_fee',title:'{{ trans('order.label.paypal_fee') }}', width:120}
+                ,{field:'total',title:'{{ trans('order.label.total') }}', width:120}
                 ,{field:'order_status_desc',title:'{{ trans('order.label.order_status') }}', width:120,templet:"#order_status_tpl"}
                 ,{field:'shipping_status_desc',title:'{{ trans('order.label.shipping_status') }}', width:120,templet:"#shipping_status_tpl"}
                 ,{field:'pay_status_desc',title:'{{ trans('order.label.pay_status') }}', width:120,templet:"#pay_status_tpl"}

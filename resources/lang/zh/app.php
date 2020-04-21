@@ -115,5 +115,8 @@ return [
     'upload' => '上传',
     'file' => '文件',
 
-    'weight' => '重量',
+    'weight' => '重量kg',
+    'freight' => '$运费',
+    'paypal_fee' => '$PayPal',
+
 ];

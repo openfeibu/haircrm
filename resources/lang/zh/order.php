@@ -13,7 +13,11 @@ return [
         'shipping_status' => '配送状态',
         'pay_status' => '付款状态',
         'payment_sn' => '支付单号',
-        'tracking_number' => '运单号'
+        'tracking_number' => '运单号',
+        'weight' => '重量KG',
+        'freight' => '$运费',
+        'paypal_fee' => '$PayPal',
+        'total' => '$总出售价',
     ],
     'order_status' => [
         'unconfirmed' => '未确认',

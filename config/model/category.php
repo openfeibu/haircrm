@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name', 'parent_id', 'top_parent_id','category_ids' ,'supplier_id','attribute_id','order'],
+        'fillable'     => ['name', 'parent_id', 'top_parent_id','category_ids' ,'supplier_id','attribute_id','order','weight'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],

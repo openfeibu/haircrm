@@ -6,6 +6,7 @@ use App\Exports\CustomerExport;
 use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Imports\CustomerImport;
 use App\Models\Customer;
+use App\Models\Freight;
 use App\Models\Salesman;
 use App\Repositories\Eloquent\NewCustomerRepository;
 use App\Repositories\Eloquent\SalesmanRepository;
@@ -257,7 +258,7 @@ class CustomerResourceController extends BaseController
     }
     public function getCustomer(Request $request)
     {
-        $customer = $this->repository->find($request->id,['address']);
+        $customer = $this->repository->find($request->id,['address','area_code']);
         return $this->response
             ->success()
             ->data($customer->toArray())

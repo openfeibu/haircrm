@@ -58,8 +58,9 @@
                         <label class="layui-form-label">{{ trans('app.weight') }} *</label>
 
                         <div class="layui-input-inline">
-                            <input name="weight" value="" class="layui-input"> kg
+                            <input name="weight" value="" class="layui-input layui-input-inline">
                         </div>
+                        <div class="layui-form-mid layui-word-aux">kg</div>
                         <div class="layui-form-mid layui-word-aux">非必填，如 Best virgin hair，填了 0.5 ，则该分类下的所有子分类默认 0.5kg（除非子类填了其他重量）。该分类下的商品将采用该重量</div>
                     </div>
 

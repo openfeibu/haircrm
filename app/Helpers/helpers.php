@@ -870,3 +870,41 @@ if (!function_exists('rate_of_increase')) {
         }
     }
 }
+if (!function_exists('freight_config')) {
+    function freight_config()
+    {
+        $freight_categories = \App\Models\FreightCategory::orderBy('id','asc')->get();
+        $arr = [];
+        foreach ($freight_categories as $key => $freight_category)
+        {
+            $freights = \App\Models\Freight::where('freight_category_id',$freight_category->id)->orderBy('id','asc')->get();
+            foreach ($freights as $key => $freight)
+            {
+                $arr[$freight_category->id][$freight->freight_area_code] = $freight->toArray();
+            }
+
+        }
+        return $arr;
+    }
+}
+if (!function_exists('get_freight')) {
+    function get_freight($freight_area_code,$freight_category_id,$weight)
+    {
+        if($weight <=0 || !$freight_category_id)
+        {
+            return 0;
+        }
+        $freight_config = freight_config();
+        $first_freight = $freight_config[$freight_category_id][$freight_area_code]['first_freight'];
+        $continued_freight =  $freight_config[$freight_category_id][$freight_area_code]['continued_freight'];
+
+        if($weight <= 0.5)
+        {
+            return $first_freight;
+        }
+        $continued_weight = $weight - 0.5;
+        $continued_weight_count = ceil($continued_weight/0.5);
+        $continued_freight = $continued_freight * $continued_weight_count;
+        return $first_freight + $continued_freight;
+    }
+}

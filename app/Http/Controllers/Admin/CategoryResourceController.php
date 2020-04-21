@@ -79,6 +79,7 @@ class CategoryResourceController extends BaseController
                     'parent_id' => $parent_id,
                     'top_parent_id' => $top_parent_id,
                     'category_ids' => $category_ids,
+                    'weight' => $attributes['weight'],
                 ];
             }
 

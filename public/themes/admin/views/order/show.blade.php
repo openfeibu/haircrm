@@ -19,7 +19,9 @@
                             <th lay-data="{field:'attribute_value'}">尺寸</th>
                             <th lay-data="{field:'purchase_price', edit: 'text'}">{{ trans('goods.label.purchase_price') }}</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
+                            <th lay-data="{field:'weight'}">{{ trans('order.label.weight') }}</th>
                             <th lay-data="{field:'number', edit: 'text'}">数量</th>
+                            <th lay-data="{field:'freight_category_id',  hide:true}">freight_category_id</th>
                         </tr>
                         </thead>
                         <tbody id="myTbody">
@@ -30,7 +32,9 @@
                                     <td>{{ $order_goods->attribute_value }}</td>
                                     <td>{{ $order_goods->purchase_price }}</td>
                                     <td>{{ $order_goods->selling_price }}</td>
+                                    <td>{{ $order_goods->weight }}</td>
                                     <td>{{ $order_goods->number }}</td>
+                                    <td>{{ $order_goods->freight_category_id }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -41,7 +45,42 @@
                 </table>
                 <div class="fb-main-table">
                     <form class="layui-form" action="" lay-filter="fb-form">
-
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.weight') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="weight">{{ $order['weight'] }}</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" id="freight_content">
+                            <label class="layui-form-label">{{ trans('order.label.freight') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="freight">{{ $order['freight'] }}</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('goods.label.purchase_price') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="purchase_price">{{ $order['purchase_price'] }}</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('goods.label.selling_price') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="selling_price">{{ $order['selling_price'] }}</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.paypal_fee') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="paypal_fee">{{ $order['paypal_fee'] }}</p>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.total') }}</label>
+                            <div class="layui-input-inline">
+                                <p class="input-p" id="total">{{ $order['total'] }}</p>
+                            </div>
+                        </div>
                         <div class="layui-form-item fb-form-item">
                             <label class="layui-form-label">客户 *</label>
                             <div class="fb-form-item-box fb-clearfix">
@@ -94,28 +133,20 @@
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>
 
-<script>
+@include('order/handle_cart')
 
+<script>
+    var freight_area_code = '{{ $customer->area_code }}';
     layui.use(['element',"table",'form',"jquery"], function(){
         var form = layui.form;
         var table = layui.table;
         var upload = layui.upload;
-        var $ = layui.$
+        var $ = layui.$;
 
         var main_url = "{{guard_url('order')}}";
         table.init('cart', {
             cellMinWidth :'140'
             ,done:function(res, curr, count) {
-
-            }
-        });
-
-        form.on('checkbox', function(obj){
-            var check = $(obj.othis).hasClass("layui-form-checked");
-            if(check){
-                $(obj.othis).parents(".layui-input-block").find(".numInput").show()
-            }else{
-                $(obj.othis).parents(".layui-input-block").find(".numInput").hide()
 
             }
         });
@@ -156,33 +187,6 @@
                 }
             });
             return false;
-        });
-
-        form.on('select(customer)', function(data){
-            var customer_id = data.value;
-            if(!customer_id)
-            {
-                return false;
-            }
-            var ajax_data = {'_token':"{!! csrf_token() !!}",id:customer_id};
-            var load = layer.load();
-            $.ajax({
-                url : "{{ guard_url('get_customer') }}",
-                data : ajax_data,
-                type : 'get',
-                success : function (data) {
-                    layer.close(load);
-                    if(data.code == 0) {
-                        $("#address").text(data.data.address ? data.data.address : '')
-                    }else{
-                        layer.msg(data.message);
-                    }
-                },
-                error : function (jqXHR, textStatus, errorThrown) {
-                    layer.close(load);
-                    $.ajax_error(jqXHR, textStatus, errorThrown);
-                }
-            });
         });
     });
 

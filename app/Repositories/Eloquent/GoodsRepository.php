@@ -35,6 +35,8 @@ class GoodsRepository extends BaseRepository implements GoodsRepositoryInterface
                 $goods_value->purchase_price = $goods_value->goods_purchase_price;
                 $goods_value->selling_price = $goods_value->goods_selling_price;
             }
+            $goods_value->freight_category_id = app(CategoryRepository::class)->getFieldValue($goods_value->category_id,'freight_category_id');
+            $goods_value->weight = app(CategoryRepository::class)->getWeight($goods_value->category_id);
             //$goods->goods_name = $goods->goods_name.' '.$goods->attribute_value;
             $goods_value->list_id = $goods_value->goods_id .'-'. $goods_value->goods_attribute_value_id;
         }

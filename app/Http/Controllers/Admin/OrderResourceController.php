@@ -85,17 +85,28 @@ class OrderResourceController extends BaseController
             $attributes['customer_name'] = $customer->name;
             $attributes['order_sn'] = build_order_sn();
 
+            $freight_area_code = $customer->area_code ?? 'US';
+
             $carts = $attributes['carts'];
-            $purchase_price = $selling_price = $number = 0;
+            $purchase_price = $selling_price = $number = $weight = $freight = $paypay_fee = 0;
             foreach ($carts as $key => $cart)
             {
+
                 $purchase_price += $cart['purchase_price'] * $cart['number'];
                 $selling_price += $cart['selling_price'] * $cart['number'];
                 $number += $cart['number'];
+                $weight += $cart['weight'] * $cart['number'];
+                $freight += get_freight($freight_area_code,$cart['freight_category_id'],$cart['weight'] * $cart['number']);
             }
+
+            $paypal_fee = intval(($selling_price+$freight) * setting('paypal_fee'));
             $attributes['purchase_price'] = $purchase_price;
             $attributes['selling_price'] = $selling_price;
             $attributes['number'] = $number;
+            $attributes['paypal_fee'] = $paypal_fee;
+            $attributes['weight'] = $weight;
+            $attributes['freight'] = $freight;
+            $attributes['total'] = $selling_price + $freight + $paypal_fee;
 
             $order = $this->repository->create($attributes);
 
@@ -116,6 +127,8 @@ class OrderResourceController extends BaseController
                     'number' => $cart['number'],
                     'supplier_id' => $supplier['id'],
                     'supplier_name' => $supplier['name'],
+                    'weight' => $cart['weight'],
+                    'freight_category_id' => $cart['freight_category_id'],
                 ];
             }
             OrderGoods::insert($data);
@@ -155,18 +168,26 @@ class OrderResourceController extends BaseController
             $attributes['salesman_name'] = $salesman->name;
             $customer = $this->customerRepository->find($attributes['customer_id']);
             $attributes['customer_name'] = $customer->name;
+            $freight_area_code = $customer->area_code ?? 'US';
 
             $carts = $attributes['carts'];
-            $purchase_price = $selling_price = $number = 0;
+            $purchase_price = $selling_price = $number = $weight = $freight = 0;
             foreach ($carts as $key => $cart)
             {
                 $purchase_price += $cart['purchase_price'] * $cart['number'];
                 $selling_price += $cart['selling_price'] * $cart['number'];
                 $number += $cart['number'];
+                $weight += $cart['weight'] * $cart['number'];
+                $freight += get_freight($freight_area_code,$cart['freight_category_id'],$cart['weight'] * $cart['number']);
             }
+            $paypal_fee = intval(($selling_price+$freight) * setting('paypal_fee'));
             $attributes['purchase_price'] = $purchase_price;
             $attributes['selling_price'] = $selling_price;
             $attributes['number'] = $number;
+            $attributes['paypal_fee'] = $paypal_fee;
+            $attributes['weight'] = $weight;
+            $attributes['freight'] = $freight;
+            $attributes['total'] = $selling_price + $freight + $paypal_fee;
 
             $order->update($attributes);
 

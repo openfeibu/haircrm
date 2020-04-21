@@ -92,6 +92,48 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         return $ids;
 
     }
+    public function getFieldValue($category_id,$field)
+    {
+        $category = $this->where('id',$category_id)->first(['id','parent_id',$field]);
+        if(!$category[$field])
+        {
+            if(!$category->parent_id)
+            {
+                return 0;
+            }
+            return $this->getFieldValue($category->parent_id,$field);
+        }
+        return $category[$field];
+    }
+    public function getWeight($category_id)
+    {
+        $category = $this->where('id',$category_id)->first(['id','parent_id','weight']);
+
+        if(!$category->weight || $category->weight <= 0)
+        {
+            if(!$category->parent_id)
+            {
+                return 0;
+            }
+            return $this->getWeight($category->parent_id);
+        }
+        return $category->weight;
+    }
+    public function getFreightCategoryId($category_id)
+    {
+        $category = $this->where('id',$category_id)->first(['id','parent_id','freight_category_id']);
+
+        if(!$category->freight_category_id)
+        {
+            if(!$category->parent_id)
+            {
+                return 0;
+            }
+            return $this->getFreightCategoryId($category->parent_id);
+        }
+        return $category->freight_category_id;
+
+    }
     public function getSupplierId($category_id)
     {
         $category = $this->where('id',$category_id)->first(['id','parent_id','supplier_id']);
