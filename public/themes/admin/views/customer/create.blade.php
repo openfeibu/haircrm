@@ -74,6 +74,23 @@
                         </div>
 
                     </div>
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('freight_area.name') }}</label>
+
+                        <div class="layui-input-block">
+                            <select name="area_code" lay-filter="checkBox">
+                                @inject('freight_area','App\Models\FreightArea')
+                                <?php $i=0; ?>
+                                @foreach($freight_area->orderBy('order','asc')->orderBy('code','asc')->get() as $key => $freight_area)
+                                    <option value="{{ $freight_area->code }}" @if($i == 0) select @endif>{{ $freight_area->name }}</option>
+                                    <?php $i++; ?>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">地址</label>
 
@@ -110,7 +127,18 @@
                         </div>
 
                     </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.level') }}</label>
 
+                        <div class="layui-input-block">
+                            <select name="from" lay-filter="checkBox">
+                                @foreach(config('model.customer.customer.level') as $key => $level)
+                                    <option value="{{ $level }}">{{ $level }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
                     <div class="layui-form-item">
                         <div class="layui-input-block">
                             <button class="layui-btn layui-btn-submit" lay-submit="" lay-filter="demo1">立即提交</button>

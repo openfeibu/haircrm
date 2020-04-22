@@ -49,4 +49,21 @@ return [
             'name'  => 'like',
         ],
     ],
+    'freight_area'     => [
+        'model'        => 'App\Models\FreightArea',
+        'table'        => 'freight_areas',
+        'primaryKey'   => 'id',
+        'hidden'       => [],
+        'visible'      => [],
+        'guarded'      => ['*'],
+        'fillable'     => ['id','name'],
+        'translate'    => [],
+        'upload_folder' => '/freight_category',
+        'encrypt'      => ['id'],
+        'revision'     => ['name'],
+        'perPage'      => '20',
+        'search'        => [
+            'name'  => 'like',
+        ],
+    ],
 ];

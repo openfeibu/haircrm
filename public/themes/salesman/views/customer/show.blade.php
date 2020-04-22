@@ -62,6 +62,19 @@
 
                     </div>
                     <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('freight_area.name') }}</label>
+
+                        <div class="layui-input-block">
+                            <select name="area_code" lay-filter="checkBox">
+                                @inject('freight_area','App\Models\FreightArea')
+                                @foreach($freight_area->orderBy('order','asc')->orderBy('code','asc')->get() as $key => $freight_area)
+                                    <option value="{{ $freight_area->code }}" @if($freight_area->code == $customer->area_code) select @endif>{{ $freight_area->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">地址</label>
 
                         <div class="layui-input-block">
@@ -81,7 +94,18 @@
                         </div>
 
                     </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.level') }}</label>
 
+                        <div class="layui-input-block">
+                            <select name="from" lay-filter="checkBox">
+                                @foreach(config('model.customer.customer.level') as $key => $level)
+                                    <option value="{{ $level }}" @if($customer->level == $level)selected @endif>{{ $level }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
                     <input type="hidden" name="_method" value="PUT">
                     <div class="layui-form-item">
                         <div class="layui-input-block">
