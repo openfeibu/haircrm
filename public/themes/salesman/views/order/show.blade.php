@@ -20,6 +20,7 @@
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
                             <th lay-data="{field:'weight'}">{{ trans('order.label.weight') }}</th>
                             <th lay-data="{field:'number', edit: 'text'}">数量</th>
+                            <th lay-data="{field:'remark', edit: 'text'}">{{ trans('app.remark') }}</th>
                             <th lay-data="{field:'freight_category_id',  hide:true}">freight_category_id</th>
                         </tr>
                         </thead>
@@ -32,6 +33,7 @@
                                     <td>{{ $order_goods->selling_price }}</td>
                                     <td>{{ $order_goods->weight }}</td>
                                     <td>{{ $order_goods->number }}</td>
+                                    <td>{{ $order_goods->remark }}</td>
                                     <td>{{ $order_goods->freight_category_id }}</td>
                                 </tr>
                             @endforeach

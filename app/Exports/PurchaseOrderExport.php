@@ -2,6 +2,8 @@
 
 namespace App\Exports;
 
+use App\Models\AdminUser;
+use Auth;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -37,7 +39,7 @@ class PurchaseOrderExport implements FromCollection,WithEvents
             ->join('suppliers','suppliers.id','=','order_goods.supplier_id')
             ->whereIn('orders.id',$this->ids)
             ->orderBy('suppliers.id','asc')
-            ->get(['suppliers.name as supplier_name','suppliers.code as supplier_code','order_goods.goods_name','order_goods.attribute_value','order_goods.purchase_price','order_goods.selling_price','order_goods.number']);
+            ->get(['suppliers.name as supplier_name','suppliers.code as supplier_code','order_goods.goods_name','order_goods.attribute_value','order_goods.purchase_price','order_goods.selling_price','order_goods.number','order_goods.remark']);
 
         $count = $order_goods_list->count();
 
@@ -47,15 +49,20 @@ class PurchaseOrderExport implements FromCollection,WithEvents
         $order_data = [
             [$title],
             ['部门：跨境电商','','','采购时间：',date('Y/m/d'),'A','总金额：',$sum_purchase_price],
-            ['序号','采购项目(品目)名称','供应链','采购数量','尺寸','金额','总金额','备注'],
+            ['供应链','序号','采购项目(品目)名称','采购数量','尺寸','金额','总金额','备注'],
         ];
         $order_goods_data = [];
         $i = $sn = 0;
+        $supplier_field = 'supplier_code';
+//        if(Auth::user() instanceof AdminUser)
+//        {
+//            $supplier_field = 'supplier_name';
+//        }
         foreach ($order_goods_list as $key => $order_goods)
         {
             $sn++;
             $order_goods_data[$i] = [
-                $sn,$order_goods->goods_name,$order_goods->supplier_name,$order_goods->number,$order_goods->attribute_value,$order_goods->purchase_price,$order_goods->purchase_price * $order_goods->number,''
+                $order_goods->{$supplier_field},$sn,$order_goods->goods_name,$order_goods->number,$order_goods->attribute_value,$order_goods->purchase_price,$order_goods->purchase_price * $order_goods->number, $order_goods->remark
             ];
             $i++;
 
@@ -72,12 +79,12 @@ class PurchaseOrderExport implements FromCollection,WithEvents
             AfterSheet::class  => function(AfterSheet $event) {
 
                 //设置列宽
-                $columns = ['A','C','D','E','F','G','H'];
+                $columns = ['A','B','D','E','F','G','H'];
                 foreach ($columns as $key => $column)
                 {
                     $event->sheet->getDelegate()->getColumnDimension($column)->setWidth(15);
                 }
-                $event->sheet->getDelegate()->getColumnDimension('B')->setWidth(30);
+                $event->sheet->getDelegate()->getColumnDimension('C')->setWidth(30);
                 //设置行高，$i为数据行数
                 for ($i = 0; $i<=$this->count; $i++) {
                     $event->sheet->getDelegate()->getRowDimension($i)->setRowHeight(30);

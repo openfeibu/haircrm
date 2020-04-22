@@ -60,6 +60,7 @@
                 ,{field:'pay_status_desc',title:'{{ trans('order.label.pay_status') }}', width:120,templet:"#pay_status_tpl"}
                 ,{field:'tracking_number',title:'{{ trans('order.label.tracking_number') }}', width:120}
                 ,{field:'payment_sn',title:'{{ trans('order.label.payment_sn') }}', width:120}
+                ,{field:'remark',title:'{{ trans('app.remark') }}',edit:'text', width:120}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:280, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]

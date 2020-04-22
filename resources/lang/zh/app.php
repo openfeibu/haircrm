@@ -118,5 +118,5 @@ return [
     'weight' => '重量kg',
     'freight' => '$运费',
     'paypal_fee' => '$PayPal',
-
+    'remark' => '备注',
 ];

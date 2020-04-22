@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use DB;
 use App\Models\Order;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -32,7 +33,9 @@ class QuotationListExport implements FromCollection,WithEvents
     public function collection()
     {
 
-        $title = '采购计划表';
+        $title = 'Feibu Hair Quotation';
+        $orders_statistics =  Order::select(DB::raw("sum(`freight`) as freight,sum(`weight`) as weight,sum(`paypal_fee`) as paypal_fee,sum(`total`) as total,sum(`selling_price`) as selling_price,sum(`number`) as number"))->whereIn('id',$this->ids)->first();
+
         $order_goods_list = Order::join('order_goods','order_goods.order_id','=','orders.id')
             ->whereIn('orders.id',$this->ids)
             ->orderBy('order_goods.supplier_id','asc')
@@ -42,11 +45,9 @@ class QuotationListExport implements FromCollection,WithEvents
         $salesman_en_names = implode('、',array_unique(array_column($order_goods_list->toArray(),'salesman_en_name')));
         $count = $order_goods_list->count();
 
-        $sum_selling_price = Order::whereIn('id',$this->ids)->sum('selling_price');
-        $number = Order::whereIn('id',$this->ids)->sum('number');
         $this->count = $count + 3;
         $order_data = [
-            ['Feibu Hair Quotation'],
+            [$title],
             ['To:'.$customer_names,'Date：'.date('m/d'),'','Sales:'.$salesman_en_names,''],
             ['Item','Length','Price','PCS','Total']
         ];
@@ -56,20 +57,17 @@ class QuotationListExport implements FromCollection,WithEvents
         {
             $sn++;
             $order_goods_data[$i] = [
-                $order_goods->goods_name,$order_goods->attribute_value,'$'.$order_goods->purchase_price,$order_goods->number,'$'.($order_goods->purchase_price * $order_goods->number)
+                $order_goods->goods_name,$order_goods->attribute_value,'$'.$order_goods->selling_price,$order_goods->number,'$'.($order_goods->selling_price * $order_goods->number)
             ];
             $i++;
 
         }
-        $shipping_fee = '25';
-        $paypal_fee = round($sum_selling_price * 0.06);
-        $total = $sum_selling_price + $shipping_fee + $paypal_fee;
         $order_goods_data[$i] = [
             [''],
             [''],
-            ['Total P/P of hair','','',$number,'$'.$sum_selling_price],
-            ['Shipping fee:','','$'.$shipping_fee,'Paypal fee:','$'.$paypal_fee],
-            ['Total:','','','$'.$total]
+            ['Total P/P of hair','','',$orders_statistics->number,'$'.$orders_statistics->selling_price],
+            ['Shipping fee:','','$'.$orders_statistics->freight,'Paypal fee:','$'.$orders_statistics->paypal_fee],
+            ['Total:','','','$'.$orders_statistics->total]
         ];
         $data = array_merge($order_data,$order_goods_data);
         return  new Collection($data);
