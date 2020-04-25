@@ -89,6 +89,7 @@ class OrderResourceController extends BaseController
 
             $carts = $attributes['carts'];
             $purchase_price = $selling_price = $number = $weight = $freight = $paypay_fee = 0;
+            $freight_category_id = 0;
             foreach ($carts as $key => $cart)
             {
 
@@ -96,9 +97,9 @@ class OrderResourceController extends BaseController
                 $selling_price += $cart['selling_price'] * $cart['number'];
                 $number += $cart['number'];
                 $weight += $cart['weight'] * $cart['number'];
-                $freight += get_freight($freight_area_code,$cart['freight_category_id'],$cart['weight'] * $cart['number']);
+                $freight_category_id = $cart['freight_category_id'];
             }
-
+            $freight = $freight_category_id ? get_freight($freight_area_code,$freight_category_id,$weight) : 0;
             $paypal_fee = intval(($selling_price+$freight) * setting('paypal_fee'));
             $attributes['purchase_price'] = $purchase_price;
             $attributes['selling_price'] = $selling_price;
@@ -129,7 +130,7 @@ class OrderResourceController extends BaseController
                     'supplier_name' => $supplier['name'],
                     'weight' => $cart['weight'],
                     'freight_category_id' => $cart['freight_category_id'],
-                    'remark' => $cart['remark'],
+                    'remark' => $cart['remark'] ?? '',
                 ];
             }
             OrderGoods::insert($data);
@@ -178,13 +179,34 @@ class OrderResourceController extends BaseController
             if(isset($attributes['carts']) && $attributes['carts']) {
                 $carts = $attributes['carts'];
                 $purchase_price = $selling_price = $number = $weight = $freight = 0;
+                $freight_category_id = 0;
                 foreach ($carts as $key => $cart) {
                     $purchase_price += $cart['purchase_price'] * $cart['number'];
                     $selling_price += $cart['selling_price'] * $cart['number'];
                     $number += $cart['number'];
                     $weight += $cart['weight'] * $cart['number'];
-                    $freight += get_freight($freight_area_code, $cart['freight_category_id'], $cart['weight'] * $cart['number']);
+                    $freight_category_id = $cart['freight_category_id'];
+                    /*
+                     * 作废
+                    if($cart['freight_category_id'])
+                    {
+                        if($last_freight_category_id)
+                        {
+                            if($last_freight_category_id > $cart['freight_category_id'])
+                            {
+                                $freight_category_id = $last_freight_category_id;
+                            }else{
+                                $freight_category_id = $cart['freight_category_id'];
+                                $last_freight_category_id = $cart['freight_category_id'];
+                            }
+                        }else{
+                            $last_freight_category_id = $cart['freight_category_id'];
+                            $freight_category_id = $cart['freight_category_id'];
+                        }
+                    }
+                    */
                 }
+                $freight = $freight_category_id ? get_freight($freight_area_code,$freight_category_id,$weight) : 0;
                 $paypal_fee = intval(($selling_price + $freight) * setting('paypal_fee'));
                 $attributes['purchase_price'] = $purchase_price;
                 $attributes['selling_price'] = $selling_price;

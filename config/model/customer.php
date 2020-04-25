@@ -38,7 +38,7 @@ return [
         'from' => [
             'ins','facebook','客户介绍','其他'
         ],
-        'level' => ['S','A','B','C'],
+        'level' => ['A','B','C','D'],
         'excel' => [
             '客户名称' =>  'name',
             'IG号' => 'ig',

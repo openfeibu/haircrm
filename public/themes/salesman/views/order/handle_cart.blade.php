@@ -69,6 +69,7 @@
         function handle_number() {
             var tableData = layui.table.cache.cart;
             var number = 0,weight = 0,selling_price = 0,total = 0,paypal_fee = 0,freight = 0;
+            var freight_category_id = 0;
             for (var i=0;i<tableData.length;i++)
             {
                 console.log(tableData);
@@ -78,10 +79,10 @@
                     var goods_weight = tableData[i].weight ? parseFloat(tableData[i].weight).toFixed(3) : 0;
                     weight += goods_weight * parseInt(tableData[i].number);
                     selling_price += parseFloat(tableData[i].selling_price).toFixed(3) * parseInt(tableData[i].number) ;
-                    var goods_freight = get_freight(tableData[i].freight_category_id, goods_weight * parseInt(tableData[i].number));
-                    freight += goods_freight;
+                    freight_category_id = tableData[i].freight_category_id;
                 }
             }
+            freight =  freight_category_id ? get_freight(freight_category_id,weight) : 0;
             //运费四舍五入
             //freight = Math.round(freight);
             //paypal取整，去小数

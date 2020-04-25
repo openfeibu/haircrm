@@ -110,7 +110,6 @@
                                 @endforeach
                             </select>
                         </div>
-
                     </div>
                     <input type="hidden" name="_method" value="PUT">
                     <div class="layui-form-item">

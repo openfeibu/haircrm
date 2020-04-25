@@ -908,3 +908,7 @@ if (!function_exists('get_freight')) {
         return $first_freight + $continued_freight;
     }
 }
+function get_freight_category_id($last_freight_category_id,$freight_category_id)
+{
+
+}

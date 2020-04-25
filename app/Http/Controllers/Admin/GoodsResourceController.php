@@ -82,13 +82,9 @@ class GoodsResourceController extends BaseController
         $attribute = $this->attributeRepository->where('id',1)->first();
         $attribute_values = $this->attributeValueRepository->getAttributeValues($attribute->id);
 
-        $categories = $this->categoryRepository->getCategories();
-
-        $categories = json_encode($categories);
-
         return $this->response->title(trans('goods.name'))
             ->view('goods.create')
-            ->data(compact('goods','attribute','attribute_values','categories'))
+            ->data(compact('goods','attribute','attribute_values'))
             ->output();
     }
     public function store(Request $request)
@@ -121,7 +117,8 @@ class GoodsResourceController extends BaseController
                         $goods_attribute_values[] = [
                             'attribute_value_id' => $attribute_value_id,
                             'purchase_price' => $purchase_price,
-                            'selling_price' => $selling_price
+                            'selling_price' => $selling_price,
+                            //'attribute_id' => $category->attribute_id,
                         ];
                     }
                     $i++;

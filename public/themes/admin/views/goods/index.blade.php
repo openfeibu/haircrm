@@ -45,7 +45,7 @@
             ,url: main_url
             ,cols: [[
                 {checkbox: true, fixed: true}
-                ,{field:'goods_name',title:'{{ trans('goods.name') }}'}
+                ,{field:'goods_name',title:'{{ trans('goods.name') }}',width:420}
                 ,{field:'attribute_value',title:'{{ trans('attribute.name') }}'}
                 ,{field:'purchase_price',title:'{{ trans('goods.label.purchase_price') }}',width:120,edit:'text'}
                 ,{field:'selling_price',title:'{{ trans('goods.label.selling_price') }}',width:120,edit:'text'}
