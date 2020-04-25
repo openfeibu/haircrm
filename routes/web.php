@@ -18,6 +18,7 @@ Route::get('/categories', 'CategoryController@getCategories')->name('category.in
 Route::get('/categories_tree', 'CategoryController@getCategoriesTree')->name('category.tree');
 Route::get('/attribute_content', 'AttributeController@getContent')->name('attribute.content');
 Route::get('/test', 'HomeController@test');
+Route::get('/add_goods', 'HomeController@addGoods');
 // Admin  routes  for user
 Route::group([
     'namespace' => 'Admin',
