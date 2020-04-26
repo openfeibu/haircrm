@@ -82,7 +82,7 @@
                 ,{field:'facebook',title:'{{ trans('new_customer.label.facebook') }}',edit:'text'}
                 ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}',edit:'text'}
                 ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:120, fixed: 'right'}
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:240, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true
