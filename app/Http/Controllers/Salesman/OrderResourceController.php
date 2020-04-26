@@ -132,7 +132,7 @@ class OrderResourceController extends BaseController
                     'supplier_name' => $supplier['name'],
                     'weight' => $cart['weight'],
                     'freight_category_id' => $cart['freight_category_id'],
-                    'remark' => $cart['remark'],
+                    'remark' => $cart['remark'] ?? '',
                 ];
             }
             OrderGoods::insert($data);
@@ -198,7 +198,7 @@ class OrderResourceController extends BaseController
                     $data = [
                         'selling_price' => $cart['selling_price'],
                         'number' => $cart['number'],
-                        'remark' => $cart['remark'],
+                        'remark' => $cart['remark'] ?? '',
                     ];
                     $this->orderGoodsRepository->update($data, $cart['id']);
                 }
