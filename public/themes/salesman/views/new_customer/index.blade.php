@@ -46,6 +46,9 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
+    @{{# if(d.mark == 'new'){ }}
+    <a class="layui-btn layui-btn-sm" href="{{ guard_url('customer/create') }}?new_customer_id=@{{ d.id }}">下单客户</a>
+    @{{# } }}
     <a class="layui-btn layui-btn-sm" href="{{ guard_url('new_customer') }}/@{{ d.id }}">{{ trans('app.edit') }}</a>
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>

@@ -15,7 +15,7 @@
                         <label class="layui-form-label">客户名称 *</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input">
+                            <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="请输入客户名称" class="layui-input" value="{{ $customer->name }}">
                         </div>
 
                     </div>
@@ -23,7 +23,7 @@
                         <label class="layui-form-label">IG号</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="ig" lay-verify="title" autocomplete="off" placeholder="请输入IG号" class="layui-input">
+                            <input type="text" name="ig" lay-verify="title" autocomplete="off" placeholder="请输入IG号" class="layui-input" value="{{ $customer->ig }}">
                         </div>
 
                     </div>
@@ -31,7 +31,7 @@
                         <label class="layui-form-label">手机号</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="mobile" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+                            <input type="text" name="mobile" autocomplete="off" placeholder="请输入手机号" class="layui-input" value="{{ $customer->mobile }}">
                         </div>
 
                     </div>
@@ -40,7 +40,7 @@
                         <label class="layui-form-label">邮箱</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="email" autocomplete="off" placeholder="请输入邮箱" class="layui-input">
+                            <input type="text" name="email"  autocomplete="off" placeholder="请输入邮箱" class="layui-input" value="{{ $customer->email }}">
                         </div>
 
                     </div>
@@ -49,7 +49,7 @@
                         <label class="layui-form-label">imessage</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="imessage" autocomplete="off" placeholder="请输入imessage" class="layui-input">
+                            <input type="text" name="imessage" autocomplete="off" placeholder="请输入imessage" class="layui-input" value="{{ $customer->imessage }}">
                         </div>
 
                     </div>
@@ -57,10 +57,11 @@
                         <label class="layui-form-label">whatsapp</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="whatsapp" autocomplete="off" placeholder="请输入whatsapp" class="layui-input">
+                            <input type="text" name="whatsapp" autocomplete="off" placeholder="请输入whatsapp" class="layui-input" value="{{ $customer->whatsapp }}">
                         </div>
 
                     </div>
+
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('freight_area.name') }}</label>
 
@@ -76,6 +77,7 @@
                         </div>
 
                     </div>
+
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">地址</label>
 
@@ -85,15 +87,32 @@
 
                     </div>
                     <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.remark') }}</label>
+
+                        <div class="layui-input-block">
+                            <textarea name="remark" placeholder="请输入{{ trans('customer.label.remark') }}" class="layui-textarea"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.chat_app_account') }}</label>
+
+                        <div class="layui-input-block">
+                            <textarea name="chat_app_account" placeholder="请输入{{ trans('customer.label.chat_app_account') }}" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">客户来源</label>
 
                         <div class="layui-input-block">
                             <select name="from" lay-filter="checkBox">
                                 @foreach(config('model.customer.customer.from') as $key => $from)
-                                <option value="{{ $from }}">{{ $from }}</option>
+                                    <option value="{{ $from }}">{{ $from }}</option>
                                 @endforeach
                             </select>
                         </div>
+
                     </div>
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('customer.label.level') }}</label>
