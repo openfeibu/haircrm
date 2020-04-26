@@ -10,8 +10,10 @@ use App\Models\Goods;
 use App\Models\GoodsAttributeValue;
 use App\Models\Order;
 use App\Models\OrderGoods;
+use App\Models\Payment;
 use App\Repositories\Eloquent\CustomerRepository;
 use App\Repositories\Eloquent\OrderGoodsRepository;
+use App\Repositories\Eloquent\PaymentRepository;
 use App\Repositories\Eloquent\SalesmanRepository;
 use App\Repositories\Eloquent\SupplierRepository;
 use Illuminate\Http\Request;
@@ -29,7 +31,8 @@ class OrderResourceController extends BaseController
         OrderGoodsRepository $orderGoodsRepository,
         SalesmanRepository $salesmanRepository,
         CustomerRepository $customerRepository,
-        SupplierRepository $supplierRepository
+        SupplierRepository $supplierRepository,
+        PaymentRepository $paymentRepository
     )
     {
         parent::__construct();
@@ -38,6 +41,7 @@ class OrderResourceController extends BaseController
         $this->salesmanRepository = $salesmanRepository;
         $this->customerRepository = $customerRepository;
         $this->supplierRepository = $supplierRepository;
+        $this->paymentRepository = $paymentRepository;
         $this->repository
             ->pushCriteria(\App\Repositories\Criteria\RequestCriteria::class);
     }
