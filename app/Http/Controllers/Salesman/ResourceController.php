@@ -36,7 +36,7 @@ class ResourceController extends BaseController
     public function home()
     {
         $customer_count = Customer::where('salesman_id',Auth::user()->id)->count();
-        $new_customer_count = NewCustomer::count();
+        $new_customer_count = NewCustomer::where('salesman_id',Auth::user()->id)->count();
         $order_count = Order::where('salesman_id',Auth::user()->id)->count();
         $today_order_count = Order::where('salesman_id',Auth::user()->id)->where('created_at','>=',date('Y-m-d 00:00:00'))->count();
         $purchase_price = Order::where('salesman_id',Auth::user()->id)->sum('purchase_price');
