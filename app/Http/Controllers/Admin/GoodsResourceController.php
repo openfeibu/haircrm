@@ -42,7 +42,12 @@ class GoodsResourceController extends BaseController
             $goods_list = $goods_list->when($search ,function ($query) use ($search){
                 foreach($search as $field => $value)
                 {
-                    return $query->where('goods.'.$field,'like','%'.$value.'%');
+                    if($field == 'category_id')
+                    {
+                        return $query->whereRaw(" FIND_IN_SET ('".$value."',`category_ids`)");
+                    }else{
+                        return $query->where('goods.'.$field,'like','%'.$value.'%');
+                    }
                 }
             });
             $goods_list = $goods_list->orderBy('goods.id','desc')
@@ -200,22 +205,25 @@ class GoodsResourceController extends BaseController
             $i = 0;
             $attribute_value_id_arr = $goods_attribute_values = [];
 
-            foreach ($attributes['attribute_value'] as $key => $status)
+            if(isset($attributes['attribute_value']))
             {
-                $attribute_value_id = $key;
-                $status = translate_on_off($status);
-                $purchase_price = $attributes['purchase_price'][$attribute_value_id];
-                $selling_price = $attributes['selling_price'][$attribute_value_id];
-                if($status && $purchase_price){
-                    $attribute_value_id_arr[] = $attribute_value_id;
-                    $goods_attribute_values[] = [
-                        'attribute_value_id' => $attribute_value_id,
-                        'purchase_price' => $purchase_price,
-                        'selling_price' => $selling_price
-                    ];
+                foreach ($attributes['attribute_value'] as $key => $status)
+                {
+                    $attribute_value_id = $key;
+                    $status = translate_on_off($status);
+                    $purchase_price = $attributes['purchase_price'][$attribute_value_id];
+                    $selling_price = $attributes['selling_price'][$attribute_value_id];
+                    if($status && $purchase_price){
+                        $attribute_value_id_arr[] = $attribute_value_id;
+                        $goods_attribute_values[] = [
+                            'attribute_value_id' => $attribute_value_id,
+                            'purchase_price' => $purchase_price,
+                            'selling_price' => $selling_price
+                        ];
+                    }
+                    $i++;
+                    //var_dump($status);
                 }
-                $i++;
-                //var_dump($status);
             }
 
             GoodsAttributeValue::where('goods_id',$goods->id)->whereNotIn('attribute_value_id',$attribute_value_id_arr)->delete();

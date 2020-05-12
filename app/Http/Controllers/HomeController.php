@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Goods;
 use App\Models\GoodsAttributeValue;
 use App\Repositories\Eloquent\CategoryRepository;
@@ -33,17 +34,27 @@ class HomeController extends BaseController
     }
     public function addGoods()
     {
-        $old_category_id = 109;
+        $old_category_id = 150;
 
-        $category_ids = ['110'];
-        foreach ($category_ids as $category_id)
+        $category_ids = [
+            '151' => 0,
+            '152' => 10,
+        ];
+        foreach ($category_ids as $category_id => $add_purchase_price)
         {
-            $this->addGoodsHandle($old_category_id,$category_id);
+            $this->addGoodsHandle($old_category_id,$category_id,$add_purchase_price);
         }
-
+        echo "success";exit;
     }
+
     public function addGoodsHandle($old_category_id,$category_id,$add_purchase_price=0,$add_selling_price=0)
     {
+        $new_goods = Goods::where('category_id',$category_id)->first();
+        if($new_goods)
+        {
+            echo "已有该产品".$category_id;exit;
+        }
+
         $old_goods = Goods::where('category_id',$old_category_id)->first()->toArray();
         $old_goods_attribute_values = GoodsAttributeValue::leftJoin('attribute_values','attribute_values.id','=','goods_attribute_value.attribute_value_id')
             ->where('goods_attribute_value.goods_id',$old_goods['id'])
@@ -52,10 +63,10 @@ class HomeController extends BaseController
             ->get(['goods_attribute_value.*','attribute_values.value'])
             ->toArray();
 
-        $category = $this->categoryRepository->find($category_id);
+        $category = Category::where('id',$category_id)->first();
         $category_ids = $category->category_ids ? $category_id .','.$category->category_ids : $category_id;
         $category_id_arr = explode(',',$category_ids);
-        $categories_name_arr = $this->categoryRepository->whereIn('id',$category_id_arr)->orderBy('id','asc')->pluck('name')->toArray();
+        $categories_name_arr = Category::whereIn('id',$category_id_arr)->orderBy('id','asc')->pluck('name')->toArray();
         $categories_names = implode(" ",$categories_name_arr);
 
         $new_goods = $this->goodsRepository->create([
@@ -63,8 +74,8 @@ class HomeController extends BaseController
             'category_ids' => $category_ids,
             'name' => $categories_names,
             'attribute_id' => $old_goods['attribute_id'],
-            'purchase_price' => $old_goods['purchase_price'] ? $old_goods['purchase_price'] : 0,
-            'selling_price' => $old_goods['selling_price'] ? $old_goods['selling_price'] : 0,
+            'purchase_price' => $old_goods['purchase_price'] ? $old_goods['purchase_price'] + $add_purchase_price : 0,
+            'selling_price' => $old_goods['selling_price'] ? $old_goods['selling_price'] + $add_selling_price : 0,
         ]);
 
         $goods_attribute_values = [];
