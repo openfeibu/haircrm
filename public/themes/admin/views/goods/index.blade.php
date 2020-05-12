@@ -14,6 +14,10 @@
                     <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
                 </div>
                 <div class="layui-inline">
+                    <input type="text" name="category_id" id="category_tree"lay-verify="tree" autocomplete="off" placeholder="请选择分类(加载中)" class="layui-input search_key">
+                </div>
+
+                <div class="layui-inline">
                     <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('goods.label.name') }}" autocomplete="off">
                 </div>
                 <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
@@ -30,6 +34,39 @@
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>
 
+<script>
+    layui.use(['treeSelect', 'form', 'layer'], function () {
+        var treeSelect= layui.treeSelect,
+                form = layui.form,
+                $ = layui.jquery,
+                layer = layui.layer;
+
+        treeSelect.render({
+            elem: '#category_tree',
+            data: '/categories_tree',
+            headers: {},
+            type: 'get',
+            // 占位符
+            placeholder: '请选择分类',
+            //多选
+            showCheckbox: false,
+            //连线
+            showLine: true,
+            //选中节点(依赖于 showCheckbox 以及 key 参数)。
+            //checked: [11, 12],
+            //展开节点(依赖于 key 参数)
+            spread: [1],
+            // 点击回调
+            click: function(obj){
+
+            },
+            // 加载完成后的回调函数
+            success: function (d) {
+                console.log(d);
+            }
+        });
+    });
+</script>
 <script>
     var attribute_main_url = "{{guard_url('goods_attribute_value')}}";
     var main_url = "{{guard_url('goods')}}";
