@@ -30,6 +30,26 @@
                 }
             }
         });
+        $('.cache').on('click', function(){
+            var load = layer.load();
+            $.ajax({
+                url : "{{ guard_url('update_cache') }}",
+                data : {'token':'{{ csrf_token() }}'},
+                type : 'get',
+                success : function (data) {
+                    layer.close(load);
+                    if(data.code == 0) {
+                        layer.msg(data.message);
+                    }else{
+                        layer.msg(data.message);
+                    }
+                },
+                error : function (jqXHR, textStatus, errorThrown) {
+                    layer.close(load);
+                    $.ajax_error(jqXHR, textStatus, errorThrown);
+                }
+            });
+        });
     });
 
 </script>

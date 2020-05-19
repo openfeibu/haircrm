@@ -19,6 +19,7 @@ Route::get('/categories_tree', 'CategoryController@getCategoriesTree')->name('ca
 Route::get('/attribute_content', 'AttributeController@getContent')->name('attribute.content');
 Route::get('/test', 'HomeController@test');
 Route::get('/add_goods', 'HomeController@addGoods');
+Route::get('/add_goods_attribute_value', 'HomeController@addGoodsAttributeValue');
 // Admin  routes  for user
 Route::group([
     'namespace' => 'Admin',
@@ -27,6 +28,9 @@ Route::group([
     Auth::routes();
     Route::get('password', 'UserController@getPassword');
     Route::post('password', 'UserController@postPassword');
+
+    Route::get('update_cache', 'UserController@updateCache');
+
     Route::get('/', 'ResourceController@home')->name('home');
     Route::get('/dashboard', 'ResourceController@dashboard')->name('dashboard');
 

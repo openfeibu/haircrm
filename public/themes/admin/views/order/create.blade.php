@@ -233,6 +233,8 @@
         var $ = layui.$
         table.init('cart', {
             cellMinWidth :'140'
+            ,page:false
+            ,limit:99
             ,done:function(res, curr, count) {
 
             }

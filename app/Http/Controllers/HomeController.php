@@ -34,11 +34,10 @@ class HomeController extends BaseController
     }
     public function addGoods()
     {
-        $old_category_id = 150;
+        $old_category_id = 68;
 
         $category_ids = [
-            '151' => 0,
-            '152' => 10,
+            '69' => 0,
         ];
         foreach ($category_ids as $category_id => $add_purchase_price)
         {
@@ -89,5 +88,63 @@ class HomeController extends BaseController
             ];
         }
         GoodsAttributeValue::insert($goods_attribute_values);
+    }
+
+    public function addGoodsAttributeValue()
+    {
+        //$goods_id = 1;
+        $goods_ids = [44];
+        $goods_attribute_values = [
+            [
+                'attribute_value_id' => 16,//32"
+                'purchase_price' => 330,
+                'selling_price' => 74
+            ],
+            [
+                'attribute_value_id' => 18,//34"
+                'purchase_price' => 350,
+                'selling_price' => 87
+            ],
+            [
+                'attribute_value_id' => 13,//36"
+                'purchase_price' => 370,
+                'selling_price' => 97
+            ],
+            [
+                'attribute_value_id' => 19,//38"
+                'purchase_price' => 410,
+                'selling_price' => 102
+            ],
+            [
+                'attribute_value_id' => 14,//40"
+                'purchase_price' => 430,
+                'selling_price' => 107
+            ],
+        ];
+
+        foreach ($goods_ids as $key => $goods_id)
+        {
+            $goods = Goods::where('id',$goods_id)->first();
+            $this->addGoodsAttributeValueHandle($goods,$goods_attribute_values);
+        }
+
+        echo "success";exit;
+    }
+    public function addGoodsAttributeValueHandle($goods,$goods_attribute_values)
+    {
+        foreach ($goods_attribute_values as $key => $goods_attribute_value)
+        {
+            if(in_array($goods_attribute_value['attribute_value_id'],$goods->attr_value_id_arr))
+            {
+                GoodsAttributeValue::where('goods_id',$goods->id)->where('attribute_value_id',$goods_attribute_value['attribute_value_id'])->update([ 'purchase_price' => $goods_attribute_value['purchase_price'],'selling_price' => $goods_attribute_value['selling_price'] ]);
+            }else{
+                GoodsAttributeValue::create([
+                    'goods_id' => $goods->id,
+                    'attribute_value_id' => $goods_attribute_value['attribute_value_id'],
+                    'purchase_price' => $goods_attribute_value['purchase_price'],
+                    'selling_price' => $goods_attribute_value['selling_price'],
+                ]);
+            }
+        }
     }
 }

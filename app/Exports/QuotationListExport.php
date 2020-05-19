@@ -49,7 +49,7 @@ class QuotationListExport implements FromCollection,WithEvents
         $order_data = [
             [$title],
             ['To:'.$customer_names,'Date：'.date('m/d'),'','Sales:'.$salesman_en_names,''],
-            ['Item','Length','Price','PCS','Total']
+            ['Item','Length','PCS','The Unit Price','Total']
         ];
         $order_goods_data = [];
         $i = $sn = 0;
@@ -57,7 +57,7 @@ class QuotationListExport implements FromCollection,WithEvents
         {
             $sn++;
             $order_goods_data[$i] = [
-                $order_goods->goods_name,$order_goods->attribute_value,'$'.$order_goods->selling_price,$order_goods->number,'$'.($order_goods->selling_price * $order_goods->number)
+                $order_goods->goods_name,$order_goods->attribute_value,$order_goods->number,'$'.$order_goods->selling_price,'$'.($order_goods->selling_price * $order_goods->number)
             ];
             $i++;
 

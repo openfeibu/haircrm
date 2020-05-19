@@ -100,7 +100,7 @@ class OrderResourceController extends BaseController
                 $freight_category_id = $cart['freight_category_id'];
             }
             $freight = $freight_category_id ? get_freight($freight_area_code,$freight_category_id,$weight) : 0;
-            $paypal_fee = intval(($selling_price+$freight) * setting('paypal_fee'));
+            $paypal_fee = floor((($selling_price+$freight) * setting('paypal_fee')) * 100)/100;
             $attributes['purchase_price'] = $purchase_price;
             $attributes['selling_price'] = $selling_price;
             $attributes['number'] = $number;
