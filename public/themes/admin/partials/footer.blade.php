@@ -4,6 +4,7 @@
         var element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
         var $ = layui.$;
         var form = layui.form;
+        form.render();
         //监听导航点击
         element.on('nav(demo)', function(elem){
             //console.log(elem)
@@ -50,7 +51,7 @@
                 }
             });
         });
-        form.render();
+
     });
 
 </script>
