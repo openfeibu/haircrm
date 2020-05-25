@@ -50,6 +50,7 @@
                 }
             });
         });
+        form.render();
     });
 
 </script>
