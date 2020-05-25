@@ -34,14 +34,15 @@ class HomeController extends BaseController
     }
     public function addGoods()
     {
-        $old_category_id = 68;
+        $old_category_id = 219;
 
         $category_ids = [
-            '69' => 0,
+            '220' => 0,
+
         ];
         foreach ($category_ids as $category_id => $add_purchase_price)
         {
-            $this->addGoodsHandle($old_category_id,$category_id,$add_purchase_price);
+            $this->addGoodsHandle($old_category_id,$category_id,$add_purchase_price,0);
         }
         echo "success";exit;
     }
