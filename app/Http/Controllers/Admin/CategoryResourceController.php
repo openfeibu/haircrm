@@ -44,7 +44,7 @@ class CategoryResourceController extends BaseController
     }
     public function create(Request $request)
     {
-        $categories = $this->repository->get()->toArray();
+        $categories = $this->repository->getAllCategoriesCache();
         $categories = Tree::getTree($categories);
         $category = $this->repository->newInstance([]);
         $parent_id = $request->get('parent_id',0);

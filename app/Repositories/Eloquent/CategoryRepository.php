@@ -13,6 +13,20 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     {
         return config('model.category.category.model');
     }
+    public function getAllCategoriesCache()
+    {
+        if (Cache::has('all_categories')) {
+            return Cache::get('all_categories');
+        }
+        $data = $this->getAllCategories();
+        Cache::forever('all_categories', $data);
+        return $data;
+    }
+    public function getAllCategories()
+    {
+        $categories = $this->orderBy('id','asc')->get()->toArray();
+        return $categories;
+    }
     public function getCategoriesCache($parent_id=0)
     {
         if (Cache::has('categories')) {
@@ -73,6 +87,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     public function forgetCategoriesSelectTree()
     {
         Cache::forget('categories');
+        Cache::forget('all_categories');
         Cache::forget('categories_select_tree');
     }
     public function getTopParentId($parent_id=0)
