@@ -20,6 +20,7 @@ Route::get('/attribute_content', 'AttributeController@getContent')->name('attrib
 Route::get('/test', 'HomeController@test');
 Route::get('/add_goods', 'HomeController@addGoods');
 Route::get('/add_goods_attribute_value', 'HomeController@addGoodsAttributeValue');
+Route::get('/tracking_number/{tracking_number}', 'HomeController@trackingNumber');
 // Admin  routes  for user
 Route::group([
     'namespace' => 'Admin',

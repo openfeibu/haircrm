@@ -22,6 +22,10 @@ class HomeController extends BaseController
         $this->categoryRepository = $categoryRepository;
         $this->goodsRepository = $goodsRepository;
     }
+    public function trackingNumber(Request $request,$tracking_number)
+    {
+        return redirect(sprintf(config('common.fedex_url'),$tracking_number));
+    }
     public function test()
     {
         $email = '1270864834@qq.com';
