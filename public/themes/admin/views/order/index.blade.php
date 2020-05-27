@@ -9,14 +9,16 @@
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
             <div class="tabel-message">
-                <div class="layui-inline tabel-btn">
-                    <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('order/create') }}">{{ trans('app.add') }} {{ trans('order.name') }}</a></button>
-                    <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
-                    <button class="layui-btn layui-btn-primary " data-type="download_purchase_order" data-events="download_purchase_order">下载采购表</button>
-                    <button class="layui-btn layui-btn-primary " data-type="download_quotation_list" data-events="download_quotation_list">下载报价表</button>
+                <div class="layui-row mb10">
+                    <div class="layui-inline tabel-btn">
+                        <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('order/create') }}">{{ trans('app.add') }} {{ trans('order.name') }}</a></button>
+                        <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
+                        <button class="layui-btn layui-btn-primary " data-type="download_purchase_order" data-events="download_purchase_order">下载采购表</button>
+                        <button class="layui-btn layui-btn-primary " data-type="download_quotation_list" data-events="download_quotation_list">下载报价表</button>
+                    </div>
                 </div>
                 <div class="layui-inline">
-                    <select name="airport_id" class="layui-select search_key">
+                    <select name="order_status" class="layui-select search_key">
                         <option value="">{{ trans('order.label.order_status') }}</option>
                         @foreach(trans('order.order_status') as $key => $order_status)
                             <option value="{{ $key }}">{{ $order_status }}</option>
@@ -24,7 +26,29 @@
                     </select>
                 </div>
                 <div class="layui-inline">
+                    <select name="shipping_status" class="layui-select search_key">
+                        <option value="">{{ trans('order.label.shipping_status') }}</option>
+                        @foreach(trans('order.shipping_status') as $key => $shipping_status)
+                            <option value="{{ $key }}">{{ $shipping_status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="layui-inline">
+                    <select name="pay_status" class="layui-select search_key">
+                        <option value="">{{ trans('order.label.pay_status') }}</option>
+                        @foreach(trans('order.pay_status') as $key => $pay_status)
+                            <option value="{{ $key }}">{{ $pay_status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="layui-inline">
                     <input class="layui-input search_key" name="order_sn" id="demoReload" placeholder="{{ trans('order.label.order_sn') }}" autocomplete="off">
+                </div>
+                <div class="layui-inline">
+                    <input class="layui-input search_key" name="tracking_number" id="demoReload" placeholder="{{ trans('order.label.tracking_number') }}" autocomplete="off">
+                </div>
+                <div class="layui-inline">
+                    <input class="layui-input search_key" name="payment_sn" id="demoReload" placeholder="{{ trans('order.label.payment_sn') }}" autocomplete="off">
                 </div>
                 <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
             </div>

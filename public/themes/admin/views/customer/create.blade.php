@@ -131,7 +131,7 @@
                         <label class="layui-form-label">{{ trans('customer.label.level') }}</label>
 
                         <div class="layui-input-block">
-                            <select name="from" lay-filter="checkBox">
+                            <select name="level" lay-filter="checkBox">
                                 @foreach(config('model.customer.customer.level') as $key => $level)
                                     <option value="{{ $level }}">{{ $level }}</option>
                                 @endforeach

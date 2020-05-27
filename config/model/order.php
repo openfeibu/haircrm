@@ -32,7 +32,12 @@ return [
             'customer_id' => '=',
             'customer_name' => 'like',
             'salesman_id' => '=',
-            'salesman_name' => 'like'
+            'salesman_name' => 'like',
+            'order_status' => '=',
+            'shipping_status' => '=',
+            'pay_status' => '=',
+            'tracking_number' => 'like',
+            'payment_sn' => 'like',
         ],
         'btn_class' => [
             'order_status' => [
