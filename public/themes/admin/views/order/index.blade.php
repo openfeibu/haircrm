@@ -16,6 +16,14 @@
                     <button class="layui-btn layui-btn-primary " data-type="download_quotation_list" data-events="download_quotation_list">下载报价表</button>
                 </div>
                 <div class="layui-inline">
+                    <select name="airport_id" class="layui-select search_key">
+                        <option value="">{{ trans('order.label.order_status') }}</option>
+                        @foreach(trans('order.order_status') as $key => $order_status)
+                            <option value="{{ $key }}">{{ $order_status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="layui-inline">
                     <input class="layui-input search_key" name="order_sn" id="demoReload" placeholder="{{ trans('order.label.order_sn') }}" autocomplete="off">
                 </div>
                 <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
@@ -59,7 +67,7 @@
                 ,{field:'shipping_status_desc',title:'{{ trans('order.label.shipping_status') }}', width:120,templet:"#shipping_status_tpl"}
                 ,{field:'pay_status_desc',title:'{{ trans('order.label.pay_status') }}', width:120,templet:"#pay_status_tpl"}
                 ,{field:'tracking_number',title:'{{ trans('order.label.tracking_number') }}', templet: '<div>@{{#  if(d.tracking_number){ }}<a href="/tracking_number/@{{d.tracking_number}}" target="_blank" class="layui-table-link">@{{d.tracking_number}}</a>@{{#  } else { }}  @{{#  } }} </div>',width:150}
-                ,{field:'payment_sn',title:'{{ trans('order.label.payment_sn') }}', width:180}
+                ,{field:'payment_sn',title:'{{ trans('order.label.payment_sn') }}', templet: '<div>@{{#  if(d.payment_sn){ }}<a href="/payment_sn/@{{d.payment_sn}}" target="_blank" class="layui-table-link">@{{d.payment_sn}}</a>@{{#  } else { }}  @{{#  } }} </div>', width:180}
                 ,{field:'remark',title:'{{ trans('app.remark') }}',edit:'text', width:120}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:280, align: 'right',toolbar:'#barDemo', fixed: 'right'}

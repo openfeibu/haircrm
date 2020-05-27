@@ -26,6 +26,10 @@ class HomeController extends BaseController
     {
         return redirect(sprintf(config('common.fedex_url'),$tracking_number));
     }
+    public function paymentSn(Request $request,$payment_sn)
+    {
+        return redirect(sprintf(config('common.paypal_url'),$payment_sn));
+    }
     public function test()
     {
         $email = '1270864834@qq.com';
