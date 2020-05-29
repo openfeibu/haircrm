@@ -124,6 +124,7 @@
         var main_url = "{{guard_url('order')}}";
         table.init('cart', {
             cellMinWidth :'140'
+            ,limit:99
             ,done:function(res, curr, count) {
 
             }
