@@ -35,6 +35,9 @@ class PurchaseOrderExport implements FromCollection,WithEvents
     {
 
         $title = '采购计划表';
+
+        $orders = Order::whereIn('orders.id',$this->ids)->orderBy('id','desc')->get(['created_at'])->toArray();
+
         $order_goods_list = Order::join('order_goods','order_goods.order_id','=','orders.id')
             ->join('suppliers','suppliers.id','=','order_goods.supplier_id')
             ->whereIn('orders.id',$this->ids)
@@ -48,7 +51,7 @@ class PurchaseOrderExport implements FromCollection,WithEvents
         $this->count = $count + 3;
         $order_data = [
             [$title],
-            ['部门：跨境电商','','','采购时间：',date('Y/m/d'),'A','总金额：',$sum_purchase_price],
+            ['部门：跨境电商','','','采购时间：',strtotime($orders[0]['created_at']),'A','总金额：',$sum_purchase_price],
             ['供应链','序号','采购项目(品目)名称','采购数量','尺寸','金额','总金额','备注'],
         ];
         $order_goods_data = [];

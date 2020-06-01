@@ -76,6 +76,8 @@ return [
             'ig' => 'like',
             'imessage' => 'like',
             'whatsapp' => 'like',
+            'salesman_id' => '=',
+            'salesman_name' => 'like'
         ],
         'excel' => [
             '公司名称' => 'company_name',

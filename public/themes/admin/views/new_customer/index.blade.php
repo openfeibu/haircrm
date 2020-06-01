@@ -22,6 +22,15 @@
                         <input class="layui-input search_key" name="nickname" id="demoReload" placeholder="{{ trans('new_customer.label.nickname') }}" autocomplete="off">
                     </div>
                     <div class="layui-inline">
+                        <select name="salesman_id" class="search_key layui-select">
+                            @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
+                            <option value="">{{ trans('salesman.name') }}</option>
+                            @foreach($salesmanRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $salesman)
+                                <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="layui-inline">
                         <input class="layui-input search_key" name="email" id="demoReload" placeholder="{{ trans('new_customer.label.email') }}" autocomplete="off">
                     </div>
                     <div class="layui-inline">
@@ -68,7 +77,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80}
-                ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}'}
+                ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}',sort:true}
                 ,{field:'company_name',title:'{{ trans('new_customer.label.company_name') }}',edit:'text'}
                 ,{field:'company_website',title:'{{ trans('new_customer.label.company_website') }}',edit:'text'}
                 ,{field:'nickname',title:'{{ trans('new_customer.label.nickname') }}',edit:'text'}

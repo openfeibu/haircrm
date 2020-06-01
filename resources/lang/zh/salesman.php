@@ -13,5 +13,8 @@ return [
         'ig' => 'IG',
         'imessage' => 'IMessage',
         'mobile' => '号码',
+        'customer_count' => '客户数量',
+        'new_customer_count' => '采集客户数量',
+        'today_new_customer_count' => '今日采集客户数量',
     ],
 ];

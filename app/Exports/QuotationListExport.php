@@ -36,6 +36,8 @@ class QuotationListExport implements FromCollection,WithEvents
         $title = 'Feibu Hair Quotation';
         $orders_statistics =  Order::select(DB::raw("sum(`freight`) as freight,sum(`weight`) as weight,sum(`paypal_fee`) as paypal_fee,sum(`total`) as total,sum(`selling_price`) as selling_price,sum(`number`) as number"))->whereIn('id',$this->ids)->first();
 
+        $orders = Order::whereIn('orders.id',$this->ids)->orderBy('id','desc')->get(['created_at'])->toArray();
+
         $order_goods_list = Order::join('order_goods','order_goods.order_id','=','orders.id')
             ->whereIn('orders.id',$this->ids)
             ->orderBy('order_goods.supplier_id','asc')
@@ -48,7 +50,7 @@ class QuotationListExport implements FromCollection,WithEvents
         $this->count = $count + 3;
         $order_data = [
             [$title],
-            ['To:'.$customer_names,'Date：'.date('m/d'),'','Sales:'.$salesman_en_names,''],
+            ['To:'.$customer_names,'Date：'.date('m/d',strtotime($orders[0]['created_at'])),'','Sales:'.$salesman_en_names,''],
             ['Item','Length','PCS','The Unit Price','Total']
         ];
         $order_goods_data = [];
