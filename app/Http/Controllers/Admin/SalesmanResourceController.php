@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\ResourceController as BaseController;
+use App\Models\Customer;
+use App\Models\NewCustomer;
 use App\Models\Salesman;
 use App\Repositories\Eloquent\SalesmanPermissionRepository;
 use App\Repositories\Eloquent\SalesmanRoleRepository;
@@ -32,6 +34,14 @@ class SalesmanResourceController extends BaseController
                 ->orderBy('active','desc')
                 ->orderBy('id','desc')
                 ->paginate($limit);
+            foreach ($salesmen as $key => $salesman)
+            {
+                $salesman->customer_count = Customer::where('salesman_id',$salesman->id)->count();
+                $salesman->new_customer_count = NewCustomer::where('salesman_id',$salesman->id)->count();
+                $today_start_date = date('Y-m-d 00:00:00');
+                $today_end_date = date('Y-m-d 23:59:59');
+                $salesman->today_new_customer_count = NewCustomer::where('salesman_id',$salesman->id)->whereBetween('created_at',[$today_start_date,$today_end_date])->count();
+            }
 
             return $this->response
                 ->success()
