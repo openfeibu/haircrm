@@ -40,10 +40,20 @@ class NewCustomerExport implements FromCollection,WithEvents
             ->when($this->ids ,function ($query) {
                 return $query->whereIn('id',$this->ids);
             })->when($this->search ,function ($query){
+
                 foreach($this->search as $field => $value)
                 {
-                    return $query->where($field,'like','%'.$value.'%');
+                    if($value)
+                    {
+                        if($field == 'salesman_id')
+                        {
+                            $query->where('salesman_id',$value);
+                        }else{
+                            $query->where($field,'like','%'.$value.'%');
+                        }
+                    }
                 }
+                return $query;
             })->orderBy('id','desc')->get();
 
         $this->count = $new_customers->count();
