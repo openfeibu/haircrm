@@ -40,7 +40,10 @@ class SalesmanResourceController extends BaseController
                 $salesman->new_customer_count = NewCustomer::where('salesman_id',$salesman->id)->count();
                 $today_start_date = date('Y-m-d 00:00:00');
                 $today_end_date = date('Y-m-d 23:59:59');
+                $yesterday_start_date = date('Y-m-d 00:00:00', strtotime("-1 day"));
+                $yesterday_end_date = date('Y-m-d 23:59:59', strtotime("-1 day"));
                 $salesman->today_new_customer_count = NewCustomer::where('salesman_id',$salesman->id)->whereBetween('created_at',[$today_start_date,$today_end_date])->count();
+                $salesman->yesterday_new_customer_count = NewCustomer::where('salesman_id',$salesman->id)->whereBetween('created_at',[$yesterday_start_date,$yesterday_end_date])->count();
             }
 
             return $this->response

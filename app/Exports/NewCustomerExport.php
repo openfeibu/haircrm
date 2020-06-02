@@ -47,13 +47,12 @@ class NewCustomerExport implements FromCollection,WithEvents
                     {
                         if($field == 'salesman_id')
                         {
-                            $query->where('salesman_id',$value);
+                            return $query->where('salesman_id',$value);
                         }else{
-                            $query->where($field,'like','%'.$value.'%');
+                            return $query->where($field,'like','%'.$value.'%');
                         }
                     }
                 }
-                return $query;
             })->orderBy('id','desc')->get();
 
         $this->count = $new_customers->count();

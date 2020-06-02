@@ -57,6 +57,7 @@
                 ,{field:'customer_count',title:'{{ trans('salesman.label.customer_count') }}',width:'120'}
                 ,{field:'new_customer_count',title:'{{ trans('salesman.label.new_customer_count') }}',width:'120'}
                 ,{field:'today_new_customer_count',title:'{{ trans('salesman.label.today_new_customer_count') }}',width:'150'}
+                ,{field:'yesterday_new_customer_count',title:'{{ trans('salesman.label.yesterday_new_customer_count') }}',width:'150'}
                 ,{field:'order',title:'{{ trans('app.order') }}'}
                 ,{field:'active',title:'{{ trans('salesman.label.active') }}',width:120,templet:'#activeTpl'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
