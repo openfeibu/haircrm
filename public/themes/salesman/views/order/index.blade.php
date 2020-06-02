@@ -17,34 +17,38 @@
                             <button class="layui-btn layui-btn-primary " data-type="download_quotation_list" data-events="download_quotation_list"  type="button">下载报价表</button>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <select name="order_status" class="layui-select search_key">
-                            <option value="">{{ trans('order.label.order_status') }}</option>
-                            @foreach(trans('order.order_status') as $key => $order_status)
-                                <option value="{{ $key }}">{{ $order_status }}</option>
-                            @endforeach
-                        </select>
+                    <div class="layui-block mb10">
+                        <div class="layui-inline">
+                            <select name="order_status" class="layui-select search_key">
+                                <option value="">{{ trans('order.label.order_status') }}</option>
+                                @foreach(trans('order.order_status') as $key => $order_status)
+                                    <option value="{{ $key }}">{{ $order_status }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <select name="shipping_status" class="layui-select search_key">
+                                <option value="">{{ trans('order.label.shipping_status') }}</option>
+                                @foreach(trans('order.shipping_status') as $key => $shipping_status)
+                                    <option value="{{ $key }}">{{ $shipping_status }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <select name="pay_status" class="layui-select search_key">
+                                <option value="">{{ trans('order.label.pay_status') }}</option>
+                                @foreach(trans('order.pay_status') as $key => $pay_status)
+                                    <option value="{{ $key }}">{{ $pay_status }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <input class="layui-input search_key" name="order_sn" id="demoReload" placeholder="{{ trans('order.label.order_sn') }}" autocomplete="off">
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" data-type="reload"  type="button">{{ trans('app.search') }}</button>
+                        </div>
                     </div>
-                    <div class="layui-inline">
-                        <select name="shipping_status" class="layui-select search_key">
-                            <option value="">{{ trans('order.label.shipping_status') }}</option>
-                            @foreach(trans('order.shipping_status') as $key => $shipping_status)
-                                <option value="{{ $key }}">{{ $shipping_status }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="layui-inline">
-                        <select name="pay_status" class="layui-select search_key">
-                            <option value="">{{ trans('order.label.pay_status') }}</option>
-                            @foreach(trans('order.pay_status') as $key => $pay_status)
-                                <option value="{{ $key }}">{{ $pay_status }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="layui-inline">
-                        <input class="layui-input search_key" name="order_sn" id="demoReload" placeholder="{{ trans('order.label.order_sn') }}" autocomplete="off">
-                    </div>
-                    <button class="layui-btn" data-type="reload"  type="button">{{ trans('app.search') }}</button>
                 </form>
             </div>
 

@@ -34,6 +34,8 @@ return [
             'ig' => 'like',
             'imessage' => 'like',
             'whatsapp' => 'like',
+            'salesman_id' => '=',
+            'salesman_name' => 'like'
         ],
         'from' => [
             'ins','facebook','客户介绍','其他'

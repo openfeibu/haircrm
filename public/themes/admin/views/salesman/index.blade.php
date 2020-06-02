@@ -9,14 +9,16 @@
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
             <div class="tabel-message">
-                <div class="layui-inline tabel-btn">
-                    <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('salesman/create') }}">{{ trans('app.add') }} {{ trans('salesman.name') }}</a></button>
-                    <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
-                </div>
-                <div class="layui-inline">
-                    <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('salesman.label.name') }}" autocomplete="off">
-                </div>
-                <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
+                <form class="layui-form" action="" lay-filter="fb-form">
+                    <div class="layui-inline tabel-btn">
+                        <button class="layui-btn layui-btn-warm "><a href="{{ guard_url('salesman/create') }}">{{ trans('app.add') }} {{ trans('salesman.name') }}</a></button>
+                        <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
+                    </div>
+                    <div class="layui-inline">
+                        <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('salesman.label.name') }}" autocomplete="off">
+                    </div>
+                    <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                </form>
             </div>
 
             <table id="fb-table" class="layui-table"  lay-filter="fb-table">

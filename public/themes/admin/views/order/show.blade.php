@@ -121,6 +121,23 @@
 
                             </div>
                         </div>
+
+                        @if($order->tracking_number)
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.tracking_number') }}</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="tracking_number" id="tracking_number" autocomplete="off" placeholder="请输入{{ trans('order.label.tracking_number') }}" class="layui-input" value="{{ $order->tracking_number }}" lay-verify="required">
+                            </div>
+                        </div>
+                        @endif
+                        @if($order->payment_sn)
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.payment_sn') }}</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="payment_sn" id="payment_sn" autocomplete="off" placeholder="请输入{{ trans('order.label.payment_sn') }}" class="layui-input" value="{{ $order->payment_sn }}" lay-verify="required">
+                            </div>
+                        </div>
+                        @endif
                     </form>
                 </div>
 
@@ -160,6 +177,9 @@
             var customer_id = $("#customer_id").val();
             var address = $("#address").val();
             var salesman_id = $('#salesman_id').val();
+            var tracking_number = $('#tracking_number').val();
+            var payment_sn = $('#payment_sn').val();
+
             if(!tableData)
             {
                 layer.msg("请先添加订单产品");
@@ -170,7 +190,7 @@
                 layer.msg("客户、地址、业务员必填");
                 return false;
             }
-            var ajax_data = {'_token':"{!! csrf_token() !!}",customer_id:customer_id,address:address,salesman_id:salesman_id,'carts':tableData};
+            var ajax_data = {'_token':"{!! csrf_token() !!}",customer_id:customer_id,address:address,salesman_id:salesman_id,'carts':tableData,tracking_number:tracking_number,payment_sn:payment_sn};
             var load = layer.load();
             $.ajax({
                 url : "{{ guard_url('order/'.$order->id) }}",

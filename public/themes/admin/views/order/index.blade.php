@@ -18,40 +18,54 @@
                             <button class="layui-btn layui-btn-primary " data-type="download_quotation_list" data-events="download_quotation_list" type="button">下载报价表</button>
                         </div>
                     </div>
-                    <div class="layui-inline">
-                        <select name="order_status" class="layui-select search_key">
-                            <option value="">{{ trans('order.label.order_status') }}</option>
-                            @foreach(trans('order.order_status') as $key => $order_status)
-                                <option value="{{ $key }}">{{ $order_status }}</option>
-                            @endforeach
-                        </select>
+                    <div class="layui-block mb10 table-search">
+                        <div class="layui-inline">
+                            <select name="salesman_id" class="search_key layui-select">
+                                @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
+                                <option value="">{{ trans('salesman.name') }}</option>
+                                @foreach($salesmanRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $salesman)
+                                    <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <select name="order_status" class="layui-select search_key">
+                                <option value="">{{ trans('order.label.order_status') }}</option>
+                                @foreach(trans('order.order_status') as $key => $order_status)
+                                    <option value="{{ $key }}">{{ $order_status }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <select name="shipping_status" class="layui-select search_key">
+                                <option value="">{{ trans('order.label.shipping_status') }}</option>
+                                @foreach(trans('order.shipping_status') as $key => $shipping_status)
+                                    <option value="{{ $key }}">{{ $shipping_status }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <select name="pay_status" class="layui-select search_key">
+                                <option value="">{{ trans('order.label.pay_status') }}</option>
+                                @foreach(trans('order.pay_status') as $key => $pay_status)
+                                    <option value="{{ $key }}">{{ $pay_status }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <input class="layui-input search_key" name="order_sn" id="demoReload" placeholder="{{ trans('order.label.order_sn') }}" autocomplete="off">
+                        </div>
+                        <div class="layui-inline">
+                            <input class="layui-input search_key" name="tracking_number" id="demoReload" placeholder="{{ trans('order.label.tracking_number') }}" autocomplete="off">
+                        </div>
+                        <div class="layui-inline">
+                            <input class="layui-input search_key" name="payment_sn" id="demoReload" placeholder="{{ trans('order.label.payment_sn') }}" autocomplete="off">
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+
+                        </div>
                     </div>
-                    <div class="layui-inline">
-                        <select name="shipping_status" class="layui-select search_key">
-                            <option value="">{{ trans('order.label.shipping_status') }}</option>
-                            @foreach(trans('order.shipping_status') as $key => $shipping_status)
-                                <option value="{{ $key }}">{{ $shipping_status }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="layui-inline">
-                        <select name="pay_status" class="layui-select search_key">
-                            <option value="">{{ trans('order.label.pay_status') }}</option>
-                            @foreach(trans('order.pay_status') as $key => $pay_status)
-                                <option value="{{ $key }}">{{ $pay_status }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="layui-inline">
-                        <input class="layui-input search_key" name="order_sn" id="demoReload" placeholder="{{ trans('order.label.order_sn') }}" autocomplete="off">
-                    </div>
-                    <div class="layui-inline">
-                        <input class="layui-input search_key" name="tracking_number" id="demoReload" placeholder="{{ trans('order.label.tracking_number') }}" autocomplete="off">
-                    </div>
-                    <div class="layui-inline">
-                        <input class="layui-input search_key" name="payment_sn" id="demoReload" placeholder="{{ trans('order.label.payment_sn') }}" autocomplete="off">
-                    </div>
-                    <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
                 </form>
             </div>
 

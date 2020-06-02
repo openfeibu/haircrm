@@ -269,6 +269,9 @@ button.layui-close{
     height:100%;
     opacity:0;
 }
+.table-search .layui-inline{
+    margin-top: 5px;
+}
 .mb10{
     margin-bottom: 10px;
 }

@@ -227,6 +227,7 @@ class OrderResourceController extends BaseController
                     $this->orderGoodsRepository->update($data,$cart['id']);
                 }
             }
+
             $order->update($attributes);
 
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('order.name')]))
