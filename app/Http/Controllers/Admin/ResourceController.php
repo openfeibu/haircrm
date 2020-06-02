@@ -57,7 +57,7 @@ class ResourceController extends BaseController
         //昨日销售额
         $yesterday_selling_price= Order::whereBetween('created_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->where('pay_status','paid')->sum('selling_price');
         //总销售额
-        $selling_price = Order::sum('selling_price');
+        $selling_price = Order::where('pay_status','paid')->sum('selling_price');
 
         $goods_count = Goods::count();
 
