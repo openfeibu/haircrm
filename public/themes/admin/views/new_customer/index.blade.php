@@ -46,7 +46,9 @@
                         <div class="layui-inline">
                             <input class="layui-input search_key" name="whatsapp" id="demoReload" placeholder="{{ trans('new_customer.label.whatsapp') }}" autocomplete="off">
                         </div>
-                        <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                        <div class="layui-inline">
+                            <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                        </div>
                     </div>
                 </form>
             </div>

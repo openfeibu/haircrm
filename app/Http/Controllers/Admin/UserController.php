@@ -50,7 +50,7 @@ class UserController extends BaseController
         $this->categoryRepository->getCategoriesSelectTreeCache();
         $this->categoryRepository->getCategoriesCache();
 
-        return $this->response->message('')
+        return $this->response->message('更新成功！')
             ->code(0)
             ->status('success')
             ->redirect();
