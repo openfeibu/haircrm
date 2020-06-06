@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\AdminUser;
+use App\Models\Category;
 use Auth;
 use App\Models\Order;
 use Illuminate\Support\Collection;
@@ -64,13 +65,22 @@ class PurchaseOrderExport implements FromCollection,WithEvents
         foreach ($order_goods_list as $key => $order_goods)
         {
             $sn++;
+            $goods_name = strtolower($order_goods->goods_name);
+            foreach (trans('category.categories') as $category_en => $category_ch)
+            {
+                if(strpos($goods_name,$category_en) !== false)
+                {
+                    $goods_name = substr_replace($goods_name,$category_ch,strpos($goods_name,$category_en),strlen($category_en));
+                    //$goods_name = str_replace($category_en,$category_ch,$goods_name);
+                }
+            }
             $order_goods_data[$i] = [
-                $order_goods->{$supplier_field},$sn,$order_goods->goods_name,$order_goods->number,$order_goods->attribute_value,$order_goods->purchase_price,$order_goods->purchase_price * $order_goods->number, $order_goods->remark
+                $order_goods->{$supplier_field},$sn,$goods_name,$order_goods->number,$order_goods->attribute_value,$order_goods->purchase_price,$order_goods->purchase_price * $order_goods->number, $order_goods->remark
             ];
             $i++;
-
         }
 
+        var_dump($order_goods_data);exit;
         $data = array_merge($order_data,$order_goods_data);
         return  new Collection($data);
 
