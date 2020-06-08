@@ -52,7 +52,7 @@ class PurchaseOrderExport implements FromCollection,WithEvents
         $this->count = $count + 3;
         $order_data = [
             [$title],
-            ['部门：跨境电商','','','采购时间：',strtotime($orders[0]['created_at']),'A','总金额：',$sum_purchase_price],
+            ['部门：跨境电商','','','采购时间：',date('Y/m/d',strtotime($orders[0]['created_at'])),'A','总金额：',$sum_purchase_price],
             ['供应链','序号','采购项目(品目)名称','采购数量','尺寸','金额','总金额','备注'],
         ];
         $order_goods_data = [];
@@ -79,7 +79,7 @@ class PurchaseOrderExport implements FromCollection,WithEvents
             ];
             $i++;
         }
-        
+
         $data = array_merge($order_data,$order_goods_data);
         return  new Collection($data);
 
