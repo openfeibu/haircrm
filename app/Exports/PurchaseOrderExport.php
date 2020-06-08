@@ -79,8 +79,7 @@ class PurchaseOrderExport implements FromCollection,WithEvents
             ];
             $i++;
         }
-
-        var_dump($order_goods_data);exit;
+        
         $data = array_merge($order_data,$order_goods_data);
         return  new Collection($data);
 
