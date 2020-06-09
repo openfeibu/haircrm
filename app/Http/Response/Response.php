@@ -73,15 +73,21 @@ abstract class Response
      */
     public function json()
     {
-        return response()->json([
+        $data = [
             'message' => $this->getMessage(),
             'status' => $this->getStatus(),
             'code' => $this->getCode(),
             'data' => $this->getData(),
-            'totalRow' => $this->getTotalRow(),
+
             'count' => $this->getCount(),
             'url'     => $this->getUrl(),
-        ], $this->http_code);
+        ];
+        $totalRow = $this->getTotalRow();
+        if($totalRow)
+        {
+            $data['totalRow'] = $totalRow;
+        }
+        return response()->json($data, $this->http_code);
     }
 
     /**

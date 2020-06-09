@@ -91,7 +91,7 @@
             ,url: '{{guard_url('order')}}'
             ,cols: [[
                 {checkbox: true, fixed: true}
-                ,{field:'id',title:'ID', width:80}
+                ,{field:'id',title:'ID', totalRowText: 'Total：',width:80}
                 ,{field:'order_sn',title:'{{ trans('order.label.order_sn') }}'}
                 ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}', width:120}
                 ,{field:'customer_name',title:'{{ trans('customer.label.name') }}'}
@@ -102,7 +102,8 @@
                 ,{field:'weight',title:'{{ trans('order.label.weight') }}', width:120}
                 ,{field:'freight',title:'{{ trans('order.label.freight') }}', width:120}
                 ,{field:'paypal_fee',title:'{{ trans('order.label.paypal_fee') }}', width:120}
-                ,{field:'total',title:'{{ trans('order.label.total') }}', width:120}
+                ,{field:'total',title:'{{ trans('order.label.total') }}', width:120, totalRow: true,toFixed:3}
+                ,{field:'paid_total',title:'{{ trans('order.label.paid_total') }}', width:120,edit:'text', totalRow: true,toFixed:3}
                 ,{field:'order_status_desc',title:'{{ trans('order.label.order_status') }}', width:120,templet:"#order_status_tpl"}
                 ,{field:'shipping_status_desc',title:'{{ trans('order.label.shipping_status') }}', width:120,templet:"#shipping_status_tpl"}
                 ,{field:'pay_status_desc',title:'{{ trans('order.label.pay_status') }}', width:120,templet:"#pay_status_tpl"}
@@ -117,6 +118,7 @@
             ,limit: '{{ config('app.limit') }}'
             ,height: 'full-200'
             ,cellMinWidth :'180'
+            ,totalRow: true //开启合计行
             ,done:function () {
                 element.init();
             }
