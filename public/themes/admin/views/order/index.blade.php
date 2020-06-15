@@ -103,12 +103,12 @@
                 ,{field:'freight',title:'{{ trans('order.label.freight') }}', width:120}
                 ,{field:'paypal_fee',title:'{{ trans('order.label.paypal_fee') }}', width:120}
                 ,{field:'total',title:'{{ trans('order.label.total') }}', width:120, totalRow: true,toFixed:3}
-                ,{field:'paid_total',title:'{{ trans('order.label.paid_total') }}', width:120,edit:'text', totalRow: true,toFixed:3}
                 ,{field:'order_status_desc',title:'{{ trans('order.label.order_status') }}', width:120,templet:"#order_status_tpl"}
                 ,{field:'shipping_status_desc',title:'{{ trans('order.label.shipping_status') }}', width:120,templet:"#shipping_status_tpl"}
                 ,{field:'pay_status_desc',title:'{{ trans('order.label.pay_status') }}', width:120,templet:"#pay_status_tpl"}
                 ,{field:'tracking_number',title:'{{ trans('order.label.tracking_number') }}', templet: '<div>@{{#  if(d.tracking_number){ }}<a href="/tracking_number/@{{d.tracking_number}}" target="_blank" class="layui-table-link">@{{d.tracking_number}}</a>@{{#  } else { }}  @{{#  } }} </div>',width:150}
                 ,{field:'payment_sn',title:'{{ trans('order.label.payment_sn') }}', templet: '<div>@{{#  if(d.payment_sn){ }}<a href="/payment_sn/@{{d.payment_sn}}" target="_blank" class="layui-table-link">@{{d.payment_sn}}</a>@{{#  } else { }}  @{{#  } }} </div>', width:180}
+                ,{field:'paid_total',title:'{{ trans('order.label.paid_total') }}', width:120,edit:'text', totalRow: true,toFixed:3}
                 ,{field:'remark',title:'{{ trans('app.remark') }}',edit:'text', width:120}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:280, align: 'right',toolbar:'#barDemo', fixed: 'right'}
