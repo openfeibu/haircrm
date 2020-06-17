@@ -68,7 +68,7 @@
                             <select name="area_code" lay-filter="checkBox">
                                 @inject('freight_area','App\Models\FreightArea')
                                 @foreach($freight_area->orderBy('order','asc')->orderBy('code','asc')->get() as $key => $freight_area)
-                                    <option value="{{ $freight_area->code }}" @if($freight_area->code == $customer->area_code) select @endif>{{ $freight_area->name }}</option>
+                                    <option value="{{ $freight_area->code }}" @if($freight_area->code == $customer->area_code) selected @endif>{{ $freight_area->name }}</option>
                                 @endforeach
                             </select>
                         </div>
