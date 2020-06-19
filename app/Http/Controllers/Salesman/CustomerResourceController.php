@@ -165,7 +165,7 @@ class CustomerResourceController extends BaseController
     }
     public function getCustomer(Request $request)
     {
-        $customer = $this->repository->find($request->id,['address']);
+        $customer = $this->repository->find($request->id,['address','area_code']);
         return $this->response
             ->success()
             ->data($customer->toArray())
