@@ -99,7 +99,7 @@
                             <div class="fb-form-item-box fb-clearfix">
                                 <div class="layui-input-block">
                                     @inject('customerRepository','App\Repositories\Eloquent\CustomerRepository')
-                                    <select name="customer_id" id="customer_id" lay-filter="customer" >
+                                    <select name="customer_id" id="customer_id" lay-filter="customer" lay-search>
                                         <option value="">请选择客户</option>
                                         @foreach($customerRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $customer)
                                             <option value="{{ $customer->id }}">{{ $customer->name }}</option>
