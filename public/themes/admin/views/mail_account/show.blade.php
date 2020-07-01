@@ -3,24 +3,25 @@
         <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
             <a href="{{ guard_url('home') }}">{{ trans('app.home') }}</a><span lay-separator="">/</span>
             <a href="{{ route('mail_account.index') }}"><cite>{{ trans('mail_account.title') }}</cite></a><span lay-separator="">/</span>
-            <a><cite>{{ trans('app.add') }}{{ trans('mail_account.name') }}</cite></a>
+            <a><cite>{{ trans('app.edit') }}{{ trans('mail_account.name') }}</cite></a>
         </div>
     </div>
     <div class="main_full">
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
             <div class="fb-main-table">
-                <form class="layui-form" action="{{guard_url('mail_account')}}" method="post" lay-filter="fb-form">
+                <form class="layui-form" action="{{guard_url('mail_account/'.$mail_account->id)}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('mail_account.label.host') }} *</label>
 
                         <div class="layui-input-block">
                             <select name="host" lay-filter="checkBox">
                                 @foreach(trans('mail_account.host') as $key => $host)
-                                    <option value="{{ $host }}">{{ $host }}</option>
+                                    <option value="{{ $host }}" @if($host == $mail_account->host) selected @endif>{{ $host }}</option>
                                 @endforeach
                             </select>
                         </div>
+
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
@@ -29,7 +30,7 @@
                         <div class="layui-input-block">
                             <select name="port" lay-filter="checkBox">
                                 @foreach(trans('mail_account.port') as $key => $port)
-                                    <option value="{{ $port }}">{{ $port }}</option>
+                                    <option value="{{ $port }}" @if($port == $mail_account->port) selected @endif>{{ $port }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -74,7 +75,7 @@
                         <div class="layui-input-block">
                             <select name="encryption" lay-filter="checkBox">
                                 @foreach(trans('mail_account.encryption') as $key => $encryption)
-                                    <option value="{{ $encryption }}">{{ $encryption }}</option>
+                                    <option value="{{ $encryption }}" @if($encryption == $mail_account->encryption) selected @endif>{{ $encryption }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -101,6 +102,7 @@
                             <button class="layui-btn layui-btn-submit" lay-submit="" lay-filter="demo1">立即提交</button>
                         </div>
                     </div>
+                    <input type="hidden" name="_method" value="PUT">
                     {!!Form::token()!!}
                 </form>
             </div>

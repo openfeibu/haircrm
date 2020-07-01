@@ -119,4 +119,10 @@ return [
     'freight' => '$运费',
     'paypal_fee' => '$PayPal',
     'remark' => '备注',
+    'submit' => '提交',
+
+    'yes_no' => [
+        '0' => '否',
+        '1' => '是'
+    ],
 ];

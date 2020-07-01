@@ -7,6 +7,7 @@ use App\Models\Goods;
 use App\Models\GoodsAttributeValue;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\GoodsRepository;
+use App\Services\MailScheduleService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use Log,Mail;
@@ -15,12 +16,15 @@ class HomeController extends BaseController
 {
     public function __construct(
         CategoryRepository $categoryRepository,
-        GoodsRepository $goodsRepository
+        GoodsRepository $goodsRepository,
+        MailScheduleService $mailScheduleService
+
     )
     {
         parent::__construct();
         $this->categoryRepository = $categoryRepository;
         $this->goodsRepository = $goodsRepository;
+        $this->mailScheduleService = $mailScheduleService;
     }
     public function trackingNumber(Request $request,$tracking_number)
     {
@@ -32,13 +36,24 @@ class HomeController extends BaseController
     }
     public function test()
     {
+        $result = $this->mailScheduleService->send();
+        var_dump($result);
+        exit;
         $email = '1270864834@qq.com';
-        $send = Mail::send('email', ['email' => $email,'name' => '吴志杰'], function($message) use($email) {
+        $html = "<div class='1'>您好，请明天九点前过来上班</div>";
+        $send = Mail::html($html, function($message) use($email) {
             $message->from(config('mail.from')['address'],config('mail.from')['name']);
             $message->subject('['.config('app.name').'] 邀请好友');
             $message->to($email);
         });
+        /*$send = Mail::send('email', ['email' => $email,'name' => '吴志杰'], function($message) use($email) {
+            $message->from(config('mail.from')['address'],config('mail.from')['name']);
+            $message->subject('['.config('app.name').'] 邀请好友');
+            $message->to($email);
+        });
+        */
         var_dump($send);exit;
+
     }
     public function addGoods()
     {

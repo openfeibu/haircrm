@@ -21,16 +21,37 @@ class NewCustomerResourceController extends BaseController
         parent::__construct();
         $this->repository = $new_customer;
         $this->salesmanRepository= $salesmanRepository;
-        $this->repository
-            ->pushCriteria(\App\Repositories\Criteria\RequestCriteria::class);
+        $this->repository;
     }
     public function index(Request $request)
     {
         $limit = $request->input('limit',config('app.limit'));
+        $search = $request->input('search',[]);
         if ($this->response->typeIs('json')) {
-            $new_customers = $this->repository
-                ->orderBy('id','desc')
-                ->paginate($limit);
+            $new_customers = app(NewCustomer::class);
+            $new_customers = $new_customers->when($search,function ($query) use ($search){
+                foreach($search as $field => $value)
+                {
+                    if($value)
+                    {
+                        if($field == 'salesman_id')
+                        {
+                            return $query->where('salesman_id',$value);
+                        }else if($field == 'email_not_null')
+                        {
+                            if($value == 1)
+                            {
+                                return $query->whereNotNull('email')->where('email','<>','');
+                            }
+                        }else{
+                            return $query->where($field,'like','%'.$value.'%');
+                        }
+
+                    }
+                }
+            });
+
+            $new_customers = $new_customers->orderBy('id','desc')->paginate($limit);
 
             return $this->response
                 ->success()
@@ -281,5 +302,49 @@ class NewCustomerResourceController extends BaseController
         $name = '收集客户信息表'.date('YmdHis').'.xlsx';
         $search = $request->input('search',[]);
         return Excel::download(new NewCustomerExport($ids,$search), $name);
+    }
+    public function mailCount(Request $request)
+    {
+        $data = $request->all();
+        $ids = $data['ids'] ?? [];
+        $search = $request->input('search',[]);
+        $new_customers = app(NewCustomer::class)
+            ->when($ids ,function ($query) use ($ids){
+                return $query->whereIn('id',$ids);
+            })->when($search,function ($query) use ($search){
+
+                foreach($search as $field => $value)
+                {
+                    if($value)
+                    {
+                        if($field == 'salesman_id')
+                        {
+                            return $query->where('salesman_id',$value);
+                        }else{
+                            return $query->where($field,'like','%'.$value.'%');
+                        }
+                    }
+                }
+            })
+            ->whereNotNull('email')
+            ->where('email','<>','')
+            ->orderBy('id','desc')->get(['email']);
+
+        $count = $new_customers->count();
+
+        if($count <= 0)
+        {
+            return $this->response->message("未发现任何可发送的邮箱")
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('mail_schedule'))
+                ->redirect();
+        }
+        return $this->response
+            ->status("success")
+            ->data([
+                'count' => $count,
+            ])
+            ->redirect();
     }
 }

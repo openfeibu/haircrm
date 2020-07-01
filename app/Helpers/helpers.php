@@ -908,7 +908,22 @@ if (!function_exists('get_freight')) {
         return $first_freight + $continued_freight;
     }
 }
-function get_freight_category_id($last_freight_category_id,$freight_category_id)
-{
 
+if (!function_exists('get_admin_model')) {
+    function get_admin_model($admin)
+    {
+        switch ($admin)
+        {
+            case $admin instanceof \App\Models\Salesman:
+                return 'App\Models\Salesman';
+            case $admin instanceof \App\Models\AdminUser:
+                return 'App\Models\AdminUser';
+        }
+    }
+}
+if (!function_exists('get_admin_models')) {
+    function get_admin_models()
+    {
+        return ['App\Models\Salesman','App\Models\AdminUser'];
+    }
 }

@@ -78,7 +78,6 @@ abstract class Response
             'status' => $this->getStatus(),
             'code' => $this->getCode(),
             'data' => $this->getData(),
-
             'count' => $this->getCount(),
             'url'     => $this->getUrl(),
         ];
@@ -144,6 +143,16 @@ abstract class Response
             ->withCode($this->getCode());
     }
 
+    public function back()
+    {
+        if ($this->typeIs('json') || $this->typeIs('ajax')) {
+            return $this->json();
+        }
+        return back()
+            ->withMessage($this->getMessage())
+            ->withStatus($this->getStatus())
+            ->withCode($this->getCode());
+    }
     /**
      * Return the output for the current response.
      *

@@ -9,17 +9,11 @@ use App\Traits\Filer\Filer;
 use App\Traits\Hashids\Hashids;
 use App\Traits\Trans\Translatable;
 
-class NewCustomer extends BaseModel
+class MailTemplate extends BaseModel
 {
     use Filer, Hashids, Slugger, Translatable, LogsActivity;
 
-    protected $config = 'model.customer.new_customer';
+    protected $config = 'model.mail.mail_template';
 
-    public $appends = ['mark_desc'];
-
-    public function getMarkDescAttribute()
-    {
-        return isset($this->attributes['mark']) ? trans('new_customer.mark.'.$this->attributes['mark']) : '';
-    }
 
 }
