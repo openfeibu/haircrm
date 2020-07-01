@@ -86,13 +86,19 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">{{ trans('mail_schedule.label.interval') }}</label>
+            <label class="layui-form-label">{{ trans('mail_schedule.label.title') }} *</label>
+            <div class="layui-input-inline">
+                <input type="text" name="title" autocomplete="off" placeholder="请输入 {{ trans('mail_schedule.label.title') }}" class="layui-input" value="{{ config('model.mail.mail_schedule.title') }}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">{{ trans('mail_schedule.label.interval') }} *</label>
             <div class="layui-input-inline">
                 <input type="text" name="interval" autocomplete="off" placeholder="请输入 {{ trans('mail_schedule.label.interval') }}" class="layui-input" value="{{ config('model.mail.mail_schedule.interval') }}">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">{{ trans('mail_schedule.label.per_hour_mail') }}</label>
+            <label class="layui-form-label">{{ trans('mail_schedule.label.per_hour_mail') }} *</label>
             <div class="layui-input-inline">
                 <input type="text" name="per_hour_mail" autocomplete="off" placeholder="请输入 {{ trans('mail_schedule.label.per_hour_mail') }}" class="layui-input" value="{{ config('model.mail.mail_schedule.interval') }}">
             </div>
@@ -263,6 +269,7 @@
                                 ajax_data['template_ids'] = template_ids;
                                 ajax_data['interval'] = $('input[name=interval]').val();
                                 ajax_data['per_hour_mail'] = $('input[name=per_hour_mail]').val();
+                                ajax_data['title'] = $('input[name=title]').val();
                                 var load =layer.load();
                                 $.ajax({
                                     url : "{{ guard_url('mail_schedule/send/new_customer') }}",
@@ -271,7 +278,7 @@
                                     success : function (data) {
                                         layer.close(load);
                                         if(data.code == 0) {
-                                           // window.location.href=data.url;
+                                            window.location.href=data.url;
                                         }else{
                                             layer.msg(data.message);
                                         }

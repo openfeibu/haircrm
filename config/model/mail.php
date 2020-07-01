@@ -20,7 +20,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['admin_id','admin_model','interval','per_hour_mail','mail_count','send_count','success_count','failed_count','active','last_at','created_at','updated_at'],
+        'fillable'     => ['admin_id','admin_model','title','interval','per_hour_mail','mail_count','send_count','success_count','failed_count','active','last_at','created_at','updated_at'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],

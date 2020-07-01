@@ -47,6 +47,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80,sort:true}
+                ,{field:'title',title:'{{ trans('mail_schedule.label.title') }}',edit:'text'}
                 ,{field:'interval',title:'{{ trans('mail_schedule.label.interval') }}'}
                 ,{field:'per_hour_mail',title:'{{ trans('mail_schedule.label.per_hour_mail') }}'}
                 ,{field:'mail_count',title:'{{ trans('mail_schedule.label.mail_count') }}'}
