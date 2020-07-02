@@ -29,7 +29,7 @@ return [
         'search'        => [
         ],
         'interval' => 120,
-        'per_hour_mail' => 60
+        'per_hour_mail' => 30
     ],
     'mail_schedule_report'     => [
         'model'        => 'App\Models\MailScheduleReport',
