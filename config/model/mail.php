@@ -28,7 +28,7 @@ return [
         'perPage'      => '20',
         'search'        => [
         ],
-        'interval' => 60,
+        'interval' => 120,
         'per_hour_mail' => 60
     ],
     'mail_schedule_report'     => [
