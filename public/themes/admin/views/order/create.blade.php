@@ -42,7 +42,7 @@
                             <th lay-data="{field:'attribute_value'}" class="attribute_name">属性</th>
                             <th lay-data="{field:'purchase_price', edit: 'text'}">{{ trans('goods.label.purchase_price') }}</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
-                            <th lay-data="{field:'weight'}">{{ trans('order.label.weight') }}</th>
+                            <th lay-data="{field:'weight', edit: 'text'}">{{ trans('order.label.weight') }}</th>
                             <th lay-data="{field:'number', edit: 'text'}">数量</th>
                             <th lay-data="{field:'remark', edit: 'text'}">{{ trans('app.remark') }}</th>
                             <th lay-data="{field:'score',title:'{{ trans('app.actions') }}', width:120, align: 'right',toolbar:'#barDemo'}">操作</th>

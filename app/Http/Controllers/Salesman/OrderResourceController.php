@@ -203,6 +203,7 @@ class OrderResourceController extends BaseController
                         'selling_price' => $cart['selling_price'],
                         'number' => $cart['number'],
                         'remark' => $cart['remark'] ?? '',
+                        'weight' => $cart['weight'],
                     ];
                     $this->orderGoodsRepository->update($data, $cart['id']);
                 }

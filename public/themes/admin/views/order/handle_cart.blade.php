@@ -23,6 +23,9 @@
                 case 'purchase_price':
                     handle_number();
                     break;
+                case 'weight':
+                    handle_number();
+                    break;
                 default:
 
             }
