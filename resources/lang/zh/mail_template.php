@@ -14,6 +14,7 @@ return [
     'names'       => '邮箱模板',
     'title' => '邮箱模板管理',
     'label'       => [
+        'admin_name' => '创建者',
         'name'   => '名称',
         'subject' => '主题',
         'content' => '内容',

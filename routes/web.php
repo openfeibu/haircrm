@@ -154,6 +154,7 @@ Route::group([
     Route::post('/new_customer/destroyAll', 'NewCustomerResourceController@destroyAll')->name('new_customer.destroy_all');
     Route::get('new_customer_import', 'NewCustomerResourceController@import')->name('new_customer.import');
     Route::post('/new_customer_import/submit', 'NewCustomerResourceController@submitImport')->name('new_customer.submit_import');
+    Route::get('new_customer/mail/count', 'NewCustomerResourceController@mailCount')->name('new_customer.mail.count');
 
     Route::resource('order', 'OrderResourceController');
     Route::post('/order/destroyAll', 'OrderResourceController@destroyAll')->name('order.destroy_all');
@@ -167,6 +168,12 @@ Route::group([
     Route::get('/order_download/quotation_list', 'OrderResourceController@downloadQuotationList')->name('order.download_quotation_list');
     Route::get('/category_goods','GoodsResourceController@categoryGoods')->name('goods.category_goods');
     Route::get('locked', 'UserController@locked');
+
+    Route::resource('mail_account', 'MailAccountResourceController');
+    Route::resource('mail_template', 'MailTemplateResourceController');
+    Route::resource('mail_schedule', 'MailScheduleResourceController');
+    Route::post('mail_schedule/send/new_customer', 'MailScheduleResourceController@sendNewCustomer')->name('mail.send.new_customer');
+    Route::resource('mail_schedule_report', 'MailScheduleReportResourceController');
 });
 /*
 Route::group([

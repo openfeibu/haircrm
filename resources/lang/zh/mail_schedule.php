@@ -14,6 +14,7 @@ return [
     'names'       => '邮箱计划',
     'title' => '邮箱计划管理',
     'label'       => [
+        'admin_name' => '创建者',
         'title' => '标题',
         'interval'   => '间隔（秒）',
         'per_hour_mail'       => '每小时最多几封邮件',
