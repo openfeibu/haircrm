@@ -121,14 +121,14 @@
                 freight +=  get_freight(i, parseFloat(val).toFixed(3));
             })
             */
-            var weight = parseFloat(tableData[i].weight).toFixed(3);
+            weight = weight.toFixed(3);
             freight =  freight_category_id ? get_freight(freight_category_id,weight) : 0;
             //运费四舍五入
             //freight = Math.round(freight);
 
             paypal_fee = parseInt(((selling_price + freight) * parseFloat("{{ setting('paypal_fee') }}")) * 100)/100;
             total = parseFloat(selling_price) + parseFloat(freight) + parseFloat(paypal_fee);
-            $("#weight").text(weight.toFixed(3));
+            $("#weight").text(weight);
             $("#selling_price").text(selling_price);
             $("#purchase_price").text(purchase_price);
             $("#freight").text(freight);
