@@ -18,7 +18,7 @@
                             <th lay-data="{field:'goods_name',width:280}">商品名称</th>
                             <th lay-data="{field:'attribute_value'}">尺寸</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
-                            <th lay-data="{field:'weight'}">{{ trans('order.label.weight') }}</th>
+                            <th lay-data="{field:'weight', edit: 'text}">{{ trans('order.label.weight') }}</th>
                             <th lay-data="{field:'number', edit: 'text'}">数量</th>
                             <th lay-data="{field:'remark', edit: 'text'}">{{ trans('app.remark') }}</th>
                             <th lay-data="{field:'freight_category_id',  hide:true}">freight_category_id</th>
