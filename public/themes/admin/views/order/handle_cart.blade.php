@@ -121,6 +121,7 @@
                 freight +=  get_freight(i, parseFloat(val).toFixed(3));
             })
             */
+            var weight = parseFloat(tableData[i].weight).toFixed(3);
             freight =  freight_category_id ? get_freight(freight_category_id,weight) : 0;
             //运费四舍五入
             //freight = Math.round(freight);
@@ -141,7 +142,7 @@
             {
                 return 0;
             }
-
+console.log(goods_weight);
             var first_freight =  parseInt(freight_config[freight_category_id][freight_area_code]['first_freight']);
             var continued_freight =  parseInt(freight_config[freight_category_id][freight_area_code]['continued_freight']);
 

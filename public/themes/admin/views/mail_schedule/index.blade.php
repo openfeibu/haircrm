@@ -47,6 +47,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80,sort:true}
+                ,{field:'admin_name',title:'{{ trans('mail_schedule.label.admin_name') }}'}
                 ,{field:'title',title:'{{ trans('mail_schedule.label.title') }}',edit:'text'}
                 ,{field:'interval',title:'{{ trans('mail_schedule.label.interval') }}'}
                 ,{field:'per_hour_mail',title:'{{ trans('mail_schedule.label.per_hour_mail') }}'}
@@ -57,6 +58,8 @@
                 ,{field:'last_at',title:'{{ trans('mail_schedule.label.last_at') }}', width:180}
                 ,{field:'status_desc',title:'{{ trans('mail_schedule.label.status') }}'}
                 ,{field:'active',title:'{{ trans('mail_template.label.active') }}',templet:'#activeTpl'}
+                ,{field:'account_usernames',title:'{{ trans('mail_account.name') }}'}
+                ,{field:'template_names',title:'{{ trans('mail_template.name') }}'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'

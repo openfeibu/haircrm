@@ -100,7 +100,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">{{ trans('mail_schedule.label.per_hour_mail') }} *</label>
             <div class="layui-input-inline">
-                <input type="text" name="per_hour_mail" autocomplete="off" placeholder="请输入 {{ trans('mail_schedule.label.per_hour_mail') }}" class="layui-input" value="{{ config('model.mail.mail_schedule.interval') }}">
+                <input type="text" name="per_hour_mail" autocomplete="off" placeholder="请输入 {{ trans('mail_schedule.label.per_hour_mail') }}" class="layui-input" value="{{ config('model.mail.mail_schedule.per_hour_mail') }}">
             </div>
         </div>
         <div class="layui-form-item fb-form-item2">
@@ -170,7 +170,6 @@
     layui.use(['jquery','element','table'], function() {
         var $ = layui.$;
         var table = layui.table;
-        var form = layui.form;
         var element = layui.element;
         active.download = function () {
             var checkStatus = table.checkStatus('fb-table')

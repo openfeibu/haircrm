@@ -3,28 +3,14 @@
         <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
             <a href="{{ guard_url('home') }}">{{ trans('app.home') }}</a><span lay-separator="">/</span>
             <a href="{{ route('mail_template.index') }}"><cite>{{ trans('mail_template.title') }}</cite></a><span lay-separator="">/</span>
-            <a><cite>{{ trans('app.edit') }}{{ trans('mail_template.name') }}</cite></a>
+            <a><cite>{{ trans('app.add') }}{{ trans('mail_template.name') }}</cite></a>
         </div>
     </div>
     <div class="main_full">
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
             <div class="fb-main-table">
-                <form class="layui-form" action="{{guard_url('mail_template/'.$mail_template->id)}}" method="post" lay-filter="fb-form">
-                    <div class="layui-form-item fb-form-item">
-                        <label class="layui-form-label">业务员 </label>
-
-                        <div class="layui-input-block">
-                            @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
-                            <select name="salesman_id" id="salesman_id" lay-filter="" lay-search>
-                                <option value="">请选择业务员(不选默认超管所有)</option>
-                                @foreach($salesmanRepository->where('active',1)->orderBy('order','asc')->orderBy('id','desc')->get() as $key => $salesman)
-                                    <option value="{{ $salesman->id }}" @if($salesman->id == $mail_template->salesman_id) selected @endif>{{ $salesman->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                    </div>
+                <form class="layui-form" action="{{guard_url('mail_template')}}" method="post" lay-filter="fb-form">
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('mail_template.label.name') }} *</label>
 
@@ -45,7 +31,6 @@
                         <label class="layui-form-label">{{ trans('mail_template.label.content') }} *</label>
                         <div class="layui-input-block">
                             <script type="text/plain" id="content" name="content" style="width:1000px;height:240px;">
-                                {!! $mail_template->content !!}
                             </script>
                         </div>
                     </div>
@@ -64,7 +49,6 @@
                             <button class="layui-btn layui-btn-submit" lay-submit="" lay-filter="demo1">立即提交</button>
                         </div>
                     </div>
-                    <input type="hidden" name="_method" value="PUT">
                     {!!Form::token()!!}
                 </form>
             </div>

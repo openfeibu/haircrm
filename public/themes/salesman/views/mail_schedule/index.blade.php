@@ -2,7 +2,7 @@
     <div class="layui-card fb-minNav">
         <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
             <a href="{{ guard_url('home') }}">{{ trans('app.home') }}</a><span lay-separator="">/</span>
-            <a href="{{ guard_url('mail_template') }}"><cite>{{ trans('mail_template.title') }}</cite></a>
+            <a href="{{ guard_url('mail_schedule') }}"><cite>{{ trans('mail_schedule.title') }}</cite></a>
         </div>
     </div>
     <div class="main_full">
@@ -12,7 +12,6 @@
                 <form class="layui-form" action="" lay-filter="fb-form">
                     <div class="layui-block mb10">
                         <div class="layui-inline tabel-btn">
-                            <button class="layui-btn layui-btn-warm " type="button"><a href="{{ guard_url('mail_template/create') }}">{{ trans('app.add') }} {{ trans('mail_template.name') }}</a></button>
                             <button class="layui-btn layui-btn-danger " type="button" data-type="del" data-events="del">{{ trans('app.delete') }}</button>
                         </div>
                     </div>
@@ -26,7 +25,7 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-sm" href="{{ guard_url('mail_template') }}/@{{ d.id }}">{{ trans('app.edit') }}</a>
+    <a class="layui-btn layui-btn-sm" href="{{ guard_url('mail_schedule') }}/@{{ d.id }}">{{ trans('mail_schedule_report.name') }}</a>
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>
 
@@ -35,8 +34,8 @@
 </script>
 
 <script>
-    var main_url = "{{guard_url('mail_template')}}";
-    var delete_all_url = "{{guard_url('mail_template/destroyAll')}}";
+    var main_url = "{{guard_url('mail_schedule')}}";
+    var delete_all_url = "{{guard_url('mail_schedule/destroyAll')}}";
     layui.use(['jquery','element','table'], function(){
         var $ = layui.$;
         var table = layui.table;
@@ -44,14 +43,22 @@
         var element = layui.element;
         table.render({
             elem: '#fb-table'
-            ,url: '{{guard_url('mail_template')}}'
+            ,url: '{{guard_url('mail_schedule')}}'
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80,sort:true}
-                ,{field:'admin_name',title:'{{ trans('mail_template.label.admin_name') }}'}
-                ,{field:'name',title:'{{ trans('mail_template.label.name') }}'}
-                ,{field:'subject',title:'{{ trans('mail_template.label.subject') }}'}
+                ,{field:'title',title:'{{ trans('mail_schedule.label.title') }}',edit:'text'}
+                ,{field:'interval',title:'{{ trans('mail_schedule.label.interval') }}'}
+                ,{field:'per_hour_mail',title:'{{ trans('mail_schedule.label.per_hour_mail') }}'}
+                ,{field:'mail_count',title:'{{ trans('mail_schedule.label.mail_count') }}'}
+                ,{field:'send_count',title:'{{ trans('mail_schedule.label.send_count') }}'}
+                ,{field:'success_count',title:'{{ trans('mail_schedule.label.success_count') }}'}
+                ,{field:'failed_count',title:'{{ trans('mail_schedule.label.failed_count') }}'}
+                ,{field:'last_at',title:'{{ trans('mail_schedule.label.last_at') }}', width:180}
+                ,{field:'status_desc',title:'{{ trans('mail_schedule.label.status') }}'}
                 ,{field:'active',title:'{{ trans('mail_template.label.active') }}',templet:'#activeTpl'}
+                ,{field:'account_usernames',title:'{{ trans('mail_account.name') }}'}
+                ,{field:'template_names',title:'{{ trans('mail_template.name') }}'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'

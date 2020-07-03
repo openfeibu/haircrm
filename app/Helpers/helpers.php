@@ -921,6 +921,38 @@ if (!function_exists('get_admin_model')) {
         }
     }
 }
+if (!function_exists('get_admin_role')) {
+    function get_admin_role_name($admin)
+    {
+        switch ($admin)
+        {
+            case "App\\Models\\Salesman":
+                return '业务员';
+            case "App\\Models\\AdminUser":
+                return '超管';
+        }
+    }
+}
+if (!function_exists('get_admin_table_model')) {
+    function get_admin_table_model($admin)
+    {
+        switch ($admin)
+        {
+            case "App\\Models\\Salesman":
+                return \App\Models\Salesman::class;
+            case "App\\Models\\AdminUser":
+                return \App\Models\AdminUser::class;
+        }
+    }
+}
+function get_admin_detail($admin_model,$admin_id)
+{
+    $role_name = get_admin_role_name($admin_model);
+    $admin_table_model = get_admin_table_model($admin_model);
+    $admin_name = $admin_table_model::where('id',$admin_id)->value('name');
+    $admin_name = isset($admin_name) && $admin_name ? $admin_name : '不存在';
+    return '('.$role_name.')'.$admin_name;
+}
 if (!function_exists('get_admin_models')) {
     function get_admin_models()
     {

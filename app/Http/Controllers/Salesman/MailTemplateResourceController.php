@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Salesman;
 
-use App\Http\Controllers\Admin\ResourceController as BaseController;
+use App\Http\Controllers\Salesman\ResourceController as BaseController;
 use App\Models\MailTemplate;
 use App\Repositories\Eloquent\MailTemplateRepository;
 use Illuminate\Http\Request;
@@ -24,6 +24,7 @@ class MailTemplateResourceController extends BaseController
         $limit = $request->input('limit',config('app.limit'));
         if ($this->response->typeIs('json')) {
             $mail_templates = $this->repository
+                ->where('salesman_id',Auth::user()->id)
                 ->orderBy('id','desc')
                 ->paginate($limit);
             foreach ($mail_templates as $key => $mail_template)
@@ -55,6 +56,7 @@ class MailTemplateResourceController extends BaseController
             $attributes = $request->all();
             $attributes['admin_id'] = Auth::user()->id;
             $attributes['admin_model'] = get_admin_model(Auth::user());
+            $attributes['salesman_id'] = Auth::user()->id;
 
             if(isset($attributes['active']) && $attributes['active'])
             {

@@ -11,6 +11,20 @@
         <div class="layui-col-md12">
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('mail_account')}}" method="post" lay-filter="fb-form">
+                    <div class="layui-form-item fb-form-item">
+                        <label class="layui-form-label">业务员 </label>
+
+                        <div class="layui-input-block">
+                            @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
+                            <select name="salesman_id" id="salesman_id" lay-filter="" lay-search>
+                                <option value="">请选择业务员(不选默认超管所有)</option>
+                                @foreach($salesmanRepository->where('active',1)->orderBy('order','asc')->orderBy('id','desc')->get() as $key => $salesman)
+                                    <option value="{{ $salesman->id }}" @if($salesman->id == $mail_account->salesman_id) selected @endif>{{ $salesman->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('mail_account.label.host') }} *</label>
 
@@ -39,7 +53,7 @@
                         <label class="layui-form-label">{{ trans('mail_account.label.username') }} *</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入{{ trans('mail_account.label.username') }}" class="layui-input" value="{{ $mail_account->username }}">
+                            <input type="text" name="username" lay-verify="email" autocomplete="off" placeholder="请输入{{ trans('mail_account.label.username') }}" class="layui-input" value="{{ $mail_account->username }}">
                         </div>
 
                     </div>
@@ -56,7 +70,7 @@
                         <label class="layui-form-label">{{ trans('mail_account.label.from_address') }} *</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="from_address" lay-verify="required" autocomplete="off" placeholder="请输入{{ trans('mail_account.label.from_address') }}" class="layui-input" value="{{ $mail_account->from_address }}">
+                            <input type="text" name="from_address" lay-verify="email" autocomplete="off" placeholder="请输入{{ trans('mail_account.label.from_address') }}" class="layui-input" value="{{ $mail_account->from_address }}" >
                         </div>
                     </div>
 
@@ -64,7 +78,7 @@
                         <label class="layui-form-label">{{ trans('mail_account.label.from_name') }} *</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="from_name" lay-verify="required" autocomplete="off" placeholder="请输入{{ trans('mail_account.label.from_name') }}" class="layui-input" value="{{ $mail_account->from_name }}">
+                            <input type="text" name="from_name" lay-verify="required" autocomplete="off" placeholder="请输入{{ trans('mail_account.label.from_name') }}" class="layui-input" value="{{ config('model.mail.mail_account.from_name') }}">
                         </div>
                     </div>
 

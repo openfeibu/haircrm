@@ -70,7 +70,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['admin_id','admin_model','driver','host','port','from_address','username','password','address','name','from_name','encryption'],
+        'fillable'     => ['admin_id','admin_model','salesman_id','driver','host','port','from_address','username','password','address','name','from_name','encryption'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],
@@ -78,6 +78,7 @@ return [
         'perPage'      => '20',
         'search'        => [
         ],
+        'from_name' => 'Feibu Hair'
     ],
     'mail_schedule_mail_account'     => [
         'model'        => 'App\Models\MailScheduleMailAccount',

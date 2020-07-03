@@ -14,7 +14,7 @@
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">业务员 *</label>
                         <div class="layui-input-block">
-                            <select name="salesman_id" lay-filter="checkBox" lay-verify="required">
+                            <select name="salesman_id" lay-filter="checkBox" lay-verify="required" lay-search>
                                 <option value="">请选择业务员</option>
                                 @foreach($salesmen as $key => $salesman)
                                     <option value="{{ $salesman->id }}" @if($salesman->id == $new_customer->salesman_id) selected @endif>{{ $salesman->name }}</option>

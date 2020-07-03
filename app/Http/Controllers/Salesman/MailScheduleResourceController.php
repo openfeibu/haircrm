@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Salesman;
 
-use App\Http\Controllers\Admin\ResourceController as BaseController;
+use App\Http\Controllers\Salesman\ResourceController as BaseController;
 use App\Models\MailSchedule;
 use App\Models\MailScheduleReport;
 use App\Models\NewCustomer;
@@ -26,6 +26,8 @@ class MailScheduleResourceController extends BaseController
         $limit = $request->input('limit',config('app.limit'));
         if ($this->response->typeIs('json')) {
             $mail_schedules = $this->repository
+                ->where('admin_model',get_admin_model(Auth::user()))
+                ->where('admin_id',Auth::user()->id)
                 ->orderBy('id','desc')
                 ->paginate($limit);
             foreach ($mail_schedules as $key => $mail_schedule)

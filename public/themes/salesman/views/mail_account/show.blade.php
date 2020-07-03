@@ -11,21 +11,6 @@
         <div class="layui-col-md12">
             <div class="fb-main-table">
                 <form class="layui-form" action="{{guard_url('mail_account/'.$mail_account->id)}}" method="post" lay-filter="fb-form">
-                    <div class="layui-form-item fb-form-item">
-                        <label class="layui-form-label">分配业务员 </label>
-
-                        <div class="layui-input-block">
-                            @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
-                            <select name="salesman_id" id="salesman_id" lay-filter="" lay-search>
-                                <option value="">请选择业务员(不选默认超管所有)</option>
-                                @foreach($salesmanRepository->where('active',1)->orderBy('order','asc')->orderBy('id','desc')->get() as $key => $salesman)
-                                    <option value="{{ $salesman->id }}" @if($salesman->id == $mail_account->salesman_id) selected @endif>{{ $salesman->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-
-                    </div>
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('mail_account.label.host') }} *</label>
 
