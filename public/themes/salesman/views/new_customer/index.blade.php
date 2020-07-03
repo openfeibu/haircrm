@@ -41,7 +41,7 @@
                             <label class="layui-form-label">过滤空邮箱</label>
                             <input type="checkbox" class="search_key" name="email_not_null" placeholder="过滤空邮箱" lay-skin="switch" lay-text="ON|OFF" value="0" lay-filter="email_not_null">
                         </div>
-                        <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
+                        <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
                     </div>
                 </form>
             </div>
