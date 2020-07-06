@@ -84,15 +84,9 @@
                     </div>
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">客户来源</label>
-
                         <div class="layui-input-block">
-                            <select name="from" lay-filter="checkBox">
-                                @foreach(config('model.customer.customer.from') as $key => $from)
-                                <option value="{{ $key }}" @if($key == $customer->from) selected @endif>{{ $from }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" name="from" autocomplete="off" placeholder="请输入客户来源" class="layui-input" value="{{ $customer->from }}">
                         </div>
-
                     </div>
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('customer.label.level') }}</label>
