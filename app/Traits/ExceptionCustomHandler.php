@@ -55,6 +55,7 @@ trait ExceptionCustomHandler
                 $responseJson = [
                     'code' => 419,
                     'status' => 'error',
+                    //'url' => url()->previous(),
                     'message' => '页面Token 失效，请重新进入',
                 ];
                 break;

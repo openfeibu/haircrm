@@ -41,7 +41,9 @@
                             <label class="layui-form-label">过滤空邮箱</label>
                             <input type="checkbox" class="search_key" name="email_not_null" placeholder="过滤空邮箱" lay-skin="switch" lay-text="ON|OFF" value="0" lay-filter="email_not_null">
                         </div>
-                        <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                        <div class="layui-inline">
+                            <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -183,7 +185,6 @@
         var table = layui.table;
         var element = layui.element;
         active.send_mail = function () {
-            alert(1);
             var load = layer.load();
             //判断有效邮箱数量
             var checkStatus = table.checkStatus('fb-table')

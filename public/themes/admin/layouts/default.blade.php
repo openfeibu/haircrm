@@ -23,7 +23,7 @@
                 window.location.href = "{{ guard_url('login') }}"
             }else{
                 layer.msg('{{ trans('messages.server_error') }}');
-            }
+            })
         }
     })
 </script>
