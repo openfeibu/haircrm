@@ -761,8 +761,6 @@ if (!function_exists('isVaildExcel')) {
     function isVaildExcel($file)
     {
         $error = '';
-
-
         $name = $file->getClientOriginalName();
         if(!$file->isValid())
         {

@@ -67,7 +67,7 @@ class QuotationListExport implements FromCollection,WithEvents
         $order_goods_data[$i] = [
             [''],
             [''],
-            ['Total P/P of hair','','',$orders_statistics->number,'$'.$orders_statistics->selling_price],
+            ['Total P/P of hair','',$orders_statistics->number,'','$'.$orders_statistics->selling_price],
             ['Shipping fee:','','$'.$orders_statistics->freight,'Paypal fee:','$'.$orders_statistics->paypal_fee],
             ['Total:','','','$'.$orders_statistics->total]
         ];
@@ -104,7 +104,7 @@ class QuotationListExport implements FromCollection,WithEvents
                 $event->sheet->getDelegate()->getStyle('A1:H1')->getFont()->setSize('18');
                 $event->sheet->getDelegate()->getStyle('A2:H2')->getFont()->setSize('14');
                 $event->sheet->getDelegate()->getStyle('A3:H3')->getFont()->setSize('14');
-                $event->sheet->getDelegate()->getStyle('A'.($this->count+3).':C'.($this->count+3))->getFont()->setSize('16');
+                $event->sheet->getDelegate()->getStyle('A'.($this->count+3).':B'.($this->count+3))->getFont()->setSize('16');
                 $event->sheet->getDelegate()->getStyle('A'.($this->count+4).':B'.($this->count+4))->getFont()->setSize('16');
                 $event->sheet->getDelegate()->getStyle('D'.($this->count+4).':D'.($this->count+4))->getFont()->setSize('16');
                 $event->sheet->getDelegate()->getStyle('A'.($this->count+5).':E'.($this->count+5))->getFont()->setSize('16');
@@ -141,7 +141,7 @@ class QuotationListExport implements FromCollection,WithEvents
                 $event->sheet->getDelegate()->mergeCells('A1:E1');
                 $event->sheet->getDelegate()->mergeCells('B2:C2');
                 $event->sheet->getDelegate()->mergeCells('D2:E2');
-                $event->sheet->getDelegate()->mergeCells('A'.($this->count+3).':C'.($this->count+3));
+                $event->sheet->getDelegate()->mergeCells('A'.($this->count+3).':B'.($this->count+3));
                 $event->sheet->getDelegate()->mergeCells('A'.($this->count+4).':B'.($this->count+4));
                 $event->sheet->getDelegate()->mergeCells('A'.($this->count+5).':C'.($this->count+5));
                 $event->sheet->getDelegate()->mergeCells('D'.($this->count+5).':E'.($this->count+5));
