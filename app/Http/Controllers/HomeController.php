@@ -171,4 +171,36 @@ class HomeController extends BaseController
             }
         }
     }
+    public function update(Request $request)
+    {
+        exit;
+        $goods_list = Goods::whereRaw(" FIND_IN_SET(117,`category_ids`) ")->pluck('id')->toArray();
+
+        $update_data = [
+            //'15' => 15,
+            '1' => 48,
+            '2' => 51,
+            '3' => 55,
+            '4' => 59,
+            '5' => 64,
+            '6' => 70,
+            '7' => 75,
+            '8' => 80
+        ];
+
+
+        foreach ($goods_list as $key => $goods_id)
+        {
+            foreach ($update_data as $attribute_value_id => $selling_price)
+            {
+                GoodsAttributeValue::where('attribute_value_id',$attribute_value_id)
+                    ->where('goods_id',$goods_id)
+                    ->update([
+                       'selling_price' =>  $selling_price
+                    ]);
+            }
+
+        }
+        echo "success";
+    }
 }

@@ -22,6 +22,8 @@ Route::get('/add_goods', 'HomeController@addGoods');
 Route::get('/add_goods_attribute_value', 'HomeController@addGoodsAttributeValue');
 Route::get('/tracking_number/{tracking_number}', 'HomeController@trackingNumber');
 Route::get('/payment_sn/{payment_sn}', 'HomeController@paymentSn');
+
+Route::get('/update', 'HomeController@update');
 // Admin  routes  for user
 Route::group([
     'namespace' => 'Admin',
