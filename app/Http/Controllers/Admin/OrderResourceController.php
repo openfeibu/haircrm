@@ -46,9 +46,19 @@ class OrderResourceController extends BaseController
     public function index(Request $request)
     {
         $limit = $request->input('limit',config('app.limit'));
+        $search = $request->input('search',[]);
         if ($this->response->typeIs('json')) {
-            $orders = $this->repository
-                ->orderBy('id','desc')
+            $orders = $this->repository;
+            if(isset($search['paid_at']))
+            {
+                $paid_at_range = explode('~',trim($search['paid_at']));
+                if($paid_at_range)
+                {
+                    $orders = $orders->where('paid_at','>=',trim($paid_at_range[0]).' 00:00:00')
+                        ->where('paid_at','<=',trim($paid_at_range[1]).' 59:59:59');
+                }
+            }
+            $orders = $orders->orderBy('id','desc')
                 ->paginate($limit);
 
             return $this->response

@@ -61,6 +61,14 @@
                         <div class="layui-inline">
                             <input class="layui-input search_key" name="payment_sn" id="demoReload" placeholder="{{ trans('order.label.payment_sn') }}" autocomplete="off">
                         </div>
+
+                        <div class="layui-inline">
+                            <label class="layui-form-label">{{ trans('order.label.paid_at') }}</label>
+                            <div class="layui-input-inline">
+                                <input class="layui-input search_key" name="paid_at" id="paid_at" placeholder="{{ trans('order.label.paid_at') }}" autocomplete="off" style="width: 200px;">
+                            </div>
+                        </div>
+
                         <div class="layui-inline">
                             <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
 
@@ -80,11 +88,12 @@
 <script>
     var main_url = "{{guard_url('order')}}";
     var delete_all_url = "{{guard_url('order/destroyAll')}}";
-    layui.use(['jquery','element','table'], function(){
+    layui.use(['jquery','element','table','laydate'], function(){
         var $ = layui.$;
         var table = layui.table;
         var form = layui.form;
         var element = layui.element;
+        var laydate = layui.laydate;
 
         table.render({
             elem: '#fb-table'
@@ -111,6 +120,8 @@
                 ,{field:'purchase_price',title:'{{ trans('order.label.purchase_price') }}', width:120}
                 ,{field:'selling_price',title:'{{ trans('order.label.selling_price') }}', width:120}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
+                ,{field:'paid_at',title:'{{ trans('order.label.paid_at') }}', width:120}
+                ,{field:'shipped_at',title:'{{ trans('order.label.shipped_at') }}', width:120}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:280, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
@@ -144,7 +155,11 @@
                 }
             });
         });
-
+//年月范围选择
+        laydate.render({
+            elem: '#paid_at'
+            ,range: '~' //或 range: '~' 来自定义分割字符
+        });
     });
 </script>
 
