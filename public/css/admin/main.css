@@ -174,12 +174,6 @@ button.layui-close{
     z-index: 999;
 }
 
-.copy {
-    background: #fff;
-    color: #aaa;
-    position: relative;
-    /*padding: 5px 0px;*/
-}
 
 .level-high .layui-form-selected{
     z-index: 9999;

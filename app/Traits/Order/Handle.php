@@ -40,7 +40,8 @@ trait Handle
                 'pay_status' => 'paid',
                 'payment_id' => $payment->id,
                 'payment_name' => $payment->name,
-                'payment_sn' => $attributes['payment_sn']
+                'payment_sn' => $attributes['payment_sn'],
+                'paid_at' => date('Y-m-d H:i:s'),
             ]);
 
             return $this->response->message(trans('messages.operation.success'))
@@ -71,6 +72,7 @@ trait Handle
             }
             $order->update([
                 'shipping_status' => 'shipped',
+                'shipped_at' => date('Y-m-d H:i:s'),
                 'tracking_number' => $attributes['tracking_number']
             ]);
 
