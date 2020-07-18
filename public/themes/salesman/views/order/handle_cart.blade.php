@@ -23,6 +23,9 @@
                 case 'purchase_price':
                     handle_number();
                     break;
+                case 'weight':
+                    handle_number();
+                    break;
                 default:
 
             }
@@ -88,6 +91,7 @@
             //paypal取整，去小数
             paypal_fee = parseInt(((selling_price + freight) * parseFloat("{{ setting('paypal_fee') }}")) * 100)/100;
             total = parseFloat(selling_price) + parseFloat(freight) + parseFloat(paypal_fee);
+            purchase_price = parseFloat(purchase_price).toFixed(3)
             $("#weight").text(weight.toFixed(3));
             $("#selling_price").text(selling_price);
             $("#freight").text(freight);

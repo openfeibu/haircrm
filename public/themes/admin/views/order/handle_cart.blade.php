@@ -131,6 +131,7 @@
 
             paypal_fee = parseInt(((selling_price + freight) * parseFloat("{{ setting('paypal_fee') }}")) * 100)/100;
             total = parseFloat(selling_price) + parseFloat(freight) + parseFloat(paypal_fee);
+            purchase_price = parseFloat(purchase_price).toFixed(3)
             $("#weight").text(weight);
             $("#selling_price").text(selling_price);
             $("#purchase_price").text(purchase_price);

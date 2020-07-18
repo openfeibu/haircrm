@@ -41,7 +41,7 @@
                             <th lay-data="{field:'goods_name',width:280}">商品名称</th>
                             <th lay-data="{field:'attribute_value'}">属性</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
-                            <th lay-data="{field:'weight', edit: 'text}">{{ trans('order.label.weight') }}</th>
+                            <th lay-data="{field:'weight', edit: 'text'}">{{ trans('order.label.weight') }}</th>
                             <th lay-data="{field:'number', edit: 'text'}">数量</th>
                             <th lay-data="{field:'remark', edit: 'text'}">{{ trans('app.remark') }}</th>
                             <th lay-data="{field:'score',title:'{{ trans('app.actions') }}', width:120, align: 'right',toolbar:'#barDemo'}">操作</th>
