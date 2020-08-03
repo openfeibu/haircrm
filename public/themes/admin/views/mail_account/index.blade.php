@@ -45,6 +45,7 @@
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80,sort:true}
                 ,{field:'admin_name',title:'{{ trans('mail_account.label.admin_name') }}'}
+                ,{field:'salesman_name',title:'{{ trans('salesman.name') }}'}
                 ,{field:'host',title:'{{ trans('mail_account.label.host') }}'}
                 ,{field:'port',title:'{{ trans('mail_account.label.port') }}'}
                 ,{field:'username',title:'{{ trans('mail_account.label.username') }}',edit:'text', width:200}

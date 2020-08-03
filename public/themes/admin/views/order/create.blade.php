@@ -14,7 +14,7 @@
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">选择分类 *</label>
                         <div class="layui-input-inline">
-                            <input type="text" name="category_id" id="category_tree"lay-verify="tree" autocomplete="off" placeholder="请选择分类(加载中)" class="layui-input">
+                            <input type="text" name="category_id" id="category_tree" lay-verify="tree" autocomplete="off" placeholder="请选择分类(加载中)" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item fb-form-item2 " id="goods_attributes" style="display:none;">

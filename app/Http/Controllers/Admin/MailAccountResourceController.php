@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Models\MailAccount;
+use App\Models\Salesman;
 use App\Repositories\Eloquent\MailAccountRepository;
 use Illuminate\Http\Request;
 use Auth;
@@ -29,6 +30,9 @@ class MailAccountResourceController extends BaseController
             foreach ($mail_accounts as $key => $mail_account)
             {
                 $mail_account->admin_name = get_admin_detail($mail_account->admin_model,$mail_account->admin_id);
+
+                $mail_account->salesman_name = $mail_account->salesman_id ? Salesman::where('id',$mail_account->salesman_id)->value('name') : '';
+
             }
             return $this->response
                 ->success()

@@ -44,9 +44,9 @@ class GoodsResourceController extends BaseController
                 {
                     if($field == 'category_id')
                     {
-                        return $query->whereRaw(" FIND_IN_SET ('".$value."',`category_ids`)");
+                        $query->whereRaw(" FIND_IN_SET ('".$value."',`category_ids`)");
                     }else{
-                        return $query->where('goods.'.$field,'like','%'.$value.'%');
+                        $query->where('goods.'.$field,'like','%'.$value.'%');
                     }
                 }
             });

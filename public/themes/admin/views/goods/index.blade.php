@@ -20,7 +20,9 @@
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('goods.label.name') }}" autocomplete="off">
                 </div>
-                <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
+                <div class="layui-inline">
+                    <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
+                </div>
             </div>
 
             <table id="fb-table" class="layui-table"  lay-filter="fb-table">
