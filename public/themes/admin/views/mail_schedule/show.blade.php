@@ -20,6 +20,16 @@
         </div>
     </div>
 </div>
+<script type="text/html" id="emailTpl">
+
+    @{{#  if(d.status == 'failed'){ }}
+    <span style="color:#FF5722">
+    @{{#  } else { }}
+        <span style="">
+    @{{#  } }}
+            @{{ d.email }}
+    </span>
+</script>
 <script>
     var main_url = "{{guard_url('mail_schedule_report')}}";
     var delete_all_url = "{{guard_url('mail_schedule_report/destroyAll')}}";
@@ -34,7 +44,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80,sort:true}
-                ,{field:'email',title:'{{ trans('mail_schedule_report.label.email') }}', width:220}
+                ,{field:'email',title:'{{ trans('mail_schedule_report.label.email') }}', width:220,templet:'#emailTpl'}
                 ,{field:'sent_desc',title:'{{ trans('mail_schedule_report.label.sent') }}', width:100}
                 ,{field:'status_desc',title:'{{ trans('mail_schedule_report.label.status') }}'}
                 ,{field:'mail_account_username',title:'{{ trans('mail_schedule_report.label.mail_account_username') }}'}
