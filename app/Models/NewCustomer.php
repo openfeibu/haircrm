@@ -15,11 +15,31 @@ class NewCustomer extends BaseModel
 
     protected $config = 'model.customer.new_customer';
 
-    public $appends = ['mark_desc'];
+    public $appends = ['mark_desc','mail_report_date'];
 
     public function getMarkDescAttribute()
     {
         return isset($this->attributes['mark']) ? trans('new_customer.mark.'.$this->attributes['mark']) : '';
     }
 
+    public function getMailReportDateAttribute()
+    {
+        if(isset($this->attributes['email']) && $this->attributes['email']) {
+            $report = MailScheduleReport::where('email',$this->attributes['email'])->where('sent',1)->orderBy('id','desc')->first();
+            if($report)
+            {
+                if($report->status =='failed')
+                {
+                    $html = '<span style="color:#FF5722">';
+                }else{
+                    $html = '<span>';
+                }
+                $html .= $report->send_at. $report->mail_return."</span>";
+                return $html;
+            }
+            return '';
+        }else{
+            return '';
+        }
+    }
 }

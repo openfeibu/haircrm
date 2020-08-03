@@ -38,10 +38,10 @@ class NewCustomerResourceController extends BaseController
                         {
                             if($value == 1)
                             {
-                                return $query->whereNotNull('email')->where('email','<>','');
+                                 $query->whereNotNull('email')->where('email','<>','');
                             }
                         }else{
-                            return $query->where($field,'like','%'.$value.'%');
+                             $query->where($field,'like','%'.$value.'%');
                         }
 
                     }
