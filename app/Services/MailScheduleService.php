@@ -104,39 +104,57 @@ class MailScheduleService
         $mailer = new Swift_Mailer($transport);
 
         Mail::setSwiftMailer($mailer);
+        try
+        {
+            if(checkEmail($mail_schedule_report->email))
+            {
+                $send = Mail::html($html, function($message) use($mail_schedule_report,$mail_account,$mail_template) {
+                    $message->from($mail_account->from_address,$mail_account->from_name);
+                    $message->subject($mail_template->subject);
+                    $message->to($mail_schedule_report->email);
+                });
+                $status = 'success';
+                $success_count = $schedule->success_count+1;
+                $error_count = $schedule->error_count;
+            }
+            else{
+                $send = '邮箱错误';
+                $status = 'failed';
+                $success_count = $schedule->success_coun;
+                $error_count = $schedule->error_count + 1;
+            }
+            // 发送后还原
+            Mail::setSwiftMailer($backup);
 
-        $send = Mail::html($html, function($message) use($mail_schedule_report,$mail_account,$mail_template) {
-            $message->from($mail_account->from_address,$mail_account->from_name);
-            $message->subject($mail_template->subject);
-            $message->to($mail_schedule_report->email);
-        });
+            $send_at = date('Y-m-d H:i:s');
+            MailScheduleReport::where('id',$mail_schedule_report->id)->update([
+                'mail_template_id' => $mail_template->id,
+                'mail_account_id' => $mail_account->id,
+                'mail_template_name' => $mail_template->name,
+                'mail_account_username' => $mail_account->username,
+                'status' => $status,
+                'sent' => 1,
+                'mail_return' => $send,
+                'send_at' => $send_at
+            ]);
 
-        // 发送后还原
-        Mail::setSwiftMailer($backup);
+            MailScheduleMailAccount::where('mail_schedule_id',$schedule->id)->where('mail_account_id',$mail_account_id)->increment('send_count');
+            MailScheduleMailTemplate::where('mail_schedule_id',$schedule->id)->where('mail_template_id',$mail_template_id)->increment('send_count');
+            $send_count = $schedule->send_count+1;
+            $status = $send_count == $schedule->mail_count ? 'complete' : $schedule->status;
+            MailSchedule::where('id',$schedule->id)->update([
+                'last_at' => $send_at,
+                'send_count' => $send_count,
+                'success_count' => $success_count,
+                'error_count' => $error_count,
+                'status' => $status
+            ]);
 
-        $send_at = date('Y-m-d H:i:s');
-        MailScheduleReport::where('id',$mail_schedule_report->id)->update([
-            'mail_template_id' => $mail_template->id,
-            'mail_account_id' => $mail_account->id,
-            'mail_template_name' => $mail_template->name,
-            'mail_account_username' => $mail_account->username,
-            'status' => 'success',
-            'sent' => 1,
-            'mail_return' => $send,
-            'send_at' => $send_at
-        ]);
+            return $send;
+        }
 
-        MailScheduleMailAccount::where('mail_schedule_id',$schedule->id)->where('mail_account_id',$mail_account_id)->increment('send_count');
-        MailScheduleMailTemplate::where('mail_schedule_id',$schedule->id)->where('mail_template_id',$mail_template_id)->increment('send_count');
-        $send_count = $schedule->send_count+1;
-        $status = $send_count == $schedule->mail_count ? 'complete' : $schedule->status;
-        MailSchedule::where('id',$schedule->id)->update([
-            'last_at' => $send_at,
-            'send_count' => $send_count,
-            'success_count' => $schedule->success_count+1,
-            'status' => $status
-        ]);
-
-        return $send;
+        catch (Exception $e) {
+            var_dump($e);exit;
+        }
     }
 }

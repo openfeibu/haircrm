@@ -957,3 +957,6 @@ if (!function_exists('get_admin_models')) {
         return ['App\Models\Salesman','App\Models\AdminUser'];
     }
 }
+function checkEmail($inAddress){
+    return (preg_match("/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/i",$inAddress));
+}
