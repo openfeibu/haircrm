@@ -181,7 +181,7 @@ class MailScheduleResourceController extends BaseController
             $new_customers = DB::table('new_customers')
                 ->select(DB::raw('email'))
                 ->when($ids ,function ($query) use ($ids){
-                    return $query->whereIn('id',$ids);
+                     $query->whereIn('id',$ids);
                 })->when($search,function ($query) use ($search){
                     foreach($search as $field => $value)
                     {
@@ -189,9 +189,9 @@ class MailScheduleResourceController extends BaseController
                         {
                             if($field == 'salesman_id')
                             {
-                                return $query->where('salesman_id',$value);
+                                 $query->where('salesman_id',$value);
                             }else{
-                                return $query->where($field,'like','%'.$value.'%');
+                                 $query->where($field,'like','%'.$value.'%');
                             }
                         }
                     }
