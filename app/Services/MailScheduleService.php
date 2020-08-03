@@ -12,6 +12,8 @@ use App\Exceptions\OutputServerMessageException;
 use Swift_Mailer;
 use Swift_SmtpTransport;
 use Log,Mail;
+use Egulias\EmailValidator\Exception\InvalidEmail;
+use Egulias\EmailValidator\Validation\EmailValidation;
 
 class MailScheduleService
 {
@@ -106,8 +108,14 @@ class MailScheduleService
         Mail::setSwiftMailer($mailer);
         try
         {
-            if(checkEmail($mail_schedule_report->email))
-            {
+            $validator = validator(['email' => $mail_schedule_report->email], ['email' => 'email']);
+            if ($validator->fails()) {
+                $send = '邮箱错误';
+                $status = 'failed';
+                $success_count = $schedule->success_coun;
+                $failed_count = $schedule->failed_count + 1;
+            }
+            else{
                 $send = Mail::html($html, function($message) use($mail_schedule_report,$mail_account,$mail_template) {
                     $message->from($mail_account->from_address,$mail_account->from_name);
                     $message->subject($mail_template->subject);
@@ -115,13 +123,7 @@ class MailScheduleService
                 });
                 $status = 'success';
                 $success_count = $schedule->success_count+1;
-                $error_count = $schedule->error_count;
-            }
-            else{
-                $send = '邮箱错误';
-                $status = 'failed';
-                $success_count = $schedule->success_coun;
-                $error_count = $schedule->error_count + 1;
+                $failed_count = $schedule->failed_count;
             }
             // 发送后还原
             Mail::setSwiftMailer($backup);
@@ -146,7 +148,7 @@ class MailScheduleService
                 'last_at' => $send_at,
                 'send_count' => $send_count,
                 'success_count' => $success_count,
-                'error_count' => $error_count,
+                'failed_count' => $failed_count,
                 'status' => $status
             ]);
 
