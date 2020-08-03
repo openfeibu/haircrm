@@ -11,7 +11,7 @@
             <div class="tabel-message">
                 <form class="layui-form" action="" lay-filter="fb-form">
                     <div class="layui-block mb10">
-                        <div class="layui-inline tabel-btn">
+                        <div class="layui-inline">
                             <button class="layui-btn layui-btn-danger " type="button" data-type="del" data-events="del">{{ trans('app.delete') }}</button>
                         </div>
                     </div>
