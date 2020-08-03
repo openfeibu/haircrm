@@ -85,7 +85,7 @@ class MailTemplateResourceController extends BaseController
         } else {
             $view = 'mail_template.create';
         }
-        var_dump(replace_image_url($mail_template->content,config('app.image_url')));exit;
+
         return $this->response->title(trans('app.view') . ' ' . trans('mail_template.name'))
             ->data(compact('mail_template'))
             ->view($view)
