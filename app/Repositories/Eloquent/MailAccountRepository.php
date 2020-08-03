@@ -12,4 +12,8 @@ class MailAccountRepository extends BaseRepository implements MailAccountReposit
     {
         return config('model.mail.mail_account.model');
     }
+    public function getAll()
+    {
+        return $this->model->orderBy('id','desc')->get();
+    }
 }

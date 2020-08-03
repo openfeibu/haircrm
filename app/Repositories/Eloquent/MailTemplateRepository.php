@@ -12,4 +12,8 @@ class MailTemplateRepository extends BaseRepository implements MailTemplateRepos
     {
         return config('model.mail.mail_template.model');
     }
+    public function getAll()
+    {
+        return $this->model->where('active',1)->orderBy('id','desc')->get();
+    }
 }

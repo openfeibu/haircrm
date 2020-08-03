@@ -12,4 +12,9 @@ class MailScheduleRepository extends BaseRepository implements MailScheduleRepos
     {
         return config('model.mail.mail_schedule.model');
     }
+    public function getAll()
+    {
+        return $this->model->orderBy('id','desc')->get();
+    }
+
 }

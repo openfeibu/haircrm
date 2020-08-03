@@ -62,11 +62,11 @@ class MailScheduleResourceController extends BaseController
 
             $mail_schedule = $this->repository->create($attributes);
 
-            $accounts = $request->get('accounts');
+            $accounts = $request->get('mail_accounts');
 
             $mail_schedule->accounts()->sync($accounts);
 
-            $templates = $request->get('templates');
+            $templates = $request->get('mail_templates');
 
             $mail_schedule->templates()->sync($templates);
 
@@ -90,8 +90,13 @@ class MailScheduleResourceController extends BaseController
         } else {
             $view = 'mail_schedule.create';
         }
+
+        $mail_account_ids = $mail_schedule->accounts()->pluck('mail_account_id')->toArray();
+
+        $mail_template_ids = $mail_schedule->templates()->pluck('mail_template_id')->toArray();
+
         return $this->response->title(trans('app.view') . ' ' . trans('mail_schedule.name'))
-            ->data(compact('mail_schedule'))
+            ->data(compact('mail_schedule','mail_account_ids','mail_template_ids'))
             ->view($view)
             ->output();
     }
@@ -111,6 +116,14 @@ class MailScheduleResourceController extends BaseController
             }
 
             $mail_schedule->update($attributes);
+
+            $accounts = $request->get('mail_accounts');
+
+            $mail_schedule->accounts()->sync($accounts);
+
+            $templates = $request->get('mail_templates');
+
+            $mail_schedule->templates()->sync($templates);
 
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('mail_schedule.name')]))
                 ->code(0)
