@@ -111,10 +111,14 @@ Route::group([
 
 
     Route::resource('mail_account', 'MailAccountResourceController');
+    Route::post('/mail_account/destroyAll', 'MailAccountResourceController@destroyAll')->name('mail_account.destroy_all');
     Route::resource('mail_template', 'MailTemplateResourceController');
+    Route::post('/mail_template/destroyAll', 'MailTemplateResourceController@destroyAll')->name('mail_template.destroy_all');
     Route::resource('mail_schedule', 'MailScheduleResourceController');
+    Route::post('/mail_schedule/destroyAll', 'MailScheduleResourceController@destroyAll')->name('mail_schedule.destroy_all');
     Route::post('mail_schedule/send/new_customer', 'MailScheduleResourceController@sendNewCustomer')->name('mail.send.new_customer');
     Route::resource('mail_schedule_report', 'MailScheduleReportResourceController');
+    Route::post('/mail_schedule_report/destroyAll', 'MailScheduleReportResourceController@destroyAll')->name('mail_schedule_report.destroy_all');
 
     Route::resource('admin_user', 'AdminUserResourceController');
     Route::post('/admin_user/destroyAll', 'AdminUserResourceController@destroyAll')->name('admin_user.destroy_all');
@@ -172,10 +176,14 @@ Route::group([
     Route::get('locked', 'UserController@locked');
 
     Route::resource('mail_account', 'MailAccountResourceController');
+    Route::post('/mail_account/destroyAll', 'MailAccountResourceController@destroyAll')->name('mail_account.destroy_all');
     Route::resource('mail_template', 'MailTemplateResourceController');
+    Route::post('/mail_template/destroyAll', 'MailTemplateResourceController@destroyAll')->name('mail_template.destroy_all');
     Route::resource('mail_schedule', 'MailScheduleResourceController');
+    Route::post('/mail_schedule/destroyAll', 'MailScheduleResourceController@destroyAll')->name('mail_schedule.destroy_all');
     Route::post('mail_schedule/send/new_customer', 'MailScheduleResourceController@sendNewCustomer')->name('mail.send.new_customer');
     Route::resource('mail_schedule_report', 'MailScheduleReportResourceController');
+    Route::post('/mail_schedule_report/destroyAll', 'MailScheduleReportResourceController@destroyAll')->name('mail_schedule_report.destroy_all');
 });
 /*
 Route::group([
