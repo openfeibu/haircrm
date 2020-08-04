@@ -28,8 +28,8 @@ return [
         'perPage'      => '20',
         'search'        => [
         ],
-        'interval' => 120,
-        'per_hour_mail' => 30
+        'interval' => 240,
+        'per_hour_mail' => 20
     ],
     'mail_schedule_report'     => [
         'model'        => 'App\Models\MailScheduleReport',

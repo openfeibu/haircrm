@@ -49,8 +49,8 @@
                 ,{field:'id',title:'ID', width:80,sort:true}
                 ,{field:'admin_name',title:'{{ trans('mail_schedule.label.admin_name') }}'}
                 ,{field:'title',title:'{{ trans('mail_schedule.label.title') }}',edit:'text'}
-                ,{field:'interval',title:'{{ trans('mail_schedule.label.interval') }}'}
-                ,{field:'per_hour_mail',title:'{{ trans('mail_schedule.label.per_hour_mail') }}'}
+                ,{field:'interval',title:'{{ trans('mail_schedule.label.interval') }}',edit:'text'}
+                ,{field:'per_hour_mail',title:'{{ trans('mail_schedule.label.per_hour_mail') }}',edit:'text'}
                 ,{field:'mail_count',title:'{{ trans('mail_schedule.label.mail_count') }}'}
                 ,{field:'send_count',title:'{{ trans('mail_schedule.label.send_count') }}'}
                 ,{field:'success_count',title:'{{ trans('mail_schedule.label.success_count') }}'}
