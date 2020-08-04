@@ -114,6 +114,16 @@ class MailScheduleResourceController extends BaseController
 
             $mail_schedule->update($attributes);
 
+            $accounts = $request->get('mail_accounts');
+            if($accounts)
+            {
+                $mail_schedule->accounts()->sync($accounts);
+            }
+            $templates = $request->get('mail_templates');
+            if($templates) {
+                $mail_schedule->templates()->sync($templates);
+            }
+
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('mail_schedule.name')]))
                 ->code(0)
                 ->status('success')
