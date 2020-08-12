@@ -7,6 +7,7 @@ use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\Category;
 use App\Models\Goods;
+use App\Models\GoodsAttributeValue;
 use App\Repositories\Eloquent\AttributeRepository;
 use App\Repositories\Eloquent\AttributeValueRepository;
 use App\Repositories\Eloquent\GoodsRepository;
@@ -34,7 +35,6 @@ class CategoryResourceController extends BaseController
     public function index(Request $request)
     {
         $categories = $this->repository->getCategories();
-
         $categories = json_encode($categories);
 
         return $this->response->title(trans('category.name'))
@@ -212,6 +212,56 @@ class CategoryResourceController extends BaseController
             ->json();
 
 
+    }
+    public function incrementPrice(Request $request)
+    {
+        try {
+            $category_id = $request->get('category_id');
+            $price = $request->get('price',0);
+            $goods_ids = Goods::whereRaw(" FIND_IN_SET(".$category_id.",`category_ids`) ")->pluck('id')->toArray();
+
+            Goods::whereIn('id',$goods_ids)->increment('selling_price',$price);
+            GoodsAttributeValue::whereIn('goods_id',$goods_ids)->increment('selling_price',$price);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('category'))
+                ->redirect();
+
+        } catch (Exception $e) {
+
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('category'))
+                ->redirect();
+        }
+    }
+    public function decrementPrice(Request $request)
+    {
+        try {
+            $category_id = $request->get('category_id');
+            $price = $request->get('price',0);
+            $goods_ids = Goods::whereRaw(" FIND_IN_SET(".$category_id.",`category_ids`) ")->pluck('id')->toArray();
+
+            Goods::whereIn('id',$goods_ids)->decrement('selling_price',$price);
+            GoodsAttributeValue::whereIn('goods_id',$goods_ids)->decrement('selling_price',$price);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('category'))
+                ->redirect();
+
+        } catch (Exception $e) {
+
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('category'))
+                ->redirect();
+        }
     }
     /*
      *

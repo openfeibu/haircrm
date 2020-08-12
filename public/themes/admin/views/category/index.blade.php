@@ -53,7 +53,61 @@
 
                 if(type === 'add'){ //增加节点
                     //返回 key 值
-                    window.location.href = "{{ guard_url('category/create') }}?parent_id="+id;
+                    layer.confirm('以下操作：', {
+                        btn: ['添加子类','批量升价','批量降价'] //按钮
+                        ,btn3: function(){
+                            layer.prompt({
+                                formType: 0,
+                                value: '',
+                                title: '批量降价价格',
+                            }, function(value, index, elem){
+                                layer.closeAll();
+                                // 加载样式
+                                var load = layer.load();
+                                $.ajax({
+                                    url : "{{ guard_url('category/decrement_price') }}",
+                                    data : {'price':value,'category_id':id,'_token':"{!! csrf_token() !!}"},
+                                    type : 'POST',
+                                    success : function (data) {
+                                        layer.close(load);
+                                        layer.msg(data.message);
+                                    },
+                                    error : function (jqXHR, textStatus, errorThrown) {
+                                        layer.close(load);
+                                        $.ajax_error(jqXHR, textStatus, errorThrown);
+                                    }
+                                });
+                            });
+                            return false;
+                        }
+                    }, function(){
+                        window.location.href = "{{ guard_url('category/create') }}?parent_id="+id;
+                        return false;
+                    }, function(){
+                        layer.prompt({
+                            formType: 0,
+                            value: '',
+                            title: '批量升价价格',
+                        }, function(value, index, elem){
+                            layer.closeAll();
+                            // 加载样式
+                            var load = layer.load();
+                            $.ajax({
+                                url : "{{ guard_url('category/increment_price') }}",
+                                data : {'price':value,'category_id':id,'_token':"{!! csrf_token() !!}"},
+                                type : 'POST',
+                                success : function (data) {
+                                    layer.close(load);
+                                    layer.msg(data.message);
+                                },
+                                error : function (jqXHR, textStatus, errorThrown) {
+                                    layer.close(load);
+                                    $.ajax_error(jqXHR, textStatus, errorThrown);
+                                }
+                            });
+                        });
+                        return false;
+                    });
                     return false;
                 } else if(type === 'update'){ //修改节点
                     var load = layer.load();
@@ -69,7 +123,7 @@
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
                             layer.close(load);
-                            layer.msg('服务器出错');
+                            $.ajax_error(jqXHR, textStatus, errorThrown);
                         }
                     });
 
@@ -77,10 +131,12 @@
                     layer.confirm('将删除该分类（包括子分类）及该分类下（包括子分类下）的产品，确定删除？', function(index){
                         layer.close(index);
                         var load = layer.load();
+                        var res = true;
                         $.ajax({
                             url : "{{ guard_url('category') }}"+'/'+data.id,
                             data : ajax_data,
                             type : 'delete',
+                            async:false,
                             success : function (data) {
                                 layer.close(load);
                                 if(data.code == 0)
@@ -88,16 +144,17 @@
 
                                 }else{
                                     layer.msg(data.message);
-                                    return false;
+                                    res = false;
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
+                                res = false;
                                 layer.close(load);
                                 $.ajax_error(jqXHR, textStatus, errorThrown);
                             }
                         });
                     })
-                    return false;
+                    return res;
                 };
             }
         });

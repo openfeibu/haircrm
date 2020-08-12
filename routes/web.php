@@ -72,6 +72,8 @@ Route::group([
 
     Route::resource('category', 'CategoryResourceController');
     Route::get('/attribute_content', 'CategoryResourceController@getAttributeContent')->name('category.attribute_content');
+    Route::post('/category/increment_price', 'CategoryResourceController@incrementPrice')->name('category.increment_price');
+    Route::post('/category/decrement_price', 'CategoryResourceController@decrementPrice')->name('category.decrement_price');
 
     Route::resource('customer', 'CustomerResourceController');
     Route::get('get_customer', 'CustomerResourceController@getCustomer')->name('customer.get_customer');

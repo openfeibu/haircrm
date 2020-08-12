@@ -57,8 +57,15 @@ class HomeController extends BaseController
     }
     public function addGoods()
     {
-        $old_category_id = 219;
+        exit;
+        $old_category_id = 469;
 
+        $categories = Category::where('parent_id',433)->where('id','<>',$old_category_id)->get();
+        foreach ($categories as $key => $category)
+        {
+            $this->addGoodsHandle($old_category_id,$category->id,0,0);
+        }
+        /*
         $category_ids = [
             '220' => 0,
 
@@ -67,6 +74,7 @@ class HomeController extends BaseController
         {
             $this->addGoodsHandle($old_category_id,$category_id,$add_purchase_price,0);
         }
+        */
         echo "success";exit;
     }
 
@@ -100,18 +108,21 @@ class HomeController extends BaseController
             'purchase_price' => $old_goods['purchase_price'] ? $old_goods['purchase_price'] + $add_purchase_price : 0,
             'selling_price' => $old_goods['selling_price'] ? $old_goods['selling_price'] + $add_selling_price : 0,
         ]);
-
-        $goods_attribute_values = [];
-        foreach ($old_goods_attribute_values as $key => $goods_attribute_value)
+        if($old_goods_attribute_values)
         {
-            $goods_attribute_values[] = [
-                'attribute_value_id' => $goods_attribute_value['attribute_value_id'],
-                'purchase_price' => $goods_attribute_value['purchase_price'] + $add_purchase_price,
-                'selling_price' => $goods_attribute_value['selling_price'] + $add_selling_price,
-                'goods_id' => $new_goods->id
-            ];
+            $goods_attribute_values = [];
+            foreach ($old_goods_attribute_values as $key => $goods_attribute_value)
+            {
+                $goods_attribute_values[] = [
+                    'attribute_value_id' => $goods_attribute_value['attribute_value_id'],
+                    'purchase_price' => $goods_attribute_value['purchase_price'] + $add_purchase_price,
+                    'selling_price' => $goods_attribute_value['selling_price'] + $add_selling_price,
+                    'goods_id' => $new_goods->id
+                ];
+            }
+            GoodsAttributeValue::insert($goods_attribute_values);
         }
-        GoodsAttributeValue::insert($goods_attribute_values);
+
     }
 
     public function addGoodsAttributeValue()
