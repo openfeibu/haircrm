@@ -77,7 +77,7 @@
                 ,{field:'order_sn',title:'{{ trans('order.label.order_sn') }}'}
                 ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}', width:120}
                 ,{field:'customer_name',title:'{{ trans('customer.label.name') }}'}
-                ,{field:'address',title:'{{ trans('app.address') }}', width:120}
+                ,{field:'address',title:'{{ trans('order.label.address') }}', width:120}
                 ,{field:'selling_price',title:'{{ trans('order.label.selling_price') }}', width:120}
                 ,{field:'number',title:'{{ trans('order.label.number') }}', width:120}
                 ,{field:'weight',title:'{{ trans('order.label.weight') }}', width:120}

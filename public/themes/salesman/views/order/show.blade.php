@@ -90,10 +90,10 @@
                             </div>
                         </div>
                         <div class="layui-form-item fb-form-item2">
-                            <label class="layui-form-label">地址</label>
+                            <label class="layui-form-label">{{ trans('order.label.address') }} *</label>
                             <div class="fb-form-item-box" >
                                 <div class="layui-input-block" style="width: 410px;">
-                                    <textarea name="address" id="address" placeholder="请输入地址" class="layui-textarea">{!! $order->address !!}</textarea>
+                                    <textarea name="address" id="address" placeholder="请输入{{ trans('order.label.address') }}" class="layui-textarea">{!! $order->address !!}</textarea>
                                 </div>
                             </div>
                         </div>
