@@ -104,7 +104,7 @@
                 ,{field:'order_sn',title:'{{ trans('order.label.order_sn') }}'}
                 ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}', width:120}
                 ,{field:'customer_name',title:'{{ trans('customer.label.name') }}'}
-                ,{field:'address',title:'{{ trans('order.label.address') }}', width:120}
+                ,{field:'address',title:'{{ trans('order.label.address') }}', width:200}
                 ,{field:'total',title:'{{ trans('order.label.total') }}', width:120, totalRow: true,toFixed:3}
                 ,{field:'order_status_desc',title:'{{ trans('order.label.order_status') }}', width:120,templet:"#order_status_tpl"}
                 ,{field:'shipping_status_desc',title:'{{ trans('order.label.shipping_status') }}', width:120,templet:"#shipping_status_tpl"}
