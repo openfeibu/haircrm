@@ -87,6 +87,8 @@ Route::group([
     Route::get('new_customer_import', 'NewCustomerResourceController@import')->name('new_customer.import');
     Route::post('/new_customer_import/submit', 'NewCustomerResourceController@submitImport')->name('new_customer.submit_import');
     Route::get('/new_customer_download', 'NewCustomerResourceController@download')->name('new_customer.download');
+
+     Route::get('/new_customer_download_email_excel', 'NewCustomerResourceController@downloadEmailExcel')->name('new_customer.download_email_excel');
     Route::get('new_customer/mail/count', 'NewCustomerResourceController@mailCount')->name('new_customer.mail.count');
 
     Route::resource('goods', 'GoodsResourceController');

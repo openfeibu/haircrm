@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\NewCustomerExport;
+use App\Exports\NewCustomerEmailExport;
 use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Imports\NewCustomerImport;
 use App\Models\NewCustomer;
@@ -303,6 +304,15 @@ class NewCustomerResourceController extends BaseController
         $search = $request->input('search',[]);
         return Excel::download(new NewCustomerExport($ids,$search), $name);
     }
+    public function downloadEmailExcel(Request $request)
+    {
+        $data = $request->all();
+        $ids = $data['ids'] ?? [];
+        $name = '收集客户邮箱信息表'.date('YmdHis').'.xlsx';
+        $search = $request->input('search',[]);
+        return Excel::download(new NewCustomerEmailExport($ids,$search), $name);
+    }
+
     public function mailCount(Request $request)
     {
         $data = $request->all();
