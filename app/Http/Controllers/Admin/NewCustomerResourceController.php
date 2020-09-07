@@ -319,10 +319,17 @@ class NewCustomerResourceController extends BaseController
                     {
                         if($field == 'salesman_id')
                         {
-                            return $query->where('salesman_id',$value);
+                            $query->where('salesman_id',$value);
+                        }else if($field == 'email_not_null')
+                        {
+                            if($value == 1)
+                            {
+                                $query->whereNotNull('email')->where('email','<>','');
+                            }
                         }else{
-                            return $query->where($field,'like','%'.$value.'%');
+                            $query->where($field,'like','%'.$value.'%');
                         }
+
                     }
                 }
             })
