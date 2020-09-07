@@ -152,6 +152,7 @@
                 ,{field:'facebook',title:'{{ trans('new_customer.label.facebook') }}',edit:'text'}
                 ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}'}
                 ,{field:'mail_report_date',title:'{{ trans('mail_schedule_report.name') }}'}
+                ,{field:'created_at',title:'{{ trans('app.created_at') }}'}
                 ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:100, fixed: 'right'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:240, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
