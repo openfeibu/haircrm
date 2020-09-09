@@ -78,7 +78,17 @@ return [
         'perPage'      => '20',
         'search'        => [
         ],
-        'from_name' => 'Feibu Hair'
+        'from_name' => 'Feibu Hair',
+        'host' => [
+            'smtp.ym.163.com',
+            'smtp.qiye.aliyun.com',
+            'smtp.163.com',
+            'smtp.qq.com',
+        ],
+        'port' => [
+            '994',
+            '465'
+        ],
     ],
     'mail_schedule_mail_account'     => [
         'model'        => 'App\Models\MailScheduleMailAccount',
