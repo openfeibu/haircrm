@@ -59,7 +59,7 @@ class MailAccountResourceController extends BaseController
             $attributes = $request->all();
             $attributes['admin_id'] = Auth::user()->id;
             $attributes['admin_model'] = get_admin_model(Auth::user());
-
+            $attributes['salesman_id']  = $attributes['salesman_id'] ?? 0;
             $mail_account = $this->repository->create($attributes);
 
             return $this->response->message(trans('messages.success.created', ['Module' => trans('mail_account.name')]))
@@ -91,6 +91,10 @@ class MailAccountResourceController extends BaseController
     {
         try {
             $attributes = $request->all();
+            if(isset($attributes['salesman_id']))
+            {
+                $attributes['salesman_id']  = $attributes['salesman_id'] ? $attributes['salesman_id'] : 0;
+            }
 
             $mail_account->update($attributes);
 

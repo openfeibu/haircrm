@@ -17,7 +17,7 @@
                         <div class="layui-input-block">
                             @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
                             <select name="salesman_id" id="salesman_id" lay-filter="" lay-search>
-                                <option value="">请选择业务员(不选默认超管所有)</option>
+                                <option value="0">请选择业务员(不选默认超管所有)</option>
                                 @foreach($salesmanRepository->where('active',1)->orderBy('order','asc')->orderBy('id','desc')->get() as $key => $salesman)
                                     <option value="{{ $salesman->id }}" @if($salesman->id == $mail_account->salesman_id) selected @endif>{{ $salesman->name }}</option>
                                 @endforeach
@@ -31,7 +31,7 @@
 
                         <div class="layui-input-block">
                             <select name="host" lay-filter="checkBox">
-                                @foreach(trans('mail_account.host') as $key => $host)
+                                @foreach(config('model.mail.mail_account.host') as $key => $host)
                                     <option value="{{ $host }}" @if($host == $mail_account->host) selected @endif>{{ $host }}</option>
                                 @endforeach
                             </select>
@@ -44,7 +44,7 @@
 
                         <div class="layui-input-block">
                             <select name="port" lay-filter="checkBox">
-                                @foreach(trans('mail_account.port') as $key => $port)
+                                @foreach(config('model.mail.mail_account.port') as $key => $port)
                                     <option value="{{ $port }}" @if($port == $mail_account->port) selected @endif>{{ $port }}</option>
                                 @endforeach
                             </select>

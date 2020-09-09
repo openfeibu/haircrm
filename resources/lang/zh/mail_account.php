@@ -29,12 +29,5 @@ return [
         'ssl',
         'tsl',
     ],
-    'host' => [
-        'smtp.ym.163.com',
-        'smtp.163.com',
-        'smtp.qq.com',
-    ],
-    'port' => [
-        '994',
-    ],
+
 ];
