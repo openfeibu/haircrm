@@ -31,6 +31,10 @@ class MailScheduleService
          *  $now, 现在时间，跟 $last_at差别 < $interval，不发送
          *  per_hour_mail < mail_schedule_reports 表，sent = 1 ，一个小时内发的数量, 不发送
          */
+
+        if(!(date('G')<12 || date('G')>19)){
+            return '只在早上12点前，晚上7点后发送,其他时间段内不发送.';
+        }
         $schedule = MailSchedule::where('active',1)->whereNotIn('status',['complete'])->first();
         if(!$schedule)
         {
