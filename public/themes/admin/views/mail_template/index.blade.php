@@ -49,6 +49,7 @@
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80,sort:true}
                 ,{field:'admin_name',title:'{{ trans('mail_template.label.admin_name') }}'}
+                ,{field:'salesman_name',title:'{{ trans('salesman.name') }}'}
                 ,{field:'name',title:'{{ trans('mail_template.label.name') }}'}
                 ,{field:'subject',title:'{{ trans('mail_template.label.subject') }}'}
                 ,{field:'active',title:'{{ trans('mail_template.label.active') }}',templet:'#activeTpl'}

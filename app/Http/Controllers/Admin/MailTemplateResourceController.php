@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Models\MailTemplate;
+use App\Models\Salesman;
 use App\Repositories\Eloquent\MailTemplateRepository;
 use Illuminate\Http\Request;
 use Auth;
@@ -29,6 +30,7 @@ class MailTemplateResourceController extends BaseController
             foreach ($mail_templates as $key => $mail_template)
             {
                 $mail_template->admin_name = get_admin_detail($mail_template->admin_model,$mail_template->admin_id);
+                $mail_template->salesman_name = $mail_template->salesman_id ? Salesman::where('id',$mail_template->salesman_id)->value('name') : '';
             }
             return $this->response
                 ->success()
