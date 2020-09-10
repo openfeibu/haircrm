@@ -66,7 +66,7 @@ return [
             $theme->asset()->container('footer')->usePath()->add('main_js', 'js/main.js');
 
             $theme->asset()->container('ueditor')->add('ueditor_config','lib/ueditor/ueditor.config.js');
-            $theme->asset()->container('ueditor')->add('ueditor_js','lib/ueditor/ueditor.all.min.js');
+            $theme->asset()->container('ueditor')->add('ueditor_js','lib/ueditor/ueditor.all.js');
             $theme->asset()->container('ueditor')->add('ueditor_lang','lib/ueditor/lang/zh-cn/zh-cn.js');
         },
 

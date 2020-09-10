@@ -38,7 +38,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['mail_template_id','mail_account_id','mail_template_name','mail_account_username','email','mail_schedule_id','status','sent','mail_return','send_at'],
+        'fillable'     => ['mail_template_id','mail_account_id','mail_template_name','mail_account_username','name','email','mail_schedule_id','status','sent','mail_return','send_at'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],

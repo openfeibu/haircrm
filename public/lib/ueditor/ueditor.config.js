@@ -103,7 +103,7 @@
 
         //,fullscreen : false //是否开启初始化时即全屏，默认关闭
 
-        //,imagePopup:true      //图片操作的浮层开关，默认打开
+        ,imagePopup:false      //图片操作的浮层开关，默认打开
 
         //,autoSyncData:true //自动同步编辑器要提交的数据
         //,emotionLocalization:false //是否开启表情本地化，默认关闭。若要开启请确保emotion文件夹下包含官网提供的images表情文件夹
@@ -352,17 +352,18 @@
 
         //默认过滤规则相关配置项目
         //,disabledTableInTable:true  //禁止表格嵌套
-        //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
+        ,allowDivTransToP:false      //允许进入编辑器的div标签自动变成p标签
         //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
 
 		// xss 过滤是否开启,inserthtml等操作
-		,xssFilterRules: true
+		,xssFilterRules: false
 		//input xss过滤
-		,inputXssFilter: true
+		,inputXssFilter: false
 		//output xss过滤
-		,outputXssFilter: true
+		,outputXssFilter: false
 		// xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
 		,whitList: {
+			iframe: ['frameborder','border','marginwidth','marginheight','width','height','src','id'],
 			a:      ['target', 'href', 'title', 'class', 'style'],
 			abbr:   ['title', 'class', 'style'],
 			address: ['class', 'style'],
@@ -409,7 +410,7 @@
 			p:      ['class', 'style'],
 			pre:    ['class', 'style'],
 			s:      [],
-			section:[],
+			section:['style','class'],
 			small:  [],
 			span:   ['class', 'style'],
 			sub:    ['class', 'style'],
@@ -425,7 +426,8 @@
 			tt:     [],
 			u:      [],
 			ul:     ['class', 'style'],
-			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style']
+			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style'],
+			label:	['class', 'style','for'],
 		}
     };
 

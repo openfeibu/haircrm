@@ -35,7 +35,9 @@ class MailScheduleService
         if(date('G')>12 && date('G')<18){
             return '只在早上12点前，晚上6点后发送,其他时间段内不发送.';
         }
+
         $schedule = MailSchedule::where('active',1)->whereNotIn('status',['complete'])->first();
+        //$schedule = MailSchedule::whereNotIn('status',['complete'])->first();
         if(!$schedule)
         {
             return '没有任务';
@@ -95,6 +97,8 @@ class MailScheduleService
 
         $html = $mail_template->content;
         $html = replace_image_url($html,config('app.image_url'));
+        $name = $mail_schedule_report->name ?? '';
+        $html=str_replace('{$name}',$name,$html);
 
         MailSchedule::where('id',$schedule->id)->update(['status' => 'sending']);
 

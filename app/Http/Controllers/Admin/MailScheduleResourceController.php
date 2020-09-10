@@ -234,7 +234,7 @@ class MailScheduleResourceController extends BaseController
             $mail_schedule->templates()->sync($templates);
 
             $mail_schedule_reports = DB::table('new_customers')
-                ->select(DB::raw("email,'".$mail_schedule->id."' as mail_schedule_id " ))
+                ->select(DB::raw("email,'".$mail_schedule->id."' as mail_schedule_id,nickname as name" ))
                 ->when($ids ,function ($query) use ($ids){
                     return $query->whereIn('id',$ids);
                 })->when($search,function ($query) use ($search){
