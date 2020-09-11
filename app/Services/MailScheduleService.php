@@ -67,6 +67,8 @@ class MailScheduleService
             MailSchedule::where('id',$schedule->id)->update(['status' => 'complete']);
             return '任务中没有未完成的发送';
         }
+        $email = trim($mail_schedule_report->email);
+
         //按最少发送量的账号发送
         $mail_account_id = MailScheduleMailAccount::where('mail_schedule_id',$schedule->id)->orderBy('send_count','asc')->orderBy('id','asc')->value('mail_account_id');
 
@@ -102,28 +104,34 @@ class MailScheduleService
 
         MailSchedule::where('id',$schedule->id)->update(['status' => 'sending']);
 
-        $backup = Mail::getSwiftMailer();
 
-        /** 邮箱多切换 */
-
-        // 设置邮箱账号
-        $transport = new Swift_SmtpTransport($mail_account->host, $mail_account->port, $mail_account->encryption);
-        $transport->setUsername($mail_account->username);
-        $transport->setPassword($mail_account->password);
-
-        $mailer = new Swift_Mailer($transport);
-
-        Mail::setSwiftMailer($mailer);
         try
         {
-            $validator = validator(['email' => $mail_schedule_report->email], ['email' => 'email']);
+            $validator = validator(['email' => $email], ['email' => 'email']);
+            $emailArr = explode('@', $email);
             if ($validator->fails()) {
                 $send = '邮箱错误';
                 $status = 'failed';
                 $success_count = $schedule->success_coun;
                 $failed_count = $schedule->failed_count + 1;
             }
+            else if(!in_array('@'.$emailArr[1], config('common.overseas_email_suffix'))){
+                $send = '邮箱地址非海外常用地址';
+                $status = 'failed';
+                $success_count = $schedule->success_coun;
+                $failed_count = $schedule->failed_count + 1;
+            }
             else{
+                $backup = Mail::getSwiftMailer();
+                /** 邮箱多切换 */
+                // 设置邮箱账号
+                $transport = new Swift_SmtpTransport($mail_account->host, $mail_account->port, $mail_account->encryption);
+                $transport->setUsername($mail_account->username);
+                $transport->setPassword($mail_account->password);
+
+                $mailer = new Swift_Mailer($transport);
+
+                Mail::setSwiftMailer($mailer);
                 $send = Mail::html($html, function($message) use($mail_schedule_report,$mail_account,$mail_template) {
                     $message->from($mail_account->from_address,$mail_account->from_name);
                     $message->subject($mail_template->subject);
@@ -132,9 +140,10 @@ class MailScheduleService
                 $status = 'success';
                 $success_count = $schedule->success_count+1;
                 $failed_count = $schedule->failed_count;
+                // 发送后还原
+                Mail::setSwiftMailer($backup);
             }
-            // 发送后还原
-            Mail::setSwiftMailer($backup);
+
 
             $send_at = date('Y-m-d H:i:s');
             MailScheduleReport::where('id',$mail_schedule_report->id)->update([
