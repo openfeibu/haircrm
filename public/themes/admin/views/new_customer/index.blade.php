@@ -150,7 +150,7 @@
                 ,{field:'ig_follower_count',title:'{{ trans('new_customer.label.ig_follower_count') }}',edit:'text'}
                 ,{field:'ig_sec',title:'{{ trans('new_customer.label.ig_sec') }}',edit:'text'}
                 ,{field:'facebook',title:'{{ trans('new_customer.label.facebook') }}',edit:'text'}
-                ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}'}
+                ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}',edit:'text'}
                 ,{field:'mail_report_date',title:'{{ trans('mail_schedule_report.name') }}'}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}'}
                 ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:100, fixed: 'right'}
