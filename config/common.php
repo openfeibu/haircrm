@@ -16,7 +16,7 @@ return [
         'storage' => 'local',
         'path' => '/uploads',
     ],
-    'fedex_url' => 'https://www.fedex.com/apps/fedextrack/?action=track&trackingnumber=%s&cntry_code=cn&locale=zh_CN',
+    'fedex_url' => 'https://www.fedex.com/apps/fedextrack/?action=track&trackingnumber=%s&cntry_code=cn&locale=en_CN',
     'paypal_url' => 'https://www.paypal.com/activity/payment/%s',
     'overseas_email_suffix' => ['@hotmail.com','@msn.com','@yahoo.com','@gmail.com','@aim.com','@aol.com','@mail.com','@walla.com','@inbox.com']
 ];

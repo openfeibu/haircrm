@@ -23,9 +23,19 @@ class MailScheduleReportResourceController extends BaseController
     public function index(Request $request)
     {
         $limit = $request->input('limit',config('app.limit'));
+        $search = $request->input('search',[]);
         if ($this->response->typeIs('json')) {
-            $mail_schedule_reports = $this->repository
-                ->where('mail_schedule_id',$request->get('mail_schedule_id'))
+            $mail_schedule_reports =
+                MailScheduleReport::where('mail_schedule_id',$request->get('mail_schedule_id'))
+                ->when($search,function ($query) use ($search){
+                    foreach($search as $field => $value)
+                    {
+                        if($value)
+                        {
+                            $query->where($field,'like','%'.$value.'%');
+                        }
+                    }
+                })
                 ->orderBy('id','desc')
                 ->paginate($limit);
 

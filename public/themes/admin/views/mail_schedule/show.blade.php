@@ -9,8 +9,23 @@
     <div class="main_full">
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
-            <div class="fb-main-table">
+            <div class="tabel-message">
+                <form class="layui-form" action="" lay-filter="fb-form">
+                    <div class="layui-block table-search mb10">
 
+                        <div class="layui-inline">
+                            <select name="status" class="search_key layui-select">
+                                <option value="">{{ trans('mail_schedule_report.label.status') }}</option>
+                                @foreach(config('model.mail.mail_schedule_report.status') as  $key => $status)
+                                    <option value="{{ $status }}">{{ trans('mail_schedule_report.status.'.$status) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="table-Box">
                 <table class="layui-table" lay-filter="fb-table" id="fb-table">
@@ -65,3 +80,4 @@
     });
 
 </script>
+{!! Theme::partial('common_handle_js') !!}

@@ -45,6 +45,14 @@ return [
         'revision'     => [],
         'perPage'      => '20',
         'search'        => [
+            'status'
+        ],
+        'status' => [
+            'waiting' ,
+            'sending' ,
+            'success',
+            'failed' ,
+            'read' ,
         ],
     ],
     'mail_template'     => [
