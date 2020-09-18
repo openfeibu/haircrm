@@ -32,7 +32,7 @@ class MailScheduleService
          *  per_hour_mail < mail_schedule_reports 表，sent = 1 ，一个小时内发的数量, 不发送
          */
 
-        if(date('G')>12 && date('G')<18){
+        if(date('G')>12 && date('G')<16){
             return '只在早上12点前，晚上6点后发送,其他时间段内不发送.';
         }
 
