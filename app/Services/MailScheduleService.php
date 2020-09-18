@@ -115,7 +115,7 @@ class MailScheduleService
                 $success_count = $schedule->success_coun;
                 $failed_count = $schedule->failed_count + 1;
             }
-            else if(!in_array('@'.$emailArr[1], config('common.overseas_email_suffix'))){
+            else if(!in_array('@'.strtolower($emailArr[1]), config('common.overseas_email_suffix'))){
                 $send = '邮箱地址非海外常用地址';
                 $status = 'failed';
                 $success_count = $schedule->success_coun;
