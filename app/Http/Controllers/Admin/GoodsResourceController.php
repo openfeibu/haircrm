@@ -243,6 +243,7 @@ class GoodsResourceController extends BaseController
                 }
             }
             $goods->update([
+                'name' => $attributes['name'] ? $attributes['name'] : '',
                 'purchase_price' => $attributes['goods_purchase_price'] ? $attributes['goods_purchase_price'] : 0,
                 'selling_price' => $attributes['goods_selling_price'] ? $attributes['goods_selling_price'] : 0,
             ]);

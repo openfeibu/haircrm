@@ -14,7 +14,7 @@
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('goods.label.name') }} *</label>
                         <div class="layui-input-block">
-                            <p class="input-p">{{ $goods->name }}</p>
+                            <input type="text" name="name" autocomplete="off" placeholder="" lay-verify="required"  class="layui-input" value="{{ $goods->name }}" >
                         </div>
                     </div>
                     <div class="layui-form-item fb-form-item2">
