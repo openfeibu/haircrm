@@ -25,8 +25,9 @@ class SupplierRepository extends BaseRepository implements SupplierRepositoryInt
             return [
                 'id' => 0,
                 'name' => '',
+                'code' => '',
             ];
         }
-        return $this->find($supplier_id,['id','name'])->toArray();
+        return $this->find($supplier_id,['id','name','code'])->toArray();
     }
 }

@@ -138,6 +138,7 @@ class OrderResourceController extends BaseController
                     'number' => $cart['number'],
                     'supplier_id' => $supplier['id'],
                     'supplier_name' => $supplier['name'],
+                    'supplier_code' => $supplier['code'],
                     'weight' => $cart['weight'],
                     'freight_category_id' => $cart['freight_category_id'],
                     'remark' => $cart['remark'] ?? '',

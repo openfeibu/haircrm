@@ -66,7 +66,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['order_id','order_sn','goods_id','goods_name', 'attribute_value_id','goods_attribute_value_id','attribute_value','supplier_id','supplier_name', 'purchase_price','selling_price','number','weight','freight_category_id','remark','created_at','updated_at'],
+        'fillable'     => ['order_id','order_sn','goods_id','goods_name', 'attribute_value_id','goods_attribute_value_id','attribute_value','supplier_id','supplier_name','supplier_code', 'purchase_price','selling_price','number','weight','freight_category_id','remark','created_at','updated_at'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],

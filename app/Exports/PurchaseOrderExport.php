@@ -40,10 +40,10 @@ class PurchaseOrderExport implements FromCollection,WithEvents
         $orders = Order::whereIn('orders.id',$this->ids)->orderBy('id','desc')->get(['created_at'])->toArray();
 
         $order_goods_list = Order::join('order_goods','order_goods.order_id','=','orders.id')
-            ->join('suppliers','suppliers.id','=','order_goods.supplier_id')
+            //->join('suppliers','suppliers.id','=','order_goods.supplier_id')
             ->whereIn('orders.id',$this->ids)
-            ->orderBy('suppliers.id','asc')
-            ->get(['suppliers.name as supplier_name','suppliers.code as supplier_code','order_goods.goods_name','order_goods.attribute_value','order_goods.purchase_price','order_goods.selling_price','order_goods.number','order_goods.remark']);
+            ->orderBy('order_goods.supplier_code','asc')
+            ->get(['order_goods.supplier_name','order_goods.supplier_code','order_goods.goods_name','order_goods.attribute_value','order_goods.purchase_price','order_goods.selling_price','order_goods.number','order_goods.remark']);
 
         $count = $order_goods_list->count();
 
@@ -62,6 +62,7 @@ class PurchaseOrderExport implements FromCollection,WithEvents
 //        {
 //            $supplier_field = 'supplier_name';
 //        }
+
         foreach ($order_goods_list as $key => $order_goods)
         {
             $sn++;
