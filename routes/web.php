@@ -24,6 +24,7 @@ Route::get('/tracking_number/{tracking_number}', 'HomeController@trackingNumber'
 Route::get('/payment_sn/{payment_sn}', 'HomeController@paymentSn');
 
 Route::get('/update', 'HomeController@update');
+Route::get('/check_new_customer', 'HomeController@checkNewCustomer');
 // Admin  routes  for user
 Route::group([
     'namespace' => 'Admin',

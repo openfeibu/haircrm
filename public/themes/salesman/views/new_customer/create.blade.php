@@ -46,28 +46,28 @@
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.email') }} *</label>
                         <div class="layui-input-block">
-                        <input type="text" name="email"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.email') }}" class="layui-input">
+                        <input type="text" name="email"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.email') }}" class="layui-input check_exist">
                         </div>
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.mobile') }}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="mobile"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.mobile') }}" class="layui-input">
+                            <input type="text" name="mobile"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.mobile') }}" class="layui-input check_exist">
                         </div>
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.imessage') }}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="imessage"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.imessage') }}" class="layui-input">
+                            <input type="text" name="imessage"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.imessage') }}" class="layui-input check_exist">
                         </div>
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.whatsapp') }}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="whatsapp"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.whatsapp') }}" class="layui-input">
+                            <input type="text" name="whatsapp"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.whatsapp') }}" class="layui-input check_exist">
                         </div>
                     </div>
 
@@ -125,3 +125,62 @@
     </div>
 </div>
 
+<script>
+
+    layui.use(['element',"table",'form',"jquery"], function() {
+        var form = layui.form;
+        var table = layui.table;
+        var $ = layui.$;
+        var submit = true;
+        $('.check_exist').blur(function(){
+            var field = $(this).attr('name');
+            var value = $(this).val();
+            var that = $(this);
+            if(value)
+            {
+                var load = layer.load();
+                $.ajax({
+                    url : '/check_new_customer',
+                    data : {'token': "{!! csrf_token() !!}", 'field':field,'value':value},
+                    type : 'get',
+                    success : function (data) {
+                        layer.close(load);
+                        if(data.code == 0)
+                        {
+                            if(!$('error-aux').length)
+                            {
+                                $('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
+                            }
+                        }else{
+                            $('#submit-btn').attr('disabled',true).removeClass('layui-btn-submit').addClass('layui-btn-disabled');
+                            that.parent().siblings('.error-aux').remove();
+                            that.parent().after('<div class="layui-form-mid layui-word-aux email-aux error-aux">'+data.message+'</div>')
+                        }
+                    },
+                    error : function (jqXHR, textStatus, errorThrown) {
+                        layer.close(load);
+                        $.ajax_error(jqXHR, textStatus, errorThrown);
+                    }
+                });
+            }
+            else{
+                that.parent().siblings('.error-aux').remove();
+                if(!$('error-aux').length)
+                {
+                    $('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
+                }
+            }
+
+        });
+
+
+        form.on('submit(demo1)', function(data){
+            console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
+            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
+            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+    });
+
+</script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Customer;
 use App\Models\Goods;
+use App\Models\MailScheduleReport;
 use App\Models\NewCustomer;
 use App\Models\Order;
 use Route;
@@ -59,11 +60,13 @@ class ResourceController extends BaseController
         //总销售额
         $selling_price = Order::where('pay_status','paid')->sum('selling_price');
 
+        //营销邮件数量
+        $mail_sent_count = MailScheduleReport::where('sent',1)->where('status','success')->count();
         $goods_count = Goods::count();
 
         return $this->response->title(trans('app.admin.panel'))
             ->view('home')
-            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count'))
+            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count'))
             ->output();
     }
     public function dashboard()

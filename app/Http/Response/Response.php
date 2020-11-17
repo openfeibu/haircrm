@@ -257,9 +257,11 @@ abstract class Response
         $this->message = $message;
         return $this;
     }
-    public function error()
+    public function error($message=NULL,$code=400)
     {
+        $this->code = $code;
         $this->status = 'error';
+        $this->message = $message;
         return $this;
     }
     /**

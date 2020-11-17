@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Goods;
 use App\Models\GoodsAttributeValue;
+use App\Models\NewCustomer;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\GoodsRepository;
 use App\Services\MailScheduleService;
@@ -213,5 +214,21 @@ class HomeController extends BaseController
 
         }
         echo "success";
+    }
+    public function checkNewCustomer(Request $request)
+    {
+        $field = $request->field;
+        $value = $request->value;
+        $new_customer = NewCustomer::where($field,$value)->value('id');
+        //var_dump($field,$value,$new_customer);
+        if($new_customer)
+        {
+            return $this->response
+                ->error('已存在该客户')
+                ->json();
+        }
+        return $this->response
+            ->success()
+            ->json();
     }
 }

@@ -100,7 +100,7 @@
                             <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $selling_price }}</p>
+                            <p class="layuiadmin-big-font">{{ $mail_sent_count }}</p>
 
                         </div>
                     </div>
@@ -130,7 +130,7 @@
 						</a>
 					</div>	
 					<div class="power-box-item layui-col-md2">
-						<a href="#">
+						<a href="{{ guard_url('mail_schedule') }}">
 							营销邮箱
 						</a>
 					</div>	
