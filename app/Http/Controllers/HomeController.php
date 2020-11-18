@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Goods;
 use App\Models\GoodsAttributeValue;
 use App\Models\NewCustomer;
+use App\Models\Salesman;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\GoodsRepository;
 use App\Services\MailScheduleService;
@@ -219,12 +220,13 @@ class HomeController extends BaseController
     {
         $field = $request->field;
         $value = $request->value;
-        $new_customer = NewCustomer::where($field,$value)->value('id');
-        //var_dump($field,$value,$new_customer);
+        $new_customer = NewCustomer::where($field,$value)->first(['salesman_id','id']);
+        $salesman = Salesman::where('id',$new_customer->salesman_id)->first(['id','name']);
+
         if($new_customer)
         {
             return $this->response
-                ->error('已存在该客户')
+                ->error('已存在该客户，来源：'.$salesman->name)
                 ->json();
         }
         return $this->response

@@ -81,7 +81,7 @@
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.ig') }}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="ig"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.ig') }}" class="layui-input">
+                            <input type="text" name="ig"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.ig') }}" class="layui-input check_exist">
                         </div>
                     </div>
 
@@ -114,7 +114,7 @@
 
                     <div class="layui-form-item">
                         <div class="layui-input-block">
-                            <button class="layui-btn layui-btn-submit" lay-submit="" lay-filter="demo1">立即提交</button>
+                            <button class="layui-btn layui-btn-submit" id="submit-btn" lay-submit="" lay-filter="demo1">立即提交</button>
                         </div>
                     </div>
                     {!!Form::token()!!}
@@ -149,10 +149,10 @@
                         {
                             if(!$('error-aux').length)
                             {
-                                $('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
+                                //$('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
                             }
                         }else{
-                            $('#submit-btn').attr('disabled',true).removeClass('layui-btn-submit').addClass('layui-btn-disabled');
+                            //$('#submit-btn').attr('disabled',true).removeClass('layui-btn-submit').addClass('layui-btn-disabled');
                             that.parent().siblings('.error-aux').remove();
                             that.parent().after('<div class="layui-form-mid layui-word-aux email-aux error-aux">'+data.message+'</div>')
                         }
@@ -167,19 +167,13 @@
                 that.parent().siblings('.error-aux').remove();
                 if(!$('error-aux').length)
                 {
-                    $('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
+                    //$('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
                 }
             }
 
         });
 
-
-        form.on('submit(demo1)', function(data){
-            console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-            console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-        });
+        
 
     });
 
