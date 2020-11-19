@@ -221,7 +221,7 @@ class HomeController extends BaseController
         $field = $request->field;
         $value = $request->value;
         $new_customer = NewCustomer::where($field,$value)->first(['salesman_id','id']);
-        
+
         if($new_customer)
         {
             $salesman = Salesman::where('id',$new_customer->salesman_id)->first(['id','name']);
