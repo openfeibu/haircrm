@@ -59,24 +59,28 @@ class HomeController extends BaseController
     }
     public function addGoods()
     {
-        exit;
-        $old_category_id = 469;
 
-        $categories = Category::where('parent_id',433)->where('id','<>',$old_category_id)->get();
+        exit;
+        $old_category_id = 522;
+
+        $categories = Category::where('parent_id',517)->where('id','<>',$old_category_id)->get();
         foreach ($categories as $key => $category)
         {
             $this->addGoodsHandle($old_category_id,$category->id,0,0);
         }
-        /*
-        $category_ids = [
-            '220' => 0,
 
+/*
+        //exit;
+        $old_category_id = 532;
+        $category_ids = [
+            '533' => 0,
+            '534' => 0,
         ];
         foreach ($category_ids as $category_id => $add_purchase_price)
         {
             $this->addGoodsHandle($old_category_id,$category_id,$add_purchase_price,0);
         }
-        */
+*/
         echo "success";exit;
     }
 
@@ -85,6 +89,7 @@ class HomeController extends BaseController
         $new_goods = Goods::where('category_id',$category_id)->first();
         if($new_goods)
         {
+            return "";
             echo "已有该产品".$category_id;exit;
         }
 
@@ -220,13 +225,14 @@ class HomeController extends BaseController
     {
         $field = $request->field;
         $value = $request->value;
-        $new_customer = NewCustomer::where($field,$value)->first(['salesman_id','id']);
+        $new_customer_ids = NewCustomer::where($field,$value)->pluck('salesman_id');
 
-        if($new_customer)
+        if($new_customer_ids)
         {
-            $salesman = Salesman::where('id',$new_customer->salesman_id)->first(['id','name']);
+            $salesmen_name_arr = Salesman::whereIn('id',$new_customer_ids)->pluck('name')->toArray();
+            $salesmen_name = $salesmen_name_arr ? implode('、',$salesmen_name_arr) : '';
             return $this->response
-                ->error('已存在该客户，来源：'.$salesman->name)
+                ->error('已存在该客户，来源：'.$salesmen_name)
                 ->json();
         }
         return $this->response
