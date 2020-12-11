@@ -225,7 +225,7 @@ class HomeController extends BaseController
     {
         $field = $request->field;
         $value = $request->value;
-        $new_customer_ids = NewCustomer::where($field,$value)->pluck('salesman_id');
+        $new_customer_ids = NewCustomer::where($field,$value)->pluck('salesman_id')->toArray();
 
         if($new_customer_ids)
         {
