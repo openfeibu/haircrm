@@ -29,6 +29,16 @@
                             </select>
                         </div>
                         <div class="layui-inline">
+                            @inject('customerRepository','App\Repositories\Eloquent\CustomerRepository')
+                            <select name="customer_id" id="customer_id" class="search_key layui-select" lay-filter="customer" lay-search>
+                                <option value="">{{ trans('customer.name') }}</option>
+                                @foreach($customerRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="layui-inline">
                             <select name="order_status" class="layui-select search_key">
                                 <option value="">{{ trans('order.label.order_status') }}</option>
                                 @foreach(trans('order.order_status') as $key => $order_status)

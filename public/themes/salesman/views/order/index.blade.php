@@ -18,6 +18,16 @@
                         </div>
                     </div>
                     <div class="layui-block mb10">
+
+                        <div class="layui-inline">
+                            @inject('orderModel','App\Models\Order')
+                            <select name="customer_id" id="customer_id" class="search_key layui-select" lay-search>
+                                <option value="">{{ trans('customer.name') }}</option>
+                                @foreach($orderModel->where('salesman_id','=',Auth::user()->id)->orderBy('customer_name','asc')->groupBy('customer_id')->get() as $key => $order)
+                                    <option value="{{ $order->customer_id }}">{{ $order->customer_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <div class="layui-inline">
                             <select name="order_status" class="layui-select search_key">
                                 <option value="">{{ trans('order.label.order_status') }}</option>
