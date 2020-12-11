@@ -209,7 +209,7 @@ class OrderResourceController extends BaseController
                 }
 
             }
-            $freight = $freight_category_id ? get_freight($freight_area_code,$freight_category_id,$weight) : 0;
+
             $order->update($attributes);
             return $this->response->message(trans('messages.success.updated', ['Module' => trans('order.name')]))
                 ->code(0)
