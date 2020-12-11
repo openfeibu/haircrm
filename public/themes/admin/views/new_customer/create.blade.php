@@ -21,75 +21,6 @@
                             </select>
                         </div>
                     </div>
-                    <!--
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.mark') }} *</label>
-                        <div class="layui-input-block">
-                            <select name="mark" lay-filter="checkBox" lay-verify="required">
-                                @foreach(trans('new_customer.mark') as $key => $mark)
-                                    <option value="{{ $key }}">{{ $mark }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    -->
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.company_name') }}</label>
-
-                        <div class="layui-input-block">
-                            <input type="text" name="company_name" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.company_name') }}" class="layui-input">
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.company_website') }}</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="company_website"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.company_website') }}" class="layui-input">
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.nickname') }}</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="nickname" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.nickname') }}" class="layui-input">
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.email') }}</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="email" id="email" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.email') }}" class="layui-input check_exist">
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.mobile') }}</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="mobile"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.mobile') }}" class="layui-input check_exist">
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.imessage') }}</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="imessage"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.imessage') }}" class="layui-input check_exist">
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.whatsapp') }}</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="whatsapp" id="whatsapp"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.whatsapp') }}" class="layui-input check_exist">
-                        </div>
-                    </div>
-
-                    <div class="layui-form-item fb-form-item2">
-                        <label class="layui-form-label">{{ trans('new_customer.label.main_product') }}</label>
-                        <div class="layui-input-block">
-                            <input type="text" name="main_product"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.main_product') }}" class="layui-input">
-                        </div>
-                    </div>
-
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.ig') }}</label>
                         <div class="layui-input-block">
@@ -112,11 +43,70 @@
                     </div>
 
                     <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.email') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="email" id="email" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.email') }}" class="layui-input check_exist">
+                        </div>
+                    </div>
+
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.nickname') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="nickname" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.nickname') }}" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.mobile') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="mobile"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.mobile') }}" class="layui-input check_exist">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.whatsapp') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="whatsapp" id="whatsapp"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.whatsapp') }}" class="layui-input check_exist">
+                        </div>
+                    </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.imessage') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="imessage"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.imessage') }}" class="layui-input check_exist">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.facebook') }}</label>
                         <div class="layui-input-block">
                             <input type="text" name="facebook"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.facebook') }}" class="layui-input">
                         </div>
                     </div>
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.company_website') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="company_website"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.company_website') }}" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.company_name') }}</label>
+
+                        <div class="layui-input-block">
+                            <input type="text" name="company_name" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.company_name') }}" class="layui-input">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.main_product') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="main_product"  autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.main_product') }}" class="layui-input">
+                        </div>
+                    </div>
+
+
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.remark') }}</label>
                         <div class="layui-input-block">
