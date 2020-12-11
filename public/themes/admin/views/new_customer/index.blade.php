@@ -150,9 +150,9 @@
                 ,{field:'company_website',title:'{{ trans('new_customer.label.company_website') }}',edit:'text'}
                 ,{field:'company_name',title:'{{ trans('new_customer.label.company_name') }}',edit:'text'}
                 ,{field:'main_product',title:'{{ trans('new_customer.label.main_product') }}',edit:'text'}
-                ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}',edit:'text'}
                 ,{field:'mail_report_date',title:'{{ trans('mail_schedule_report.name') }}'}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}'}
+                ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}',edit:'text', fixed: 'right'}
                 ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:100, fixed: 'right'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:240, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
