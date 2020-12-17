@@ -64,7 +64,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['salesman_id','salesman_name','company_name','company_website','nickname','email','mobile','imessage','whatsapp','main_product','ig','ig_follower_count','ig_secondary','facebook','mark','remark','created_at','updated_at','deleted_at'],
+        'fillable'     => ['salesman_id','salesman_name','company_name','company_website','nickname','email','mobile','imessage','whatsapp','main_product','ig','ig_sec','ig_follower_count','ig_secondary','facebook','mark','remark','created_at','updated_at','deleted_at'],
         'translate'    => [],
         'upload_folder' => '/new_customer',
         'encrypt'      => ['id'],
