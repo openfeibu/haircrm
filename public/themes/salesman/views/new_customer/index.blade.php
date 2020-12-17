@@ -129,7 +129,7 @@
                 ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}',width:100}
                 ,{field:'ig',title:'{{ trans('new_customer.label.ig') }}',templet:'<div><a href="https://www.instagram.com/@{{ d.ig }}" target="_blank">@{{ d.ig }}</a></div>'}
                 ,{field:'ig_follower_count',title:'{{ trans('new_customer.label.ig_follower_count') }}',edit:'text'}
-                ,{field:'ig_sec',title:'{{ trans('new_customer.label.ig_sec') }}',edit:'text'}
+                ,{field:'ig_sec',title:'{{ trans('new_customer.label.ig_sec') }}',templet:'<div><a href="https://www.instagram.com/@{{ d.ig_sec }}" target="_blank">@{{ d.ig_sec }}</a></div>'}
                 ,{field:'email',title:'{{ trans('new_customer.label.email') }}',edit:'text'}
                 ,{field:'nickname',title:'{{ trans('new_customer.label.nickname') }}',edit:'text'}
                 ,{field:'mobile',title:'{{ trans('new_customer.label.mobile') }}',edit:'text'}
