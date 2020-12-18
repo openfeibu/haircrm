@@ -126,23 +126,23 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80}
-                ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}',width:100}
+                //,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}',width:100}
                 ,{field:'ig',title:'{{ trans('new_customer.label.ig') }}',templet:'<div><a href="https://www.instagram.com/@{{ d.ig }}" target="_blank">@{{ d.ig }}</a></div>'}
-                ,{field:'ig_follower_count',title:'{{ trans('new_customer.label.ig_follower_count') }}',edit:'text'}
-                ,{field:'ig_sec',title:'{{ trans('new_customer.label.ig_sec') }}',templet:'<div>@{{# if(d.ig_sec){ }}<a href="https://www.instagram.com/@{{ d.ig_sec }}" target="_blank">@{{ d.ig_sec }}</a>@{{# }  }}</div>'}
+                ,{field:'ig_follower_count',title:'{{ trans('new_customer.label.ig_follower_count') }}',edit:'text', width:100}
+                ,{field:'ig_sec',title:'{{ trans('new_customer.label.ig_sec') }}',templet:'<div>@{{# if(d.ig_sec){ }}<a href="https://www.instagram.com/@{{ d.ig_sec }}" target="_blank">@{{ d.ig_sec }}</a>@{{# }  }}</div>', width:120}
+                ,{field:'mobile',title:'{{ trans('new_customer.label.mobile') }}', width:160,edit:'text'}
+                ,{field:'whatsapp',title:'{{ trans('new_customer.label.whatsapp') }}', width:160,edit:'text'}
+                ,{field:'imessage',title:'{{ trans('new_customer.label.imessage') }}', width:160,edit:'text'}
                 ,{field:'email',title:'{{ trans('new_customer.label.email') }}',edit:'text'}
-                ,{field:'nickname',title:'{{ trans('new_customer.label.nickname') }}',edit:'text'}
-                ,{field:'mobile',title:'{{ trans('new_customer.label.mobile') }}',edit:'text'}
-                ,{field:'whatsapp',title:'{{ trans('new_customer.label.whatsapp') }}',edit:'text'}
-                ,{field:'imessage',title:'{{ trans('new_customer.label.imessage') }}',edit:'text'}
                 ,{field:'facebook',title:'{{ trans('new_customer.label.facebook') }}',edit:'text'}
+                ,{field:'nickname',title:'{{ trans('new_customer.label.nickname') }}',edit:'text'}
                 ,{field:'company_website',title:'{{ trans('new_customer.label.company_website') }}',edit:'text'}
                 ,{field:'company_name',title:'{{ trans('new_customer.label.company_name') }}',edit:'text'}
                 ,{field:'main_product',title:'{{ trans('new_customer.label.main_product') }}',edit:'text'}
                 ,{field:'mail_report_date',title:'{{ trans('mail_schedule_report.name') }}'}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}'}
-                ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}',edit:'text', fixed: 'right'}
-                ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:120, fixed: 'right'}
+                ,{field:'mark_desc',title:'{{ trans('new_customer.label.mark') }}', width:100}
+                ,{field:'remark',title:'{{ trans('new_customer.label.remark') }}', width:120,edit:'text', fixed: 'right'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:240, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
