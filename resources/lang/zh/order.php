@@ -21,7 +21,8 @@ return [
         'paid_total' => '$实际到账',
         'paid_at' => '支付时间',
         'shipped_at' => '派送时间',
-        'address' => '收货手机和地址'
+        'address' => '收货手机和地址',
+        'admin_remark' => '管理员备注',
     ],
     'order_status' => [
         'unconfirmed' => '未确认',
