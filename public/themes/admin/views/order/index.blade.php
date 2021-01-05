@@ -132,6 +132,7 @@
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
                 ,{field:'paid_at',title:'{{ trans('order.label.paid_at') }}', width:120}
                 ,{field:'shipped_at',title:'{{ trans('order.label.shipped_at') }}', width:120}
+                ,{field:'admin_remark',title:'{{ trans('order.label.admin_remark') }}',edit:'text', width:120 ,fixed: 'right'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:280, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'

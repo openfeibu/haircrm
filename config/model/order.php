@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['order_sn','customer_id','customer_name','address','salesman_id','salesman_name','salesman_en_name','purchase_price','selling_price','number','order_status','shipping_status','pay_status','payment_id','payment_name','payment_sn','tracking_number','weight','freight','total','paypal_fee','paid_total','remark','paid_at','shipped_at'],
+        'fillable'     => ['order_sn','customer_id','customer_name','address','salesman_id','salesman_name','salesman_en_name','purchase_price','selling_price','number','order_status','shipping_status','pay_status','payment_id','payment_name','payment_sn','tracking_number','weight','freight','total','paypal_fee','paid_total','remark','admin_remark','paid_at','shipped_at'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],
