@@ -66,7 +66,6 @@
             }else{
                 appendTbody(node)
             }
-            handle_number();
         }
 
         function handle_number() {
@@ -145,6 +144,7 @@
                             node.number = 1;
                             cart_data.push(node);
                             table.reload("cart",{data:cart_data});
+                            handle_number();
                         }else{
                             layer.msg(data.message);
                         }
@@ -158,6 +158,7 @@
                 node.number = 1;
                 cart_data.push(node);
                 table.reload("cart",{data:cart_data});
+                handle_number();
             }
         }
 
