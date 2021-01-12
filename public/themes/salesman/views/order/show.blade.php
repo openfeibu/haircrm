@@ -9,6 +9,29 @@
     <div class="main_full">
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
+            <div class="fb-main-table">
+                <form class="layui-form" action="{{guard_url('order')}}" method="post" lay-filter="fb-form">
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">选择分类 *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="category_id" id="category_tree" lay-verify="tree" autocomplete="off" placeholder="请选择分类(加载中)" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item fb-form-item2 " id="goods_attributes" style="display:none;">
+                        <label class="layui-form-label">选择尺寸 *</label>
+                        <div class="fb-form-item-box fb-clearfix">
+                            <div class="layui-input-block layui-input-line">
+                                <p class="input-p a-select" id="size">
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {!!Form::token()!!}
+
+                </form>
+            </div>
             <div class="table-Box">
                 <div class="goods_list">
                     <table class="layui-table" lay-filter="cart" id="cart">
@@ -19,9 +42,11 @@
                             <th lay-data="{field:'attribute_value'}">尺寸</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
                             <th lay-data="{field:'weight', edit: 'text'}">{{ trans('order.label.weight') }}</th>
-                            <th lay-data="{field:'number', edit: 'text'}">数量</th>
+                            <th lay-data="{field:'number', edit: 'text'}">{{ trans('app.number') }}</th>
                             <th lay-data="{field:'remark', edit: 'text'}">{{ trans('app.remark') }}</th>
-                            <th lay-data="{field:'freight_category_id',  hide:true}">freight_category_id</th>
+                            <th lay-data="{field:'freight_category_id', hide:true}">freight_category_id</th>
+                            <th lay-data="{field:'list_id', hide:true}">list_id</th>
+                            <th lay-data="{field:'score',title:'{{ trans('app.actions') }}', width:120, align: 'right',toolbar:'#barDemo'}">{{ trans('app.actions') }}</th>
                         </tr>
                         </thead>
                         <tbody id="myTbody">
@@ -35,6 +60,8 @@
                                     <td>{{ $order_goods->number }}</td>
                                     <td>{{ $order_goods->remark }}</td>
                                     <td>{{ $order_goods->freight_category_id }}</td>
+                                    <td>{{ $order_goods->goods_id }}-{!! $order_goods->goods_attribute_value_id ? $order_goods->goods_attribute_value_id : '' !!}</td>
+                                    <td></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -110,7 +137,11 @@
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>
+<script>
+    var order_id = "{{ $order->id }}";
+</script>
 
+@include('order/category_tree_js')
 @include('order/handle_cart')
 
 <script>
@@ -129,7 +160,38 @@
 
             }
         });
+        table.on('tool(cart)', function(obj){
+            if(obj.event === 'del'){
+                layer.confirm('{{ trans('messages.confirm_delete') }}', function(index){
+                    layer.close(index);
+                    var load = layer.load();
+                    var ajax_data = obj.data;
+                    ajax_data['_token'] = "{!! csrf_token() !!}";
+                    $.ajax({
+                        url : "{{ guard_url('order_goods') }}/"+ajax_data.id,
+                        data : ajax_data,
+                        type : 'delete',
+                        success : function (data) {
+                            if(data.code == 0) {
+                                layer.closeAll();
+                                obj.del();
+                                handle_number();
+                            }else{
+                                layer.closeAll();
+                                layer.msg(data.message);
+                            }
+                        },
+                        error : function (jqXHR, textStatus, errorThrown) {
+                            layer.close(load);
+                            $.ajax_error(jqXHR, textStatus, errorThrown);
+                        }
+                    });
+                    return false;
+                })
 
+
+            }
+        });
         //监听提交
         form.on('submit(submit_btn)', function(data){
             var tableData = layui.table.cache.cart;

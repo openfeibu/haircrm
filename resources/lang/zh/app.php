@@ -120,7 +120,7 @@ return [
     'paypal_fee' => '$PayPal',
     'remark' => '备注',
     'submit' => '提交',
-
+    'number' => '数量',
     'yes_no' => [
         '0' => '否',
         '1' => '是'

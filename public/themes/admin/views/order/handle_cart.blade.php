@@ -146,7 +146,7 @@
             {
                 return 0;
             }
-console.log(goods_weight);
+           // console.log(goods_weight);
             var first_freight =  parseInt(freight_config[freight_category_id][freight_area_code]['first_freight']);
             var continued_freight =  parseInt(freight_config[freight_category_id][freight_area_code]['continued_freight']);
 
@@ -161,18 +161,46 @@ console.log(goods_weight);
         }
 
         function appendTbody(node) {
-            var data = [];
+            var cart_data = [];
+            var ajax_data = node;
             var tableData = layui.table.cache.cart;
             if(tableData != null)
             {
                 for (var i=0;i<tableData.length;i++)
                 {
-                    data.push(tableData[i]);
+                    cart_data.push(tableData[i]);
                 }
             }
-            node.number = 1;
-            data.push(node);
-            table.reload("cart",{data:data});
+            if(typeof(order_id)!="undefined" && order_id.length>0)
+            {
+                ajax_data['_token'] = "{!! csrf_token() !!}";
+                ajax_data['order_id'] = node['order_id'] = order_id;
+                var load = layer.load();
+                $.ajax({
+                    url : "{{ guard_url('order_goods') }}",
+                    data : ajax_data,
+                    type : 'POST',
+                    success : function (data) {
+                        layer.close(load);
+                        if(data.code == 0) {
+                            node = data.data;
+                            node.number = 1;
+                            cart_data.push(node);
+                            table.reload("cart",{data:cart_data});
+                        }else{
+                            layer.msg(data.message);
+                        }
+                    },
+                    error : function (jqXHR, textStatus, errorThrown) {
+                        layer.close(load);
+                        $.ajax_error(jqXHR, textStatus, errorThrown);
+                    }
+                });
+            }else{
+                node.number = 1;
+                cart_data.push(node);
+                table.reload("cart",{data:cart_data});
+            }
         }
         $("body").on('click','#size a',function () {
             var i = $(this).attr('i');

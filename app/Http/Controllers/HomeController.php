@@ -60,25 +60,27 @@ class HomeController extends BaseController
     public function addGoods()
     {
 
-        exit;
-        $old_category_id = 522;
+       // exit;
+        /*
+        $old_category_id = 536;
 
         $categories = Category::where('parent_id',517)->where('id','<>',$old_category_id)->get();
         foreach ($categories as $key => $category)
         {
             $this->addGoodsHandle($old_category_id,$category->id,0,0);
         }
+        */
 
 /*
         //exit;
-        $old_category_id = 532;
+        $old_category_id = 536;
         $category_ids = [
-            '533' => 0,
-            '534' => 0,
+            '538' => 30,
+            '539' => 30,
         ];
         foreach ($category_ids as $category_id => $add_purchase_price)
         {
-            $this->addGoodsHandle($old_category_id,$category_id,$add_purchase_price,0);
+            $this->addGoodsHandle($old_category_id,$category_id,$add_purchase_price,10);
         }
 */
         echo "success";exit;

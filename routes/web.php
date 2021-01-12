@@ -114,6 +114,8 @@ Route::group([
     Route::get('/order_download/purchase_order', 'OrderResourceController@downloadPurchaseOrder')->name('order.download_purchase_order');
     Route::get('/order_download/quotation_list', 'OrderResourceController@downloadQuotationList')->name('order.download_quotation_list');
 
+    Route::resource('order_goods', 'OrderGoodsResourceController');
+    Route::post('/order_goods/destroyAll', 'OrderGoodsResourceController@destroyAll')->name('order_goods.destroy_all');
 
     Route::resource('mail_account', 'MailAccountResourceController');
     Route::post('/mail_account/destroyAll', 'MailAccountResourceController@destroyAll')->name('mail_account.destroy_all');
@@ -179,6 +181,9 @@ Route::group([
     Route::get('/order_download/quotation_list', 'OrderResourceController@downloadQuotationList')->name('order.download_quotation_list');
     Route::get('/category_goods','GoodsResourceController@categoryGoods')->name('goods.category_goods');
     Route::get('locked', 'UserController@locked');
+
+    Route::resource('order_goods', 'OrderGoodsResourceController');
+    Route::post('/order_goods/destroyAll', 'OrderGoodsResourceController@destroyAll')->name('order_goods.destroy_all');
 
     Route::resource('mail_account', 'MailAccountResourceController');
     Route::post('/mail_account/destroyAll', 'MailAccountResourceController@destroyAll')->name('mail_account.destroy_all');
