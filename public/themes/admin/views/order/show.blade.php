@@ -165,6 +165,14 @@
                             </div>
                         </div>
                         @endif
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">{{ trans('order.label.admin_remark') }}</label>
+
+                            <div class="layui-input-inline">
+                                <textarea name="admin_remark" id="admin_remark" placeholder="请输入{{ trans('order.label.admin_remark') }}" class="layui-textarea">{{ $order->admin_remark }}</textarea>
+                            </div>
+
+                        </div>
                     </form>
                 </div>
 
@@ -243,7 +251,7 @@
             var salesman_id = $('#salesman_id').val();
             var tracking_number = $('#tracking_number').val();
             var payment_sn = $('#payment_sn').val();
-
+            var admin_remark = $('#admin_remark').val();
             if(!tableData)
             {
                 layer.msg("请先添加订单产品");
@@ -254,7 +262,7 @@
                 layer.msg("客户、地址、业务员必填");
                 return false;
             }
-            var ajax_data = {'_token':"{!! csrf_token() !!}",customer_id:customer_id,address:address,salesman_id:salesman_id,'carts':tableData,tracking_number:tracking_number,payment_sn:payment_sn};
+            var ajax_data = {'_token':"{!! csrf_token() !!}",customer_id:customer_id,address:address,salesman_id:salesman_id,'carts':tableData,tracking_number:tracking_number,payment_sn:payment_sn,admin_remark:admin_remark};
             var load = layer.load();
             $.ajax({
                 url : "{{ guard_url('order/'.$order->id) }}",

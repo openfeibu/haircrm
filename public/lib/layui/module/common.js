@@ -1,5 +1,7 @@
 layui.config({
-    base: '/lib/layui/module/'
+    base: '/lib/layui/module/',
+    debug: true
 }).extend({
-    treeSelect: 'treeSelect/treeSelect'
+    treeSelect: 'treeSelect/treeSelect',
+    echarts: 'echarts/echarts'
 });
