@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Salesman;
 use App\Http\Controllers\Salesman\ResourceController as BaseController;
 use App\Models\Order;
 use App\Models\OrderGoods;
+use App\Models\Goods;
+use App\Models\GoodsAttributeValue;
 use App\Repositories\Eloquent\CustomerRepository;
 use App\Repositories\Eloquent\OrderGoodsRepository;
 use App\Repositories\Eloquent\SalesmanRepository;
@@ -59,6 +61,11 @@ class OrderGoodsResourceController extends BaseController
             $cart = $request->all();
             $order = $this->orderRepository->find($cart['order_id']);
             $supplier = $this->supplierRepository->getSupplier($cart['goods_id']);
+            if(!$cart['attribute_id']) {
+                $cart['purchase_price'] = Goods::where('id',$cart['goods_id'])->value('purchase_price');
+            }else{
+                $cart['purchase_price'] = GoodsAttributeValue::where('id',$cart['goods_attribute_value_id'])->value('purchase_price');
+            }
             $data = [
                 'order_id' => $order->id,
                 'order_sn' => $order->order_sn,

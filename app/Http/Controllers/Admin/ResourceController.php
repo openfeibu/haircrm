@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Request;
 use App\Models\Customer;
 use App\Models\Goods;
 use App\Models\MailScheduleReport;
 use App\Models\NewCustomer;
 use App\Models\Order;
+use App\Models\OrderGoods;
 use Route;
 use App\Http\Controllers\Admin\Controller as BaseController;
 use App\Traits\AdminUser\AdminUserPages;
@@ -72,9 +74,20 @@ class ResourceController extends BaseController
         $mail_sent_count = MailScheduleReport::where('sent',1)->where('status','success')->count();
         $goods_count = Goods::count();
 
+        $hot_goods_list = OrderGoods::join('orders','orders.id','=','order_goods.order_id')->where('orders.pay_status','paid')->groupBy('order_goods.goods_id')->orderBy('count','desc')->selectRaw('count(*) as count,sum(order_goods.number) as sum,order_goods.goods_id,CONCAT(order_goods.goods_name," ",order_goods.attribute_value) as goods_name')->limit(10)->get()->toArray();
+
+        $hot_goods_name_list = array_column($hot_goods_list,'goods_name');
+        $hot_goods_names = implode("<br />",$hot_goods_name_list);
+
+        $begin_month = date('Y-m-01 00:00:00');
+        $end_month = date('Y-m-d 23:59:59', strtotime("$begin_month +1 month -1 day"));
+        $this_month_hot_goods_list = OrderGoods::join('orders','orders.id','=','order_goods.order_id')->where('orders.pay_status','paid')->whereBetween('orders.created_at',[$begin_month,$end_month])->groupBy('order_goods.goods_id')->orderBy('count','desc')->selectRaw('count(*) as count,sum(order_goods.number) as sum, order_goods.goods_id,CONCAT(order_goods.goods_name," ",order_goods.attribute_value) as goods_name')->limit(10)->get()->toArray();
+        $this_month_hot_goods_name_list = array_column($this_month_hot_goods_list,'goods_name');
+        $this_month_hot_goods_names = implode("<br />",$this_month_hot_goods_name_list);
+
         return $this->response->title(trans('app.admin.panel'))
             ->view('home')
-            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count'))
+            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count','hot_goods_names','this_month_hot_goods_names','hot_goods_list','this_month_hot_goods_list'))
             ->output();
     }
     public function dashboard()
@@ -82,5 +95,33 @@ class ResourceController extends BaseController
         return $this->response->title('测试')
             ->view('dashboard')
             ->output();
+    }
+
+    public function getTrading(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $date_type = $attributes['date_type'];
+            switch ($date_type)
+            {
+                case 'days':
+                    break;
+                case 'this_month':
+                    break;
+                case 'this_quarter':
+                    break;
+                case 'this_year':
+                    break;
+                case 'last_year':
+                    break;
+            }
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->code(400)
+                ->status('error')
+                ->url(guard_url('/'))
+                ->redirect();
+        }
     }
 }

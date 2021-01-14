@@ -80,28 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>最热销产品</b>
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">热</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $today_order_count }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>本月最热销产品</b>
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">月</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $order_count }}</p>
-                        </div>
-                    </div>
-                </div>
+
                  <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
                         <div class="layui-card-header">
@@ -152,44 +131,103 @@
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
-			<div class="power-box  fb-clearfix">
-				<p>常用功能</p>
-				<div class="power-box-con">
-					<div class="power-box-item layui-col-md2">
-						<a href="{{ guard_url('order/create') }}">
-							添加订单
-						</a>
-					</div>	
-					<div class="power-box-item layui-col-md2">
-						<a href="{{ guard_url('customer/create') }}">
-							添加客户
-						</a>
-					</div>
+
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card-box layui-col-space15  fb-clearfix">
+                <div class="layui-col-sm6 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>最热销产品</b>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">热</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list" style="height:200px;">
+                            @foreach($hot_goods_list as $key => $goods_list)
+                                <p class="">
+                                    <span class="layui-badge layui-bg-red" style="float: none">{!! $key+1 !!}</span>
+                                    {!! $goods_list['goods_name'] !!}
+                                    <span class="layuiadmin-big-font">{{ $goods_list['count'] }}</span>次
+                                    <span class="layuiadmin-big-font">{{ $goods_list['sum'] }}</span>个</p>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm6 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>本月最热销产品</b>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">月</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list" style="height:200px;">
+                            @foreach($this_month_hot_goods_list as $key => $goods_list)
+                                <p class="">
+                                    <span class="layui-badge layui-bg-red" style="float: none">{!! $key+1 !!}</span>
+                                    {!! $goods_list['goods_name'] !!}
+                                    <span class="layuiadmin-big-font">{{ $goods_list['count'] }}</span>次
+                                    <span class="layuiadmin-big-font">{{ $goods_list['sum'] }}</span>个</p>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="power-box  fb-clearfix">
+                <p>常用功能</p>
+                <div class="power-box-con">
+                    <div class="power-box-item layui-col-md2">
+                        <a href="{{ guard_url('order/create') }}">
+                            添加订单
+                        </a>
+                    </div>
+                    <div class="power-box-item layui-col-md2">
+                        <a href="{{ guard_url('customer/create') }}">
+                            添加客户
+                        </a>
+                    </div>
                     <div class="power-box-item layui-col-md2">
                         <a href="{{ guard_url('new_customer/create') }}">
                             添加收集客户
                         </a>
                     </div>
-					<div class="power-box-item layui-col-md2">
-						<a href="{{ guard_url('goods/create') }}">
-							添加产品
-						</a>
-					</div>	
-					<div class="power-box-item layui-col-md2">
-						<a href="{{ guard_url('mail_schedule') }}">
-							营销邮箱
-						</a>
-					</div>	
-				</div>	
-			</div>
+                    <div class="power-box-item layui-col-md2">
+                        <a href="{{ guard_url('goods/create') }}">
+                            添加产品
+                        </a>
+                    </div>
+                    <div class="power-box-item layui-col-md2">
+                        <a href="{{ guard_url('mail_schedule') }}">
+                            营销邮箱
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-
         <div class="layui-col-md12">
             <div class="layui-card">
-               <div class="layui-card-header">柱形图</div>
+                <div class="layui-card-header">交易走势</div>
+                <div class="">
+                    <form class="layui-form" action="" lay-filter="fb-form">
+                        <div class="layui-row mb10">
+                            <div class="layui-inline">
+                                <select name="date_type" class="layui-select">
+                                    <option value="days">近7天</option>
+                                    <option value="this_month">本月</option>
+                                    <option value="this_quarter">本季度</option>
+                                    <option value="this_year">今年</option>
+                                    <option value="last_year">去年</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div class="layui-card-body">
-                    <div id="EchartZhu" style="width: 500px;height: 500px;"> </div>
+                    <div id="EchartZhu" style="width: 100%;height: 500px;"> </div>
                 </div>
             </div>
         </div>
@@ -208,31 +246,33 @@
         //指定图表配置项和数据
         var optionchart = {
             title: {
-                text: '商品订单'
+                text: '交易走势'
             },
-            tooltip: {},
+            tooltip: {
+                trigger: 'axis'
+            },
             legend: {
-                data: ['销量']
+                data: ['成交量','成交额']
             },
             xAxis: {
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周天']
+                data: []
             },
             yAxis: {
                 type: 'value'
             },
             series: [{
-                name: '销量',
-                type: 'bar', //柱状
-                data: [100,200,300,400,500,600,700],
+                name: '成交量',
+                type: 'line', //柱状
+                data: [],
                 itemStyle: {
                     normal: { //柱子颜色
                         color: 'red'
                     }
                 },
             },{
-                name:'产量',
-                type:'bar',
-                data:[120,210,340,430,550,680,720],
+                name:'成交额',
+                type:'line',
+                data:[],
                 itemStyle:{
                     normal:{
                         color:'blue'
@@ -241,80 +281,7 @@
             }]
         };
 
-        var optionchartZhe = {
-            title: {
-                text: '商品订单'
-            },
-            tooltip: {},
-            legend: { //顶部显示 与series中的数据类型的name一致
-                data: ['销量', '产量', '营业额', '单价']
-            },
-            xAxis: {
-                // type: 'category',
-                // boundaryGap: false, //从起点开始
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                name: '销量',
-                type: 'line', //线性
-                data: [145, 230, 701, 734, 1090, 1130, 1120],
-            }, {
-                name: '产量',
-                type: 'line', //线性
-                data: [720, 832, 801, 834, 1190, 1230, 1220],
-            }, {
-                smooth: true, //曲线 默认折线
-                name: '营业额',
-                type: 'line', //线性
-                data: [820, 932, 901, 934, 1290, 1330, 1320],
-            }, {
-                smooth: true, //曲线
-                name: '单价',
-                type: 'line', //线性
-                data: [220, 332, 401, 534, 690, 730, 820],
-            }]
-        };
-
-        var optionchartBing = {
-            title: {
-                text: '商品订单',
-                subtext: '纯属虚构', //副标题
-                x: 'center' //标题居中
-            },
-            tooltip: {
-                // trigger: 'item' //悬浮显示对比
-            },
-            legend: {
-                orient: 'vertical', //类型垂直,默认水平
-                left: 'left', //类型区分在左 默认居中
-                data: ['单价', '总价', '销量', '产量']
-            },
-            series: [{
-                type: 'pie', //饼状
-                radius: '60%', //圆的大小
-                center: ['50%', '50%'], //居中
-                data: [{
-                    value: 335,
-                    name: '单价'
-                },
-                    {
-                        value: 310,
-                        name: '总价'
-                    },
-                    {
-                        value: 234,
-                        name: '销量'
-                    },
-                    {
-                        value: 135,
-                        name: '产量'
-                    }
-                ]
-            }]
-        };
         chartZhu.setOption(optionchart, true);
+        chartZhu.showLoading();
     });
 </script>
