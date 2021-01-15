@@ -215,73 +215,103 @@
                     <form class="layui-form" action="" lay-filter="fb-form">
                         <div class="layui-row mb10">
                             <div class="layui-inline">
-                                <select name="date_type" class="layui-select">
+                                <select name="date_type" class="layui-select" lay-filter="date_type" id="date_type">
                                     <option value="days">近7天</option>
                                     <option value="this_month">本月</option>
-                                    <option value="this_quarter">本季度</option>
+                                    <option value="last_month">上个月</option>
                                     <option value="this_year">今年</option>
                                     <option value="last_year">去年</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="layui-card-body">
-                    <div id="EchartZhu" style="width: 100%;height: 500px;"> </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                               </select>
+                           </div>
+                       </div>
+                   </form>
+               </div>
+               <div class="layui-card-body">
+                   <div id="trading" style="width: 100%;height: 500px;"> </div>
+               </div>
+           </div>
+       </div>
+   </div>
 </div>
 <div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
 
 <script>
-    layui.use(['jquery','element','form','table','echarts'], function(){
-        var form = layui.form;
-        var element = layui.element;
-        var $ = layui.$;
-        var echarts = layui.echarts;
-        console.log(echarts);
-        var chartZhu = echarts.init(document.getElementById('EchartZhu'));
-        //指定图表配置项和数据
-        var optionchart = {
-            title: {
-                text: '交易走势'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['成交量','成交额']
-            },
-            xAxis: {
-                data: []
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                name: '成交量',
-                type: 'line', //柱状
-                data: [],
-                itemStyle: {
-                    normal: { //柱子颜色
-                        color: 'red'
-                    }
-                },
-            },{
-                name:'成交额',
-                type:'line',
-                data:[],
-                itemStyle:{
-                    normal:{
-                        color:'blue'
-                    }
-                }
-            }]
-        };
+   layui.use(['jquery','element','form','table','echarts'], function(){
+       var form = layui.form;
+       var element = layui.element;
+       var $ = layui.$;
+       var echarts = layui.echarts;
+       console.log(echarts);
+       var trading = echarts.init(document.getElementById('trading'));
+       //指定图表配置项和数据
+       var trading_option = {
+           title: {
+               text: '交易走势'
+           },
+           tooltip: {
+               trigger: 'axis'
+           },
+           legend: {
+               data: ['成交量','成交额']
+           },
+           xAxis: {
+               data: []
+           },
+           yAxis: {
+               type: 'value'
+           },
+           series: [{
+               name: '成交量',
+               type: 'line', //柱状
+               data: [],
+               itemStyle: {
+                   normal: { //柱子颜色
+                       color: 'red'
+                   }
+               },
+           },{
+               name:'成交额',
+               type:'line',
+               data:[],
+               itemStyle:{
+                   normal:{
+                       color:'blue'
+                   }
+               }
+           }]
+       };
+       trading.setOption(trading_option, true);
+       trading.showLoading();
+       var date_type = $('#date_type').val();
+       ajax_trading(date_type);
 
-        chartZhu.setOption(optionchart, true);
-        chartZhu.showLoading();
-    });
+
+       form.on('select(date_type)', function (data) {
+           var date_type = $('#date_type').val();
+
+           trading.showLoading();
+           ajax_trading(date_type);
+       });
+       function ajax_trading(date_type) {
+           $.get('{{ guard_url("trading") }}?date_type='+date_type).done(function (data) {
+               trading.hideLoading();
+               // 填入数据
+               trading.setOption({
+                   xAxis: {
+                       data: data.data.date_arr
+                   },
+                   series: [{
+                       // 根据名字对应到相应的系列
+                       name: '成交量',
+                       data: data.data.order_count_arr
+                   },{
+                       // 根据名字对应到相应的系列
+                       name: '成交额',
+                       data: data.data.turnover_arr
+                   },
+                   ]
+               });
+           });
+       }
+   });
 </script>

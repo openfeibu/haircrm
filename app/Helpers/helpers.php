@@ -943,13 +943,15 @@ if (!function_exists('get_admin_table_model')) {
         }
     }
 }
-function get_admin_detail($admin_model,$admin_id)
-{
-    $role_name = get_admin_role_name($admin_model);
-    $admin_table_model = get_admin_table_model($admin_model);
-    $admin_name = $admin_table_model::where('id',$admin_id)->value('name');
-    $admin_name = isset($admin_name) && $admin_name ? $admin_name : '不存在';
-    return '('.$role_name.')'.$admin_name;
+if (!function_exists('get_admin_detail')) {
+    function get_admin_detail($admin_model, $admin_id)
+    {
+        $role_name = get_admin_role_name($admin_model);
+        $admin_table_model = get_admin_table_model($admin_model);
+        $admin_name = $admin_table_model::where('id', $admin_id)->value('name');
+        $admin_name = isset($admin_name) && $admin_name ? $admin_name : '不存在';
+        return '(' . $role_name . ')' . $admin_name;
+    }
 }
 if (!function_exists('get_admin_models')) {
     function get_admin_models()
@@ -957,6 +959,59 @@ if (!function_exists('get_admin_models')) {
         return ['App\Models\Salesman','App\Models\AdminUser'];
     }
 }
-function checkEmail($inAddress){
-    return (preg_match("/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/i",$inAddress));
+if (!function_exists('checkEmail')) {
+    function checkEmail($inAddress)
+    {
+        return (preg_match("/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/i", $inAddress));
+    }
+}
+/**
+ * 获取最近七天所有日期
+ */
+if (!function_exists('get_weeks')) {
+    function get_weeks($time = '', $format = 'Y-m-d')
+    {
+        $time = $time != '' ? $time : time();
+        //组合数据
+        $date = [];
+        for ($i = 1; $i <= 7; $i++) {
+            $date[$i] = date($format, strtotime('+' . $i - 7 . ' days', $time));
+        }
+        return $date;
+    }
+}
+/**
+ * 获取当前月的所有日期
+ * @return array
+ */
+if (!function_exists('get_month_days')) {
+    function get_month_days($month='')
+    {
+        $monthDays = [];
+        $firstDay = $month ? date('Y-'.$month.'-01', time()) : date('Y-m-01', time());
+        $i = 0;
+        $lastDay = date('Y-m-d', strtotime("$firstDay +1 month -1 day"));
+        while (date('Y-m-d', strtotime("$firstDay +$i days")) <= $lastDay)
+        {
+            $monthDays[] = date('Y-m-d', strtotime("$firstDay +$i days"));
+            $i++;
+        }
+        return $monthDays;
+    }
+}
+/**
+ * 获取十二个月份
+ * @return array
+ */
+if (!function_exists('get_months')) {
+    function get_months($year='')
+    {
+        $months = [];
+        $year = $year ? $year : date('Y');
+        for($i = 1;$i<=12;$i++)
+        {
+            $months[] = $i < 10 ? $year.'-0'.$i : $year.'-'.$i;
+        }
+        return $months;
+    }
 }

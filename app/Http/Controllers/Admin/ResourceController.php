@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Request;
+use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Goods;
 use App\Models\MailScheduleReport;
@@ -101,20 +101,101 @@ class ResourceController extends BaseController
     {
         try {
             $attributes = $request->all();
-            $date_type = $attributes['date_type'];
+            $date_type = isset($attributes['date_type']) && $attributes['date_type'] ? $attributes['date_type'] : 'days';
+            $series_data = [];
+            $order_count_arr = $turnover_arr =  [];
             switch ($date_type)
             {
                 case 'days':
+                    $date_arr = get_weeks();
+                    foreach ($date_arr as $key => $date)
+                    {
+                        $order_count_arr[$key] = Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
+                        $turnover_arr[$key] =  Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
+                    }
                     break;
                 case 'this_month':
+                    $date_arr = get_month_days();
+                    foreach ($date_arr as $key => $date)
+                    {
+                        if($date<= date('Y-m-d'))
+                        {
+                            $order_count_arr[] = Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
+                        }else{
+                            $order_count_arr[] = 0;
+                            $order_count_arr[] = 0;
+                        }
+                    }
                     break;
-                case 'this_quarter':
+                case 'last_month':
+                    $date_arr = get_month_days(date("m", strtotime("-1 month")));
+                    foreach ($date_arr as $key => $date)
+                    {
+                        if($date<= date('Y-m-d'))
+                        {
+                            $order_count_arr[] = Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
+                        }else{
+                            $order_count_arr[] = 0;
+                            $order_count_arr[] = 0;
+                        }
+                    }
                     break;
                 case 'this_year':
+                    $date_arr = get_months();
+                    foreach ($date_arr as $key => $month)
+                    {
+                        $first_day = $month."-01 00:00:00";
+                        $end_day = date('Y-m-d 23:59:59', strtotime("$first_day +1 month -1 day"));
+                        if($month <= date('Y-m'))
+                        {
+                            $order_count_arr[] = Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->sum('total');
+                        }else{
+                            $order_count_arr[] = 0;
+                            $order_count_arr[] = 0;
+                        }
+                    }
                     break;
                 case 'last_year':
+                    $date_arr = get_months(date("Y", strtotime("-1 year")));
+                    foreach ($date_arr as $key => $month)
+                    {
+                        $first_day = $month."-01 00:00:00";
+                        $end_day = date('Y-m-d 23:59:59', strtotime("$first_day +1 month -1 day"));
+                        if($month <= date('Y-m'))
+                        {
+                            $order_count_arr[] = Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->sum('total');
+                        }else{
+                            $order_count_arr[] = 0;
+                            $order_count_arr[] = 0;
+                        }
+                    }
                     break;
             }
+            /*
+            $series = [
+                [
+                    'name' => '成交量',
+                    'type' => 'line',
+                    'data' => $order_count_arr,
+                ],
+                [
+                    'name' => '成交额',
+                    'type' => 'line',
+                    'data' => $turnover_arr,
+                ]
+            ];
+            */
+            $date_arr = array_values($date_arr);
+            $order_count_arr = array_values($order_count_arr);
+            $turnover_arr = array_values($turnover_arr);
+            return $this->response
+                ->success()
+                ->data(compact('date_arr','order_count_arr','turnover_arr'))
+                ->json();
 
         } catch (Exception $e) {
             return $this->response->message($e->getMessage())

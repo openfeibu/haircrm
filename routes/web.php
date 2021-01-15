@@ -135,6 +135,9 @@ Route::group([
     Route::post('/role/destroyAll', 'RoleResourceController@destroyAll')->name('role.destroy_all');
     Route::get('logout', 'Auth\LoginController@logout');
     Route::get('locked', 'UserController@locked');
+
+
+    Route::get('/trading', 'ResourceController@getTrading')->name('trading');
 });
 Route::group([
     'namespace' => 'Salesman',
@@ -194,6 +197,8 @@ Route::group([
     Route::post('mail_schedule/send/new_customer', 'MailScheduleResourceController@sendNewCustomer')->name('mail.send.new_customer');
     Route::resource('mail_schedule_report', 'MailScheduleReportResourceController');
     Route::post('/mail_schedule_report/destroyAll', 'MailScheduleReportResourceController@destroyAll')->name('mail_schedule_report.destroy_all');
+
+
 });
 /*
 Route::group([
