@@ -985,10 +985,10 @@ if (!function_exists('get_weeks')) {
  * @return array
  */
 if (!function_exists('get_month_days')) {
-    function get_month_days($month='')
+    function get_month_days($year_month='')
     {
         $monthDays = [];
-        $firstDay = $month ? date('Y-'.$month.'-01', time()) : date('Y-m-01', time());
+        $firstDay = $year_month ? date($year_month.'-01') : date('Y-m-01');
         $i = 0;
         $lastDay = date('Y-m-d', strtotime("$firstDay +1 month -1 day"));
         while (date('Y-m-d', strtotime("$firstDay +$i days")) <= $lastDay)

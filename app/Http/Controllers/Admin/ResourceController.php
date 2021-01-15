@@ -129,7 +129,7 @@ class ResourceController extends BaseController
                     }
                     break;
                 case 'last_month':
-                    $date_arr = get_month_days(date("m", strtotime("-1 month")));
+                    $date_arr = get_month_days(date("Y-m", strtotime("-1 month")));
                     foreach ($date_arr as $key => $date)
                     {
                         if($date<= date('Y-m-d'))
