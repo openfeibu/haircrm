@@ -105,7 +105,18 @@
                         </div>
                     </div>
                 </div>
-               
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>待发货</b>
+                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list">
+                            <p class="layuiadmin-big-font">{{ $unshipped_count }}</p>
+
+                        </div>
+                    </div>
+                </div>
                
                 <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">

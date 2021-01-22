@@ -25,6 +25,7 @@
     @{{#  } }}
     <a class="layui-btn layui-btn-sm" href="{{ guard_url('order') }}/@{{ d.id }}" >{{ trans('app.edit') }}</a>
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
+    <a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="new_window">{{ trans('goods.name') }}</a>
 </script>
 <script type="text/html" id="order_status_tpl">
     <div>
@@ -161,6 +162,43 @@
 
                     }
                 });
+            },
+            new_window: function (obj) {
+                var goods_list = '<table class="layui-table">\
+                        <thead>\
+                        <tr>\
+                        <th width="380">{{ trans('goods.name') }}</th>\
+                        <th width="120">{{ trans('goods.label.size') }}</th>\
+                        <th width="80">{{ trans('app.number') }}</th>\
+                        <th width="120">{{ trans('app.remark') }}</th>\
+                        </tr>\
+                        </thead>\
+                        <tbody>';
+                $.each(obj['goods_list'], function (index, value) {
+                    goods_list += '<tr><td>'+value.goods_name+'</td><td>'+value.attribute_value+'</td><td>'+value.number+'</td><td>'+value.remark+'</td></tr>';
+                });
+
+                goods_list +='</tbody></table>';
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area:['600px'],
+                    closeBtn: 1,
+                    shadeClose: true,
+                    content: goods_list
+                });
+
+                /*
+                layer.open({
+                    type: 2,
+                    title: false,
+                    area: ['920px', '660px'],
+                    shade: 0.8,
+                    closeBtn: 1,
+                    shadeClose: true,
+                    content: "{{ guard_url('order') }}/"+obj['id']
+                });
+                */
             },
             cancel:function (obj) {
                 layer.confirm('该操作无法撤回，确定取消吗？',{title:'提示'},function(index){
