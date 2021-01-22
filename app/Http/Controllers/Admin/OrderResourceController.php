@@ -55,12 +55,16 @@ class OrderResourceController extends BaseController
                 if($paid_at_range)
                 {
                     $orders = $orders->where('paid_at','>=',trim($paid_at_range[0]).' 00:00:00')
-                        ->where('paid_at','<=',trim($paid_at_range[1]).' 59:59:59');
+                        ->where('paid_at','<=',trim($paid_at_range[1]).' 23:59:59');
                 }
             }
             $orders = $orders->orderBy('id','desc')
                 ->paginate($limit);
 
+            foreach ($orders as $key => $order)
+            {
+                $order->goods_list = $this->orderGoodsRepository->getOrderGoodsList($order->id);
+            }
             return $this->response
                 ->success()
                 ->count($orders->total())

@@ -85,9 +85,11 @@ class ResourceController extends BaseController
         $this_month_hot_goods_name_list = array_column($this_month_hot_goods_list,'goods_name');
         $this_month_hot_goods_names = implode("<br />",$this_month_hot_goods_name_list);
 
+        $unshipped_count =  Order::where('shipping_status','unshipped')->where('pay_status','paid')->count();
+
         return $this->response->title(trans('app.admin.panel'))
             ->view('home')
-            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count','hot_goods_names','this_month_hot_goods_names','hot_goods_list','this_month_hot_goods_list'))
+            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count','hot_goods_names','this_month_hot_goods_names','hot_goods_list','this_month_hot_goods_list','unshipped_count'))
             ->output();
     }
     public function dashboard()
