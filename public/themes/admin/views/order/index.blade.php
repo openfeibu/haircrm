@@ -104,7 +104,7 @@
         var form = layui.form;
         var element = layui.element;
         var laydate = layui.laydate;
-
+	
         table.render({
             elem: '#fb-table'
             ,url: '{{guard_url('order')}}'
