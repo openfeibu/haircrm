@@ -148,38 +148,7 @@
             </div>
 
         </div>
-		  <div class="layui-col-md12">
-            <div class="power-box  fb-clearfix">
-                <p>常用功能</p>
-                <div class="power-box-con">
-                    <div class="power-box-item layui-col-md2">
-                        <a href="{{ guard_url('order/create') }}">
-                            添加订单
-                        </a>
-                    </div>
-                    <div class="power-box-item layui-col-md2">
-                        <a href="{{ guard_url('customer/create') }}">
-                            添加客户
-                        </a>
-                    </div>
-                    <div class="power-box-item layui-col-md2">
-                        <a href="{{ guard_url('new_customer/create') }}">
-                            添加收集客户
-                        </a>
-                    </div>
-                    <div class="power-box-item layui-col-md2">
-                        <a href="{{ guard_url('goods/create') }}">
-                            添加产品
-                        </a>
-                    </div>
-                    <div class="power-box-item layui-col-md2">
-                        <a href="{{ guard_url('mail_schedule') }}">
-                            营销邮箱
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="layui-col-md12">
             <div class="layui-card-box layui-col-space15  fb-clearfix">
                 <div class="layui-col-sm12 layui-col-md12">
@@ -260,7 +229,7 @@
 		   //指定图表配置项和数据
 		   var trading_option = {
 			   title: {
-				   text: '交易走势'
+				   text: ''
 			   },
 			   tooltip: {
 				   trigger: 'axis'
@@ -292,17 +261,44 @@
 					   normal:{
 						   color:'#4fa4c7'
 					   }
-				   }
+				   },
+				    smooth: true,
+					symbol: 'circle',
+					symbolSize: 5,
+					sampling: 'average',
+				   areaStyle: {
+						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+							offset: 0,
+							color: 'rgba(79,164,199,0.8)'
+						}, {
+							offset: 1,
+							color: 'rgba(79,164,199,0.3)'
+						}])
+					},
 			   },{
 				   name: '成交量（单）',
 					yAxisIndex: 1,
 				   type: 'line', //柱状
 				   data: [],
+				   
 				   itemStyle: {
 					   normal: { //柱子颜色
 						   color: '#f5a624'
 					   }
 				   },
+				    smooth: true,
+					symbol: 'circle',
+					symbolSize: 5,
+					sampling: 'average',
+				   areaStyle: {
+						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+							offset: 0,
+							color: 'rgba(245,166,36,0.8)'
+						}, {
+							offset: 1,
+							color: 'rgba(245,166,36,0.3)'
+						}])
+					},
 			   }]
 		   };
 		   trading.setOption(trading_option, true);
@@ -407,6 +403,14 @@
 					type: 'bar',
 					data: procount,
 					markPoint: {
+						  itemStyle:{
+							  normal:{
+								 label:{ 
+									show: true,  
+									color: '#333',//气泡中字体颜色
+								 }
+							  }
+							 },
 						data: [
 							{type: 'max', name: '最大值'},
 							{type: 'min', name: '最小值'}
@@ -418,16 +422,31 @@
 						]
 					},
 					itemStyle: {
-					   normal: { //柱子颜色
-						   color: '#FFCE34'
-					   }
-				   }
+						 color: new echarts.graphic.LinearGradient(
+							0, 0, 1, 0,
+							[
+								{offset: 0,color: 'rgba(255,206,69,0.5)'},
+								
+								{offset: 1, color: 'rgba(255,206,69,1)'}
+							]
+						)
+					   
+				   },
+				 
 				},
 				{
 					name: '总数量（个）',
 					type: 'bar',
 					data: pronum,
 					markPoint: {
+						  itemStyle:{
+							  normal:{
+								 label:{ 
+									show: true,  
+									color: '#333',//气泡中字体颜色
+								 }
+							  }
+							 },
 						data: [
 							{type: 'max', name: '最大值'},
 							{type: 'min', name: '最小值'}
@@ -438,11 +457,18 @@
 							{type: 'average', name: '平均值'}
 						]
 					},
-					itemStyle: {
-					   normal: { //柱子颜色
-						   color: '#4fa4c7'
-					   }
-				   }
+				
+				   itemStyle: {
+						 color: new echarts.graphic.LinearGradient(
+							0, 0, 1, 0,
+							[
+								{offset: 0,color: 'rgba(79,164,199,0.5)'},
+								
+								{offset: 1, color: 'rgba(79,164,199,1)'}
+							]
+						)
+					   
+				   },
 				}
 			]
 		   };
@@ -505,6 +531,14 @@
 					type: 'bar',
 					data: procount,
 					markPoint: {
+						  itemStyle:{
+							  normal:{
+								 label:{ 
+									show: true,  
+									color: '#333',//气泡中字体颜色
+								 }
+							  }
+							 },
 						data: [
 							{type: 'max', name: '最大值'},
 							{type: 'min', name: '最小值'}
@@ -515,17 +549,32 @@
 							{type: 'average', name: '平均值'}
 						]
 					},
-					itemStyle: {
-					   normal: { //柱子颜色
-						   color: '#ff8400'
-					   }
-				   }
+				
+				   itemStyle: {
+						 color: new echarts.graphic.LinearGradient(
+							0, 0, 1, 0,
+							[
+								{offset: 0,color: 'rgba(255,132,0,0.5)'},
+								
+								{offset: 1, color: 'rgba(255,132,0,1)'}
+							]
+						)
+					   
+				   },
 				},
 				{
 					name: '总数量（个）',
 					type: 'bar',
 					data: pronum,
 					markPoint: {
+						  itemStyle:{
+							  normal:{
+								 label:{ 
+									show: true,  
+									color: '#333',//气泡中字体颜色
+								 }
+							  }
+							 },
 						data: [
 							{type: 'max', name: '最大值'},
 							{type: 'min', name: '最小值'}
@@ -536,11 +585,17 @@
 							{type: 'average', name: '平均值'}
 						]
 					},
-					itemStyle: {
-					   normal: { //柱子颜色
-						   color: '#0096ff'
-					   }
-				   }
+				   itemStyle: {
+						 color: new echarts.graphic.LinearGradient(
+							0, 0, 1, 0,
+							[
+								{offset: 0,color: 'rgba(0,150,255,0.5)'},
+								
+								{offset: 1, color: 'rgba(0,150,255,1)'}
+							]
+						)
+					   
+				   },
 				}
 			]
 		   };
