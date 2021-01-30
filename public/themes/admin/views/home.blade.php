@@ -273,18 +273,15 @@
 			   xAxis: {
 				   data: []
 			   },
-			   yAxis: [ 
-			{
-				
-				name: '成交额（$）',    
-				type: 'value',
-				
-			  
-			},{
-				name: '成交量（单）',
-				type: 'value',
-	  
-			}],
+			   yAxis: [
+                   {
+                        name: '成交额（$）',
+                        type: 'value',
+                   },{
+                        name: '成交量（单）',
+                        type: 'value',
+                   }
+               ],
 			   series: [{
 				   
 				   name:'成交额（$）',
