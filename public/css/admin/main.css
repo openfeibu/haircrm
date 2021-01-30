@@ -310,7 +310,7 @@ button.layui-close{
 .layui-card-box .layui-card-header b{font-size: 16px;}
 .layui-card-box .layui-card-header label{font-size: 12px;color: #999}
 .layui-card-box  .layuiadmin-big-font span{font-size: 14px;}
-.layui-card-box .layui-card-body {height: 70px;overflow: auto;}
+.layui-card-box .layuiadmin-card-list{height: 70px;overflow: auto;}
 .layui-card-box  .layuiadmin-big-font span.c1{color: red}
 .layui-card-box  .layuiadmin-big-font span.c2{color: #5FB878}
 

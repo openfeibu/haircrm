@@ -183,37 +183,38 @@
                         </div>
                     </div>
                 </div>
-
+				<div class="layui-col-md12">
+					<div class="layui-card">
+						<div class="layui-card-header"> <b>交易走势</b></div>
+						<div class="">
+							<form class="layui-form" action="" lay-filter="fb-form">
+								<div class="layui-row">
+								<div class="layui-col-md12 "  style="margin:15px">
+								 <div class="layui-inline">选择时间：</div>
+									<div class="layui-inline">
+										
+										<select name="date_type" class="layui-select" lay-filter="date_type" id="date_type">
+											<option value="days">近7天</option>
+											<option value="this_month" selected>本月</option>
+											<option value="last_month">上个月</option>
+											<option value="this_year">今年</option>
+											<option value="last_year">去年</option>
+									   </select>
+								   </div>
+								   </div>
+							   </div>
+						   </form>
+					   </div>
+					   <div class="layui-card-body">
+						   <div id="trading" style="width: 100%;height: 500px;"> </div>
+					   </div>
+				   </div>
+			   </div>
             </div>
+			
         </div>
-      
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">交易走势</div>
-                <div class="">
-                    <form class="layui-form" action="" lay-filter="fb-form">
-                        <div class="layui-row">
-						<div class="layui-col-md12 "  style="margin:15px">
-						 <div class="layui-inline">选择时间：</div>
-                            <div class="layui-inline">
-								
-                                <select name="date_type" class="layui-select" lay-filter="date_type" id="date_type">
-                                    <option value="days">近7天</option>
-                                    <option value="this_month" selected>本月</option>
-                                    <option value="last_month">上个月</option>
-                                    <option value="this_year">今年</option>
-                                    <option value="last_year">去年</option>
-                               </select>
-                           </div>
-						   </div>
-                       </div>
-                   </form>
-               </div>
-               <div class="layui-card-body">
-                   <div id="trading" style="width: 100%;height: 500px;"> </div>
-               </div>
-           </div>
-       </div>
+	
+	
    </div>
 </div>
 <div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
