@@ -253,7 +253,6 @@
                    }
                ],
 			   series: [{
-				   
 				   name:'成交额（$）',
 				   type:'line',
 				   data:[],

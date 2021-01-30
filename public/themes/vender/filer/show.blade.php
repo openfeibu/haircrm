@@ -33,7 +33,7 @@
                 console.log(res)
                 $("#path_{!!$field!!}").val(res.data.path);
                 layer.closeAll('loading'); //关闭loading
-                layer.msg(res.msg);
+                layer.msg(res.message);
 
             }
             ,error: function(index, upload){
