@@ -95,6 +95,7 @@
 </div>
 @include('order/handle_content')
 
+
 <script>
     var main_url = "{{guard_url('order')}}";
     var delete_all_url = "{{guard_url('order/destroyAll')}}";
@@ -113,7 +114,7 @@
                 ,{field:'id',title:'ID', totalRowText: 'Total：',width:80}
                 ,{field:'order_sn',title:'{{ trans('order.label.order_sn') }}'}
                 ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}', width:120}
-                ,{field:'customer_name',title:'{{ trans('customer.label.name') }}'}
+                ,{field:'customer_name',title:'{{ trans('customer.label.name') }}', templet: '<div>@{{#  if(d.customer_id){ }}<a href="{{ guard_url('customer')}}/@{{ d.customer_id }}" target="_blank" class="layui-table-link">@{{d.customer_name}}</a>@{{#  } else { }}  @{{#  } }} </div>'}
                 ,{field:'address',title:'{{ trans('order.label.address') }}', width:200}
                 ,{field:'total',title:'{{ trans('order.label.total') }}', width:120, totalRow: true,toFixed:3}
                 ,{field:'order_status_desc',title:'{{ trans('order.label.order_status') }}', width:120,templet:"#order_status_tpl"}
