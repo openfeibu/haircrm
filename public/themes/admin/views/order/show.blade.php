@@ -196,7 +196,6 @@
 @include('order/handle_cart')
 
 <script>
-    var freight_area_code = '{{ $customer->area_code }}';
     layui.use(['element',"table",'form',"jquery"], function(){
         var form = layui.form;
         var table = layui.table;

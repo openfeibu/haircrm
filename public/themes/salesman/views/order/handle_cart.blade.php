@@ -1,6 +1,6 @@
 <script>
     var freight_config = eval({!! json_encode(freight_config()) !!});
-    var freight_area_code = 'US';
+    var freight_area_code = "{!! $freight_area_code !!}";
     layui.use(['element',"table",'form',"jquery"], function(){
         var form = layui.form;
         var table = layui.table;

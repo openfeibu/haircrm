@@ -70,9 +70,11 @@ class OrderResourceController extends BaseController
 
         $salesmen = $this->salesmanRepository->getActiveSalesmen();
 
+        $freight_area_code = 'US';
+
         return $this->response->title(trans('order.name'))
             ->view('order.create')
-            ->data(compact('order','salesmen'))
+            ->data(compact('order','salesmen','freight_area_code'))
             ->output();
     }
     public function store(Request $request)
@@ -159,11 +161,12 @@ class OrderResourceController extends BaseController
     }
     public function show(Request $request,Order $order)
     {
-
         $order_goods_list = $this->orderGoodsRepository->getOrderGoodsList($order->id);
+        $customer = $this->customerRepository->find($order->customer_id);
+        $freight_area_code = $customer->area_code ?? 'US';
 
         return $this->response->title(trans('app.view') . ' ' . trans('order.name'))
-            ->data(compact('order','order_goods_list'))
+            ->data(compact('order','order_goods_list','customer','freight_area_code'))
             ->view('order.show')
             ->output();
     }

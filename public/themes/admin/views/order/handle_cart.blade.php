@@ -1,6 +1,6 @@
 <script>
     var freight_config = eval({!! json_encode(freight_config()) !!});
-    var freight_area_code = 'US';
+    var freight_area_code = "{!! $freight_area_code !!}";
     layui.use(['element',"table",'form',"jquery"], function(){
         var form = layui.form;
         var table = layui.table;
@@ -145,10 +145,9 @@
             {
                 return 0;
             }
-           // console.log(goods_weight);
+           //console.log(goods_weight);
             var first_freight =  parseInt(freight_config[freight_category_id][freight_area_code]['first_freight']);
             var continued_freight =  parseInt(freight_config[freight_category_id][freight_area_code]['continued_freight']);
-
             if(goods_weight <= 0.5)
             {
                 return first_freight;
