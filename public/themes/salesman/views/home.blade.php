@@ -1,66 +1,5 @@
 <div class="main">
     <div class="main_full" style="margin-top: 15px;">
-        @if(in_array(Auth::user()->id,['10','6']))
-		<div class="layui-col-md12">
-            <div class="layui-card-box layui-col-space15  fb-clearfix">
-				<div class="layui-col-sm12 layui-col-md12">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>业绩概览</b>
-                            <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list" style="height:220px">
-							<div class="layui-col-sm6 layui-col-md4">
-								<div class="layui-col-sm6 layui-col-md6">
-									<div id="Monthly-performance" style="width: 100%;height: 220px;"> 
-								
-								
-									</div>
-								</div>
-								<div class="layui-col-sm6 layui-col-md6 performance-right">
-									<div class="t">本月业绩目标</div>
-									<div class="num"><span>$4500</span>/$5000</div>
-									
-								</div>
-							</div>
-							<div class="layui-col-sm6 layui-col-md4">
-								<div class="layui-col-sm6 layui-col-md6">
-									<div id="year-performance" style="width: 100%;height: 220px;"> 
-								
-								
-									</div>
-								</div>
-								<div class="layui-col-sm6 layui-col-md6 performance-right">
-									<div class="t">本年业绩目标</div>
-									<div class="num"><span>$4500</span>/$80000</div>
-									
-								</div>
-							</div>
-                           
-                        </div>
-                    </div>
-                </div>
-				<div class="layui-col-sm12 layui-col-md12">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>本月录入客户走势</b>
-                            <span class="layui-badge layui-bg-red layuiadmin-badge">月</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list" style="height:600px">
-						
-							<div id="enterChart" style="width: 100%;height: 600px;"> 
-							
-							
-							</div>
-						
-                           
-                        </div>
-                    </div>
-                </div>
-			</div>
-		</div>
-		@endif
-		
 		<div class="layui-col-md12">
             <div class="layui-card-box layui-col-space15 fb-clearfix">
                 <div class="layui-col-sm6 layui-col-md3">
@@ -130,6 +69,68 @@
             </div>
 
         </div>
+        @if(in_array(Auth::user()->id,['10','6']))
+		<div class="layui-col-md12">
+            <div class="layui-card-box layui-col-space15  fb-clearfix">
+				<div class="layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>业绩概览</b>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list" style="height:220px">
+							<div class="layui-col-sm6 layui-col-md6">
+								<div class="layui-col-sm6 layui-col-md6">
+									<div id="Monthly-performance" style="width: 100%;height: 220px;"> 
+								
+								
+									</div>
+								</div>
+								<div class="layui-col-sm6 layui-col-md6 performance-right">
+									<div class="t">本月业绩目标</div>
+									<div class="num"><span>$4500</span>/$5000</div>
+									
+								</div>
+							</div>
+							<div class="layui-col-sm6 layui-col-md6">
+								<div class="layui-col-sm6 layui-col-md6">
+									<div id="year-performance" style="width: 100%;height: 220px;"> 
+								
+								
+									</div>
+								</div>
+								<div class="layui-col-sm6 layui-col-md6 performance-right">
+									<div class="t">本年业绩目标</div>
+									<div class="num"><span>$4500</span>/$80000</div>
+									
+								</div>
+							</div>
+                           
+                        </div>
+                    </div>
+                </div>
+				<div class="layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>本月录入客户走势</b>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">月</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list" style="height:600px">
+						
+							<div id="enterChart" style="width: 100%;height: 600px;"> 
+							
+							
+							</div>
+						
+                           
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+		@endif
+		
+	
 
     </div>
 </div>

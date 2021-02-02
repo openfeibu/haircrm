@@ -23,9 +23,9 @@ body{background: #ebeff6;}
 .layui-nav-tree .layui-nav-item{background: none;margin: 5px 0;}
 .layui-nav-tree .layui-this{background-color: #1E9FFF!important;}
 .layui-nav-tree .layui-this > a{color: #fff!important;}
-.layui-nav-itemed>a{color: #333!important;}
+.layui-nav-itemed>a{color: #555!important;}
 .layui-nav-itemed>a .layui-nav-more{border-color:transparent transparent #666}
-.layui-nav-tree .layui-nav-item > a{height: 50px;line-height: 50px;font-size: 14px;color: #333;}
+.layui-nav-tree .layui-nav-item > a{height: 50px;line-height: 50px;font-size: 14px;color: #555;}
 .layui-nav-tree .layui-nav-item > a i{margin-right: 15px;font-size: 16px;}
 .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover,.layui-nav-tree .layui-nav-item a:hover{background: rgba(66,162,235,0.5);}
 .layui-nav-tree .layui-nav-bar{background-color: #eee;display: none;}
@@ -327,10 +327,10 @@ button.layui-close{
 
 
 .icon {
-  width: 1em;
-  height: 1em;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
+    width: 24px;
+    height: 24px;
+    vertical-align: -7px;
+    fill: currentColor;
+    overflow: hidden;
 }
 
