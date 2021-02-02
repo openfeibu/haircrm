@@ -48,7 +48,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
                 'parent_id' => $category->parent_id,
                 'order' => $category->order,
                 'attribute_id' => $category->attribute_id,
-                'spread' => true
+                'spread' => false
             ];
             $data[$key]['children'] = $this->getCategories($category->id);
         }
