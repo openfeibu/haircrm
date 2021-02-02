@@ -29,7 +29,10 @@ class Permission extends BaseModel
 
     public function getIconHtmlAttribute()
     {
-        return $this->attributes['icon'] ? '<i class="layui-icon ' . $this->attributes['icon'] . '"></i>' : '';
+        //return $this->attributes['icon'] ? '<i class="layui-icon ' . $this->attributes['icon'] . '"></i>' : '';
+        return $this->attributes['icon'] ? '<svg class="icon" aria-hidden="true"><use xlink:href="#'.$this->attributes['icon'].'"></use></svg>' : '';
+
+
     }
 
     public function getNameAttribute($value)

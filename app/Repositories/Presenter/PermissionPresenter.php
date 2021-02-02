@@ -4,7 +4,7 @@ namespace App\Repositories\Presenter;
 
 use Route,Auth;
 use App\Repositories\Presenter\FractalPresenter;
-use App\Repositories\Eloquent\PermissionRepositoryInterface;
+use App\Repositories\Eloquent\PermissionRepository;
 
 /**
  * Class PermissionPresenter
@@ -15,7 +15,7 @@ class PermissionPresenter extends FractalPresenter
 {
     protected $permission;
 
-    public function __construct(PermissionRepositoryInterface $permission)
+    public function __construct(PermissionRepository $permission)
     {
 
         $this->permission = $permission;
