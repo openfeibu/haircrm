@@ -4,7 +4,7 @@ body{background: #ebeff6;}
 .layui-side-menu{background:#fff;width: 200px;overflow-x: hidden;}
 .layui-side-menu .layui-nav{margin-top: 20px;background-color: #fff !important;}
 .layui-side-scroll{width: 220px;}
-.logo{height: 50px;text-align: center;line-height: 50px;color: #fff;width: 200px;font-size: 24px;font-weight: bold;;box-shadow: 0 1px 2px 0 rgba(0,0,0,.15);background-color: #fff;}
+.logo{height: 50px;text-align: center;line-height: 50px;color: #fff;width: 200px;font-size: 24px;font-weight: bold;;box-shadow: 0 1px 1px 0 rgba(0,0,0,.15);background-color: #fff;}
 .logo img{height: 50px;display: block;margin: 0 auto;}
 .layui-header{background: #4aa4e6;height: 50px;    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
 .layui-header .layui-nav{background: #4aa4e6;color: #fff;height: 50px;}
@@ -319,4 +319,10 @@ button.layui-close{
 .power-box-item a{display:block;width:80%;margin:10px auto;text-align:center;background-image: linear-gradient(#4481eb, #1E9FFF);padding:20px 0;color:#fff;font-size:14px;border-radius:5px;}
 .copy{position:absolute;bottom:0;background:none;width:100%;text-align:center;height:40px;line-height:40px;}
 .demo-tree-box{background:#fff;border-radius:5px;padding:20px;}
+
+.performance-right{margin-top:70px;}
+.performance-right .num{font-size:18px;color:#333}
+.performance-right .num span{font-size:30px;color:rgba(250,85,89,1)}
+.performance-right .t{font-size:16px;color:#666;line-height:42px}
+
 

@@ -151,6 +151,43 @@
 
         <div class="layui-col-md12">
             <div class="layui-card-box layui-col-space15  fb-clearfix">
+				<div class="layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>业绩概览</b>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list" style="height:220px">
+							<div class="layui-col-sm6 layui-col-md6">
+								<div class="layui-col-sm6 layui-col-md6">
+									<div id="Monthly-performance" style="width: 100%;height: 220px;"> 
+								
+								
+									</div>
+								</div>
+								<div class="layui-col-sm6 layui-col-md6 performance-right">
+									<div class="t">月业绩目标</div>
+									<div class="num"><span>$4500</span>/$5000</div>
+									
+								</div>
+							</div>
+							<div class="layui-col-sm6 layui-col-md6">
+								<div class="layui-col-sm6 layui-col-md6">
+									<div id="year-performance" style="width: 100%;height: 220px;"> 
+								
+								
+									</div>
+								</div>
+								<div class="layui-col-sm6 layui-col-md6 performance-right">
+									<div class="t">年业绩目标</div>
+									<div class="num"><span>$4500</span>/$80000</div>
+									
+								</div>
+							</div>
+                           
+                        </div>
+                    </div>
+                </div>
                 <div class="layui-col-sm12 layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-header">
@@ -253,6 +290,7 @@
                    }
                ],
 			   series: [{
+				   
 				   name:'成交额（$）',
 				   type:'line',
 				   data:[],
@@ -606,6 +644,174 @@
 	   
 	   })();
 	   
+	     	   //本月业绩
+	    (function (){
+		   var echarts = layui.echarts;
+		   var Monthly_performance = echarts.init(document.getElementById('Monthly-performance'));
+		   var this_month_hot_goods_list = {!! json_encode($this_month_hot_goods_list) !!}
+		   var xAxis = [];
+		   var procount = [];
+		   var pronum = [];
+		    for(var i = this_month_hot_goods_list.length-1;i>0;i--){
+			   
+			   xAxis.push(this_month_hot_goods_list[i].goods_name);
+			   procount.push(this_month_hot_goods_list[i].count);
+			   pronum.push(this_month_hot_goods_list[i].sum)
+		   }
+		   console.log(xAxis)
+		   //指定图表配置项和数据
+		   option = {
+			 
+			tooltip: {
+				trigger: 'item'
+			},
+			graphic: [  //为环形图中间添加文字
+						{
+						type: "text",
+						left: "center",
+						top: "center",
+						style: {
+							text: "80%",
+							textAlign: "center",
+							fill: "#32373C",
+							fontSize: 28,
+						},
+						},
+					],
+			series: [
+				{
+					name: '月业绩目标',
+					type: 'pie',
+					radius: ['50%', '70%'],
+					avoidLabelOverlap: false,
+					  itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 2
+					},
+					 label: {
+						show: false,
+						position: 'center'
+					},
+					labelLine: {
+						show: false
+					},
+					data: [
+						{value: 4500, name: '已完成业绩'},
+						{value: 500, name: '未完成业绩'},
+				
+					],
+				   color: [
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(250,85,89,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(250,85,89,1)'
+							}]), 
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(195,195,195,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(195,195,195,1)'
+							}])
+					 ]
+				}
+			]
+		};
+		   Monthly_performance.setOption(option, true);
+		  
+		  
+
 	   
+	   })();
+	   
+	   	   //本年业绩
+	    (function (){
+		   var echarts = layui.echarts;
+		   var year_performance = echarts.init(document.getElementById('year-performance'));
+		   var this_month_hot_goods_list = {!! json_encode($this_month_hot_goods_list) !!}
+		   var xAxis = [];
+		   var procount = [];
+		   var pronum = [];
+		    for(var i = this_month_hot_goods_list.length-1;i>0;i--){
+			   
+			   xAxis.push(this_month_hot_goods_list[i].goods_name);
+			   procount.push(this_month_hot_goods_list[i].count);
+			   pronum.push(this_month_hot_goods_list[i].sum)
+		   }
+		   console.log(xAxis)
+		   //指定图表配置项和数据
+		   option = {
+			 
+			tooltip: {
+				trigger: 'item'
+			},
+			graphic: [  //为环形图中间添加文字
+						{
+						type: "text",
+						left: "center",
+						top: "center",
+						style: {
+							text: "5%",
+							textAlign: "center",
+							fill: "#32373C",
+							fontSize: 28,
+						},
+						},
+					],
+			series: [
+				{
+					name: '月业绩目标',
+					type: 'pie',
+					radius: ['50%', '70%'],
+					avoidLabelOverlap: false,
+					  itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 2
+					},
+					 label: {
+						show: false,
+						position: 'center'
+					},
+					labelLine: {
+						show: false
+					},
+					data: [
+						{value: 4500, name: '已完成业绩'},
+						{value: 70500, name: '未完成业绩'},
+				
+					],
+				   color: [
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(250,85,89,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(250,85,89,1)'
+							}]), 
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(195,195,195,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(195,195,195,1)'
+							}])
+					 ]
+				}
+			]
+		};
+		   year_performance.setOption(option, true);
+		  
+		  
+
+	   
+	   })();
    });
 </script>
