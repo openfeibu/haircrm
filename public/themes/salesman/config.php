@@ -61,6 +61,7 @@ return [
             $theme->asset()->add('layui_css', 'lib/layui/css/layui.css');
             //$theme->asset()->usePath()->add('main_css', 'css/main.css');
             $theme->asset()->add('main_css', 'css/admin/main.css');
+            $theme->asset()->container('footer')->add('iconfont_js', '/fonts/iconfont.js');
             $theme->asset()->container('footer')->add('layui_js', 'lib/layui/layui.js');
             $theme->asset()->container('footer')->add('layui_module_js', 'lib/layui/module/common.js');
             $theme->asset()->container('footer')->usePath()->add('main_js', 'js/main.js');
