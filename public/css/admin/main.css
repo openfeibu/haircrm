@@ -40,7 +40,7 @@ body{background: #ebeff6;}
     left: 200px;
     right: 0;
     top: 50px;
-    bottom: 40px;
+    bottom: 0;
     z-index: 998;
     width: auto;
     overflow: hidden;
@@ -317,7 +317,7 @@ button.layui-close{
 .power-box{background:#fff;margin:30px 0;padding:20px;border-radius:5px;font-size:16px;box-shadow:0 1px 2px 0 rgba(0,0,0,.05)}
 .power-box-con{margin-top:20px;}
 .power-box-item a{display:block;width:80%;margin:10px auto;text-align:center;background-image: linear-gradient(#4481eb, #1E9FFF);padding:20px 0;color:#fff;font-size:14px;border-radius:5px;}
-.copy{position:absolute;bottom:0;background:none;width:100%;text-align:center;height:40px;line-height:40px;}
+.copy{bottom:0;background:none;width:100%;text-align:center;height:40px;line-height:40px;}
 .demo-tree-box{background:#fff;border-radius:5px;padding:20px;}
 
 .performance-right{margin-top:70px;}
@@ -333,4 +333,8 @@ button.layui-close{
     fill: currentColor;
     overflow: hidden;
 }
+.fontColor{
+	color:#fa5559;
+}
 
+.tabel-message{background:#fff;padding:15px;border-radius:5px}

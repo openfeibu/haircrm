@@ -1,5 +1,5 @@
 <div class="main">
-    <div class="main_full" style="margin-top: 15px;">
+    <div class="main_full fb-clearfix" style="margin-top: 15px;">
         <div class="layui-col-md12">
             <div class="layui-card-box layui-col-space15  fb-clearfix">
                 <div class="layui-col-sm6 layui-col-md3">
@@ -15,49 +15,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-sm6 layui-col-md3">
+				 <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <b>总销售额</b>
-                            {{--<label>(昨日$222)</label>--}}
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">${{ $selling_price }}</p>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>今日订单量</b>
-                            <label>(昨日{{ $yesterday_order_count }})</label>
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $today_order_count }}<span class="c2">({{ rate_of_increase($today_order_count,$yesterday_order_count) }})</span></p>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>总订单量</b>
-                            {{--<label>(昨日$222)</label>--}}
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $order_count }}</p>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>今日成交订单量</b>
+                            <b>今日订单成交量</b>
                             <label>(昨日{{ $yesterday_paid_order_count }})</label>
                             <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
                         </div>
@@ -67,33 +28,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-sm6 layui-col-md3">
+				<div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <b>总成交订单量</b>
-                            {{--<label>(昨日$222)</label>--}}
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
+                            <b>今日报价表</b>
+                            <label>(昨日{{ $yesterday_order_count }})</label>
+                            <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $order_paid_count }}</p>
+                            <p class="layuiadmin-big-font">{{ $today_order_count }}<span class="c2">({{ rate_of_increase($today_order_count,$yesterday_order_count) }})</span></p>
 
                         </div>
                     </div>
                 </div>
-
-                 <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <b>客户数</b>
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $customer_count }}</p>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-sm6 layui-col-md3">
+				 
+				   <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
                         <div class="layui-card-header">
                             <b>收集客户数</b>
@@ -105,6 +54,62 @@
                         </div>
                     </div>
                 </div>
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>总销售额</b>
+                            {{--<label>(昨日$222)</label>--}}
+                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list">
+                            <p class="layuiadmin-big-font fontColor" >${{ $selling_price }}</p>
+
+                        </div>
+                    </div>
+                </div>
+                
+               
+                <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>总订单成交量</b>
+                            {{--<label>(昨日$222)</label>--}}
+                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list">
+                            <p class="layuiadmin-big-font fontColor">{{ $order_paid_count }}</p>
+
+                        </div>
+                    </div>
+                </div>
+				 <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>总报价表</b>
+                            {{--<label>(昨日$222)</label>--}}
+                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list">
+                            <p class="layuiadmin-big-font fontColor">{{ $order_count }}</p>
+
+                        </div>
+                    </div>
+                </div>
+                 <div class="layui-col-sm6 layui-col-md3">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>客户数</b>
+                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list">
+                            <p class="layuiadmin-big-font fontColor">{{ $customer_count }}</p>
+
+                        </div>
+                    </div>
+                </div>
+
+              
+             
                 <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">
                         <div class="layui-card-header">
@@ -154,7 +159,44 @@
 				<div class="layui-col-sm12 layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <b>业绩概览</b>
+                            <b>本月业务员业绩概览</b>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
+                        </div>
+                        <div class="layui-card-body layuiadmin-card-list" style="height:220px">
+							<div class="layui-col-sm3 layui-col-md3">
+								<div class="layui-col-sm12 layui-col-md12">
+									<div id="Monthly-wzj" style="width: 100%;height: 220px;"> 
+									
+								
+									</div>
+								</div>
+								
+							</div>
+							<div class="layui-col-sm3 layui-col-md3">
+								<div class="layui-col-sm12 layui-col-md12">
+									<div id="Monthly-lqs" style="width: 100%;height: 220px;"> 
+								
+								
+									</div>
+								</div>
+							
+							</div>
+                            <div class="layui-col-sm3 layui-col-md3">
+								<div class="layui-col-sm12 layui-col-md12">
+									<div id="Monthly-yby" style="width: 100%;height: 220px;"> 
+								
+								
+									</div>
+								</div>
+							
+							</div>
+                        </div>
+                    </div>
+                </div>
+				<div class="layui-col-sm12 layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">
+                            <b>公司业绩概览</b>
                             <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list" style="height:220px">
@@ -253,8 +295,9 @@
 	
 	
    </div>
+   <div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
 </div>
-<div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
+
 
 <script>
    layui.use(['jquery','element','form','table','echarts'], function(){
@@ -812,6 +855,257 @@
 		  
 
 	   
+	   })();
+	   
+	        //业务员业绩
+	    (function (){
+		   var echarts = layui.echarts;
+		   var echartsDom = echarts.init(document.getElementById('Monthly-wzj'));
+		   var this_month_hot_goods_list = {!! json_encode($this_month_hot_goods_list) !!}
+		   var xAxis = [];
+		   var procount = [];
+		   var pronum = [];
+		    for(var i = this_month_hot_goods_list.length-1;i>0;i--){
+			   
+			   xAxis.push(this_month_hot_goods_list[i].goods_name);
+			   procount.push(this_month_hot_goods_list[i].count);
+			   pronum.push(this_month_hot_goods_list[i].sum)
+		   }
+		   console.log(xAxis)
+		   //指定图表配置项和数据
+		   option = {
+			 title: {
+				text: '吴志杰',
+				left: 'center'
+			},
+			tooltip: {
+				trigger: 'item'
+			},
+			graphic: [  //为环形图中间添加文字
+						{
+						type: "text",
+						left: "center",
+						top: "center",
+						style: {
+							text: "5%",
+							textAlign: "center",
+							fill: "#32373C",
+							fontSize: 28,
+						},
+						},
+					],
+			series: [
+				{
+					name: '月业绩目标',
+					type: 'pie',
+					radius: ['50%', '70%'],
+					avoidLabelOverlap: false,
+					  itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 2
+					},
+					 label: {
+						show: false,
+						position: 'center'
+					},
+					labelLine: {
+						show: false
+					},
+					data: [
+						{value: 4500, name: '已完成业绩'},
+						{value: 5000, name: '未完成业绩'},
+				
+					],
+				   color: [
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(250,85,89,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(250,85,89,1)'
+							}]), 
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(195,195,195,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(195,195,195,1)'
+							}])
+					 ]
+				}
+			]
+		};
+		   echartsDom.setOption(option, true);
+	   })();
+	   	   //业务员业绩
+	    (function (){
+		   var echarts = layui.echarts;
+		   var echartsDom = echarts.init(document.getElementById('Monthly-lqs'));
+		   var this_month_hot_goods_list = {!! json_encode($this_month_hot_goods_list) !!}
+		   var xAxis = [];
+		   var procount = [];
+		   var pronum = [];
+		    for(var i = this_month_hot_goods_list.length-1;i>0;i--){
+			   
+			   xAxis.push(this_month_hot_goods_list[i].goods_name);
+			   procount.push(this_month_hot_goods_list[i].count);
+			   pronum.push(this_month_hot_goods_list[i].sum)
+		   }
+		   console.log(xAxis)
+		   //指定图表配置项和数据
+		   option = {
+			 title: {
+				text: '廖绮珊',
+				left: 'center'
+			},
+			tooltip: {
+				trigger: 'item'
+			},
+			graphic: [  //为环形图中间添加文字
+						{
+						type: "text",
+						left: "center",
+						top: "center",
+						style: {
+							text: "5%",
+							textAlign: "center",
+							fill: "#32373C",
+							fontSize: 28,
+						},
+						},
+					],
+			series: [
+				{
+					name: '月业绩目标',
+					type: 'pie',
+					radius: ['50%', '70%'],
+					avoidLabelOverlap: false,
+					  itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 2
+					},
+					 label: {
+						show: false,
+						position: 'center'
+					},
+					labelLine: {
+						show: false
+					},
+					data: [
+						{value: 1500, name: '已完成业绩'},
+						{value: 5000, name: '未完成业绩'},
+				
+					],
+				   color: [
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(250,85,89,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(250,85,89,1)'
+							}]), 
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(195,195,195,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(195,195,195,1)'
+							}])
+					 ]
+				}
+			]
+		};
+		   echartsDom.setOption(option, true);
+	   })();
+	 
+	      //业务员业绩
+	    (function (){
+		   var echarts = layui.echarts;
+		   var echartsDom = echarts.init(document.getElementById('Monthly-yby'));
+		   var this_month_hot_goods_list = {!! json_encode($this_month_hot_goods_list) !!}
+		   var xAxis = [];
+		   var procount = [];
+		   var pronum = [];
+		    for(var i = this_month_hot_goods_list.length-1;i>0;i--){
+			   
+			   xAxis.push(this_month_hot_goods_list[i].goods_name);
+			   procount.push(this_month_hot_goods_list[i].count);
+			   pronum.push(this_month_hot_goods_list[i].sum)
+		   }
+		   console.log(xAxis)
+		   //指定图表配置项和数据
+		   option = {
+			 title: {
+				text: '袁宝燕',
+				left: 'center'
+			},
+			tooltip: {
+				trigger: 'item'
+			},
+			graphic: [  //为环形图中间添加文字
+						{
+						type: "text",
+						left: "center",
+						top: "center",
+						style: {
+							text: "5%",
+							textAlign: "center",
+							fill: "#32373C",
+							fontSize: 28,
+						},
+						},
+					],
+			series: [
+				{
+					name: '月业绩目标',
+					type: 'pie',
+					radius: ['50%', '70%'],
+					avoidLabelOverlap: false,
+					  itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 2
+					},
+					 label: {
+						show: false,
+						position: 'center'
+					},
+					labelLine: {
+						show: false
+					},
+					data: [
+						{value: 2000, name: '已完成业绩'},
+						{value: 5000, name: '未完成业绩'},
+				
+					],
+				   color: [
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(250,85,89,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(250,85,89,1)'
+							}]), 
+							new echarts.graphic.LinearGradient(1, 1, 0, 0, [{
+								offset: 0,
+								color: 'rgba(195,195,195,0.5)'
+							},
+							{
+								offset: 0.9,
+								color: 'rgba(195,195,195,1)'
+							}])
+					 ]
+				}
+			]
+		};
+		   echartsDom.setOption(option, true);
 	   })();
    });
 </script>

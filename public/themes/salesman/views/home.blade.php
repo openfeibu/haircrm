@@ -1,5 +1,5 @@
 <div class="main">
-    <div class="main_full" style="margin-top: 15px;">
+    <div class="main_full fb-clearfix" style="margin-top: 15px;">
 		<div class="layui-col-md12">
             <div class="layui-card-box layui-col-space15 fb-clearfix">
                 <div class="layui-col-sm6 layui-col-md3">
@@ -54,18 +54,7 @@
                     </div>
                 </div>
 
-                <div class="layui-col-sm6 layui-col-md3">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            总销售额
-                            <span class="layui-badge layui-bg-blue layuiadmin-badge">总</span>
-                        </div>
-                        <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">${{ $selling_price }}</p>
 
-                        </div>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -79,7 +68,7 @@
                             <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list" style="height:220px">
-							<div class="layui-col-sm6 layui-col-md6">
+							<div class="layui-col-sm5 layui-col-md5">
 								<div class="layui-col-sm6 layui-col-md6">
 									<div id="Monthly-performance" style="width: 100%;height: 220px;"> 
 								
@@ -92,7 +81,7 @@
 									
 								</div>
 							</div>
-							<div class="layui-col-sm6 layui-col-md6">
+							<div class="layui-col-sm5 layui-col-md5">
 								<div class="layui-col-sm6 layui-col-md6">
 									<div id="year-performance" style="width: 100%;height: 220px;"> 
 								
@@ -102,6 +91,14 @@
 								<div class="layui-col-sm6 layui-col-md6 performance-right">
 									<div class="t">本年业绩目标</div>
 									<div class="num"><span>$4500</span>/$80000</div>
+									
+								</div>
+							</div>
+							<div class="layui-col-sm2 layui-col-md2">
+								
+								<div class="layui-col-sm6 layui-col-md6 performance-right" style="text-align:center">
+									<div class="t">总销售额</div>
+									<div class="num"><span>${{ $selling_price }}</span></div>
 									
 								</div>
 							</div>
@@ -131,10 +128,11 @@
 		@endif
 		
 	
-
+	
     </div>
+	<div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
 </div>
-<div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
+
 <script>
    layui.use(['jquery','element','form','table','echarts'], function(){
        var form = layui.form;
