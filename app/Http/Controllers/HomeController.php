@@ -61,19 +61,19 @@ class HomeController extends BaseController
     {
 
        // exit;
-        /*
-        $old_category_id = 536;
+/*
+        $old_category_id = 581;
 
-        $categories = Category::where('parent_id',517)->where('id','<>',$old_category_id)->get();
+        $categories = Category::where('parent_id',559)->where('id','<>',$old_category_id)->get();
         foreach ($categories as $key => $category)
         {
-            $this->addGoodsHandle($old_category_id,$category->id,0,0);
+            $this->addGoodsHandle($old_category_id,$category->id,30,9);
         }
-        */
+*/
 
 /*
         //exit;
-        $old_category_id = 536;
+        $old_category_id = 560;
         $category_ids = [
             '538' => 30,
             '539' => 30,

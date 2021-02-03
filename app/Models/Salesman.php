@@ -55,12 +55,13 @@ class Salesman extends AuthModel implements AdminUserPolicy
 
     public function setPasswordAttribute($val)
     {
-
-        if (Hash::needsRehash($val)) {
-            $this->attributes['password'] = bcrypt($val);
-        } else {
-            $this->attributes['password'] = ($val);
+        if($val)
+        {
+            if (Hash::needsRehash($val)) {
+                $this->attributes['password'] = bcrypt($val);
+            } else {
+                $this->attributes['password'] = ($val);
+            }
         }
-
     }
 }

@@ -38,7 +38,7 @@ class BannerResourceController extends BaseController
                 ->data($data['data'])
                 ->output();
         }
-        return $this->response->title(trans('app.admin.panel'))
+        return $this->response->title(trans('banner.name'))
             ->view('banner.index')
             ->output();
     }

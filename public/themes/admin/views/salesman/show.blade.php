@@ -48,7 +48,30 @@
                         </div>
                         <div class="layui-form-mid layui-word-aux">请输入密码，不改则留空</div>
                     </div>
-
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.ig") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ig" placeholder="请输入{{ trans("salesman.label.ig") }}" autocomplete="off" class="layui-input" value="{{ $salesman->ig }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.imessage") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="imessage" placeholder="请输入{{ trans("salesman.label.imessage") }}" autocomplete="off" class="layui-input" value="{{ $salesman->imessage }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.mobile") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="mobile" placeholder="请输入{{ trans("salesman.label.mobile") }}" autocomplete="off" class="layui-input" value="{{ $salesman->mobile }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.monthly_performance_target") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="monthly_performance_target" placeholder="请输入{{ trans("salesman.label.monthly_performance_target") }}" autocomplete="off" class="layui-input" value="{{ $salesman->monthly_performance_target }}">
+                        </div>
+                    </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">{{ trans("admin_user.label.roles") }} *</label>
                         <div class="layui-input-block">

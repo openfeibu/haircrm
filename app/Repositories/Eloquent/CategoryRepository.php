@@ -24,7 +24,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
     }
     public function getAllCategories()
     {
-        $categories = $this->orderBy('id','asc')->get()->toArray();
+        $categories = $this->orderBy('order','asc')->orderBy('id','asc')->get()->toArray();
         return $categories;
     }
     public function getCategoriesCache($parent_id=0)

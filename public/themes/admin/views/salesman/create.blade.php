@@ -44,6 +44,30 @@
                         <div class="layui-form-mid layui-word-aux">请输入密码，至少六位数</div>
                     </div>
                     <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.ig") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="ig" placeholder="请输入{{ trans("salesman.label.ig") }}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.imessage") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="imessage" placeholder="请输入{{ trans("salesman.label.imessage") }}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.mobile") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="mobile" placeholder="请输入{{ trans("salesman.label.mobile") }}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.monthly_performance_target") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="monthly_performance_target" placeholder="请输入{{ trans("salesman.label.monthly_performance_target") }}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
                         <label class="layui-form-label">{{ trans("salesman.label.active") }}</label>
                         <div class="layui-input-inline">
                             <input type="checkbox" name="active" value="1" lay-skin="switch" lay-text="是|否" lay-filter="active" checked>

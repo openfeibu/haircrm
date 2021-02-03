@@ -56,6 +56,7 @@
                 ,{field:'ig',title:'{{ trans('salesman.label.ig') }}',edit:'text'}
                 ,{field:'imessage',title:'{{ trans('salesman.label.imessage') }}',edit:'text'}
                 ,{field:'mobile',title:'{{ trans('salesman.label.mobile') }}',edit:'text'}
+                ,{field:'monthly_performance_target',title:'{{ trans('salesman.label.monthly_performance_target') }}',edit:'text'}
                 ,{field:'customer_count',title:'{{ trans('salesman.label.customer_count') }}',width:'120'}
                 ,{field:'new_customer_count',title:'{{ trans('salesman.label.new_customer_count') }}',width:'120'}
                 ,{field:'today_new_customer_count',title:'{{ trans('salesman.label.today_new_customer_count') }}',width:'150'}
