@@ -136,8 +136,8 @@ Route::group([
     Route::get('logout', 'Auth\LoginController@logout');
     Route::get('locked', 'UserController@locked');
 
-
-    Route::get('/trading', 'ResourceController@getTrading')->name('trading');
+    Route::get('statistic/trade', 'StatisticResourceController@trade')->name('statistic.trade');
+    Route::get('statistic/trading', 'ResourceController@getTrading')->name('statistic.trading');
 });
 Route::group([
     'namespace' => 'Salesman',
