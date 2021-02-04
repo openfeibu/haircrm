@@ -78,19 +78,34 @@ class ResourceController extends BaseController
         $begin_month = date('Y-m-01 00:00:00');
         $end_month = date('Y-m-d 23:59:59', strtotime("$begin_month +1 month -1 day"));
 
+        $begin_year = date('Y-01-01 00:00:00');
+        $end_year = date('Y-12-31 23:59:59');
+
         $unshipped_count =  Order::where('shipping_status','unshipped')->where('pay_status','paid')->count();
 
         $salesmen = Salesman::where('active','1')->where('monthly_performance_target','>','0')->orderBy('order','asc')->orderBy('id','desc')->get()->toArray();
+
+        $total_month_performance = $total_year_performance = 0;
+
+        //月总业绩目标
+        $total_monthly_performance_target = setting('total_monthly_performance_target');
+        //年总业绩目标
+        $total_yearly_performance_target = setting('total_yearly_performance_target');
 
         foreach ($salesmen as $key => $salesman)
         {
             $salesmen[$key]['month_performance'] = Order::whereBetween('paid_at',[$begin_month,$end_month])->where('salesman_id',$salesman['id'])->sum('paid_total');
             $salesmen[$key]['month_performance_percent'] = round(($salesmen[$key]['month_performance']/$salesman['monthly_performance_target'])*100).'%';
         }
-
+        //月总业绩
+        $total_month_performance = Order::whereBetween('paid_at',[$begin_month,$end_month])->sum('paid_total');
+        $total_month_performance_percent = round(($total_month_performance/$total_monthly_performance_target)*100).'%';
+        //年总业绩
+        $total_year_performance = Order::whereBetween('paid_at',[$begin_year,$end_year])->where('salesman_id',$salesman['id'])->sum('paid_total');
+        $total_year_performance_percent = round(($total_year_performance/$total_yearly_performance_target)*100).'%';
         return $this->response->title(trans('app.admin.panel'))
             ->view('home')
-            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count','unshipped_count','salesmen'))
+            ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count','unshipped_count','salesmen','total_monthly_performance_target','total_month_performance','total_month_performance_percent','total_yearly_performance_target','total_year_performance','total_year_performance_percent'))
             ->output();
     }
     public function dashboard()

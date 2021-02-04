@@ -1015,3 +1015,9 @@ if (!function_exists('get_months')) {
         return $months;
     }
 }
+if (!function_exists('rate_style')) {
+    function rate_style($new, $old)
+    {
+        return $new >= $old ? 'c1' : 'c2';
+    }
+}

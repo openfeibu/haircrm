@@ -137,7 +137,7 @@ Route::group([
     Route::get('locked', 'UserController@locked');
 
     Route::get('statistic/trade', 'StatisticResourceController@trade')->name('statistic.trade');
-    Route::get('statistic/trading', 'ResourceController@getTrading')->name('statistic.trading');
+    Route::get('statistic/trading', 'StatisticResourceController@getTrading')->name('statistic.trading');
 });
 Route::group([
     'namespace' => 'Salesman',

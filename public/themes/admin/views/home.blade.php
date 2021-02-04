@@ -10,7 +10,7 @@
                             <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">${{ $today_selling_price }}<span class="c2">({{ rate_of_increase($today_selling_price,$yesterday_selling_price) }})</span></p>
+                            <p class="layuiadmin-big-font">${{ $today_selling_price }}<span class="{!! rate_style($today_selling_price,$yesterday_selling_price) !!}">({{ rate_of_increase($today_selling_price,$yesterday_selling_price) }})</span></p>
 
                         </div>
                     </div>
@@ -23,7 +23,7 @@
                             <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $today_paid_order_count }}<span class="c2">({{ rate_of_increase($today_paid_order_count,$yesterday_paid_order_count) }})</span></p>
+                            <p class="layuiadmin-big-font">{{ $today_paid_order_count }}<span class="{!! rate_style($today_paid_order_count,$yesterday_paid_order_count) !!}">({{ rate_of_increase($today_paid_order_count,$yesterday_paid_order_count) }})</span></p>
 
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                             <span class="layui-badge layui-bg-blue layuiadmin-badge">日</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list">
-                            <p class="layuiadmin-big-font">{{ $today_order_count }}<span class="c2">({{ rate_of_increase($today_order_count,$yesterday_order_count) }})</span></p>
+                            <p class="layuiadmin-big-font">{{ $today_order_count }}<span class="{!! rate_style($today_order_count,$yesterday_order_count) !!}">({{ rate_of_increase($today_order_count,$yesterday_order_count) }})</span></p>
 
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                     <div class="layui-card">
                         <div class="layui-card-header">
                             <b>本月业务员业绩概览</b>
-                            <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">业绩</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list" style="height:220px">
                             @foreach($salesmen as $key => $salesman)
@@ -182,7 +182,7 @@
                     <div class="layui-card">
                         <div class="layui-card-header">
                             <b>公司业绩概览</b>
-                            <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">业绩</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list" style="height:220px">
 							<div class="layui-col-sm6 layui-col-md6">
@@ -194,7 +194,7 @@
 								</div>
 								<div class="layui-col-sm6 layui-col-md6 performance-right">
 									<div class="t">月业绩目标</div>
-									<div class="num"><span>$4500</span>/$5000</div>
+                                    <div class="num"><span>${{ $total_month_performance }}</span>/${{ $total_monthly_performance_target }}</div>
 									
 								</div>
 							</div>
@@ -207,7 +207,7 @@
 								</div>
 								<div class="layui-col-sm6 layui-col-md6 performance-right">
 									<div class="t">年业绩目标</div>
-									<div class="num"><span>$4500</span>/$80000</div>
+									<div class="num"><span>${{ $total_year_performance }}</span>/${{ $total_yearly_performance_target }}</div>
 									
 								</div>
 							</div>
@@ -248,7 +248,7 @@
                         left: "center",
                         top: "center",
                         style: {
-                            text: "80%",
+                            text: "{{ $total_month_performance_percent }}",
                             textAlign: "center",
                             fill: "#32373C",
                             fontSize: 28,
@@ -273,8 +273,8 @@
                         show: false
                     },
                     data: [
-                        {value: 4500, name: '已完成业绩'},
-                        {value: 500, name: '未完成业绩'},
+                        {value: "{!! $total_month_performance !!}", name: '已完成业绩'},
+                        {value: "{!! $total_month_performance > $total_monthly_performance_target ? 0 : $total_monthly_performance_target-$total_month_performance !!}", name: '未完成业绩'},
 
                     ],
                     color: [
@@ -315,7 +315,7 @@
                         left: "center",
                         top: "center",
                         style: {
-                            text: "5%",
+                            text: "{{ $total_year_performance_percent }}",
                             textAlign: "center",
                             fill: "#32373C",
                             fontSize: 28,
@@ -341,8 +341,8 @@
                             show: false
                         },
                         data: [
-                            {value: 4500, name: '已完成业绩'},
-                            {value: 70500, name: '未完成业绩'},
+                            {value: "{!! $total_year_performance !!}", name: '已完成业绩'},
+                            {value: "{!! $total_year_performance > $total_yearly_performance_target ? 0 : $total_yearly_performance_target-$total_year_performance !!}", name: '未完成业绩'},
 
                         ],
                        color: [
