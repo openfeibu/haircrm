@@ -25,6 +25,44 @@ class SettingResourceController extends BaseController
         $this->repository
             ->pushCriteria(\App\Repositories\Criteria\RequestCriteria::class);
     }
+
+    public function updateSetting(Request $request,$type)
+    {
+        try {
+            $attributes = $request->all();
+            foreach ($attributes as $key => $attribute)
+            {
+                Setting::where('slug',$key)->update(['value' => $attribute]);
+            }
+            return $this->response->message(trans('messages.success.updated'))
+                ->success()
+                ->url(guard_url('setting/'.$type))
+                ->redirect();
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->code(400)
+                ->status('error')
+                ->url(guard_url('setting/'.$type))
+                ->redirect();
+        }
+    }
+    public function parameter(Request $request)
+    {
+        $params = $this->repository->where(['category' => 'parameter'])->get()->toArray();
+        foreach ($params as $key => $param)
+        {
+            $parameter[$param['slug']] = $param['value'];
+        }
+        return $this->response->title('参数设置')
+            ->view('setting.parameter')
+            ->data(compact('parameter'))
+            ->output();
+    }
+    public function updateParameter(Request $request)
+    {
+        return $this->updateSetting($request,'parameter');
+
+    }
     public function company(Request $request)
     {
         $company_params = $this->repository->where(['category' => 'company'])->get()->toArray();
@@ -39,24 +77,10 @@ class SettingResourceController extends BaseController
     }
     public function updateCompany(Request $request)
     {
-        try {
-            $attributes = $request->all();
-            foreach ($attributes as $key => $attribute)
-            {
-                Setting::where('slug',$key)->update(['value' => $attribute]);
-            }
-            return $this->response->message(trans('messages.success.created'))
-                ->success()
-                ->url(guard_url('setting/company'))
-                ->redirect();
-        } catch (Exception $e) {
-            return $this->response->message($e->getMessage())
-                ->code(400)
-                ->status('error')
-                ->url(guard_url('setting/company'))
-                ->redirect();
-        }
+        return $this->updateSetting($request,'company');
+
     }
+
     public function station(Request $request)
     {
         $setting_params = $this->repository->where(['category' => 'station'])->get()->toArray();
@@ -78,23 +102,7 @@ class SettingResourceController extends BaseController
     }
     public function updateStation(Request $request)
     {
-        try {
-            $attributes = $request->all();
-            foreach ($attributes as $key => $attribute)
-            {
-                Setting::where('slug',$key)->update(['value' => $attribute]);
-            }
-            return $this->response->message(trans('messages.success.created'))
-                ->success()
-                ->url(guard_url('setting/station'))
-                ->redirect();
-        } catch (Exception $e) {
-            return $this->response->message($e->getMessage())
-                ->code(400)
-                ->status('error')
-                ->url(guard_url('setting/station'))
-                ->redirect();
-        }
+        return $this->updateSetting($request,'station');
     }
     public function publicityVideo(Request $request)
     {
@@ -111,23 +119,7 @@ class SettingResourceController extends BaseController
     }
     public function updatePublicityVideo(Request $request)
     {
-        try {
-            $attributes = $request->all();
-            foreach ($attributes as $key => $attribute)
-            {
-                Setting::where('slug',$key)->update(['value' => $attribute]);
-            }
-            return $this->response->message(trans('messages.success.created'))
-                ->success()
-                ->url(guard_url('setting/publicityVideo'))
-                ->redirect();
-        } catch (Exception $e) {
-            return $this->response->message($e->getMessage())
-                ->code(400)
-                ->status('error')
-                ->url(guard_url('setting/publicityVideo'))
-                ->redirect();
-        }
+        return $this->updateSetting($request,'publicityVideo');
     }
 
 }

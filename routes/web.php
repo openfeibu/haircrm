@@ -47,6 +47,8 @@ Route::group([
     Route::post('/setting/updatePublicityVideo', 'SettingResourceController@updatePublicityVideo');
     Route::get('/setting/station', 'SettingResourceController@station')->name('setting.station.index');
     Route::post('/setting/updateStation', 'SettingResourceController@updateStation');
+    Route::get('/setting/parameter', 'SettingResourceController@parameter')->name('setting.parameter.index');
+    Route::post('/setting/updateParameter', 'SettingResourceController@updateParameter');
 
     Route::resource('permission', 'PermissionResourceController');
     Route::resource('role', 'RoleResourceController');

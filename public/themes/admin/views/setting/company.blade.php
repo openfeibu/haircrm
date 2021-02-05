@@ -2,8 +2,7 @@
     <div class="layui-card fb-minNav">
         <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
             <a href="{{ route('home') }}">主页</a><span lay-separator="">/</span>
-            <a><cite>公司信息管理</cite></a><span lay-separator="">/</span>
-            <a><cite>联系我们</cite></a>
+            <a><cite>公司信息管理</cite></a>
         </div>
     </div>
     <div class="main_full">
