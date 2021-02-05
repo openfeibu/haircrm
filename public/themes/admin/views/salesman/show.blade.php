@@ -73,6 +73,12 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.yearly_performance_target") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="yearly_performance_target" placeholder="请输入{{ trans("salesman.label.yearly_performance_target") }}" autocomplete="off" class="layui-input" value="{{ $salesman->yearly_performance_target }}">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
                         <label class="layui-form-label">{{ trans("admin_user.label.roles") }} *</label>
                         <div class="layui-input-block">
                             @foreach($roles as $key => $role)

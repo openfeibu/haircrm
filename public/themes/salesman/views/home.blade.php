@@ -65,7 +65,7 @@
                     <div class="layui-card">
                         <div class="layui-card-header">
                             <b>业绩概览</b>
-                            <span class="layui-badge layui-bg-red layuiadmin-badge">涨</span>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">业绩</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list" style="height:220px">
 							<div class="layui-col-sm5 layui-col-md5">
@@ -110,7 +110,7 @@
                     <div class="layui-card">
                         <div class="layui-card-header">
                             <b>本月录入客户走势</b>
-                            <span class="layui-badge layui-bg-red layuiadmin-badge">月</span>
+                            <span class="layui-badge layui-bg-red layuiadmin-badge">录客</span>
                         </div>
                         <div class="layui-card-body layuiadmin-card-list" style="height:600px">
 						

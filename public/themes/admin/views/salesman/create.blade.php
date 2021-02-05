@@ -68,6 +68,12 @@
                         </div>
                     </div>
                     <div class="layui-form-item">
+                        <label class="layui-form-label">{{ trans("salesman.label.yearly_performance_target") }} *</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="yearly_performance_target" placeholder="请输入{{ trans("salesman.label.yearly_performance_target") }}" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
                         <label class="layui-form-label">{{ trans("salesman.label.active") }}</label>
                         <div class="layui-input-inline">
                             <input type="checkbox" name="active" value="1" lay-skin="switch" lay-text="是|否" lay-filter="active" checked>

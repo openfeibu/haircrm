@@ -18,5 +18,6 @@ return [
         'today_new_customer_count' => '今日采集客户数量',
         'yesterday_new_customer_count' => '昨日采集客户数量',
         'monthly_performance_target' => '月业绩目标($)',
+        'yearly_performance_target' => '年业绩目标($)',
     ],
 ];
