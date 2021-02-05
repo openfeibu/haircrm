@@ -323,6 +323,7 @@
                 yAxis: [
 				{
 					type: 'value',
+                    minInterval: 30
 				}],
                 xAxis: [
 				{
@@ -337,6 +338,9 @@
 					name: '客户录入数',
 					type: 'bar',
 					data: [],
+                    label: {
+					    show:true
+                    },
 					markPoint: {
 						  itemStyle:{
 							  normal:{

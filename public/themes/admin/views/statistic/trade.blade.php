@@ -110,7 +110,9 @@
                     name:'成交额（$）',
                     type:'line',
                     data:[],
-
+                    label: {
+                        show:true
+                    },
                     itemStyle:{
                         normal:{
                             color:'#4fa4c7'
@@ -134,7 +136,9 @@
                     yAxisIndex: 1,
                     type: 'line', //柱状
                     data: [],
-
+                    label: {
+                        show:true
+                    },
                     itemStyle: {
                         normal: { //柱子颜色
                             color: '#f5a624'

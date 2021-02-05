@@ -56,8 +56,8 @@ class StatisticResourceController extends BaseController
                     $date_arr = get_weeks();
                     foreach ($date_arr as $key => $date)
                     {
-                        $order_count_arr[$key] = Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
-                        $turnover_arr[$key] =  Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
+                        $order_count_arr[$key] = Order::whereBetween('paid_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
+                        $turnover_arr[$key] =  Order::whereBetween('paid_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
                     }
                     break;
                 case 'this_month':
@@ -66,8 +66,8 @@ class StatisticResourceController extends BaseController
                     {
                         if($date<= date('Y-m-d'))
                         {
-                            $order_count_arr[] = Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
-                            $turnover_arr[] =  Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
+                            $order_count_arr[] = Order::whereBetween('paid_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('paid_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
                         }else{
                             $order_count_arr[] = 0;
                             $order_count_arr[] = 0;
@@ -80,8 +80,8 @@ class StatisticResourceController extends BaseController
                     {
                         if($date<= date('Y-m-d'))
                         {
-                            $order_count_arr[] = Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
-                            $turnover_arr[] =  Order::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
+                            $order_count_arr[] = Order::whereBetween('paid_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('paid_at',[$date.' 00:00:00',$date.' 23:59:59'])->where('pay_status','paid')->sum('total');
                         }else{
                             $order_count_arr[] = 0;
                             $order_count_arr[] = 0;
@@ -96,8 +96,8 @@ class StatisticResourceController extends BaseController
                         $end_day = date('Y-m-d 23:59:59', strtotime("$first_day +1 month -1 day"));
                         if($month <= date('Y-m'))
                         {
-                            $order_count_arr[] = Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->count();
-                            $turnover_arr[] =  Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->sum('total');
+                            $order_count_arr[] = Order::whereBetween('paid_at',[$first_day,$end_day])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('paid_at',[$first_day,$end_day])->where('pay_status','paid')->sum('total');
                         }else{
                             $order_count_arr[] = 0;
                             $order_count_arr[] = 0;
@@ -112,8 +112,8 @@ class StatisticResourceController extends BaseController
                         $end_day = date('Y-m-d 23:59:59', strtotime("$first_day +1 month -1 day"));
                         if($month <= date('Y-m'))
                         {
-                            $order_count_arr[] = Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->count();
-                            $turnover_arr[] =  Order::whereBetween('created_at',[$first_day,$end_day])->where('pay_status','paid')->sum('total');
+                            $order_count_arr[] = Order::whereBetween('paid_at',[$first_day,$end_day])->where('pay_status','paid')->count();
+                            $turnover_arr[] =  Order::whereBetween('paid_at',[$first_day,$end_day])->where('pay_status','paid')->sum('total');
                         }else{
                             $order_count_arr[] = 0;
                             $order_count_arr[] = 0;

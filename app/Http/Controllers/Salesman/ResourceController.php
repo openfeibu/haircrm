@@ -73,7 +73,7 @@ class ResourceController extends BaseController
         {
             if($date<= date('Y-m-d'))
             {
-                $new_customer_arr[] = NewCustomer::whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->count();
+                $new_customer_arr[] = NewCustomer::where('salesman_id',Auth::user()->id)->whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->count();
             }else{
                 $new_customer_arr[] = 0;
             }
