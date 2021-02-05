@@ -35,40 +35,44 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-col-md12">
+                <div class="layui-col-sm12 layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-header"> <b>交易走势</b></div>
-                        <div class="">
-                            <form class="layui-form" action="" lay-filter="fb-form" id="trading_form">
+                        <form class="layui-form" action="" lay-filter="fb-form" id="trading_form">
                                 <div class="layui-row">
                                     <div class="layui-col-md12 "  style="margin:15px">
-                                        <div class="layui-inline">
-                                            <label>选择时间：</label>
-                                            <select name="date_type" class="search_key layui-select date_type" lay-filter="date_type" id="date_type">
-                                                <option value="days">近7天</option>
-                                                <option value="this_month" selected>本月</option>
-                                                <option value="last_month">上个月</option>
-                                                <option value="this_year">今年</option>
-                                                <option value="last_year">去年</option>
-                                            </select>
-                                        </div>
-                                        <div class="layui-inline">
-                                            <label>选择业务员：</label>
-                                            <select name="salesman_id" class="search_key layui-select salesman_id" >
-                                                @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
-                                                <option value="">所有</option>
-                                                @foreach($salesmanRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $salesman)
-                                                    <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="layui-inline">
-                                            <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                                        <div class="layui-form-item">
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label">选择时间：</label>
+                                                <div class="layui-input-inline" >
+                                                    <select name="date_type" class="search_key layui-select date_type" lay-filter="date_type" id="date_type" >
+                                                        <option value="days">近7天</option>
+                                                        <option value="this_month" selected>本月</option>
+                                                        <option value="last_month">上个月</option>
+                                                        <option value="this_year">今年</option>
+                                                        <option value="last_year">去年</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <label class="layui-form-label" style="width: 100px;">选择业务员：</label>
+                                                <div class="layui-input-inline" >
+                                                    <select name="salesman_id" class="search_key layui-select salesman_id">
+                                                        @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
+                                                        <option value="">所有</option>
+                                                        @foreach($salesmanRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $salesman)
+                                                            <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                        </div>
                         <div class="layui-card-body">
                             <div id="trading" style="width: 100%;height: 500px;"> </div>
                         </div>
