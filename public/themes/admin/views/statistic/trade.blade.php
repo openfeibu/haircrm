@@ -39,19 +39,31 @@
                     <div class="layui-card">
                         <div class="layui-card-header"> <b>交易走势</b></div>
                         <div class="">
-                            <form class="layui-form" action="" lay-filter="fb-form">
+                            <form class="layui-form" action="" lay-filter="fb-form" id="trading_form">
                                 <div class="layui-row">
                                     <div class="layui-col-md12 "  style="margin:15px">
-                                        <div class="layui-inline">选择时间：</div>
                                         <div class="layui-inline">
-
-                                            <select name="date_type" class="layui-select" lay-filter="date_type" id="date_type">
+                                            <label>选择时间：</label>
+                                            <select name="date_type" class="search_key layui-select date_type" lay-filter="date_type" id="date_type">
                                                 <option value="days">近7天</option>
                                                 <option value="this_month" selected>本月</option>
                                                 <option value="last_month">上个月</option>
                                                 <option value="this_year">今年</option>
                                                 <option value="last_year">去年</option>
                                             </select>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <label>选择业务员：</label>
+                                            <select name="salesman_id" class="search_key layui-select salesman_id" >
+                                                @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
+                                                <option value="">所有</option>
+                                                @foreach($salesmanRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $salesman)
+                                                    <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="layui-inline">
+                                            <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -161,18 +173,19 @@
             };
             trading.setOption(trading_option, true);
             trading.showLoading();
-            var date_type = $('#date_type').val();
-            ajax_trading(date_type);
 
+            ajax_trading();
 
-            form.on('select(date_type)', function (data) {
-                var date_type = $('#date_type').val();
-
+            $('#trading_form .layui-btn').on('click', function(){
                 trading.showLoading();
-                ajax_trading(date_type);
+                ajax_trading();
             });
-            function ajax_trading(date_type) {
-                $.get('{{ guard_url("statistic/trading") }}?date_type='+date_type).done(function (data) {
+
+            function ajax_trading() {
+                var date_type = $('#trading_form').find('.date_type').val();
+                var salesman_id =  $('#trading_form').find('.salesman_id').val();
+
+                $.get('{{ guard_url("statistic/trading") }}?date_type='+date_type+'&salesman_id='+salesman_id).done(function (data) {
                     trading.hideLoading();
                     // 填入数据
                     trading.setOption({
