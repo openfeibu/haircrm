@@ -324,7 +324,7 @@
                 ],
                 series: [
                     {
-                        name: '月业绩目标',
+                        name: '年业绩目标',
                         type: 'pie',
                         radius: ['50%', '70%'],
                         avoidLabelOverlap: false,

@@ -43,17 +43,17 @@ class ResourceController extends BaseController
 
         $customer_count = Customer::count();
         $new_customer_count = NewCustomer::count();
-        //今日订单量
+        //今日报价订单量
         $today_order_count = Order::where('created_at','>=',date('Y-m-d 00:00:00'))->count();
-        //昨日订单量
+        //昨日报价订单量
         $yesterday_order_count = Order::whereBetween('created_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->count();
         //总订单量
         $order_count = Order::count();
 
         //今日成交订单量
-        $today_paid_order_count = Order::where('created_at','>=',date('Y-m-d 00:00:00'))->where('pay_status','paid')->count();
+        $today_paid_order_count = Order::where('paid_at','>=',date('Y-m-d 00:00:00'))->where('pay_status','paid')->count();
         //昨日成交订单量
-        $yesterday_paid_order_count = Order::whereBetween('created_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->where('pay_status','paid')->count();
+        $yesterday_paid_order_count = Order::whereBetween('paid_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->where('pay_status','paid')->count();
         //总成交订单量
         $order_paid_count = Order::where('pay_status','paid')->count();
 
@@ -99,10 +99,12 @@ class ResourceController extends BaseController
         }
         //月总业绩
         $total_month_performance = Order::whereBetween('paid_at',[$begin_month,$end_month])->sum('paid_total');
-        $total_month_performance_percent = round(($total_month_performance/$total_monthly_performance_target)*100).'%';
+        $total_month_performance_percent = $total_monthly_performance_target ? round(($total_month_performance/$total_monthly_performance_target)*100).'%' : '/';
+
         //年总业绩
-        $total_year_performance = Order::whereBetween('paid_at',[$begin_year,$end_year])->where('salesman_id',$salesman['id'])->sum('paid_total');
-        $total_year_performance_percent = round(($total_year_performance/$total_yearly_performance_target)*100).'%';
+        $total_year_performance = Order::whereBetween('paid_at',[$begin_year,$end_year])->sum('paid_total');
+        $total_year_performance_percent = $total_yearly_performance_target ? round(($total_year_performance/$total_yearly_performance_target)*100).'%' : '/';
+
         return $this->response->title(trans('app.admin.panel'))
             ->view('home')
             ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count','unshipped_count','salesmen','total_monthly_performance_target','total_month_performance','total_month_performance_percent','total_yearly_performance_target','total_year_performance','total_year_performance_percent'))

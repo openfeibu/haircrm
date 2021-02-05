@@ -198,6 +198,7 @@ Route::group([
     Route::resource('mail_schedule_report', 'MailScheduleReportResourceController');
     Route::post('/mail_schedule_report/destroyAll', 'MailScheduleReportResourceController@destroyAll')->name('mail_schedule_report.destroy_all');
 
+    Route::get('/getMonthNewCustomers', 'ResourceController@getMonthNewCustomers')->name('statistic.getMonthNewCustomers');
 
 });
 /*
