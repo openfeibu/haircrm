@@ -19,6 +19,6 @@ class Customer extends BaseModel
 
     public function getOrderCountAttribute()
     {
-        return Order::where('customer_id',$this->attributes['id'])->where('pay_status','paid')->count();
+        return isset($this->attributes['id']) && $this->attributes['id'] ? Order::where('customer_id',$this->attributes['id'])->where('pay_status','paid')->count() : '0';
     }
 }
