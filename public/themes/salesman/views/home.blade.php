@@ -58,7 +58,7 @@
             </div>
 
         </div>
-        @if(in_array(Auth::user()->id,['10','6']))
+
 		<div class="layui-col-md12">
             <div class="layui-card-box layui-col-space15  fb-clearfix">
 				<div class="layui-col-sm12 layui-col-md12">
@@ -125,7 +125,7 @@
                 </div>
 			</div>
 		</div>
-		@endif
+		
 		
 	
 	
