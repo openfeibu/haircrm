@@ -42,6 +42,7 @@
 
         $.onNodeClick = function (node) {
             var tableData = layui.table.cache.cart;
+            //用于判断，购物车中是否已有该商品
             var flag = false;
             if(tableData != null)
             {
@@ -60,6 +61,7 @@
                 if(flag == true)
                 {
                     table.reload("cart",{data:tableData});
+                    handle_number();
                 }else{
                     appendTbody(node)
                 }

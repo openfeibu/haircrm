@@ -60,6 +60,7 @@
                 if(flag == true)
                 {
                     table.reload("cart",{data:tableData});
+                    handle_number();
                 }else{
                     appendTbody(node)
                 }
