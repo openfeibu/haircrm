@@ -75,7 +75,7 @@ class CategoryResourceController extends BaseController
             foreach ($categories as $category)
             {
                 $data[] = [
-                    'name' => $category,
+                    'name' => trim($category),
                     'parent_id' => $parent_id,
                     'top_parent_id' => $top_parent_id,
                     'category_ids' => $category_ids,
