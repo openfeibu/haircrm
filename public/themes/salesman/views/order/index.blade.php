@@ -18,13 +18,12 @@
                         </div>
                     </div>
                     <div class="layui-block mb10">
-
                         <div class="layui-inline">
-                            @inject('orderModel','App\Models\Order')
-                            <select name="customer_id" id="customer_id" class="search_key layui-select" lay-search>
+                            @inject('customerRepository','App\Repositories\Eloquent\CustomerRepository')
+                            <select name="customer_id" id="customer_id" class="search_key layui-select" lay-filter="customer" lay-search>
                                 <option value="">{{ trans('customer.name') }}</option>
-                                @foreach($orderModel->where('salesman_id','=',Auth::user()->id)->orderBy('customer_name','asc')->groupBy('customer_id')->get() as $key => $order)
-                                    <option value="{{ $order->customer_id }}">{{ $order->customer_name }}</option>
+                                @foreach($customerRepository->where('salesman_id',Auth::user()->id)->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $customer)
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}@if($customer->ig) ({{ $customer->ig }})@endif</option>
                                 @endforeach
                             </select>
                         </div>
