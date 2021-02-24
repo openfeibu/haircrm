@@ -24,7 +24,7 @@
                             <select name="customer_id" id="customer_id" class="search_key layui-select" lay-search>
                                 <option value="">{{ trans('customer.name') }}</option>
                                 @foreach($orderModel->where('salesman_id','=',Auth::user()->id)->orderBy('customer_name','asc')->groupBy('customer_id')->get() as $key => $order)
-                                    <option value="{{ $order->customer_id }}">{{ $order->customer_name }}@if($customer->ig) ({{ $customer->ig }})@endif</option>
+                                    <option value="{{ $order->customer_id }}">{{ $order->customer_name }}</option>
                                 @endforeach
                             </select>
                         </div>
