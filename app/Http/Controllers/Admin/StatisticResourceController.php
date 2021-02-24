@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Goods;
 use App\Models\MailScheduleReport;
 use App\Models\NewCustomer;
+use App\Models\Salesman;
 use App\Models\Order;
 use App\Models\OrderGoods;
 use Route;
@@ -171,5 +172,34 @@ class StatisticResourceController extends BaseController
                 ->url(guard_url('/'))
                 ->redirect();
         }
+    }
+    public function monthNewCustomers()
+    {
+        $salesmen = Salesman::where('active','1')->where('monthly_performance_target','>','0')->orderBy('order','asc')->orderBy('id','desc')->get()->toArray();
+
+        return $this->response->title(trans('statistic.name'))
+            ->view('statistic.month_new_customer')
+            ->data(compact('salesmen'))
+            ->output();
+    }
+    public function getMonthNewCustomers(Request $request)
+    {
+        $year_month = $request->get('year_month',date('Y-m'));
+        $salesman_id = $request->salesman_id;
+        $date_arr = get_month_days($year_month);
+        $new_customer_arr = [];
+        foreach ($date_arr as $key => $date)
+        {
+            if($date<= date('Y-m-d'))
+            {
+                $new_customer_arr[] = NewCustomer::where('salesman_id',$salesman_id)->whereBetween('created_at',[$date.' 00:00:00',$date.' 23:59:59'])->count();
+            }else{
+                $new_customer_arr[] = 0;
+            }
+        }
+        return $this->response
+            ->success()
+            ->data(compact('date_arr','new_customer_arr'))
+            ->json();
     }
 }

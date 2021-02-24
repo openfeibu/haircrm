@@ -140,6 +140,8 @@ Route::group([
 
     Route::get('statistic/trade', 'StatisticResourceController@trade')->name('statistic.trade');
     Route::get('statistic/trading', 'StatisticResourceController@getTrading')->name('statistic.trading');
+    Route::get('statistic/month_new_customers', 'StatisticResourceController@monthNewCustomers')->name('statistic.month_new_customers');
+    Route::get('statistic/get_month_new_customers', 'StatisticResourceController@getMonthNewCustomers')->name('statistic.get_month_new_customers');
 });
 Route::group([
     'namespace' => 'Salesman',

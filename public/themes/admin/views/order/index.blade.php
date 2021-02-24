@@ -33,7 +33,7 @@
                             <select name="customer_id" id="customer_id" class="search_key layui-select" lay-filter="customer" lay-search>
                                 <option value="">{{ trans('customer.name') }}</option>
                                 @foreach($customerRepository->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $customer)
-                                    <option value="{{ $customer->id }}">{{ $customer->name }}</option>
+                                    <option value="{{ $customer->id }}">{{ $customer->name }}@if($customer->ig) ({{ $customer->ig }})@endif</option>
                                 @endforeach
                             </select>
                         </div>
