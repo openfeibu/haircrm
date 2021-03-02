@@ -100,7 +100,7 @@
                 ,{field:'payment_sn',title:'{{ trans('order.label.payment_sn') }}', templet: '<div>@{{#  if(d.payment_sn){ }}<a href="/payment_sn/@{{d.payment_sn}}" target="_blank" class="layui-table-link">@{{d.payment_sn}}</a>@{{#  } else { }}  @{{#  } }} </div>', width:180}
                 ,{field:'remark',title:'{{ trans('app.remark') }}',edit:'text', width:120}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:280, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:310, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true

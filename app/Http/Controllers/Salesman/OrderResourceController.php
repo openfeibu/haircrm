@@ -53,7 +53,10 @@ class OrderResourceController extends BaseController
                 ->where('salesman_id',Auth::user()->id)
                 ->orderBy('id','desc')
                 ->paginate($limit,['id','order_sn','customer_id','customer_name','address','salesman_id','salesman_name','selling_price','number','order_status','shipping_status','pay_status','payment_id','payment_name','payment_sn','tracking_number','weight','freight','total','paypal_fee','remark','created_at']);
-
+            foreach ($orders as $key => $order)
+            {
+                $order->goods_list = $this->orderGoodsRepository->getOrderGoodsList($order->id);
+            }
             return $this->response
                 ->success()
                 ->count($orders->total())

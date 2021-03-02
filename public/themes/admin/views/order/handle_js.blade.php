@@ -182,7 +182,7 @@
                 layer.open({
                     type: 1,
                     title: false,
-                    area:['600px'],
+                    area:['600px', '60%'],
                     closeBtn: 1,
                     shadeClose: true,
                     content: goods_list
