@@ -147,6 +147,7 @@
                     type : 'get',
                     success : function (data) {
                         layer.close(load);
+                        that.parent().siblings('.error-aux').remove();
                         if(data.code == 0)
                         {
                             if(!$('error-aux').length)
@@ -155,7 +156,6 @@
                             }
                         }else{
                             //$('#submit-btn').attr('disabled',true).removeClass('layui-btn-submit').addClass('layui-btn-disabled');
-                            that.parent().siblings('.error-aux').remove();
                             that.parent().after('<div class="layui-form-mid layui-word-aux email-aux error-aux">'+data.message+'</div>')
                         }
                     },
