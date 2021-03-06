@@ -58,16 +58,16 @@ class ResourceController extends BaseController
         $order_paid_count = Order::where('pay_status','paid')->count();
 
         //今日销售额
-        $today_purchase_price = Order::where('created_at','>=',date('Y-m-d 00:00:00'))->where('pay_status','paid')->sum('purchase_price');
+        $today_purchase_price = Order::where('paid_at','>=',date('Y-m-d 00:00:00'))->where('pay_status','paid')->sum('purchase_price');
         //昨日拿货价
-        $yesterday_purchase_price = Order::whereBetween('created_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->where('pay_status','paid')->sum('purchase_price');
+        $yesterday_purchase_price = Order::whereBetween('paid_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->where('pay_status','paid')->sum('purchase_price');
         //总拿货价
         $purchase_price = Order::where('pay_status','paid')->sum('purchase_price');
 
         //今日销售额
-        $today_selling_price = Order::where('created_at','>=',date('Y-m-d 00:00:00'))->where('pay_status','paid')->sum('selling_price');
+        $today_selling_price = Order::where('paid_at','>=',date('Y-m-d 00:00:00'))->where('pay_status','paid')->sum('selling_price');
         //昨日销售额
-        $yesterday_selling_price= Order::whereBetween('created_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->where('pay_status','paid')->sum('selling_price');
+        $yesterday_selling_price= Order::whereBetween('paid_at',[date('Y-m-d 00:00:00',strtotime('-1day')),date('Y-m-d 23:59:59',strtotime('-1day'))])->where('pay_status','paid')->sum('selling_price');
         //总销售额
         $selling_price = Order::where('pay_status','paid')->sum('selling_price');
 
