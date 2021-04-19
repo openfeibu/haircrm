@@ -23,7 +23,7 @@
                             <select name="salesman_id" class="search_key layui-select">
                                 @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
                                 <option value="">{{ trans('salesman.name') }}</option>
-                                @foreach($salesmanRepository->orderBy('name','asc')->orderBy('active','desc')->orderBy('id','desc')->get() as $key => $salesman)
+                                @foreach($salesmanRepository->orderBy('active','desc')->orderBy('name','asc')->orderBy('id','desc')->get() as $key => $salesman)
                                     <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
                                 @endforeach
                             </select>
