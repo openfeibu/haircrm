@@ -49,8 +49,12 @@
                             <input class="layui-input search_key" name="whatsapp" id="demoReload" placeholder="{{ trans('new_customer.label.whatsapp') }}" autocomplete="off">
                         </div>
                         <div class="layui-inline">
-                            <label class="layui-form-label">过滤空邮箱</label>
-                            <input type="checkbox" class="search_key" name="email_not_null" placeholder="过滤空邮箱" lay-skin="switch" lay-text="ON|OFF" value="0" lay-filter="email_not_null">
+                            <label class="layui-form-label">过滤空{{ trans('new_customer.label.email') }}</label>
+                            <input type="checkbox" class="search_key" name="email_not_null" placeholder="过滤空{{ trans('new_customer.label.email') }}" lay-skin="switch" lay-text="ON|OFF" value="0" lay-filter="email_not_null">
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">过滤空{{ trans('new_customer.label.mobile') }}</label>
+                            <input type="checkbox" class="search_key" name="mobile_not_null" placeholder="过滤空{{ trans('new_customer.label.mobile') }}" lay-skin="switch" lay-text="ON|OFF" value="0" lay-filter="email_not_null">
                         </div>
                         <div class="layui-inline">
                             <button class="layui-btn" data-type="reload" type="button">{{ trans('app.search') }}</button>
