@@ -44,6 +44,12 @@ class NewCustomerResourceController extends BaseController
                             {
                                 $query->whereNotNull('email')->where('email','<>','');
                             }
+                        }else if($field == 'mobile_not_null')
+                        {
+                            if($value == 1)
+                            {
+                                $query->whereNotNull('mobile')->where('mobile','<>','');
+                            }
                         }else{
                             $query->where($field,'like','%'.$value.'%');
                         }
