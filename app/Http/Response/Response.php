@@ -20,7 +20,7 @@ abstract class Response
     /**
      * @var Response message for the response.
      */
-    protected $message = null;
+    protected $msg = null;
 
     /**
      * @var Response status for the response.
@@ -74,7 +74,7 @@ abstract class Response
     public function json()
     {
         $data = [
-            'message' => $this->getMessage(),
+            'msg' => $this->getMessage(),
             'status' => $this->getStatus(),
             'code' => $this->getCode(),
             'data' => $this->getData(),
@@ -178,17 +178,17 @@ abstract class Response
      */
     public function getMessage()
     {
-        return $this->message;
+        return $this->msg;
     }
 
     /**
-     * @param mixed $message
+     * @param mixed $msg
      *
      * @return self
      */
-    public function message($message)
+    public function message($msg)
     {
-        $this->message = $message;
+        $this->msg = $msg;
 
         return $this;
     }
@@ -250,18 +250,18 @@ abstract class Response
 
         return $this;
     }
-    public function success($message=NULL)
+    public function success($msg=NULL)
     {
         $this->code = '0';
         $this->status = 'success';
-        $this->message = $message;
+        $this->msg = $msg;
         return $this;
     }
-    public function error($message=NULL,$code=400)
+    public function error($msg=NULL,$code=400)
     {
         $this->code = $code;
         $this->status = 'error';
-        $this->message = $message;
+        $this->msg = $msg;
         return $this;
     }
     /**

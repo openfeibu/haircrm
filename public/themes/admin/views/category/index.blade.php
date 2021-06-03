@@ -70,7 +70,7 @@
                                     type : 'POST',
                                     success : function (data) {
                                         layer.close(load);
-                                        layer.msg(data.message);
+                                        layer.msg(data.msg);
                                     },
                                     error : function (jqXHR, textStatus, errorThrown) {
                                         layer.close(load);
@@ -98,7 +98,7 @@
                                 type : 'POST',
                                 success : function (data) {
                                     layer.close(load);
-                                    layer.msg(data.message);
+                                    layer.msg(data.msg);
                                 },
                                 error : function (jqXHR, textStatus, errorThrown) {
                                     layer.close(load);
@@ -143,7 +143,7 @@
                                 {
 
                                 }else{
-                                    layer.msg(data.message);
+                                    layer.msg(data.msg);
                                     res = false;
                                 }
                             },

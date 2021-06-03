@@ -37,7 +37,7 @@
                         layer.close(load);
                         if(data.code != 0)
                         {
-                            layer.msg(data.message);
+                            layer.msg(data.msg);
                         }
                         if(!$.isEmptyObject(data.data.goods))
                         {

@@ -15,7 +15,7 @@ body{background: #ebeff6;}
     border-top-color: #fff;
 }
 .layui-header .layui-nav .layui-nav-mored {
-	border-color: transparent transparent #fff
+    border-color: transparent transparent #fff
 }
 .layui-input-line{width:100% !important;}
 .layui-nav-bar{background: #666;height: 2px;}
@@ -50,30 +50,30 @@ body{background: #ebeff6;}
 
 .main_full{padding:0 15px 15px 15px;}
 .fb-backlog .fb-backlog-body {
-	display: block;
-	padding: 10px 15px;
-	background-color: #f8f8f8;
-	color: #999;
-	border-radius: 2px;
-	transition: all .3s;
-	-webkit-transition: all .3s
+    display: block;
+    padding: 10px 15px;
+    background-color: #f8f8f8;
+    color: #999;
+    border-radius: 2px;
+    transition: all .3s;
+    -webkit-transition: all .3s
 }
 
 .fb-backlog-body h3 {
-	padding-bottom: 10px;
-	font-size: 12px
+    padding-bottom: 10px;
+    font-size: 12px
 }
 
 .fb-backlog-body p cite {
-	font-style: normal;
-	font-size: 30px;
-	font-weight: 300;
-	color: #009688
+    font-style: normal;
+    font-size: 30px;
+    font-weight: 300;
+    color: #009688
 }
 
 .fb-backlog-body:hover {
-	background-color: #f2f2f2;
-	color: #888
+    background-color: #f2f2f2;
+    color: #888
 }
 .tabel-btn{margin-right: 20px;}
 .fb-minNav{height: 50px;padding: 0 15px;line-height: 50px}
@@ -307,12 +307,12 @@ button.layui-close{
     float: right;
     cursor: pointer;
 }
-.layui-card-box .layui-card-header b{font-size: 16px;}
-.layui-card-box .layui-card-header label{font-size: 12px;color: #999}
-.layui-card-box  .layuiadmin-big-font span{font-size: 14px;}
-.layui-card-box .layuiadmin-card-list{height: 70px;overflow: auto;}
-.layui-card-box  .layuiadmin-big-font span.c1{color: red}
-.layui-card-box  .layuiadmin-big-font span.c2{color: #5FB878}
+.layui-card-box-home-block .layui-card-box .layui-card-header b{font-size: 16px;}
+.layui-card-box-home-block .layui-card-box .layui-card-header label{font-size: 12px;color: #999}
+.layui-card-box-home-block .layui-card-box  .layuiadmin-big-font span{font-size: 14px;}
+.layui-card-box-home-block .layui-card-box .layuiadmin-card-list{height: 70px;overflow: auto;}
+.layui-card-box-home-block .layui-card-box  .layuiadmin-big-font span.c1{color: red}
+.layui-card-box-home-block .layui-card-box  .layuiadmin-big-font span.c2{color: #5FB878}
 
 .power-box{background:#fff;margin:30px 0;padding:20px;border-radius:5px;font-size:16px;box-shadow:0 1px 2px 0 rgba(0,0,0,.05)}
 .power-box-con{margin-top:20px;}
@@ -334,7 +334,7 @@ button.layui-close{
     overflow: hidden;
 }
 .fontColor{
-	color:#fa5559;
+    color:#fa5559;
 }
 
 .tabel-message{background:#fff;padding:15px;border-radius:5px}

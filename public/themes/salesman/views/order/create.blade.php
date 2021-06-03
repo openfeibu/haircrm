@@ -164,7 +164,7 @@
                         layer.close(load);
                         if(data.code != 0)
                         {
-                            layer.msg(data.message);
+                            layer.msg(data.msg);
                         }
                         if(!$.isEmptyObject(data.data.goods))
                         {
@@ -253,7 +253,7 @@
                         window.location.href = "{{ guard_url('order') }}"
                     }else{
                         layer.close(load);
-                        layer.msg(data.message);
+                        layer.msg(data.msg);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {

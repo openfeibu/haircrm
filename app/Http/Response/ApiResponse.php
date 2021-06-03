@@ -8,7 +8,7 @@ class ApiResponse extends Response
     public function json()
     {
         return response()->json([
-            'message' => $this->getMessage(),
+            'msg' => $this->getMessage(),
             'code' => $this->getCode(),
             'data' => $this->getData(),
             'count' => $this->getCount(),

@@ -1,6 +1,6 @@
 <div class="main">
     <div class="main_full fb-clearfix" style="margin-top: 15px;">
-		<div class="layui-col-md12">
+		<div class="layui-col-md12 layui-card-box-home-block">
             <div class="layui-card-box layui-col-space15 fb-clearfix">
                 <div class="layui-col-sm6 layui-col-md3">
                     <div class="layui-card">

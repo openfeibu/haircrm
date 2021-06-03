@@ -22,7 +22,11 @@ class Authenticate
 
         if (Auth::guard($guard)->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
-                return response('Unauthorized.', 401);
+                //return response('Unauthorized.', 401);
+                return response()->json([
+                    'msg' => '登录失效，请刷新重新登录',
+                    'code' => 401,
+                ]);
             } else {
                 $guard =  current(explode(".", $guard));
                 return redirect()->guest("{$guard}/login");

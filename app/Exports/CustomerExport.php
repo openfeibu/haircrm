@@ -54,6 +54,7 @@ class CustomerExport implements FromCollection,WithEvents
         foreach ($customers as $key => $customer)
         {
             $sn++;
+            //$address = str_replace(array("\r\n", "\r", "\n"), "", $customer->address);
             $customer_data[$i] = [
                 $customer->name,$customer->salesman_name,$customer->ig,$customer->from,$customer->email,$customer->mobile,$customer->imessage,$customer->whatsapp,$customer->address,$customer->order_count,$customer->remark
             ];

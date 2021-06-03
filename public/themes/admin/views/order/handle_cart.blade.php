@@ -189,7 +189,7 @@
                             table.reload("cart",{data:cart_data});
                             handle_number();
                         }else{
-                            layer.msg(data.message);
+                            layer.msg(data.msg);
                         }
                     },
                     error : function (jqXHR, textStatus, errorThrown) {
@@ -233,7 +233,7 @@
                         freight_area_code = data.data.area_code;
                         handle_number();
                     }else{
-                        layer.msg(data.message);
+                        layer.msg(data.msg);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {

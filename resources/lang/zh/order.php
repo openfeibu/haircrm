@@ -16,6 +16,7 @@ return [
         'tracking_number' => '运单号',
         'weight' => '重量KG',
         'freight' => '$运费',
+        'actual_freight' => '实际运费 元',
         'paypal_fee' => '$PayPal',
         'total' => '$总出售价',
         'paid_total' => '$实际到账',

@@ -121,6 +121,8 @@
                 ,{field:'shipping_status_desc',title:'{{ trans('order.label.shipping_status') }}', width:120,templet:"#shipping_status_tpl"}
                 ,{field:'pay_status_desc',title:'{{ trans('order.label.pay_status') }}', width:120,templet:"#pay_status_tpl"}
                 ,{field:'tracking_number',title:'{{ trans('order.label.tracking_number') }}', templet: '<div>@{{#  if(d.tracking_number){ }}<a href="/tracking_number/@{{d.tracking_number}}" target="_blank" class="layui-table-link">@{{d.tracking_number}}</a>@{{#  } else { }}  @{{#  } }} </div>',width:150}
+                ,{field:'freight_rmb',title:'{{ trans('order.label.freight') }} 元', width:120}
+                ,{field:'actual_freight',title:'{{ trans('order.label.actual_freight') }} 元', width:120,edit:'text'}
                 ,{field:'payment_sn',title:'{{ trans('order.label.payment_sn') }}', templet: '<div>@{{#  if(d.payment_sn){ }}<a href="/payment_sn/@{{d.payment_sn}}" target="_blank" class="layui-table-link">@{{d.payment_sn}}</a>@{{#  } else { }}  @{{#  } }} </div>', width:180}
                 ,{field:'paid_total',title:'{{ trans('order.label.paid_total') }}', width:120,edit:'text', totalRow: true,toFixed:3}
                 ,{field:'remark',title:'{{ trans('app.remark') }}',edit:'text', width:120}

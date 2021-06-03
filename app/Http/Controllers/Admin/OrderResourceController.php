@@ -64,6 +64,7 @@ class OrderResourceController extends BaseController
             foreach ($orders as $key => $order)
             {
                 $order->goods_list = $this->orderGoodsRepository->getOrderGoodsList($order->id);
+                $order->freight_rmb = number_format($order->freight * setting('dollar_to_rmb'),2);
             }
             return $this->response
                 ->success()
