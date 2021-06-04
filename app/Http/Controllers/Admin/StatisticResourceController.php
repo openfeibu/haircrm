@@ -202,4 +202,14 @@ class StatisticResourceController extends BaseController
             ->data(compact('date_arr','new_customer_arr'))
             ->json();
     }
+    public function customer()
+    {
+        $salesmen = Salesman::where('active','1')->where('monthly_performance_target','>','0')->orderBy('order','asc')->orderBy('id','desc')->get()->toArray();
+
+        return $this->response->title(trans('statistic.name'))
+            ->view('statistic.customer')
+            ->data(compact('salesmen'))
+            ->output();
+    }
+
 }

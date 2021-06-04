@@ -84,7 +84,6 @@
 
 
     </div>
-    <div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
 </div>
 
 

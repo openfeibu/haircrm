@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                         </form>
-                        <div class="layui-card-body layuiadmin-card-list" style="height:600px">
+                        <div class="layui-card-body layuiadmin-card-list">
                             @foreach($salesmen as $key => $salesman)
                             <div id="customerChart_{{ $salesman['id'] }}" style="width: 100%;height: 600px;">
 
@@ -43,7 +43,6 @@
 
 
     </div>
-    <div class="copy">© CopyRight 2020, 飞步科技, Inc.All Rights Reserved.</div>
 </div>
 
 
