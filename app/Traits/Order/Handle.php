@@ -1,6 +1,7 @@
 <?php
 namespace App\Traits\Order;
 
+use App\Models\Customer;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Illuminate\Http\Request;
 use App\Exceptions\OutputServerMessageException;
@@ -43,7 +44,22 @@ trait Handle
                 'payment_sn' => $attributes['payment_sn'],
                 'paid_at' => date('Y-m-d H:i:s'),
             ]);
+            $customer = Customer::where('id',$order->customer_id)->first();
+            if($customer)
+            {
+                $order_count = $customer->order_count+1;
+                if($order_count>1)
+                {
+                    $stage = 're-purchase';
+                }else{
+                    $stage = 'purchase';
+                }
+                Customer::where('id',$order->customer_id)->update([
+                    'stage' => $stage,
+                    'order_count' => $order_count
+                ]);
 
+            }
             return $this->response->message(trans('messages.operation.success'))
                 ->status("success")
                 ->http_code(202)

@@ -36,7 +36,10 @@ class CustomerResourceController extends BaseController
             $customers = $this->repository
                 ->orderBy('id','desc')
                 ->paginate($limit);
-
+            foreach ($customers as $key => $customer)
+            {
+                $customer->stage = trans('customer.stage.'.$customer->stage);
+            }
             return $this->response
                 ->success()
                 ->count($customers->total())

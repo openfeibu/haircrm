@@ -17,8 +17,13 @@ return [
         'remark' => '备注',
         'chat_app_account' => 'app:你的账号:客户账号',
         'level' => '等级',
-
-
+        'stage' => '客户阶段',
+    ],
+    'stage' => [
+        'unknown' => '未标记',
+        'inquiry'=> '询盘客户',
+        'purchase' => '成交客户',
+        're-purchase' => '复购客户',
     ],
     'add' => '添加客户',
 ];

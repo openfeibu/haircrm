@@ -152,7 +152,7 @@ class OrderResourceController extends BaseController
                 ];
             }
             OrderGoods::insert($data);
-            Customer::where('id',$customer->id)->increment('order_count');
+            //Customer::where('id',$customer->id)->increment('order_count');
             Customer::where('id',$customer->id)->update([
                 'address' =>  $attributes['address']
             ]);
