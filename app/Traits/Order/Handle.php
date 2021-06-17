@@ -50,7 +50,7 @@ trait Handle
                 $order_count = $customer->order_count+1;
                 if($order_count>1)
                 {
-                    $stage = 're-purchase';
+                    $stage = 'repurchase';
                 }else{
                     $stage = 'purchase';
                 }

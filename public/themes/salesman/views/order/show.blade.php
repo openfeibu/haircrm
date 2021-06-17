@@ -117,7 +117,7 @@
                             </div>
                         </div>
                         <div class="layui-form-item fb-form-item2">
-                            <label class="layui-form-label">{{ trans('order.label.address') }} *</label>
+                            <label class="layui-form-label">{{ trans('order.label.address') }}</label>
                             <div class="fb-form-item-box" >
                                 <div class="layui-input-block" style="width: 410px;">
                                     <textarea name="address" id="address" placeholder="请输入{{ trans('order.label.address') }}" class="layui-textarea">{!! $order->address !!}</textarea>
@@ -201,9 +201,9 @@
             {
                 layer.msg("请先添加订单产品");
             }
-            if(!customer_id || !address)
+            if(!customer_id)
             {
-                layer.msg("客户、地址、业务员必填");
+                layer.msg("客户必填");
                 return false;
             }
             var ajax_data = {'_token':"{!! csrf_token() !!}",customer_id:customer_id,address:address,'carts':tableData};

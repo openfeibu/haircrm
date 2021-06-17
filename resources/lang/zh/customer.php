@@ -23,7 +23,7 @@ return [
         'unknown' => '未标记',
         'inquiry'=> '询盘客户',
         'purchase' => '成交客户',
-        're-purchase' => '复购客户',
+        'repurchase' => '复购客户',
     ],
     'add' => '添加客户',
 ];
