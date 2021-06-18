@@ -42,7 +42,7 @@
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本周报价
+                                            本周报价客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
@@ -50,13 +50,13 @@
                                             </span>
                                         </p>
                                         <p class="customer-overview-component-common-content-number"><span id="this_week_quotation_customer_count">0</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上周报价：<span id="last_week_quotation_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上周报价客户：<span id="last_week_quotation_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本周新增
+                                            本周新增客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
@@ -64,7 +64,7 @@
                                             </span>
                                         </p>
                                         <p class="customer-overview-component-common-content-number"><span id="this_week_add_customer_count">0</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上周新增：<span id="last_week_add_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上周新增客户：<span id="last_week_add_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
@@ -111,7 +111,7 @@
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本月报价
+                                            本月报价客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
@@ -119,13 +119,13 @@
                                             </span>
                                         </p>
                                         <p class="customer-overview-component-common-content-number" ><span id="this_month_quotation_customer_count">0</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上月报价：<span id="last_month_quotation_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上月报价客户：<span id="last_month_quotation_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本月新增
+                                            本月新增客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
@@ -133,7 +133,7 @@
                                             </span>
                                         </p>
                                         <p class="customer-overview-component-common-content-number"><span id="this_month_add_customer_count">0</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上月新增：<span id="last_month_add_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上月新增客户：<span id="last_month_add_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
