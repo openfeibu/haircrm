@@ -111,6 +111,20 @@
                             </select>
                         </div>
                     </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.stage') }}</label>
+
+                        <div class="layui-input-block">
+                            <p class="input-p">{{ trans('customer.stage.'.$customer->stage) }}</p>
+                        </div>
+                    </div>
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">下单次数</label>
+
+                        <div class="layui-input-block">
+                            <p class="input-p">{{ $customer->order_count }}</p>
+                        </div>
+                    </div>
                     <input type="hidden" name="_method" value="PUT">
                     <div class="layui-form-item">
                         <div class="layui-input-block">

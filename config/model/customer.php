@@ -41,6 +41,7 @@ return [
             'ins','facebook','客户介绍','其他'
         ],
         'level' => ['A','B','C','D'],
+        'stage' => ['unknown','inquiry','purchase','repurchase'],
         'excel' => [
             '客户名称' =>  'name',
             'IG号' => 'ig',

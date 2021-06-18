@@ -49,8 +49,8 @@
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number"><span id="this_week_quotation_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上周报价：<span id="last_week_quotation_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number"><span id="this_week_quotation_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上周报价：<span id="last_week_quotation_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
@@ -63,36 +63,36 @@
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number"><span id="this_week_add_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上周新增：<span id="this_week_add_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number"><span id="this_week_add_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上周新增：<span id="last_week_add_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本周成交
+                                            本周新成交客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number"><span id="this_week_purchase_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上周成交：<span id="this_week_purchase_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number"><span id="this_week_purchase_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上周新成交客户：<span id="last_week_purchase_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本周复购
+                                            本周复购客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number"><span id="this_week_repurchase_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上周复购：<span id="this_week_repurchase_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number"><span id="this_week_repurchase_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上周复购客户：<span id="last_week_repurchase_customer_count">0</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -118,8 +118,8 @@
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number" ><span id="this_week_quotation_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上月报价：<span id="this_week_quotation_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number" ><span id="this_month_quotation_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上月报价：<span id="last_month_quotation_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
@@ -132,52 +132,44 @@
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number"><span id="this_week_quotation_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上月新增：<span id="this_week_quotation_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number"><span id="this_month_add_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上月新增：<span id="last_month_add_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本月成交
+                                            本月新成交客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number"><span id="this_week_quotation_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上月成交：<span id="this_week_quotation_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number"><span id="this_month_purchase_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上月新成交客户：<span id="last_month_purchase_customer_count">0</span></p>
                                     </div>
                                 </div>
                                 <div class="layui-col-md3">
                                     <div class="customer-overview-component-add">
                                         <p class="customer-overview-component-common-content-title">
-                                            本月复购
+                                            本月复购客户
                                             <span class="customer-overview-component-common-content-title-icon">
                                                 <span class="helper-icon-container " aria-haspopup="true" aria-expanded="false">
                                                     <i class="layui-icon layui-icon-tips"></i>
                                                 </span>
                                             </span>
                                         </p>
-                                        <p class="customer-overview-component-common-content-number"><span id="this_week_quotation_customer_count">14</span></p>
-                                        <p class="customer-overview-component-common-content-recent-number">上月复购：<span id="this_week_quotation_customer_count">14</span></p>
+                                        <p class="customer-overview-component-common-content-number"><span id="this_month_repurchase_customer_count">0</span></p>
+                                        <p class="customer-overview-component-common-content-recent-number">上月复购客户：<span id="last_month_repurchase_customer_count">0</span></p>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
         </div>
-
-
     </div>
 </div>
 
@@ -188,7 +180,8 @@
         var $ = layui.$;
         var laydate = layui.laydate;
 
-        $('#new_customer_form .submit').on('click', function(){
+        ajax_getCustomersStatistics();
+        $('#customer_form .submit').on('click', function(){
             ajax_getCustomersStatistics();
         });
 
@@ -197,7 +190,23 @@
             var load = layer.load();
             $.get('{{ guard_url("statistic/get_customers_statistics") }}?salesman_id='+salesman_id).done(function (data) {
                 layer.close(load);
+                $("#this_week_add_customer_count").text(data.data.this_week_add_customer_count);
+                $("#this_week_quotation_customer_count").text(data.data.this_week_quotation_customer_count);
+                $("#this_week_purchase_customer_count").text(data.data.this_week_purchase_customer_count);
+                $("#this_week_repurchase_customer_count").text(data.data.this_week_repurchase_customer_count);
+                $("#last_week_add_customer_count").text(data.data.last_week_add_customer_count);
+                $("#last_week_quotation_customer_count").text(data.data.last_week_quotation_customer_count);
+                $("#last_week_purchase_customer_count").text(data.data.last_week_purchase_customer_count);
+                $("#last_week_repurchase_customer_count").text(data.data.last_week_repurchase_customer_count);
 
+                $("#this_month_add_customer_count").text(data.data.this_month_add_customer_count);
+                $("#this_month_quotation_customer_count").text(data.data.this_month_quotation_customer_count);
+                $("#this_month_purchase_customer_count").text(data.data.this_month_purchase_customer_count);
+                $("#this_month_repurchase_customer_count").text(data.data.this_month_repurchase_customer_count);
+                $("#last_month_add_customer_count").text(data.data.last_month_add_customer_count);
+                $("#last_month_quotation_customer_count").text(data.data.last_month_quotation_customer_count);
+                $("#last_month_purchase_customer_count").text(data.data.last_month_purchase_customer_count);
+                $("#last_month_repurchase_customer_count").text(data.data.last_month_repurchase_customer_count);
             })
         }
 
