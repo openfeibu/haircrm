@@ -9,6 +9,7 @@ return [
         'company_website' => '公司网址',
         'nickname' => '联系人昵称',
         'email' => '联系人邮箱',
+        'other_email' => '备用邮箱',
         'mobile' => '联系电话',
         'imessage' => 'Imassage',
         'whatsapp' => 'Whatsapp',

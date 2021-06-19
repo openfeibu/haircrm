@@ -49,7 +49,12 @@
                         </div>
                     </div>
 
-
+                    <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('new_customer.label.other_email') }}</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="other_email" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.other_email') }}" class="layui-input" lay-verify="not_required_email" >
+                        </div>
+                    </div>
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.nickname') }}</label>
                         <div class="layui-input-block">
