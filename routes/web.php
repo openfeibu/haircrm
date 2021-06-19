@@ -143,6 +143,7 @@ Route::group([
     Route::get('statistic/month_new_customers', 'StatisticResourceController@monthNewCustomers')->name('statistic.month_new_customers');
     Route::get('statistic/get_month_new_customers', 'StatisticResourceController@getMonthNewCustomers')->name('statistic.get_month_new_customers');
     Route::get('statistic/customer', 'StatisticResourceController@customer')->name('statistic.customer');
+    Route::get('statistic/get_customers_statistics', 'StatisticResourceController@get_customers_statistics')->name('statistic.get_customers_statistics');
 
     Route::get('price_calculation_of_plastic_bag', 'PriceCalculationOfPlasticBagResourceController@index')->name('price_calculation_of_plastic_bag.index');
     Route::post('/price_calculation_of_plastic_bag/get_price', 'PriceCalculationOfPlasticBagResourceController@getPrice')->name('price_calculation_of_plastic_bag.get_price');
