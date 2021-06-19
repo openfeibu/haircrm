@@ -64,7 +64,7 @@ return [
             $theme->asset()->container('footer')->add('iconfont_js', '/fonts/iconfont.js');
             $theme->asset()->container('footer')->add('layui_js', 'lib/layui/layui.js');
             $theme->asset()->container('footer')->add('layui_module_js', 'lib/layui/module/common.js');
-            $theme->asset()->container('footer')->usePath()->add('main_js', 'js/main.js');
+            $theme->asset()->container('footer')->add('main_js', 'js/admin/main.js');
 
             $theme->asset()->container('ueditor')->add('ueditor_config','lib/ueditor/ueditor.config.js');
             $theme->asset()->container('ueditor')->add('ueditor_js','lib/ueditor/ueditor.all.js');

@@ -40,7 +40,7 @@
                         <label class="layui-form-label">邮箱</label>
 
                         <div class="layui-input-block">
-                            <input type="text" name="email"  autocomplete="off" placeholder="请输入邮箱" class="layui-input" value="{{ $customer->email }}">
+                            <input type="text" name="email"  autocomplete="off" placeholder="请输入邮箱" class="layui-input" value="{{ $customer->email }}" lay-verify="not_required_email">
                         </div>
 
                     </div>

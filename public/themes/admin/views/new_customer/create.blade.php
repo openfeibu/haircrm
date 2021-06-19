@@ -45,7 +45,7 @@
                     <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">{{ trans('new_customer.label.email') }}</label>
                         <div class="layui-input-block">
-                            <input type="text" name="email" id="email" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.email') }}" class="layui-input check_exist">
+                            <input type="text" name="email" id="email" autocomplete="off" placeholder="请输入 {{ trans('new_customer.label.email') }}" class="layui-input check_exist" lay-verify="not_required_email" >
                         </div>
                     </div>
 
@@ -172,10 +172,7 @@
                     //$('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
                 }
             }
-
         });
-
-
 
     });
 
