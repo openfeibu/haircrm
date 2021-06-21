@@ -84,7 +84,6 @@
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80}
                 ,{field:'order_sn',title:'{{ trans('order.label.order_sn') }}'}
-                ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}', width:120}
                 ,{field:'customer_name',title:'{{ trans('customer.label.name') }}', templet: '<div>@{{#  if(d.customer_id){ }}<a href="{{ guard_url('customer')}}/@{{ d.customer_id }}" target="_blank" class="layui-table-link">@{{d.customer_name}}</a>@{{#  } else { }}  @{{#  } }} </div>'}
                 ,{field:'address',title:'{{ trans('order.label.address') }}', width:200}
                 ,{field:'selling_price',title:'{{ trans('order.label.selling_price') }}', width:120}
