@@ -38,7 +38,7 @@ class CustomerResourceController extends BaseController
                 ->paginate($limit);
             foreach ($customers as $key => $customer)
             {
-                $customer->stage = trans('customer.stage.'.$customer->stage);
+                $customer->stage_desc = trans('customer.stage.'.$customer->stage);
             }
             return $this->response
                 ->success()

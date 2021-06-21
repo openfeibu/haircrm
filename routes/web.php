@@ -209,6 +209,9 @@ Route::group([
 
     Route::get('/getMonthNewCustomers', 'ResourceController@getMonthNewCustomers')->name('statistic.getMonthNewCustomers');
 
+    Route::get('statistic/customer', 'StatisticResourceController@customer')->name('statistic.customer');
+    Route::get('statistic/get_customers_statistics', 'StatisticResourceController@get_customers_statistics')->name('statistic.get_customers_statistics');
+
 });
 /*
 Route::group([

@@ -65,7 +65,7 @@
                 {checkbox: true, fixed: true}
                 ,{field:'id',title:'ID', width:80}
                 ,{field:'name',title:'{{ trans('customer.label.name') }}',edit:'text'}
-                ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}'}
+                ,{field:'stage_desc',title:'{{ trans('customer.label.stage') }}'}
                 ,{field:'ig',title:'{{ trans('customer.label.ig') }}',edit:'text'}
                 ,{field:'from',title:'{{ trans('customer.label.from') }}',edit:'text'}
                 ,{field:'email',title:'{{ trans('customer.label.email') }}',edit:'text'}

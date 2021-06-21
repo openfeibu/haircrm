@@ -34,7 +34,10 @@ class CustomerResourceController extends BaseController
                 ->where('salesman_id',Auth::user()->id)
                 ->orderBy('id','desc')
                 ->paginate($limit);
-
+            foreach ($customers as $key => $customer)
+            {
+                $customer->stage_desc = trans('customer.stage.'.$customer->stage);
+            }
             return $this->response
                 ->success()
                 ->count($customers->total())

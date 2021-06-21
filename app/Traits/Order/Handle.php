@@ -44,6 +44,7 @@ trait Handle
                 'payment_sn' => $attributes['payment_sn'],
                 'paid_at' => date('Y-m-d H:i:s'),
             ]);
+
             $customer = Customer::where('id',$order->customer_id)->first();
             if($customer)
             {

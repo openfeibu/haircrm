@@ -15,10 +15,12 @@ class Customer extends BaseModel
     use Filer, Hashids, Slugger, Translatable, LogsActivity,SoftDeletes;
 
     protected $config = 'model.customer.customer';
-    protected $appends = ['order_count'];
+    //protected $appends = ['order_count'];
 
+    /*
     public function getOrderCountAttribute()
     {
         return isset($this->attributes['id']) && $this->attributes['id'] ? Order::where('customer_id',$this->attributes['id'])->where('pay_status','paid')->count() : '0';
     }
+    */
 }
