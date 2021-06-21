@@ -80,6 +80,8 @@ class CategoryResourceController extends BaseController
                     'top_parent_id' => $top_parent_id,
                     'category_ids' => $category_ids,
                     'weight' => $attributes['weight'],
+                    'supplier_id' => $attributes['supplier_id'],
+
                 ];
             }
 
