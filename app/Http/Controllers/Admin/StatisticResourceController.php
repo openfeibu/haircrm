@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\ResourceController as BaseController;
+use App\Repositories\Eloquent\AssessmentRepository;
 use App\Repositories\Eloquent\CustomerRepository;
+use App\Repositories\Eloquent\SalesmanRepository;
 use Illuminate\Http\Request;
 use App\Models\Customer;
 use App\Models\Goods;
@@ -24,10 +26,16 @@ use App\Traits\AdminUser\RoutesAndGuards;
 class StatisticResourceController extends BaseController
 {
 
-    public function __construct(CustomerRepository $customerRepository)
+    public function __construct(
+        CustomerRepository $customerRepository,
+        SalesmanRepository $salesmanRepository,
+        AssessmentRepository $assessmentRepository
+    )
     {
         parent::__construct();
         $this->customerRepository = $customerRepository;
+        $this->salesmanRepository = $salesmanRepository;
+        $this->assessmentRepository = $assessmentRepository;
     }
     public function trade(Request $request){
         $hot_goods_list = OrderGoods::join('orders','orders.id','=','order_goods.order_id')->where('orders.pay_status','paid')->groupBy('order_goods.goods_id')->orderBy('count','desc')->selectRaw('count(*) as count,sum(order_goods.number) as sum,order_goods.goods_id,CONCAT(order_goods.goods_name," ",order_goods.attribute_value) as goods_name')->limit(10)->get()->toArray();
@@ -225,4 +233,44 @@ class StatisticResourceController extends BaseController
 
     }
 
+    public function assessment(Request $request)
+    {
+        $year_month = $request->year_month ?? date('Y-m');
+        $first_day = $year_month.'-01 00:00:00';
+        $last_day = date('Y-m-d 23:59:59', strtotime("$first_day +1 month -1 day"));
+        $salesmen = Salesman::where('active','1')->where('monthly_performance_target','>','0')->orderBy('order','asc')->orderBy('id','desc')->get();
+        $assessments = $this->assessmentRepository->orderBy('order','asc')->orderBy('id','asc')->get();
+        $performance_bonus = setting('performance_bonus');
+        foreach ($salesmen as $key => $salesman)
+        {
+            $total_bonus = $total_score = 0;
+            $salesman->assessment = $this->salesmanRepository->getAssessment($salesman->id,$first_day,$last_day);
+            foreach ($assessments as $key => $assessment)
+            {
+                $get_bonus = $score = 0;
+                if($assessment->type == 'performance'){
+                    $completion_rate = sprintf("%01.2f", $salesman->assessment[$assessment->slug]/$assessment->standard*100);
+                    $bonus = $assessment['proportion'] / 100 * $performance_bonus;
+                    $score = round(($completion_rate > 100 ? 100 :  ($completion_rate / 100 * $bonus))/$performance_bonus * 100,2);
+                    if($completion_rate >= $assessment->lowest_completion_rate){
+                        if($completion_rate >= 100){
+                            $get_bonus = $bonus;
+                        }else{
+                            $get_bonus = round($bonus * $completion_rate/100,2);
+                        }
+
+                    }
+                }
+                $total_bonus += $get_bonus;
+                $total_score += $score;
+            }
+            $salesman->total_bonus = ceil($total_bonus);
+            $salesman->total_score = $total_score;
+        }
+
+        return $this->response->title(trans('statistic.name'))
+            ->view('statistic.assessment')
+            ->data(compact('assessments','salesmen','performance_bonus','year_month'))
+            ->output();
+    }
 }

@@ -18,7 +18,7 @@
                             @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
                             <select name="salesman_id" id="salesman_id" lay-filter="" lay-search>
                                 <option value="">请选择业务员(不选默认超管所有)</option>
-                                @foreach($salesmanRepository->where('active',1)->orderBy('order','asc')->orderBy('id','desc')->get() as $key => $salesman)
+                                @foreach($salesmanRepository->getActiveSalesmen() as $key => $salesman)
                                     <option value="{{ $salesman->id }}" @if($salesman->id == $mail_template->salesman_id) selected @endif>{{ $salesman->name }}</option>
                                 @endforeach
                             </select>

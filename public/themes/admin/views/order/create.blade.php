@@ -123,7 +123,7 @@
                                 <div class="layui-input-block">
                                     @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
                                     <select name="salesman_id" id="salesman_id" lay-filter="" lay-search>
-                                        @foreach($salesmanRepository->where('active',1)->orderBy('order','asc')->orderBy('id','desc')->get() as $key => $salesman)
+                                        @foreach($salesmanRepository->getActiveSalesmen() as $key => $salesman)
                                         <option value="{{ $salesman->id }}">{{ $salesman->name }}</option>
                                         @endforeach
                                     </select>
