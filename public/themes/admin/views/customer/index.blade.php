@@ -88,7 +88,7 @@
                 ,{field:'id',title:'ID', width:80,sort:true}
                 ,{field:'name',title:'{{ trans('customer.label.name') }}',edit:'text'}
                 ,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}'}
-                ,{field:'ig',title:'{{ trans('customer.label.ig') }}',edit:'text'}
+                ,{field:'ig',title:'{{ trans('customer.label.ig') }}',templet:'<div><a href="https://www.instagram.com/@{{ d.ig }}" target="_blank">@{{ d.ig }}</a></div>'}
                 ,{field:'from',title:'{{ trans('customer.label.from') }}',edit:'text'}
                 ,{field:'email',title:'{{ trans('customer.label.email') }}',edit:'text'}
                 ,{field:'mobile',title:'{{ trans('customer.label.mobile') }}',edit:'text'}
