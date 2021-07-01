@@ -35,7 +35,8 @@ return [
             'imessage' => 'like',
             'whatsapp' => 'like',
             'salesman_id' => '=',
-            'salesman_name' => 'like'
+            'salesman_name' => 'like',
+            'stage' => '=',
         ],
         'from' => [
             'ins','facebook','客户介绍','其他'

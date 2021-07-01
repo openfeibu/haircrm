@@ -29,6 +29,14 @@
                             </select>
                         </div>
                         <div class="layui-inline">
+                            <select name="stage" class="search_key layui-select">
+                                <option value="">{{ trans('customer.label.stage') }}</option>
+                                @foreach(config('model.customer.customer.stage') as $key => $stage)
+                                    <option value="{{ $stage }}">{{ trans('customer.stage.'.$stage) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="layui-inline">
                             <input class="layui-input search_key" name="name" id="demoReload" placeholder="{{ trans('customer.label.name') }}" autocomplete="off">
                         </div>
                         <div class="layui-inline">

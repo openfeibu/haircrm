@@ -18,6 +18,7 @@ Route::get('/categories', 'CategoryController@getCategories')->name('category.in
 Route::get('/categories_tree', 'CategoryController@getCategoriesTree')->name('category.tree');
 Route::get('/attribute_content', 'AttributeController@getContent')->name('attribute.content');
 Route::get('/test', 'HomeController@test');
+Route::get('/update_price', 'HomeController@updatePrice');
 Route::get('/add_goods', 'HomeController@addGoods');
 Route::get('/add_goods_attribute_value', 'HomeController@addGoodsAttributeValue');
 Route::get('/tracking_number/{tracking_number}', 'HomeController@trackingNumber');
@@ -212,6 +213,7 @@ Route::group([
 
     Route::get('statistic/customer', 'StatisticResourceController@customer')->name('statistic.customer');
     Route::get('statistic/get_customers_statistics', 'StatisticResourceController@get_customers_statistics')->name('statistic.get_customers_statistics');
+    Route::get('statistic/assessment', 'StatisticResourceController@assessment')->name('statistic.assessment');
 
 });
 /*

@@ -242,4 +242,82 @@ class HomeController extends BaseController
             ->success()
             ->json();
     }
+    public function updatePrice()
+    {
+
+        exit;
+        /*
+        //添加某分类下的价格
+        $category_id = 816;
+        $categories_id = Category::where('parent_id',$category_id)->pluck('id')->toArray();
+        //var_dump($categories_id);exit;
+        foreach ($categories_id as $key => $category_id)
+        {
+            $category = Category::where('id',$category_id)->first();
+            $category_ids = $category->category_ids ? $category_id .','.$category->category_ids : $category_id;
+            $category_id_arr = explode(',',$category_ids);
+            $categories_name_arr = Category::whereIn('id',$category_id_arr)->orderBy('id','asc')->pluck('name')->toArray();
+            $categories_names = implode(" ",$categories_name_arr);
+
+            $new_goods = $this->goodsRepository->create([
+                'category_id' => $category_id,
+                'category_ids' => $category_ids,
+                'name' => $categories_names,
+                'attribute_id' => 1,
+                'purchase_price' =>  0,
+                'selling_price' =>  0,
+            ]);
+
+            $selling_prices = [310 ,322 ,338 ,373 ,407 ,427 ,447  ];
+            $attribute_value_ids = [6,7,8,9,10,11,12];
+            $goods_attribute_values = [];
+            foreach ($selling_prices as $key => $selling_price)
+            {
+                $goods_attribute_values[$key]['attribute_value_id'] = $attribute_value_ids[$key];
+                $goods_attribute_values[$key]['selling_price'] = $selling_price;
+                $goods_attribute_values[$key]['purchase_price'] = ceil($selling_price*6.1*0.7);
+            }
+
+            $this->updatePriceHandle($category_id,$goods_attribute_values);
+        }
+        echo "success";exit;
+        exit;
+        */
+        //单纯修改某分类下的价格
+        $category_id = 535;
+        $selling_prices = [120 ,128 ,139 ,149 ,159 ,174 ,184 ,202 ,222 ,258 ,294 ,330   ];
+        $attribute_value_ids = [1,2,3,4,5,6,7,8,9,10,11,12];
+        $goods_attribute_values = [];
+        foreach ($selling_prices as $key => $selling_price)
+        {
+            $goods_attribute_values[$key]['attribute_value_id'] = $attribute_value_ids[$key];
+            $goods_attribute_values[$key]['selling_price'] = $selling_price;
+            $goods_attribute_values[$key]['purchase_price'] = ceil($selling_price*6.1*0.7);
+        }
+
+        $this->updatePriceHandle($category_id,$goods_attribute_values);
+        echo "success";exit;
+    }
+    public function updatePriceHandle($category_id,$goods_attribute_values)
+    {
+        $goods_list = Goods::whereRaw(" FIND_IN_SET(".$category_id.",`category_ids`) ")->pluck('id')->toArray();
+        foreach ($goods_list as $key => $goods_id)
+        {
+            $goods = Goods::where('id',$goods_id)->first();
+            foreach ($goods_attribute_values as $key => $goods_attribute_value)
+            {
+                if(in_array($goods_attribute_value['attribute_value_id'],$goods->attr_value_id_arr))
+                {
+                    GoodsAttributeValue::where('goods_id',$goods->id)->where('attribute_value_id',$goods_attribute_value['attribute_value_id'])->update([ 'purchase_price' => $goods_attribute_value['purchase_price'],'selling_price' => $goods_attribute_value['selling_price'] ]);
+                }else{
+                    GoodsAttributeValue::create([
+                        'goods_id' => $goods->id,
+                        'attribute_value_id' => $goods_attribute_value['attribute_value_id'],
+                        'purchase_price' => $goods_attribute_value['purchase_price'],
+                        'selling_price' => $goods_attribute_value['selling_price'],
+                    ]);
+                }
+            }
+        }
+    }
 }
