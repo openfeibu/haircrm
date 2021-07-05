@@ -125,9 +125,8 @@
             ,url: '{{guard_url('new_customer')}}'
             ,cols: [[
                 {checkbox: true, fixed: true}
-                ,{field:'id',title:'ID', width:80}
-                //,{field:'salesman_name',title:'{{ trans('salesman.label.name') }}',width:100}
-                ,{field:'ig',title:'{{ trans('new_customer.label.ig') }}',templet:'<div><a href="https://www.instagram.com/@{{ d.ig }}" target="_blank">@{{ d.ig }}</a></div>'}
+                ,{field:'id',title:'ID', width:80,fixed:'left'}
+                ,{field:'ig',title:'{{ trans('new_customer.label.ig') }}',templet:'<div><a href="https://www.instagram.com/@{{ d.ig }}" target="_blank">@{{ d.ig }}</a></div>',fixed:'left'}
                 ,{field:'ig_follower_count',title:'{{ trans('new_customer.label.ig_follower_count') }}',edit:'text', width:100}
                 ,{field:'ig_sec',title:'{{ trans('new_customer.label.ig_sec') }}',templet:'<div>@{{# if(d.ig_sec){ }}<a href="https://www.instagram.com/@{{ d.ig_sec }}" target="_blank">@{{ d.ig_sec }}</a>@{{# }  }}</div>', width:120}
                 ,{field:'mobile',title:'{{ trans('new_customer.label.mobile') }}', width:160,edit:'text'}
