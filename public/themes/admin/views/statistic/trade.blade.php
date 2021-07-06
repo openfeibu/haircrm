@@ -232,8 +232,7 @@
             var xAxis = [];
             var procount = [];
             var pronum = [];
-            for(var i = hot_goods_list.length-1;i>0;i--){
-
+            for(var i = hot_goods_list.length-1;i>=0;i--){
                 xAxis.push(hot_goods_list[i].goods_name);
                 procount.push(hot_goods_list[i].count);
                 pronum.push(hot_goods_list[i].sum)
@@ -360,7 +359,7 @@
             var xAxis = [];
             var procount = [];
             var pronum = [];
-            for(var i = this_month_hot_goods_list.length-1;i>0;i--){
+            for(var i = this_month_hot_goods_list.length-1;i>=0;i--){
 
                 xAxis.push(this_month_hot_goods_list[i].goods_name);
                 procount.push(this_month_hot_goods_list[i].count);
