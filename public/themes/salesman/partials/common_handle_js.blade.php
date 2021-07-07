@@ -60,6 +60,12 @@
                 type : 'PUT',
                 success : function (data) {
                     layer.close(load);
+                    if(data.code == 0)
+                    {
+                    }else{
+                        layer.msg(data.msg);
+                    }
+
                 },
                 error : function (jqXHR, textStatus, errorThrown) {
                     layer.close(load);
