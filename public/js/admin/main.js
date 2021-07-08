@@ -72,7 +72,7 @@ function getUe() {
 				'inserttable', //插入表格
 			]
 		]
-
+		,scaleEnabled:true
 	});
 	// body...
 }
@@ -150,7 +150,7 @@ function getUeCopy(id) {
 				'inserttable', //插入表格
 			]
 		]
-
+		,scaleEnabled:true
 	});
 	// body...
 
