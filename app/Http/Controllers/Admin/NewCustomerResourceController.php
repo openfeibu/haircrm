@@ -110,7 +110,7 @@ class NewCustomerResourceController extends BaseController
         } else {
             $view = 'new_customer.create';
         }
-        $salesmen = $this->salesmanRepository->getActiveSalesmen();
+        $salesmen = $this->salesmanRepository->getSalesmen();
         return $this->response->title(trans('app.view') . ' ' . trans('new_customer.name'))
             ->data(compact('new_customer','salesmen'))
             ->view($view)
