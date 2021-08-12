@@ -6,6 +6,7 @@ use App\Http\Controllers\Salesman\ResourceController as BaseController;
 use App\Imports\CustomerImport;
 use Auth;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Repositories\Eloquent\SalesmanRepository;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\CustomerRepository;
