@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ResourceController as BaseController;
 use App\Imports\CustomerImport;
 use App\Models\Customer;
 use App\Models\Freight;
+use App\Models\Order;
 use App\Models\Salesman;
 use App\Repositories\Eloquent\NewCustomerRepository;
 use App\Repositories\Eloquent\SalesmanRepository;
@@ -39,6 +40,8 @@ class CustomerResourceController extends BaseController
             foreach ($customers as $key => $customer)
             {
                 $customer->stage_desc = trans('customer.stage.'.$customer->stage);
+                $customer->last_paid = Order::where('customer_id',$customer->id)->where('pay_status','paid')->orderBy('id','desc')->value('paid_at');
+                $customer->total = Order::where('customer_id',$customer->id)->where('pay_status','paid')->orderBy('id','desc')->sum('total');
             }
             return $this->response
                 ->success()

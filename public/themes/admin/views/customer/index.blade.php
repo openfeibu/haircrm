@@ -96,6 +96,8 @@
                 ,{field:'whatsapp',title:'{{ trans('customer.label.whatsapp') }}',edit:'text'}
                 ,{field:'address',title:'{{ trans('customer.label.address') }}',edit:'text'}
                 ,{field:'order_count',title:'{{ trans('customer.label.order_count') }}'}
+                ,{field:'last_paid',title:'{{ trans('customer.label.last_paid') }}'}
+                ,{field:'total',title:'{{ trans('customer.label.total') }}'}
                 ,{field:'stage_desc',title:'{{ trans('customer.label.stage') }}'}
                 ,{field:'remark',title:'{{ trans('customer.label.remark') }}',edit:'text'}
                 ,{field:'chat_app_account',title:'{{ trans('customer.label.chat_app_account') }}', width:240,edit:'text'}

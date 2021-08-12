@@ -18,6 +18,8 @@ return [
         'chat_app_account' => 'app:你的账号:客户账号',
         'level' => '等级',
         'stage' => '客户阶段',
+        'last_paid' => '上次付款',
+        'total' => '$总付款',
     ],
     'stage' => [
         'unknown' => '未标记',
