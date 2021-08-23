@@ -39,7 +39,7 @@ return [
             'stage' => '=',
         ],
         'from' => [
-            'ins','facebook','客户介绍','其他'
+            'ins','facebook','客户介绍','其他','tiktok'
         ],
         'level' => ['A','B','C','D'],
         'stage' => ['unknown','inquiry','purchase','repurchase'],
