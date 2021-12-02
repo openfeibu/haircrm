@@ -122,6 +122,22 @@
                     </div>
                     {!!Form::token()!!}
                 </form>
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+                    <legend>跟进记录</legend>
+                </fieldset>
+                <ul class="layui-timeline">
+                    @foreach($follow_ups as $key => $follow_up)
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis"></i>
+                            <div class="layui-timeline-content layui-text">
+                                <h3 class="layui-timeline-title">{{ $follow_up['date'] }}</h3>
+                                <p>
+                                    {{ $follow_up['content'] }}
+                                </p>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
 
         </div>

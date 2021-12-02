@@ -81,6 +81,7 @@ Route::group([
 
     Route::resource('customer', 'CustomerResourceController');
     Route::get('get_customer', 'CustomerResourceController@getCustomer')->name('customer.get_customer');
+    Route::post('/customer/follow_up', 'CustomerResourceController@followUp')->name('customer.follow_up');
     Route::post('/customer/destroyAll', 'CustomerResourceController@destroyAll')->name('customer.destroy_all');
     Route::get('customer_import', 'CustomerResourceController@import')->name('customer.import');
     Route::post('/customer_import/submit', 'CustomerResourceController@submitImport')->name('customer.submit_import');
@@ -172,6 +173,7 @@ Route::group([
 
 
     Route::resource('customer', 'CustomerResourceController');
+    Route::post('/customer/follow_up', 'CustomerResourceController@followUp')->name('customer.follow_up');
     Route::get('get_customer', 'CustomerResourceController@getCustomer')->name('customer.get_customer');
     Route::post('/customer/destroyAll', 'CustomerResourceController@destroyAll')->name('customer.destroy_all');
     Route::get('customer_import', 'CustomerResourceController@import')->name('customer.import');

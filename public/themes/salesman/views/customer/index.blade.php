@@ -56,10 +56,26 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="follow_up" >跟进</a>
     <a class="layui-btn layui-btn-sm" href="{{ guard_url('customer') }}/@{{ d.id }}">{{ trans('app.edit') }}</a>
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
 </script>
-
+<div class="fb-main-table "id="follow_up" style="display: none">
+    <form class="layui-form" action="" lay-filter="fb-form">
+        <div class="layui-form-item fb-form-item2">
+            <label class="layui-form-label">跟进日期 *</label>
+            <div class="layui-input-block">
+                <input type="text" name="date" id="follow_up_date" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item fb-form-item2">
+            <label class="layui-form-label">跟进内容 *</label>
+            <div class="layui-input-block">
+                <input type="text" name="content" id="follow_up_content" class="layui-input">
+            </div>
+        </div>
+    </form>
+</div>
 <script>
     var main_url = "{{guard_url('customer')}}";
     var delete_all_url = "{{guard_url('customer/destroyAll')}}";
@@ -68,6 +84,7 @@
         var table = layui.table;
         var form = layui.form;
         var element = layui.element;
+        var laydate = layui.laydate;
         table.render({
             elem: '#fb-table'
             ,url: '{{guard_url('customer')}}'
@@ -89,8 +106,10 @@
                 ,{field:'remark',title:'{{ trans('customer.label.remark') }}',edit:'text'}
                 ,{field:'chat_app_account',title:'{{ trans('customer.label.chat_app_account') }}',edit:'text'}
                 ,{field:'level',title:'{{ trans('customer.label.level') }}', width:240,edit:'text',sort:true}
+                ,{field:'follow_up_date',title:'上次跟进',edit:'text'}
+                ,{field:'follow_up_content',title:'跟进内容',edit:'text'}
                 ,{field:'created_at',title:'{{ trans('app.created_at') }}', width:120}
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:200, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true
@@ -122,7 +141,91 @@
                 }
             });
         });
+        laydate.render({
+            elem: '#follow_up_date'
+            ,type: 'datetime'
+            ,value:"{{ date('Y-m-d H:i:s') }}"
+        });
     });
 </script>
 
 {!! Theme::partial('common_handle_js') !!}
+<script>
+    layui.use(['jquery','element','table'], function() {
+        var $ = layui.$;
+        var table = layui.table;
+        var form = layui.form;
+        var element = layui.element;
+        $.extend_tool = function (obj) {
+            var data = obj.data;
+            data['_token'] = "{!! csrf_token() !!}";
+            data['nPage'] = $(".layui-laypage-curr em").eq(1).text();
+
+            customer_handle[obj.event] ? customer_handle[obj.event].call(this,data) : '';
+        };
+
+        var customer_handle = {};
+        customer_handle = {
+            follow_up:function (obj) {
+                var ajax_data = {};
+                ajax_data['_token'] = "{!! csrf_token() !!}";
+
+                layer.open({
+                    type: 1,
+                    shade: false,
+                    title: '跟进', //不显示标题
+                    area: ['620px', '440px'], //宽高
+                    content: $('#follow_up'),
+                    btn:['{{ trans('app.submit') }}'],
+                    btn1:function()
+                    {
+
+                        var follow_up_date = $("#follow_up_date").val();
+                        var follow_up_content = $("#follow_up_content").val();
+                        if(!follow_up_date)
+                        {
+                            layer.msg("请填写跟进日期");
+                            return false;
+                        }
+                        if(!follow_up_content)
+                        {
+                            layer.msg("请填写跟进内容");
+                            return false;
+                        }
+                        ajax_data['customer_id'] = obj['id'];
+                        ajax_data['date'] = follow_up_date;
+                        ajax_data['content'] = follow_up_content;
+                        var load =layer.load();
+                        $.ajax({
+                            url : "{{ guard_url('customer/follow_up') }}",
+                            data : ajax_data,
+                            type : 'POST',
+                            success : function (data) {
+                                layer.closeAll();
+                                if(data.code == 0) {
+                                    layer.msg(data.msg);
+                                    console.log(obj);
+                                    if(typeof(obj['nPage']) != "undefined") {
+                                        var nPage = $(".layui-laypage-curr em").eq(1).text();
+                                        //执行重载
+                                        table.reload('fb-table', {
+                                            page: {
+                                                curr: nPage //重新从第 1 页开始
+                                            }
+                                        });
+                                    }
+                                }else{
+                                    layer.msg(data.msg);
+                                }
+                            },
+                            error : function (jqXHR, textStatus, errorThrown) {
+                                layer.close(load);
+                                $.ajax_error(jqXHR, textStatus, errorThrown);
+                            }
+                        });
+                    }
+                });
+            },
+        }
+    })
+</script>

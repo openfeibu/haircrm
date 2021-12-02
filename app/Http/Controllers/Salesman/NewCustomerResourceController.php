@@ -258,7 +258,7 @@ class NewCustomerResourceController extends BaseController
         {
             return $this->response->message("共发现".$count."条数据，排除空行后共成功上传".$success_count."条")
                 ->status("success")
-                ->code(200)
+                ->code(0)
                 ->url(guard_url('new_customer'))
                 ->redirect();
         }else{

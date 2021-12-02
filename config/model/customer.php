@@ -59,6 +59,24 @@ return [
             '等级' => 'level',
         ],
     ],
+    'customer_follow_up'     => [
+        'model'        => 'App\Models\CustomerFollowUp',
+        'table'        => 'customer_follow_ups',
+        'primaryKey'   => 'id',
+        'hidden'       => [],
+        'visible'      => [],
+        'guarded'      => ['*'],
+        'fillable'     => ['customer_id','date','content','created_at','updated_at'],
+        'translate'    => [],
+        'upload_folder' => '/customer',
+        'encrypt'      => ['id'],
+        'revision'     => ['name'],
+        'perPage'      => '20',
+        'search'        => [
+
+        ],
+
+    ],
     'new_customer'     => [
         'model'        => 'App\Models\NewCustomer',
         'table'        => 'new_customers',

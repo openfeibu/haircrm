@@ -7,6 +7,7 @@ use App\Imports\CustomerImport;
 use Auth;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\CustomerFollowUp;
 use App\Repositories\Eloquent\SalesmanRepository;
 use Illuminate\Http\Request;
 use App\Repositories\Eloquent\CustomerRepository;
@@ -40,6 +41,9 @@ class CustomerResourceController extends BaseController
                 $customer->stage_desc = trans('customer.stage.'.$customer->stage);
                 $customer->last_paid = Order::where('customer_id',$customer->id)->where('pay_status','paid')->orderBy('id','desc')->value('paid_at');
                 $customer->total = Order::where('customer_id',$customer->id)->where('pay_status','paid')->orderBy('id','desc')->sum('total');
+                $follow_up = CustomerFollowUp::where('customer_id',$customer->id)->orderBy('date','desc')->first();
+                $customer->follow_up_date = $follow_up ? $follow_up->date : '';
+                $customer->follow_up_content = $follow_up ? $follow_up->content : '';
             }
             return $this->response
                 ->success()
@@ -103,8 +107,9 @@ class CustomerResourceController extends BaseController
             $view = 'customer.create';
         }
         $salesmen = $this->salesmanRepository->getActiveSalesmen();
+        $follow_ups = CustomerFollowUp::where('customer_id',$customer->id)->orderBy('date','desc')->get();
         return $this->response->title(trans('app.view') . ' ' . trans('customer.name'))
-            ->data(compact('customer','salesmen'))
+            ->data(compact('customer','salesmen','follow_ups'))
             ->view($view)
             ->output();
     }
@@ -237,7 +242,7 @@ class CustomerResourceController extends BaseController
         {
             return $this->response->message("共发现".$count."条数据，排除空行后共成功上传".$success_count."条")
                 ->status("success")
-                ->code(200)
+                ->code(0)
                 ->url(guard_url('customer'))
                 ->redirect();
         }else{
@@ -248,5 +253,20 @@ class CustomerResourceController extends BaseController
                 ->redirect();
         }
 
+    }
+    public function followUp(Request $request)
+    {
+        $data = $request->all();
+        CustomerFollowUp::create([
+            'customer_id' => $data['customer_id'],
+            'date' => $data['date'],
+            'content' => $data['content'],
+        ]);
+
+        return $this->response->message("操作成功")
+            ->status("success")
+            ->code(0)
+            ->url(guard_url('customer'))
+            ->redirect();
     }
 }
