@@ -113,7 +113,7 @@ class CustomerResourceController extends BaseController
         } else {
             $view = 'customer.create';
         }
-        $salesmen = $this->salesmanRepository->getActiveSalesmen();
+        $salesmen = $this->salesmanRepository->getSalesmen();
         $follow_ups = CustomerFollowUp::where('customer_id',$customer->id)->orderBy('date','desc')->get();
         return $this->response->title(trans('app.view') . ' ' . trans('customer.name'))
             ->data(compact('customer','salesmen','follow_ups'))
