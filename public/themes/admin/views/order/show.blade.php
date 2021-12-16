@@ -140,7 +140,7 @@
                                     @inject('salesmanRepository','App\Repositories\Eloquent\SalesmanRepository')
                                     <select name="salesman_id" id="salesman_id" lay-filter="" lay-search>
                                         <option value="">请选择业务员</option>
-                                        @foreach($salesmanRepository->getActiveSalesmen() as $key => $salesman)
+                                        @foreach($salesmanRepository->getSalesmen() as $key => $salesman)
                                         <option value="{{ $salesman->id }}" @if($salesman->id == $order->salesman_id) selected @endif>{{ $salesman->name }}</option>
                                         @endforeach
                                     </select>
