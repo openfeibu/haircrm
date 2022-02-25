@@ -17,7 +17,7 @@ class Order extends BaseModel
 
     protected $config = 'model.order.order';
 
-    public $appends = ['order_status_desc','shipping_status_desc','pay_status_desc','operation'];
+    public $appends = ['order_status_desc','shipping_status_desc','pay_status_desc','operation','pay_url'];
 
     public function getOrderStatusDescAttribute()
     {
@@ -34,5 +34,14 @@ class Order extends BaseModel
     public function getOperationAttribute()
     {
         return isset($this->attributes['order_status']) ? app(OrderRepository::class)->operation($this->attributes) : [];
+    }
+    public function getPayUrlAttribute()
+    {
+        if(!isset($this->attributes['payment_id']) && !$this->attributes['payment_id'])
+        {
+            return '';
+        }
+        $url = Payment::where('id',$this->attributes['payment_id'])->value('url');
+        return $url ? sprintf($url,$this->attributes['payment_sn']) : '';
     }
 }
