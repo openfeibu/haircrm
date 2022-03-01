@@ -37,7 +37,7 @@ class Order extends BaseModel
     }
     public function getPayUrlAttribute()
     {
-        if(!isset($this->attributes['payment_id']) && !$this->attributes['payment_id'])
+        if(!isset($this->attributes['payment_id']) || !$this->attributes['payment_id'])
         {
             return '';
         }
