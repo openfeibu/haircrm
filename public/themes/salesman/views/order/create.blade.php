@@ -38,7 +38,7 @@
                         <thead>
                         <tr>
                             <th lay-data="{field:'id',width:80}">ID</th>
-                            <th lay-data="{field:'goods_name',width:280}">商品名称</th>
+                            <th lay-data="{field:'goods_name',width:280, edit: 'text'}">商品名称</th>
                             <th lay-data="{field:'attribute_value'}">属性</th>
                             <th lay-data="{field:'selling_price', edit: 'text'}">{{ trans('goods.label.selling_price') }}</th>
                             <th lay-data="{field:'weight', edit: 'text'}">{{ trans('order.label.weight') }}</th>
