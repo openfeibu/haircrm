@@ -95,6 +95,15 @@
 
                     </div>
                     <div class="layui-form-item fb-form-item2">
+                        <label class="layui-form-label">{{ trans('customer.label.remark') }}</label>
+
+                        <div class="layui-input-block">
+                            <textarea name="remark" placeholder="请输入{{ trans('customer.label.remark') }}" class="layui-textarea">{!! $customer->remark !!}</textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="layui-form-item fb-form-item2">
                         <label class="layui-form-label">客户来源</label>
                         <div class="layui-input-block">
                             <input type="text" name="from" autocomplete="off" placeholder="请输入客户来源" class="layui-input" value="{{ $customer->from }}">
