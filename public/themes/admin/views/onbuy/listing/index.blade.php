@@ -97,7 +97,7 @@
             ]]
             ,id: 'fb-table'
             ,page: true
-            ,limit: '{{ config('app.limit') }}'
+            ,limit: '{{ $limit }}'
             ,height: 'full-200'
             ,cellMinWidth :'180'
             ,done:function () {

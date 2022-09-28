@@ -31,7 +31,7 @@ class ListingResourceController extends BaseController
 
                 }
             });
-            $products = $products->orderBy('created_at','desc')->paginate(20);
+            $products = $products->orderBy('created_at','desc')->paginate($request->get('limit',50));
             foreach ($products as $key=> $product)
             {
                 $product->min_price_expect = number_format($product->min_price * (1-setting('onbuy_fee') )* setting('gbp_to_rmb'), 2);
@@ -70,7 +70,7 @@ class ListingResourceController extends BaseController
 
         return $this->response->title(trans('goods.name'))
             ->view('onbuy.listing.index')
-            ->data([])
+            ->data(['limit' => $request->get('limit',50)])
             ->output();
     }
     public function update(Request $request, OnbuyProductModel $listing)
@@ -163,5 +163,23 @@ class ListingResourceController extends BaseController
             $this->syncHandle($offset+$limit);
         }
         return true;
+    }
+    public function getWinning()
+    {
+        $listing = new Listing($this->getToken());
+
+        $listing->getListing(
+            ['last_created' => 'desc'],
+            [],
+            20,
+            0
+        );
+        $products = $listing->getResponse();
+        var_dump($products);exit;
+
+        $listing->getWinningListing([
+            "0714131824724",
+        ]);
+        var_dump($listing->getResponse());exit;
     }
 }

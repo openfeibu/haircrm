@@ -153,6 +153,8 @@ Route::group([
     Route::group(['namespace' => 'onbuy', 'prefix' => 'onbuy','as' => 'onbuy.'], function ($router) {
         Route::resource('listing', 'ListingResourceController');
         Route::post('listing/sync', 'ListingResourceController@sync');
+        Route::get('listing/handle/getWinning', 'ListingResourceController@getWinning');
+
     });
 
 });
