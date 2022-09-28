@@ -213,7 +213,21 @@ class NewCustomerResourceController extends BaseController
         $salesmen = [];
         $success_count=0;
         $count = $all_sheet_count-1;
+        /*
+        for ($i=1;$i<$all_sheet_count;$i++) {
+            if (count(array_filter($res[$i])) > 2) {
+                if($res[$i][0])
+                {
+                    NewCustomer::where('email',$res[$i][0])->update([
+                        'mobile' => $res[$i][1],
+                        'mobile_2' => $res[$i][2],
+                        'country_code' =>  $res[$i][3],
+                    ]);
+                }
+            }
+        }
 
+exit;*/
         for ($i=1;$i<$all_sheet_count;$i++)
         {
             if(count(array_filter($res[$i]))>2)

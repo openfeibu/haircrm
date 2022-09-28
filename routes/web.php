@@ -63,7 +63,6 @@ Route::group([
         Route::get('index', 'MenuResourceController@index');
     });
 
-
     Route::post('/media_folder/store', 'MediaResourceController@folderStore')->name('media_folder.store');
     Route::delete('/media_folder/destroy', 'MediaResourceController@folderDestroy')->name('media_folder.destroy');
     Route::put('/media_folder/update/{media_folder}', 'MediaResourceController@folderUpdate')->name('media_folder.update');
@@ -150,6 +149,12 @@ Route::group([
 
     Route::get('price_calculation_of_plastic_bag', 'PriceCalculationOfPlasticBagResourceController@index')->name('price_calculation_of_plastic_bag.index');
     Route::post('/price_calculation_of_plastic_bag/get_price', 'PriceCalculationOfPlasticBagResourceController@getPrice')->name('price_calculation_of_plastic_bag.get_price');
+
+    Route::group(['namespace' => 'onbuy', 'prefix' => 'onbuy','as' => 'onbuy.'], function ($router) {
+        Route::resource('listing', 'ListingResourceController');
+        Route::post('listing/sync', 'ListingResourceController@sync');
+    });
+
 });
 Route::group([
     'namespace' => 'Salesman',

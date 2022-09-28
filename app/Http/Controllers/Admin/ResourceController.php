@@ -16,10 +16,15 @@ use App\Traits\AdminUser\AdminUserPages;
 use App\Http\Response\ResourceResponse;
 use App\Traits\Theme\ThemeAndViews;
 use App\Traits\AdminUser\RoutesAndGuards;
+use Xigen\Library\OnBuy\Auth;
+use Xigen\Library\OnBuy\Product\Product;
+use Xigen\Library\OnBuy\Product\Listing;
 
 class ResourceController extends BaseController
 {
     use AdminUserPages,ThemeAndViews,RoutesAndGuards;
+
+    public $token;
 
     public function __construct()
     {
@@ -110,12 +115,35 @@ class ResourceController extends BaseController
             ->data(compact('customer_count','new_customer_count','order_count','today_order_count','yesterday_order_count','today_paid_order_count','yesterday_paid_order_count','order_paid_count','today_purchase_price','yesterday_purchase_price','purchase_price','yesterday_selling_price','today_selling_price','selling_price','goods_count','mail_sent_count','unshipped_count','salesmen','total_monthly_performance_target','total_month_performance','total_month_performance_percent','total_yearly_performance_target','total_year_performance','total_year_performance_percent'))
             ->output();
     }
+    public function getToken()
+    {
+        $config = [
+            'consumer_key' => 'ck_live_985b32445dd9436e99371c681493359b',
+            'secret_key' => 'sk_live_7b996317d12d40e6a0606994925449c1'
+        ];
+
+        $auth = new Auth(
+            $config
+        );
+
+        $auth->getToken(); // This is your token
+        $this->token = $auth->getToken();
+        return $this->token;
+    }
     public function dashboard()
     {
+        $listing = new Listing($this->getToken());
+        $listing->getWinningListing([
+            "7381457031179",
+            "780305598609"
+        ]);
+        var_dump($listing->getResponse());exit;
+
         return $this->response->title('测试')
             ->view('dashboard')
             ->output();
     }
+
 
 
 }
