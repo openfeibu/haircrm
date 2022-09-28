@@ -18,5 +18,6 @@ return [
     ],
     'fedex_url' => 'https://www.fedex.com/apps/fedextrack/?action=track&trackingnumber=%s&cntry_code=cn&locale=en_CN',
     'paypal_url' => 'https://www.paypal.com/activity/payment/%s',
+    'alibaba_url' => 'https://biz.alibaba.com/ta/detail.htm?orderId=%s&tracelog=from_orderlist_dropdown',
     'overseas_email_suffix' => ['@hotmail.com','@msn.com','@yahoo.com','@gmail.com','@aim.com','@aol.com','@mail.com','@walla.com','@inbox.com']
 ];
