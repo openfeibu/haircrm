@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\MailScheduleCommand;
 use App\Console\Commands\PricingCommand;
+use App\Console\Commands\RestorePriceCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\CmsCommand;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
         CmsCommand::class,
         MailScheduleCommand::class,
         PricingCommand::class,
+        RestorePriceCommand::class,
     ];
 
     /**
@@ -34,6 +36,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('mail_schedule:auto')->everyMinute();
         $schedule->command('pricing:auto')->everyTenMinutes();
+        $schedule->command('restore_price:auto')->dailyAt('7:00');
     }
 
     /**

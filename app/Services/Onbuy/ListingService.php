@@ -43,7 +43,11 @@ class ListingService
             ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
             ->groupBy('onbuy_product_bid_tasks.sku')
             ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
-
+        if(!$tasks)
+        {
+            echo "0";
+            return true;
+        }
         $skus = array_column($tasks,'sku');
         $tasks = array_combine($skus,$tasks);
         $onbuy_token = getOnbuyToken();
@@ -85,5 +89,42 @@ class ListingService
         DB::commit();
         echo "success";
         return $listing->getResponse();
+    }
+    public function restorePrice()
+    {
+        $time = date("H:i:s");
+        $product_bid_ids = ProductBid::where('active',1)->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )->pluck('id')->toArray();
+        if(!$product_bid_ids)
+        {
+            echo "0";
+            return true;
+        }
+        $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
+            ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
+            ->groupBy('onbuy_product_bid_tasks.sku')
+            ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price','onbuy_products.original_price'])->toArray();
+        if(!$tasks)
+        {
+            echo "0";
+            return true;
+        }
+
+        DB::beginTransaction();
+        $data = [];
+        foreach ($tasks as $item)
+        {
+            \App\Models\Onbuy\Product::where('sku',$item['sku'])->update([
+                'price' => $item['original_price']
+            ]);
+            $data[] = [
+                "sku" => $item['sku'],
+                "price" => $item['original_price'],
+            ];
+        }
+        $onbuy_token = getOnbuyToken();
+        $listing = new Listing($onbuy_token);
+        $listing->updateListingBySku($data);
+        DB::commit();
+        echo "success";
     }
 }

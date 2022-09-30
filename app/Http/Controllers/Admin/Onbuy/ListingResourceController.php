@@ -203,21 +203,25 @@ class ListingResourceController extends BaseController
     }
     public function getWinning()
     {
-        $this->list_service->automatic();
+        $this->list_service->restorePrice();
         exit;
+//        $this->list_service->automatic();
+//        exit;
         $listing = new Listing($this->onbuy_token);
 
-        $listing->getListing(
-            ['last_created' => 'desc'],
-            [],
-            20,
-            0
-        );
-        $products = $listing->getResponse();
-        var_dump($products);exit;
+//        $listing->getListing(
+//            ['last_created' => 'desc'],
+//            [],
+//            20,
+//            0
+//        );
+//        $products = $listing->getResponse();
+//        var_dump($products);exit;
 
         $listing->getWinningListing([
-            "0714131824724",
+            "0426386615889",
+            "0711719894858",
+            "0711719874263"
         ]);
         var_dump($listing->getResponse());exit;
     }
