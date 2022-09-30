@@ -152,11 +152,14 @@ Route::group([
 
     Route::group(['namespace' => 'onbuy', 'prefix' => 'onbuy','as' => 'onbuy.'], function ($router) {
         Route::resource('listing', 'ListingResourceController');
+        Route::resource('product_bid', 'ProductBidResourceController');
         Route::post('listing/sync', 'ListingResourceController@sync');
         Route::get('listing/handle/getWinning', 'ListingResourceController@getWinning');
         Route::post('listing/automatic', 'ListingResourceController@automatic');
+        //Route::post('listing/restore_price', 'ListingResourceController@restorePrice');
 
     });
+
 
 });
 Route::group([
