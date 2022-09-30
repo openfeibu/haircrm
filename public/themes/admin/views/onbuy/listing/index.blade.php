@@ -126,7 +126,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48, fixed: 'left'}
-                ,{field:'name',title:'{{ trans('goods.name') }}',width:320,templet:'#productTEM'}
+                ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
                 ,{field:'price',title:'销售价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="同步时的销售价,非及时更新,以onbuy为准">&#xe60b;</i>', width:100, edit:'text'}
                 ,{field:'min_price',title:'最低价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="用于追踪更新最低价竞争使用">&#xe60b;</i>', width:100,edit:'text'}
                 ,{field:'min_price_expect',title:'最低价预计到账RMB<i class="layui-icon alone-tips analyseTips" lay-tips="扣除Onbuy所有费用(16.7% + 9%)和paypal费用(5%)后的资金RMB">&#xe60b;</i>', width:120}
