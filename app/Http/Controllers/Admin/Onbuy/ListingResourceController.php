@@ -153,7 +153,7 @@ class ListingResourceController extends BaseController
                     'product_url' => $product['product_url'],
                     'image_url' => $product['image_url'],
                     'sale_price' => $product['sale_price'],
-                    'min_price' => $product['price'],
+                    'min_price' => 0,
                     'original_price' => $product['price'],
                     'created_at' => $product['created_at'],
                     'updated_at' => $product['updated_at'],
