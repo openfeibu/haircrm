@@ -63,7 +63,7 @@ class ListingService
         $data = [];
         foreach ($winning_listings as $key => $winning)
         {
-            if(isset($winning['lead_price']) && $tasks[$winning['sku']]['price'] > $winning['lead_price'] &&  $tasks[$winning['sku']]['min_price'] <= $winning['lead_price'] && $tasks[$winning['sku']]['min_price'] > 0)
+            if(isset($winning['lead_price']) && $tasks[$winning['sku']]['min_price'] > 0 && (($tasks[$winning['sku']]['price'] > $winning['lead_price'] &&  $tasks[$winning['sku']]['min_price'] <= $winning['lead_price'])))
             {
                 $data[] = [
                     "sku" => $winning['sku'],
