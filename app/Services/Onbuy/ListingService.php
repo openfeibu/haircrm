@@ -63,7 +63,7 @@ class ListingService
         $data = [];
         foreach ($winning_listings as $key => $winning)
         {
-            if($tasks[$winning['sku']]['price'] > $winning['lead_price'] &&  $tasks[$winning['sku']]['min_price'] <= $winning['lead_price'] && $tasks[$winning['sku']]['min_price'] > 0)
+            if(isset($winning['lead_price']) && $tasks[$winning['sku']]['price'] > $winning['lead_price'] &&  $tasks[$winning['sku']]['min_price'] <= $winning['lead_price'] && $tasks[$winning['sku']]['min_price'] > 0)
             {
                 $data[] = [
                     "sku" => $winning['sku'],
@@ -126,5 +126,6 @@ class ListingService
         $listing->updateListingBySku($data);
         DB::commit();
         echo "success";
+        var_dump($listing->getResponse());exit;
     }
 }

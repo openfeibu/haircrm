@@ -172,6 +172,47 @@ class ListingResourceController extends BaseController
         }
         return true;
     }
+    public function destroy(Request $request,OnbuyProductModel $listing)
+    {
+        try {
+            $listing->delete();
+            return $this->response->message(trans('messages.success.deleted', ['Module' => '产品']))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+
+        } catch (Exception $e) {
+
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+        }
+    }
+
+    public function destroyAll(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $ids = $data['ids'];
+            OnbuyProductModel::destroy($ids);
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+        }
+    }
     public function automatic(Request $request)
     {
         try {
@@ -203,10 +244,10 @@ class ListingResourceController extends BaseController
     }
     public function getWinning()
     {
-        $this->list_service->restorePrice();
-        exit;
-//        $this->list_service->automatic();
+//        $this->list_service->restorePrice();
 //        exit;
+        $this->list_service->automatic();
+        exit;
         $listing = new Listing($this->onbuy_token);
 
 //        $listing->getListing(

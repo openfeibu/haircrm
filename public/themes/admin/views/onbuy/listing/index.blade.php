@@ -16,6 +16,7 @@
                 <div class="layui-inline tabel-btn">
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync" data-events="sync">从Onbuy同步新产品</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="automatic" data-events="automatic">自动化定价</button>
+                    <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
                 </div>
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="sku" id="demoReload" placeholder="sku" autocomplete="off">
@@ -234,7 +235,7 @@
                         ,data = checkStatus.data;
                 var data_id_obj = {};
                 var i = 0;
-                data.forEach(function(v){ data_id_obj[i] = v.list_id; i++});
+                data.forEach(function(v){ data_id_obj[i] = v.id; i++});
                 data.length == 0 ?
                         layer.msg('请选择要删除的数据', {
                             time: 2000 //2秒关闭（如果不配置，默认是3秒）
@@ -245,7 +246,7 @@
                             var load = layer.load();
                             $.ajax({
                                 url : delete_all_url,
-                                data :  {'list_ids':data_id_obj,'_token' : "{!! csrf_token() !!}"},
+                                data :  {'ids':data_id_obj,'_token' : "{!! csrf_token() !!}"},
                                 type : 'POST',
                                 success : function (data) {
                                     layer.close(load);
