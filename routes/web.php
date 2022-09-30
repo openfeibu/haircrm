@@ -154,6 +154,7 @@ Route::group([
         Route::resource('listing', 'ListingResourceController');
         Route::post('listing/sync', 'ListingResourceController@sync');
         Route::get('listing/handle/getWinning', 'ListingResourceController@getWinning');
+        Route::post('listing/automatic', 'ListingResourceController@automatic');
 
     });
 

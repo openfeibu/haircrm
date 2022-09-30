@@ -4,13 +4,21 @@ namespace App\Http\Controllers\Admin\Onbuy;
 
 use App\Http\Controllers\Admin\Onbuy\BaseController;
 use App\Models\Onbuy\Product as OnbuyProductModel;
+use App\Models\Onbuy\ProductBid as OnbuyProductBidModel;
+use App\Models\Onbuy\ProductBidTask as OnbuyProductBidTaskModel;
 use Illuminate\Http\Request;
 use Xigen\Library\OnBuy\Product\Product;
 use Xigen\Library\OnBuy\Product\Listing;
 use DB;
+use App\Services\Onbuy\ListingService;
 
 class ListingResourceController extends BaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->list_service = new ListingService();
+    }
 
     public function index(Request $request)
     {
@@ -164,9 +172,40 @@ class ListingResourceController extends BaseController
         }
         return true;
     }
+    public function automatic(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $product_bid = OnbuyProductBidModel::create($attributes);
+
+            $data = [];
+            foreach ($attributes['skus'] as $sku)
+            {
+                $data[] = [
+                    'sku' => $sku,
+                    'bid_id' => $product_bid->id,
+                ];
+            }
+            DB::table('onbuy_product_bid_tasks')->insert($data);
+            return $this->response->message(trans('messages.operation.success'))
+                ->code(0)
+                ->status('success')
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->code(400)
+                ->status('error')
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+        }
+
+    }
     public function getWinning()
     {
-        $listing = new Listing($this->getToken());
+        $this->list_service->automatic();
+        exit;
+        $listing = new Listing($this->onbuy_token);
 
         $listing->getListing(
             ['last_created' => 'desc'],

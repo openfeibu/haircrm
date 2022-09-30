@@ -15,18 +15,6 @@ class BaseController extends BaseResourceController
     public function __construct()
     {
         parent::__construct();
-        $this->getOnbuyToken();
-    }
-    private function getOnbuyToken()
-    {
-        $config = [
-            'consumer_key' => config('onbuy.consumer_key'),
-            'secret_key' => config('onbuy.secret_key'),
-        ];
-        $auth = new Auth(
-            $config
-        );
-        $this->onbuy_token = $auth->getToken();
-        return $this->onbuy_token;
+        $this->onbuy_token = getOnbuyToken();
     }
 }

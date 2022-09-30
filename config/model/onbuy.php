@@ -32,4 +32,38 @@ return [
         ],
     ],
 
+    'product_bid'     => [
+        'model'        => 'App\Models\Onbuy\ProductBid',
+        'table'        => 'onbuy_product_bid',
+        'primaryKey'   => 'id',
+        'hidden'       => [],
+        'visible'      => [],
+        'guarded'      => ['*'],
+        'fillable'     => ['start_date', 'end_date','start_time',  'end_time','everyday','active','created_at','updated_at'],
+        'translate'    => [],
+        'upload_folder' => '',
+        'encrypt'      => ['id'],
+        'revision'     => ['name'],
+        'perPage'      => '20',
+        'search'        => [
+            'name'  => 'like',
+        ],
+    ],
+    'product_bid_task'     => [
+        'model'        => 'App\Models\Onbuy\ProductBidTask',
+        'table'        => 'onbuy_product_bid_tasks',
+        'primaryKey'   => 'id',
+        'hidden'       => [],
+        'visible'      => [],
+        'guarded'      => ['*'],
+        'fillable'     => ['bid_id', 'sku'],
+        'translate'    => [],
+        'upload_folder' => '',
+        'encrypt'      => ['id'],
+        'revision'     => ['name'],
+        'perPage'      => '20',
+        'search'        => [
+            'name'  => 'like',
+        ],
+    ],
 ];

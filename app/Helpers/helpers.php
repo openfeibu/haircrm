@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Request;
 use App\Facades\Hashids;
 use App\Facades\Trans;
+use Xigen\Library\OnBuy\Auth as OnBuyAuth;
 
 if (!function_exists('hashids_encode')) {
     /**
@@ -1020,4 +1021,16 @@ if (!function_exists('rate_style')) {
     {
         return $new >= $old ? 'c1' : 'c2';
     }
+}
+
+function getOnbuyToken()
+{
+    $config = [
+        'consumer_key' => config('onbuy.consumer_key'),
+        'secret_key' => config('onbuy.secret_key'),
+    ];
+    $auth = new OnBuyAuth(
+        $config
+    );
+    return $auth->getToken();
 }
