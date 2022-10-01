@@ -40,6 +40,7 @@ class ListingService
             return true;
         }
         $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
+            ->where('onbuy_products.min_price','>',0)
             ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
             ->groupBy('onbuy_product_bid_tasks.sku')
             ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
@@ -101,6 +102,7 @@ class ListingService
         }
         $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
             ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
+            ->where('onbuy_products.min_price','<>',0)
             ->groupBy('onbuy_product_bid_tasks.sku')
             ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price','onbuy_products.original_price'])->toArray();
         if(!$tasks)

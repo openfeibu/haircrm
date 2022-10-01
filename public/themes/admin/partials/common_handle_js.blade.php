@@ -62,6 +62,7 @@
                     layer.close(load);
                     if(data.code == 0)
                     {
+
                     }else{
                         layer.msg(data.msg);
                     }
