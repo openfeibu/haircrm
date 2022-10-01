@@ -93,7 +93,7 @@ class ListingService
     public function restorePrice()
     {
         $time = date("H:i:s");
-        $product_bid_ids = ProductBid::where('active',1)->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )->pluck('id')->toArray();
+        $product_bid_ids = ProductBid::where('active',1)->pluck('id')->toArray();
         if(!$product_bid_ids)
         {
             echo "0";

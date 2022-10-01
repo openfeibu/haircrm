@@ -244,8 +244,8 @@ class ListingResourceController extends BaseController
     }
     public function getWinning()
     {
-//        $this->list_service->restorePrice();
-//        exit;
+        $this->list_service->restorePrice();
+        exit;
         $this->list_service->automatic();
         exit;
         $listing = new Listing($this->onbuy_token);
