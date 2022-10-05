@@ -20,7 +20,7 @@ class RestorePriceCommand extends Command
      *
      * @var string
      */
-    protected $description = '定时竞价';
+    protected $description = '恢复原价';
 
     /**
      * Create a new command instance.
