@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Onbuy;
 
+use App\Models\Schedule;
 use GuzzleHttp\Client;
 use App\Exceptions\OutputServerMessageException;
 use Log, DB;
@@ -94,6 +95,20 @@ class ListingService
     public function restorePrice()
     {
         $time = date("H:i:s");
+        $date = date("Y-m-d");
+        $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->first();
+        if($schedule && $schedule->success)
+        {
+            echo "0";
+            return true;
+        }else{
+            $schedule = Schedule::create([
+                'name' => 'restore_onbuy_price',
+                'date' => $date,
+                'success' => 0,
+            ]);
+        }
+
         $product_bid_ids = ProductBid::where('active',1)->pluck('id')->toArray();
         if(!$product_bid_ids)
         {
@@ -128,6 +143,10 @@ class ListingService
         $listing->updateListingBySku($data);
         DB::commit();
         echo "success";
+
+        $schedule->success = 1;
+        $schedule->save();
+
         var_dump($listing->getResponse());exit;
     }
 }
