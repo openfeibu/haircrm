@@ -66,4 +66,5 @@ return [
             'name'  => 'like',
         ],
     ],
+
 ];
