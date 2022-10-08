@@ -161,6 +161,7 @@ Route::group([
 
         Route::resource('order', 'OrderResourceController');
         Route::post('order/sync', 'OrderResourceController@sync');
+        Route::get('order_products', 'OrderResourceController@products')->name('order.products');
     });
 
 

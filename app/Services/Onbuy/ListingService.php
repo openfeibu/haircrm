@@ -97,10 +97,13 @@ class ListingService
         $time = date("H:i:s");
         $date = date("Y-m-d");
         $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->first();
-        if($schedule && $schedule->success)
+        if($schedule)
         {
-            echo "0";
-            return true;
+            if($schedule->success)
+            {
+                echo "0";
+                return true;
+            }
         }else{
             $schedule = Schedule::create([
                 'name' => 'restore_onbuy_price',

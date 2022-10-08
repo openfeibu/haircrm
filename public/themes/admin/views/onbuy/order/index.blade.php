@@ -95,7 +95,6 @@
             }
         });
         //监听工具条
-        //监听工具条
         table.on('tool(fb-table)', function(obj){
             var data = obj.data;
             data['_token'] = "{!! csrf_token() !!}";

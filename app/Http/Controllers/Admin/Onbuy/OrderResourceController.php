@@ -57,6 +57,50 @@ class OrderResourceController extends BaseController
             ->data(['limit' => $request->get('limit',50)])
             ->output();
     }
+    public function products(Request $request)
+    {
+        if ($this->response->typeIs('json')) {
+            $search = $request->get('search',[]);
+            $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
+                ->selectRaw("*,SUM(onbuy_order_products.quantity) as total_quantity ")
+                ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
+                ->when($search ,function ($query) use ($search){
+                foreach($search as $field => $value)
+                {
+                    if($value)
+                    {
+                        if($field == 'onbuy_order_products.sku')
+                        {
+                            $query->where('onbuy_order_products.sku',$value);
+                        }else{
+                            $query->where($field,'like','%'.$value.'%');
+                        }
+                    }
+
+                }
+            });
+            $order_products = $order_products
+                ->groupBy('onbuy_order_products.sku')
+                ->orderBy('onbuy_orders.date','desc')
+                ->paginate($request->get('limit',50));
+
+            foreach ($order_products as $key=> $order_product)
+            {
+                $order_product->product_url = OnbuyProductModel::where('sku',$order_product['sku'])->value('product_url');
+            }
+
+            return $this->response
+                ->success()
+                ->count($order_products->total())
+                ->data($order_products->toArray()['data'])
+                ->output();
+
+        }
+        return $this->response->title("onbuy 产品出单量")
+            ->view('onbuy.order.products')
+            ->data(['limit' => $request->get('limit',50)])
+            ->output();
+    }
     public function update(Request $request, OnbuyProductModel $listing)
     {
         try {
