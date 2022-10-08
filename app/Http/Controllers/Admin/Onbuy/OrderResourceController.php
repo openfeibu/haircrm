@@ -28,12 +28,20 @@ class OrderResourceController extends BaseController
                 {
                     if($value)
                     {
-                        if($field == 'onbuy_order_products.sku')
+                        switch ($field)
                         {
-                            $query->where('onbuy_order_products.sku',$value);
-                        }else{
-                            $query->where($field,'like','%'.$value.'%');
+                            case 'onbuy_order_products.sku':
+                                $query->where('onbuy_order_products.sku',$value);
+                                break;
+                            case 'date':
+                                $date = explode('~', $value);
+                                $query->where('onbuy_orders.date','>=', $date[0].' 00:00:00')->where('onbuy_orders.date','<=', $date[1]." 23:59:59");
+                                break;
+                            default :
+                                $query->where($field,'like','%'.$value.'%');
+                                break;
                         }
+
                     }
 
                 }
@@ -65,20 +73,24 @@ class OrderResourceController extends BaseController
                 ->selectRaw("*,SUM(onbuy_order_products.quantity) as total_quantity ")
                 ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
                 ->when($search ,function ($query) use ($search){
-                foreach($search as $field => $value)
-                {
-                    if($value)
+                    foreach($search as $field => $value)
                     {
-                        if($field == 'onbuy_order_products.sku')
-                        {
-                            $query->where('onbuy_order_products.sku',$value);
-                        }else{
-                            $query->where($field,'like','%'.$value.'%');
+                        if($value) {
+                            switch ($field) {
+                                case 'onbuy_order_products.sku':
+                                    $query->where('onbuy_order_products.sku', $value);
+                                    break;
+                                case 'date':
+                                    $date = explode('~', $value);
+                                    $query->where('onbuy_orders.date','>=', $date[0].' 00:00:00')->where('onbuy_orders.date','<=', trim($date[1])." 23:59:59");
+                                    break;
+                                default :
+                                    $query->where($field, 'like', '%' . $value . '%');
+                                    break;
+                            }
                         }
                     }
-
-                }
-            });
+                });
             $order_products = $order_products
                 ->groupBy('onbuy_order_products.sku')
                 ->orderBy('onbuy_orders.date','desc')

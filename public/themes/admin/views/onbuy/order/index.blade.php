@@ -18,12 +18,18 @@
                     <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
                 </div>
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="sku" id="demoReload" placeholder="sku" autocomplete="off">
+                    <label class="layui-form-label">下单日期 *</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="date" id="date" class="layui-input search_key">
+                    </div>
                 </div>
                 <div class="layui-inline">
-
-                    <input class="layui-input search_key" name="name" id="demoReload" placeholder="名称" autocomplete="off">
+                    <input class="layui-input search_key" name="onbuy_order_products.sku" id="demoReload" placeholder="sku" autocomplete="off">
                 </div>
+                <div class="layui-inline">
+                    <input class="layui-input search_key" name="onbuy_order_products.name" id="demoReload" placeholder="名称" autocomplete="off">
+                </div>
+
                 <div class="layui-inline">
                     <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
                 </div>
@@ -82,6 +88,7 @@
                 ,{field:'order_id',title:'订单号',width:150, fixed: 'left'}
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
+                ,{field:'date',title:'日期',width:120}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
@@ -314,7 +321,11 @@
 
         }
         //合并结束
-
+        laydate.render({
+            elem: '#date' //指定元素
+            ,type: 'date'
+            ,range: '~'
+        });
     });
 </script>
 

@@ -17,12 +17,19 @@
 
                 </div>
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="sku" id="demoReload" placeholder="sku" autocomplete="off">
+                    <label class="layui-form-label">下单日期 *</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="date" id="date" class="layui-input search_key">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <input class="layui-input search_key" name="onbuy_order_products.sku" id="demoReload" placeholder="sku" autocomplete="off">
                 </div>
                 <div class="layui-inline">
 
-                    <input class="layui-input search_key" name="name" id="demoReload" placeholder="名称" autocomplete="off">
+                    <input class="layui-input search_key" name="onbuy_order_products.name" id="demoReload" placeholder="名称" autocomplete="off">
                 </div>
+
                 <div class="layui-inline">
                     <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
                 </div>
@@ -43,6 +50,7 @@
 <script type="text/html" id="productTEM">
     <div>
         <p> <a href="@{{ d.product_url }}" target="_blank">@{{ d.name }}</a></p>
+        <p> sku: @{{ d.sku }}</p>
     </div>
 </script>
 
@@ -146,7 +154,11 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-
+        laydate.render({
+            elem: '#date' //指定元素
+            ,type: 'date'
+            ,range: '~'
+        });
 
 
     });
