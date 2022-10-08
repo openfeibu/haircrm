@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('mail_schedule:auto')->everyMinute();
         $schedule->command('pricing:auto')->everyFiveMinutes();
-        $schedule->command('restore_price:auto')->dailyAt('07:00');
+        $schedule->command('restore_price:auto')->everyThirtyMinutes('07:00');
     }
 
     /**

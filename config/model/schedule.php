@@ -14,7 +14,7 @@ return [
 
     'schedule'     => [
         'model'        => 'App\Models\Schedule',
-        'table'        => 'schedule',
+        'table'        => 'schedules',
         'primaryKey'   => 'id',
         'hidden'       => [],
         'visible'      => [],

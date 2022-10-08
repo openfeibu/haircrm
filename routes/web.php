@@ -159,6 +159,8 @@ Route::group([
         Route::post('listing/automatic', 'ListingResourceController@automatic');
         //Route::post('listing/restore_price', 'ListingResourceController@restorePrice');
 
+        Route::resource('order', 'OrderResourceController');
+        Route::post('order/sync', 'OrderResourceController@sync');
     });
 
 

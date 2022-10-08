@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Onbuy;
 
 use Spatie\Activitylog\Traits\LogsActivity;
 use App\Models\BaseModel;
@@ -9,15 +9,11 @@ use App\Traits\Filer\Filer;
 use App\Traits\Hashids\Hashids;
 use App\Traits\Trans\Translatable;
 
-class Schedule extends BaseModel
+class Order extends BaseModel
 {
     use Filer, Hashids, Slugger, Translatable, LogsActivity;
 
-    /**
-     * Configuartion for the model.
-     *
-     * @var array
-     */
-    protected $config = 'model.schedule.schedule';
+    protected $config = 'model.onbuy.order';
 
+    public $timestamps = false;
 }

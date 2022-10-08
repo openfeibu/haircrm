@@ -58,21 +58,6 @@ class ListingResourceController extends BaseController
                 ->count($products->total())
                 ->data($products->toArray()['data'])
                 ->output();
-            /*
-            $listing = new Listing($this->onbuy_token);
-
-            $listing->getListing(
-                ['last_created' => 'desc'],
-                [],
-                20,
-                0
-            );
-            $products = $listing->getResponse();
-            return $this->response
-                ->success()
-                ->count($products['metadata']['total_rows'])
-                ->data($products['results'])
-                ->output();*/
 
         }
 
@@ -111,7 +96,8 @@ class ListingResourceController extends BaseController
     }
     public function syncHandle($offset=0,$limit=50)
     {
-        $listing = new Listing($this->onbuy_token);
+        $onbuy_token = getOnbuyToken();
+        $listing = new Listing($onbuy_token);
         $listing->getListing(
             ['last_created' => 'desc'],
             [],
@@ -248,7 +234,8 @@ class ListingResourceController extends BaseController
         exit;
         $this->list_service->automatic();
         exit;
-        $listing = new Listing($this->onbuy_token);
+        $onbuy_token = getOnbuyToken();
+        $listing = new Listing($onbuy_token);
 
 //        $listing->getListing(
 //            ['last_created' => 'desc'],

@@ -10,11 +10,9 @@ use Xigen\Library\OnBuy\Auth;
  */
 class BaseController extends BaseResourceController
 {
-    public $onbuy_token;
 
     public function __construct()
     {
         parent::__construct();
-        $this->onbuy_token = getOnbuyToken();
     }
 }
