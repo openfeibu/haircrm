@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name', 'code'],
+        'fillable'     => ['name', 'code','url','remark'],
         'translate'    => [],
         'upload_folder' => '/supplier',
         'encrypt'      => ['id'],

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Onbuy\BaseController;
 use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\ProductBid as OnbuyProductBidModel;
 use App\Models\Onbuy\ProductBidTask as OnbuyProductBidTaskModel;
+use App\Models\Onbuy\OrderProduct as OnbuyOrderProductModel;
 use Illuminate\Http\Request;
 use Xigen\Library\OnBuy\Product\Product;
 use Xigen\Library\OnBuy\Product\Listing;
@@ -52,6 +53,13 @@ class ListingResourceController extends BaseController
 
                 $product->min_price_profit_expect = number_format($product->min_price_expect - $product->cost,2);
                 $product->original_price_profit_expect = number_format($product->min_price_expect - $product->cost,2);
+
+                $product->total_quantity = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
+                    ->selectRaw("SUM(onbuy_order_products.quantity) as total_quantity ")
+                    ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
+                    ->where('onbuy_order_products.sku',$product->sku)
+                    ->value('total_quantity') ?: 0;
+                $product->inventory_balance = $product->total_in_inventory - $product->total_quantity;
             }
             return $this->response
                 ->success()

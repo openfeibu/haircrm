@@ -21,7 +21,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name', 'sku','group_sku',  'price','stock','product_listing_id','product_listing_condition_id','condition','handling_time','boost_marketing_commission','original_price','min_price','purchase_price','weight','product_encoded_id','delivery_weight','delivery_template_id','opc','product_url','image_url','sale_price','created_at','updated_at'],
+        'fillable'     => ['name', 'sku','group_sku',  'price','stock','product_listing_id','product_listing_condition_id','condition','handling_time','boost_marketing_commission','original_price','min_price','purchase_price','weight','product_encoded_id','delivery_weight','delivery_template_id','opc','product_url','image_url','sale_price','total_in_inventory','created_at','updated_at'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],

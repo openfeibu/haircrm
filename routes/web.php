@@ -102,6 +102,11 @@ Route::group([
     Route::post('/goods_attribute_value/destroyAll', 'GoodsAttributeValueResourceController@destroyAll')->name('goods_attribute_value.destroy_all');
     Route::get('/category_goods','GoodsResourceController@categoryGoods')->name('goods.category_goods');
 
+
+    Route::resource('supplier', 'SupplierResourceController');
+    Route::post('/supplier/destroyAll', 'SupplierResourceController@destroyAll')->name('supplier.destroy_all');
+
+
     Route::resource('salesman', 'SalesmanResourceController');
     Route::post('/salesman/destroyAll', 'SalesmanResourceController@destroyAll')->name('salesman.destroy_all');
 

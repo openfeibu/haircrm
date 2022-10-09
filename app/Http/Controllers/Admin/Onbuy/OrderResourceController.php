@@ -98,7 +98,19 @@ class OrderResourceController extends BaseController
 
             foreach ($order_products as $key=> $order_product)
             {
-                $order_product->product_url = OnbuyProductModel::where('sku',$order_product['sku'])->value('product_url');
+                $product = OnbuyProductModel::where('sku',$order_product['sku'])->first(['product_url','id','total_in_inventory']);
+                if($product)
+                {
+                    $order_product->product_url = $product->product_url;
+                    $order_product->total_in_inventory = $product->total_in_inventory;
+                    $order_product->product_id = $product->id;
+                }else{
+                    $order_product->product_url = '';
+                    $order_product->total_in_inventory = 0;
+                    $order_product->product_id = 0;
+
+                }
+                $order_product->inventory_balance = $order_product->total_in_inventory - $order_product->total_quantity;
             }
 
             return $this->response
