@@ -42,7 +42,8 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-
+    <a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="in_inventory">进货</a>
+    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="out_inventory">退货</a>
 </script>
 <script type="text/html" id="imageTEM">
     <a href="@{{ d.product_url }}" target="_blank"><img src="@{{d.image_urls.thumb}}" alt="" height="58"></a>
@@ -53,7 +54,15 @@
         <p> sku: @{{ d.sku }}</p>
     </div>
 </script>
-
+<script type="text/html" id="inventoryBalanceTEM">
+    <div>
+        @{{# if(parseInt(d.inventory_balance) >= 0){ }}
+        @{{ d.inventory_balance }}
+        @{{# }else{  }}
+        <span style="color:red">@{{ d.inventory_balance }}</span>
+        @{{# }  }}
+    </div>
+</script>
 <script>
     var main_url = "{{guard_url('onbuy/order_products')}}";
     var delete_all_url = "{{guard_url('onbuy/order/destroyAll')}}";
@@ -85,7 +94,9 @@
                 {checkbox: true, fixed: true}
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
-                ,{field:'total_quantity',title:'总数量', width:120}
+                ,{field:'total_quantity',title:'总出货', width:120}
+                ,{field:'total_in_inventory',title:'总入货',width:80, fixed: 'right'}
+                ,{field:'inventory_balance',title:'余货',width:80, fixed: 'right',templet:'#inventoryBalanceTEM'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
@@ -124,6 +135,74 @@
                 });
             } else if(obj.event === 'edit'){
                 window.location.href=main_url+'/'+data.id
+            }else if(obj.event === 'in_inventory'){
+                layer.prompt({title: '输入进货数量，并确认', formType: 0}, function(number, index){
+                    var data = obj.data;
+                    var ajax_data = {};
+                    ajax_data['_token'] = "{!! csrf_token() !!}";
+                    ajax_data['total_in_inventory'] = parseInt(data.total_in_inventory) + parseInt(number);
+                    layer.close(index);
+                    var load = layer.load();
+                    $.ajax({
+                        url :  "{{guard_url('onbuy/listing')}}"+'/'+data.product_id,
+                        data : ajax_data,
+                        type : 'PUT',
+                        success : function (data) {
+                            layer.close(load);
+                            if(data.code == 0)
+                            {
+                                var nPage = $(".layui-laypage-curr em").eq(1).text();
+                                //执行重载
+                                table.reload('fb-table', {
+                                    page: {
+                                        curr: nPage //重新从第 1 页开始
+                                    }
+                                });
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error : function (jqXHR, textStatus, errorThrown) {
+                            layer.close(load);
+                            layer.msg('服务器出错');
+                        }
+                    });
+                });
+            } else if(obj.event === 'out_inventory'){
+                layer.prompt({title: '输入退货数量，并确认', formType: 0}, function(number, index){
+
+
+                    var data = obj.data;
+                    var ajax_data = {};
+                    ajax_data['_token'] = "{!! csrf_token() !!}";
+                    ajax_data['total_in_inventory'] = parseInt(data.total_in_inventory) - parseInt(number);
+                    layer.close(index);
+                    var load = layer.load();
+                    $.ajax({
+                        url : "{{guard_url('onbuy/listing')}}"+'/'+data.product_id,
+                        data : ajax_data,
+                        type : 'PUT',
+                        success : function (data) {
+                            layer.close(load);
+                            if(data.code == 0)
+                            {
+                                var nPage = $(".layui-laypage-curr em").eq(1).text();
+                                //执行重载
+                                table.reload('fb-table', {
+                                    page: {
+                                        curr: nPage //重新从第 1 页开始
+                                    }
+                                });
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error : function (jqXHR, textStatus, errorThrown) {
+                            layer.close(load);
+                            layer.msg('服务器出错');
+                        }
+                    });
+                });
             }
         });
 

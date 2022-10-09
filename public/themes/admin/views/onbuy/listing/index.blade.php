@@ -37,8 +37,15 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
+    <p>
     <a class="layui-btn layui-btn-sm" href="{{ guard_url('goods') }}/@{{ d.goods_id }}">{{ trans('app.edit') }}</a>
+
     <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
+    </p>
+    <p>
+    <a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="in_inventory">进货</a>
+    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="out_inventory">退货</a>
+    </p>
 </script>
 <script type="text/html" id="imageTEM">
     <a href="@{{ d.product_url }}" target="_blank"><img src="@{{d.image_url}}" alt="" height="58"></a>
@@ -48,6 +55,15 @@
         <p> <a href="@{{ d.product_url }}" target="_blank">@{{ d.name }}</a></p>
         <p> sku: @{{ d.sku }}</p>
         <p> group_sku: @{{ d.group_sku }}</p>
+    </div>
+</script>
+<script type="text/html" id="inventoryBalanceTEM">
+    <div>
+        @{{# if(parseInt(d.inventory_balance) >= 0){ }}
+        @{{ d.inventory_balance }}
+        @{{# }else{  }}
+        <span style="color:red">@{{ d.inventory_balance }}</span>
+        @{{# }  }}
     </div>
 </script>
 <div class="automatic_content" style="display: none">
@@ -127,7 +143,7 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48, fixed: 'left'}
-                ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
+                ,{field:'name',title:'{{ trans('goods.name') }}',width:200,templet:'#productTEM'}
                 ,{field:'price',title:'销售价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="同步时的销售价,非及时更新,以onbuy为准">&#xe60b;</i>', width:100, edit:'text'}
                 ,{field:'min_price',title:'最低价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="用于追踪更新最低价竞争使用">&#xe60b;</i>', width:100,edit:'text'}
                 ,{field:'min_price_expect',title:'最低价预计到账RMB<i class="layui-icon alone-tips analyseTips" lay-tips="扣除Onbuy所有费用(16.7% + 9%)和paypal费用(5%)后的资金RMB">&#xe60b;</i>', width:120}
@@ -144,6 +160,9 @@
                 ,{field:'condition',title:'condition', width:100}
                 ,{field:'handling_time',title:'处理时间', width:100}
                 ,{field:'boost_marketing_commission',title:'推广', width:80}
+                ,{field:'total_in_inventory',title:'总入货',width:80,  edit:'text', fixed: 'right'}
+                ,{field:'total_quantity',title:'总出货',width:80, fixed: 'right'}
+                ,{field:'inventory_balance',title:'余货',width:80, fixed: 'right',templet:'#inventoryBalanceTEM'}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
@@ -155,7 +174,6 @@
                 element.init();
             }
         });
-        //监听工具条
         //监听工具条
         table.on('tool(fb-table)', function(obj){
             var data = obj.data;
@@ -182,6 +200,62 @@
                 });
             } else if(obj.event === 'edit'){
                 window.location.href=main_url+'/'+data.id
+            } else if(obj.event === 'in_inventory'){
+                layer.prompt({title: '输入进货数量，并确认', formType: 0}, function(number, index){
+                    var data = obj.data;
+                    var ajax_data = {};
+                    ajax_data['_token'] = "{!! csrf_token() !!}";
+                    ajax_data['total_in_inventory'] = parseInt(data.total_in_inventory) + parseInt(number);
+                    layer.close(index);
+                    var load = layer.load();
+                    $.ajax({
+                        url : main_url+'/'+data.id,
+                        data : ajax_data,
+                        type : 'PUT',
+                        success : function (data) {
+                            layer.close(load);
+                            if(data.code == 0)
+                            {
+
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error : function (jqXHR, textStatus, errorThrown) {
+                            layer.close(load);
+                            layer.msg('服务器出错');
+                        }
+                    });
+                });
+            } else if(obj.event === 'out_inventory'){
+                layer.prompt({title: '输入退货数量，并确认', formType: 0}, function(number, index){
+
+
+                    var data = obj.data;
+                    var ajax_data = {};
+                    ajax_data['_token'] = "{!! csrf_token() !!}";
+                    ajax_data['total_in_inventory'] = parseInt(data.total_in_inventory) - parseInt(number);
+                    layer.close(index);
+                    var load = layer.load();
+                    $.ajax({
+                        url : main_url+'/'+data.id,
+                        data : ajax_data,
+                        type : 'PUT',
+                        success : function (data) {
+                            layer.close(load);
+                            if(data.code == 0)
+                            {
+
+                            }else{
+                                layer.msg(data.msg);
+                            }
+                        },
+                        error : function (jqXHR, textStatus, errorThrown) {
+                            layer.close(load);
+                            layer.msg('服务器出错');
+                        }
+                    });
+                });
             }
         });
         table.on('edit(fb-table)', function(obj){
@@ -214,6 +288,7 @@
                 }
             });
         });
+
         var $ = layui.$;
         active = {
             reload: function(){

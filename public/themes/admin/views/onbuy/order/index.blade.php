@@ -15,8 +15,12 @@
             <div class="tabel-message">
                 <div class="layui-inline tabel-btn">
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync" data-events="sync">从Onbuy同步新订单</button>
+                    <button class="layui-btn layui-btn-warm " type="button" data-type="sync_update" data-events="sync_update">从Onbuy同步更新订单</button>
+                    <!--<button class="layui-btn layui-btn-warm " data-type="mark_purchase" data-events="mark_purchase">标记为已拿货</button>-->
                     <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
                 </div>
+            </div>
+            <div class="tabel-message">
                 <div class="layui-inline">
                     <label class="layui-form-label">下单日期 *</label>
                     <div class="layui-input-block">
@@ -84,11 +88,12 @@
             ,id:'fb-table'
             ,url: main_url
             ,cols: [[
-                {checkbox: true, fixed: true}
+                {checkbox: true,field:'id', fixed: true}
                 ,{field:'order_id',title:'订单号',width:150, fixed: 'left'}
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
                 ,{field:'date',title:'日期',width:120}
+                ,{field:'status',title:'订单状态',width:200}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
@@ -220,6 +225,47 @@
                                 }
                             });
                         })  ;
+
+            },
+            sync_update:function(){
+                var checkStatus = table.checkStatus('fb-table')
+                        ,data = checkStatus.data;
+                var data_id_obj = {};
+                var i = 0;
+                data.forEach(function(v){ data_id_obj[i] = v.order_id; i++});
+                if(data.length == 0)
+                {
+                    layer.msg('请选择要同步更新的数据', {
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    })
+                    return ;
+                }
+
+                var load = layer.load();
+                $.ajax({
+                    url : main_url+'/sync_update',
+                    data :  {'order_ids':data_id_obj,'_token' : "{!! csrf_token() !!}"},
+                    type : 'POST',
+                    success : function (data) {
+                        layer.close(load);
+                        if(data.code == 0)
+                        {
+                            var nPage = $(".layui-laypage-curr em").eq(1).text();
+                            //执行重载
+                            table.reload('fb-table', {
+                                page: {
+                                    curr: nPage //重新从第 1 页开始
+                                }
+                            });
+                        }else{
+                            layer.msg(data.msg);
+                        }
+                    },
+                    error : function (jqXHR, textStatus, errorThrown) {
+                        layer.close(load);
+                        $.ajax_error(jqXHR, textStatus, errorThrown);
+                    }
+                });
 
             },
             sync: function () {
