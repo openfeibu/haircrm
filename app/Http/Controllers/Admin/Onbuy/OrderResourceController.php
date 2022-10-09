@@ -144,6 +144,84 @@ class OrderResourceController extends BaseController
         }
 
     }
+    public function syncUpdate(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $order_ids = $data['order_ids'];
+            $onbuy_token = getOnbuyToken();
+            $orders = new Order($onbuy_token);
+            $orders->getOrder(
+                [
+                    'status' => 'all',
+                    'order_ids' => $order_ids,
+
+                ],
+                [
+                    'created' => 'desc'
+                ]
+            );
+            $orders = $orders->getResponse();
+            if(count($orders['results']) !=0 )
+            {
+                foreach ($orders['results'] as $key => $order)
+                {
+
+                    $data = [
+                        'onbuy_internal_reference' => $order['onbuy_internal_reference'],
+                        'date' => $order['date'],
+                        'updated_at' => $order['updated_at'],
+                        'cancelled_at' => $order['cancelled_at'],
+                        'shipped_at' => $order['shipped_at'],
+                        'status' => $order['status'],
+                        'site_id' => $order['site_id'],
+                        'site_name' => $order['site_name'],
+                        'price_subtotal' => $order['price_subtotal'],
+                        'price_delivery' => $order['price_delivery'],
+                        'price_total' => $order['price_total'],
+                        'price_discount' => $order['price_discount'],
+                        'sales_fee_ex_VAT' => $order['sales_fee_ex_VAT'],
+                        'sales_fee_inc_VAT' => $order['sales_fee_inc_VAT'],
+                        'currency_code' => $order['currency_code'],
+                        'dispatched' => $order['dispatched'],
+                        'delivery_service' => $order['delivery_service'],
+                        'stripe_transaction_id' => $order['stripe_transaction_id'],
+                        'paypal_capture_id' => $order['paypal_capture_id'],
+                        'buyer_name' => $order['buyer']['name'],
+                        'buyer_email' => $order['buyer']['email'],
+                        'buyer_phone' => $order['buyer']['phone'],
+                        'buyer_ip_address' => $order['buyer']['ip_address'],
+                        'billing_address' => json_encode($order['billing_address']),
+                        'delivery_address' => json_encode($order['delivery_address']),
+                        'fee_boost_marketing_fee_excluding_vat' => $order['fee']['boost_marketing_fee_excluding_vat'],
+                        'fee_category_fee_excluding_vat' => $order['fee']['category_fee_excluding_vat'],
+                        'fee_delivery_fee_excluding_vat' => $order['fee']['delivery_fee_excluding_vat'],
+                        'fee_total_fee_excluding_vat' => $order['fee']['total_fee_excluding_vat'],
+                        'fee_vat_rate' => $order['fee']['vat_rate'],
+                        'fee_total_fee_including_vat' => $order['fee']['total_fee_including_vat'],
+                        'tax_total' => $order['tax']['tax_total'],
+                        'tax_subtotal' => $order['tax']['tax_subtotal'],
+                        'tax_delivery' => $order['tax']['tax_delivery'],
+                        'delivery_tag' => $order['delivery_tag'],
+                    ];
+                    OnbuyOrderModel::where('order_id',$order['order_id'])->update($data);
+                }
+            }
+
+            return $this->response->message(trans('messages.operation.success'))
+                ->status("success")
+                ->http_code(202)
+                ->url(guard_url('onbuy/order'))
+                ->redirect();
+
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->status("error")
+                ->code(400)
+                ->url(guard_url('onbuy/order'))
+                ->redirect();
+        }
+    }
     public function sync()
     {
         $this->syncHandle();
@@ -281,7 +359,7 @@ class OrderResourceController extends BaseController
             return $this->response->message($e->getMessage())
                 ->status("error")
                 ->code(400)
-                ->url(guard_url('onbuy/listing'))
+                ->url(guard_url('onbuy/order'))
                 ->redirect();
         }
     }
@@ -296,14 +374,14 @@ class OrderResourceController extends BaseController
             return $this->response->message(trans('messages.operation.success'))
                 ->status("success")
                 ->http_code(202)
-                ->url(guard_url('onbuy/listing'))
+                ->url(guard_url('onbuy/order'))
                 ->redirect();
 
         } catch (Exception $e) {
             return $this->response->message($e->getMessage())
                 ->status("error")
                 ->code(400)
-                ->url(guard_url('onbuy/listing'))
+                ->url(guard_url('onbuy/order'))
                 ->redirect();
         }
     }
