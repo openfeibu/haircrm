@@ -52,7 +52,7 @@ class ListingResourceController extends BaseController
                 $product->min_price_advice =  number_format($product->cost / setting('gbp_to_rmb') / (1-setting('onbuy_fee')),2);
 
                 $product->min_price_profit_expect = number_format($product->min_price_expect - $product->cost,2);
-                $product->original_price_profit_expect = number_format($product->min_price_expect - $product->cost,2);
+                $product->original_price_profit_expect = number_format($product->original_price_expect - $product->cost,2);
 
                 $product->total_quantity = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                     ->selectRaw("SUM(onbuy_order_products.quantity) as total_quantity ")

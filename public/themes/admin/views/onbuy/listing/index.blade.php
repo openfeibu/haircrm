@@ -146,15 +146,16 @@
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:200,templet:'#productTEM'}
                 ,{field:'price',title:'销售价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="同步时的销售价,非及时更新,以onbuy为准">&#xe60b;</i>', width:100, edit:'text'}
                 ,{field:'min_price',title:'最低价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="用于追踪更新最低价竞争使用">&#xe60b;</i>', width:100,edit:'text'}
-                ,{field:'min_price_expect',title:'最低价预计到账RMB<i class="layui-icon alone-tips analyseTips" lay-tips="扣除Onbuy所有费用(16.7% + 9%)和paypal费用(5%)后的资金RMB">&#xe60b;</i>', width:120}
+                ,{field:'min_price_advice',title:'建议最低价GBP', width:100}
+                ,{field:'min_price_expect',title:'最低价预计到账RMB<i class="layui-icon alone-tips analyseTips" lay-tips="扣除Onbuy所有费用(16.7% + 9%)和paypal费用(5%)后的资金RMB">&#xe60b;</i>', width:120,hide:true}
                 ,{field:'min_price_profit_expect',title:'最低价预计利润RMB', width:100}
                 ,{field:'original_price',title:'原价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="用于更新最低价后恢复原价使用">&#xe60b;</i>', width:100,edit:'text'}
-                ,{field:'original_price_expect',title:'原价预计到账RMB<i class="layui-icon alone-tips analyseTips" lay-tips="扣除Onbuy所有费用(16.7% + 9%)和paypal费用(5%)后的资金RMB">&#xe60b;</i>', width:120}
+                ,{field:'original_price_expect',title:'原价预计到账RMB<i class="layui-icon alone-tips analyseTips" lay-tips="扣除Onbuy所有费用(16.7% + 9%)和paypal费用(5%)后的资金RMB">&#xe60b;</i>', width:120,hide:true}
                 ,{field:'original_price_profit_expect',title:'原价预计利润RMB', width:100}
                 ,{field:'purchase_price',title:'采购RMB', width:100,edit:'text'}
                 ,{field:'weight',title:'重量/g', width:100, edit:'text'}
                 ,{field:'freight_expect',title:'预计运费RMB', width:100}
-                ,{field:'min_price_advice',title:'建议最低价GBP', width:100}
+                ,{field:'purchase_url',title:'采购链接', width:100, edit:'text'}
                 ,{field:'stock',title:'库存', width:100}
                 ,{field:'product_listing_id',title:'product_listing_id', width:100}
                 ,{field:'condition',title:'condition', width:100}
