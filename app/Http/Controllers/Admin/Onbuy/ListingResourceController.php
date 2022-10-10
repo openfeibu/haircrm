@@ -59,7 +59,7 @@ class ListingResourceController extends BaseController
                     ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
                     ->where('onbuy_order_products.sku',$product->sku)
                     ->value('total_quantity') ?: 0;
-                $product->inventory_balance = $product->total_in_inventory - $product->total_quantity;
+                $product->need_purchase = $product->total_quantity - $product->inventory - $product->out_inventory;
             }
             return $this->response
                 ->success()

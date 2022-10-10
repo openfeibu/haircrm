@@ -70,8 +70,10 @@ class OrderResourceController extends BaseController
         if ($this->response->typeIs('json')) {
             $search = $request->get('search',[]);
             $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
-                ->selectRaw("*,SUM(onbuy_order_products.quantity) as total_quantity ")
+                ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
+                ->selectRaw("onbuy_order_products.*,SUM(onbuy_order_products.quantity) as total_quantity, (SUM(onbuy_order_products.quantity) - `onbuy_products`.`out_inventory`) as need_out, onbuy_products.product_url,onbuy_products.inventory,onbuy_products.out_inventory,onbuy_products.id as product_id,onbuy_products.purchase_url")
                 ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
+                //->whereRaw('need_out > 0')
                 ->when($search ,function ($query) use ($search){
                     foreach($search as $field => $value)
                     {
@@ -93,26 +95,30 @@ class OrderResourceController extends BaseController
                 });
             $order_products = $order_products
                 ->groupBy('onbuy_order_products.sku')
+                ->orderBy('need_out','desc')
                 ->orderBy('onbuy_orders.date','desc')
                 ->paginate($request->get('limit',50));
 
             foreach ($order_products as $key=> $order_product)
             {
-                $product = OnbuyProductModel::where('sku',$order_product['sku'])->first(['product_url','id','total_in_inventory','purchase_url']);
+                /*
+                $product = OnbuyProductModel::where('sku',$order_product['sku'])->first(['product_url','id','out_inventory','inventory','purchase_url']);
                 if($product)
                 {
                     $order_product->product_url = $product->product_url;
-                    $order_product->total_in_inventory = $product->total_in_inventory;
+                    $order_product->inventory = $product->inventory;
+                    $order_product->out_inventory = $product->out_inventory;
                     $order_product->product_id = $product->id;
                     $order_product->purchase_url = $product->purchase_url;
                 }else{
                     $order_product->product_url = '';
-                    $order_product->total_in_inventory = 0;
+                    $order_product->inventory = 0;
+                    $order_product->out_inventory = 0;
                     $order_product->product_id = 0;
                     $order_product->purchase_url = '';
 
-                }
-                $order_product->inventory_balance = $order_product->total_in_inventory - $order_product->total_quantity;
+                }*/
+                $order_product->need_purchase = $order_product->total_quantity - $order_product->inventory - $order_product->out_inventory;
             }
 
             return $this->response
