@@ -43,23 +43,28 @@
 </div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="in_inventory">进货</a>
-    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="out_inventory">退货</a>
+    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="out_inventory">出货</a>
 </script>
 <script type="text/html" id="imageTEM">
     <a href="@{{ d.product_url }}" target="_blank"><img src="@{{d.image_urls.thumb}}" alt="" height="58"></a>
 </script>
 <script type="text/html" id="productTEM">
     <div>
-        <p> <a href="@{{ d.product_url }}" target="_blank">@{{ d.name }}</a></p>
-        <p> sku: @{{ d.sku }}</p>
+        @{{# if(parseInt(d.need_out) > 0){ }}
+        <p ><a href="@{{ d.product_url }}" target="_blank" style="color:red">@{{ d.name }}</a></p>
+        @{{# }else{  }}
+        <p ><a href="@{{ d.product_url }}" target="_blank" >@{{ d.name }}</a></p>
+        @{{# }  }}
+
+        <p> sku: @{{ d.sku }} </p>
     </div>
 </script>
-<script type="text/html" id="inventoryBalanceTEM">
+<script type="text/html" id="needPurchaseTEM">
     <div>
-        @{{# if(parseInt(d.inventory_balance) >= 0){ }}
-        @{{ d.inventory_balance }}
+        @{{# if(parseInt(d.need_purchase) >= 0){ }}
+        @{{ d.need_purchase }}
         @{{# }else{  }}
-        <span style="color:red">@{{ d.inventory_balance }}</span>
+        <span style="color:red">@{{ d.need_purchase }}</span>
         @{{# }  }}
     </div>
 </script>
@@ -95,9 +100,10 @@
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
                 ,{field:'purchase_url',title:'采购链接', width:180, edit:'text'}
-                ,{field:'total_quantity',title:'总出货', width:120}
-                ,{field:'total_in_inventory',title:'总入货',width:80, fixed: 'right'}
-                ,{field:'inventory_balance',title:'余货',width:80, fixed: 'right',templet:'#inventoryBalanceTEM'}
+                ,{field:'total_quantity',title:'销售量',width:90, fixed: 'right' ,sort:true}
+                ,{field:'inventory',title:'库存',width:80, edit:'text', fixed: 'right',sort:true}
+                ,{field:'out_inventory',title:'总出货',width:90,  edit:'text', fixed: 'right',sort:true}
+                ,{field:'need_purchase',title:'需拿货',width:90, fixed: 'right',templet:'#needPurchaseTEM',sort:true}//需拿货 = 销售量 - 库存 - 总出货
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
@@ -141,7 +147,7 @@
                     var data = obj.data;
                     var ajax_data = {};
                     ajax_data['_token'] = "{!! csrf_token() !!}";
-                    ajax_data['total_in_inventory'] = parseInt(data.total_in_inventory) + parseInt(number);
+                    ajax_data['inventory'] = parseInt(data.inventory) + parseInt(number);
                     layer.close(index);
                     var load = layer.load();
                     $.ajax({
@@ -176,7 +182,8 @@
                     var data = obj.data;
                     var ajax_data = {};
                     ajax_data['_token'] = "{!! csrf_token() !!}";
-                    ajax_data['total_in_inventory'] = parseInt(data.total_in_inventory) - parseInt(number);
+                    ajax_data['inventory'] = parseInt(data.inventory) - parseInt(number);
+                    ajax_data['out_inventory'] = parseInt(data.out_inventory) + parseInt(number);
                     layer.close(index);
                     var load = layer.load();
                     $.ajax({
