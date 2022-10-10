@@ -647,7 +647,7 @@ if (!function_exists('cut_html_str')) {
             } else {
                 --$lenth; // 非 html 代码才记数
             }
-            $ord_var_c = ord($str{$i});
+            $ord_var_c = ord($str[$i]);
             switch (true) {
                 case (($ord_var_c & 0xE0) == 0xC0): // 2 字节
                     $result .= substr($str, $i, 2);
