@@ -467,13 +467,13 @@
         laydate.render({
             elem: '#start_time'
             ,type: 'time'
-            ,value: "23:30:00"
+            ,value: "20:00:00"
             //,format:"HH:mm"
         });
         laydate.render({
             elem: '#end_time'
             ,type: 'time'
-            ,value: "06:30:00"
+            ,value: "09:00:00"
         });
     });
 </script>
