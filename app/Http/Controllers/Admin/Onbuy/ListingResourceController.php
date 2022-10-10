@@ -41,18 +41,20 @@ class ListingResourceController extends BaseController
                 }
             });
             $products = $products->orderBy('created_at','desc')->paginate($request->get('limit',50));
+            $onbuy_fee = (float)setting('onbuy_fee');
+            $gbp_to_rmb = (float)setting('gbp_to_rmb');
             foreach ($products as $key=> $product)
             {
-                $product->min_price_expect = number_format($product->min_price * (1-setting('onbuy_fee') )* setting('gbp_to_rmb'), 2);
+                $product->min_price_expect = round($product->min_price * (1-$onbuy_fee )* $gbp_to_rmb, 2);
 
-                $product->original_price_expect = number_format($product->original_price * (1-setting('onbuy_fee') ) * setting('gbp_to_rmb'), 2);
-                $product->freight_expect = $product->weight ? ($product->weight * 0.058 + 18) : 0;
+                $product->original_price_expect = round($product->original_price * (1-$onbuy_fee) * $gbp_to_rmb, 2);
+                $product->freight_expect = $product->weight ? round($product->weight * 0.058 + 18,2) : 0;
 
                 $product->cost = $product->freight_expect + $product->purchase_price;
-                $product->min_price_advice =  number_format($product->cost / setting('gbp_to_rmb') / (1-setting('onbuy_fee')),2);
+                $product->min_price_advice =  round($product->cost / $gbp_to_rmb / (1-$onbuy_fee),2);
 
-                $product->min_price_profit_expect = number_format($product->min_price_expect - $product->cost,2);
-                $product->original_price_profit_expect = number_format($product->original_price_expect - $product->cost,2);
+                $product->min_price_profit_expect = round($product->min_price_expect - $product->cost,2);
+                $product->original_price_profit_expect = round($product->original_price_expect - $product->cost,2);
 
                 $product->total_quantity = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                     ->selectRaw("SUM(onbuy_order_products.quantity) as total_quantity ")
