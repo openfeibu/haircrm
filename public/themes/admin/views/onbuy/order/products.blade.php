@@ -94,6 +94,7 @@
                 {checkbox: true, fixed: true}
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
+                ,{field:'purchase_url',title:'采购链接', width:180, edit:'text'}
                 ,{field:'total_quantity',title:'总出货', width:120}
                 ,{field:'total_in_inventory',title:'总入货',width:80, fixed: 'right'}
                 ,{field:'inventory_balance',title:'余货',width:80, fixed: 'right',templet:'#inventoryBalanceTEM'}
@@ -204,6 +205,35 @@
                     });
                 });
             }
+        });
+        table.on('edit(fb-table)', function(obj){
+            var data = obj.data;
+            var value = obj.value //得到修改后的值
+                    ,data = obj.data //得到所在行所有键值
+                    ,field = obj.field; //得到字段
+            var ajax_data = {};
+            ajax_data['_token'] = "{!! csrf_token() !!}";
+            ajax_data[field] = value;
+            // 加载样式
+            var load = layer.load();
+            $.ajax({
+                url :   "{{guard_url('onbuy/listing')}}"+'/'+data.product_id,
+                data : ajax_data,
+                type : 'PUT',
+                success : function (data) {
+                    layer.close(load);
+                    if(data.code == 0)
+                    {
+
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                },
+                error : function (jqXHR, textStatus, errorThrown) {
+                    layer.close(load);
+                    $.ajax_error(jqXHR, textStatus, errorThrown);
+                }
+            });
         });
 
         var $ = layui.$;
