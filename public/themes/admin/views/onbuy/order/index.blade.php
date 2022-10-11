@@ -55,7 +55,7 @@
 <script type="text/html" id="productTEM">
     <div>
         <p> <a href="@{{ d.product_url }}" target="_blank">@{{ d.name }}</a></p>
-        <p> sku: @{{ d.sku }}</p>
+        <p> sku: @{{ d.sku }} ; 数量: @{{ d.quantity }}</p>
         <p> 发货: @{{ d.expected_dispatch_date }}</p>
     </div>
 </script>

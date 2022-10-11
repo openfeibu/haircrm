@@ -94,8 +94,12 @@ class ListingService
     }
     public function restorePrice()
     {
-        $time = date("H:i:s");
+        $h = date("G");
         $date = date("Y-m-d");
+        if($h<setting('9'))
+        {
+            return false;
+        }
         $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->first();
         if($schedule)
         {
