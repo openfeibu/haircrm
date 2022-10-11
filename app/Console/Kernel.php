@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use App\Console\Commands\MailScheduleCommand;
+use App\Console\Commands\OnbuyOrderSyncCommand;
+use App\Console\Commands\OnbuyOrderSyncUpdateCommand;
 use App\Console\Commands\PricingCommand;
 use App\Console\Commands\RestorePriceCommand;
 use Illuminate\Console\Scheduling\Schedule;
@@ -22,6 +24,8 @@ class Kernel extends ConsoleKernel
         MailScheduleCommand::class,
         PricingCommand::class,
         RestorePriceCommand::class,
+        OnbuyOrderSyncCommand::class,
+        OnbuyOrderSyncUpdateCommand::class
     ];
 
     /**
@@ -37,6 +41,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('mail_schedule:auto')->everyMinute();
         $schedule->command('pricing:auto')->everyFiveMinutes();
         $schedule->command('restore_price:auto')->everyThirtyMinutes();
+        $schedule->command('onbuy_order_sync:auto')->hourly();
+        $schedule->command('onbuy_order_sync_update:auto')->hourly()->between('10:00', '13:00');
     }
 
     /**
