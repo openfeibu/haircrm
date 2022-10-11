@@ -48,7 +48,7 @@ class OrderResourceController extends BaseController
 
                 }
             });
-            $order_products = $order_products->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50),['onbuy_orders.order_id','onbuy_orders.paypal_capture_id','onbuy_orders.date','onbuy_orders.status','onbuy_order_products.image_urls','onbuy_order_products.name','onbuy_order_products.sku','onbuy_order_products.expected_dispatch_date','onbuy_order_products.quantity','onbuy_order_products.tracking_number']);
+            $order_products = $order_products->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50),['onbuy_orders.order_id','onbuy_orders.paypal_capture_id','onbuy_orders.date','onbuy_orders.status','onbuy_order_products.image_urls','onbuy_order_products.name','onbuy_order_products.sku','onbuy_order_products.expected_dispatch_date','onbuy_order_products.quantity','onbuy_order_products.tracking_number','onbuy_order_products.tracking_supplier_name','onbuy_order_products.tracking_url']);
             foreach ($order_products as $key=> $order_product)
             {
                 $order_product->product_url = OnbuyProductModel::where('sku',$order_product['sku'])->value('product_url');

@@ -59,6 +59,15 @@
         <p> 发货: @{{ d.expected_dispatch_date }}</p>
     </div>
 </script>
+<script type="text/html" id="trackingTEM">
+
+    <div>
+        @{{# if(d.tracking_url){ }}
+        <p> <a href="@{{ d.tracking_url }}" target="_blank">@{{ d.tracking_number }}</a></p>
+        <p> 物流公司: @{{ d.tracking_supplier_name }} </p>
+        @{{# } }}
+    </div>
+</script>
 
 <script>
     var main_url = "{{guard_url('onbuy/order')}}";
