@@ -90,8 +90,10 @@
             ,cols: [[
                 {checkbox: true,field:'id', fixed: true}
                 ,{field:'order_id',title:'订单号',width:150, fixed: 'left'}
-                ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
+                ,{field:'image_urls',title:'图片', width:120,templet:'#imageTEM',height:48}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
+                ,{field:'paypal_capture_id',title:'paypal', width:120,templet:'<div><a href="https://www.paypal.com/activity/payment/@{{ d.paypal_capture_id }}" target="_blank">@{{ d.paypal_capture_id }}</a></div>',height:48}
+                ,{field:'tracking_number',title:'快递单号', width:120,height:48}
                 ,{field:'date',title:'日期',width:120}
                 ,{field:'status',title:'订单状态',width:200}
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}

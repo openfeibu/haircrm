@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Onbuy;
 
+use App\Models\Onbuy\OrderProduct as OnbuyOrderProductModel;
 use App\Models\Schedule;
 use GuzzleHttp\Client;
 use App\Exceptions\OutputServerMessageException;
@@ -85,6 +86,9 @@ class OrderService
                     'tax_subtotal' => $order['tax']['tax_subtotal'],
                     'tax_delivery' => $order['tax']['tax_delivery'],
                     'delivery_tag' => $order['delivery_tag'],
+                    'tracking_number' => $order['tracking']['tracking_number'] ?? '',
+                    'tracking_supplier_name' => $order['tracking']['supplier_name'] ?? '',
+                    'tracking_url' => $order['tracking']['tracking_url'] ?? '',
                 ];
 
                 foreach($order['products'] as $product)
@@ -112,6 +116,9 @@ class OrderService
                         'tax_total' => $product['tax']['tax_total'],
                         'commission_fee' => $product['fee']['commission_fee'],
                         'commission_fee_including_tax' => $product['fee']['commission_fee_including_tax'],
+                        'tracking_number' => $product['tracking']['tracking_number'] ?? '',
+                        'tracking_supplier_name' => $product['tracking']['supplier_name'] ?? '',
+                        'tracking_url' => $product['tracking']['tracking_url'] ?? '',
                     ];
                 }
             }
@@ -178,6 +185,9 @@ class OrderService
                 'status' => $order['status'],
                 'dispatched' => $order['dispatched'],
                 'delivery_tag' => $order['delivery_tag'],
+                'tracking_number' => $order['tracking']['tracking_number'] ?? '',
+                'tracking_supplier_name' => $order['tracking']['supplier_name'] ?? '',
+                'tracking_url' => $order['tracking']['tracking_url'] ?? '',
                 //'date' => $order['date'],
                 //'site_id' => $order['site_id'],
                 //'site_name' => $order['site_name'],
@@ -209,6 +219,16 @@ class OrderService
 
             ];
             OnbuyOrderModel::where('order_id',$order['order_id'])->update($data);
+            foreach($order['products'] as $product)
+            {
+                $order_product_data = [
+                    'quantity_dispatched' => $product['quantity_dispatched'],
+                    'tracking_number' => $product['tracking']['tracking_number'] ?? '',
+                    'tracking_supplier_name' => $product['tracking']['supplier_name'] ?? '',
+                    'tracking_url' => $product['tracking']['tracking_url'] ?? '',
+                ];
+                OnbuyOrderProductModel::where('onbuy_internal_reference',$product['onbuy_internal_reference'])->update($order_product_data);
+            }
         }
         return true;
     }
