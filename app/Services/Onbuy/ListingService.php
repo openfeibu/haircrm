@@ -98,6 +98,7 @@ class ListingService
         $date = date("Y-m-d");
         if($h<setting('9'))
         {
+            echo "0";
             return false;
         }
         $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->first();
