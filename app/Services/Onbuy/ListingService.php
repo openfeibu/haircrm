@@ -94,7 +94,7 @@ class ListingService
     }
     public function restorePrice()
     {
-        $h = date("G");
+        $h = intval(date("G"));
         $date = date("Y-m-d");
         if($h<9)
         {
