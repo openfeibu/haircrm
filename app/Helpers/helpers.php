@@ -1036,5 +1036,5 @@ function getOnbuyToken()
 }
 function international_freight($weight)
 {
-    return $weight ? round($weight * 0.058 + 18,2) : 0;
+    return $weight ? round($weight * 0.065 + 16,2) : 0;
 }

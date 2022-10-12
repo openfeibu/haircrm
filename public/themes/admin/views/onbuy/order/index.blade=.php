@@ -56,38 +56,18 @@
 </script>
 <script type="text/html" id="productTEM">
     <div>
-        @{{#  layui.each(d.order_products, function(index, item){ }}
-        <p><a href="@{{ item.product_url }}" target="_blank"><img src="@{{item.image_urls.thumb}}" alt="" height="58"></a></p>
-        <p> <a href="@{{ item.product_url }}" target="_blank">@{{ item.name }}</a></p>
-        <p> sku: @{{ item.sku }} </p>
-        <p> 单价: £@{{ item.unit_price }} * 数量: @{{ item.quantity }} = £@{{ item.total_price }}</p>
-        <p> 采购价:￥@{{ item.purchase_price }} </p>
-        <p> 发货: @{{ item.expected_dispatch_date }}</p>
-        @{{#  }); }}
+        <p> <a href="@{{ d.product_url }}" target="_blank">@{{ d.name }}</a></p>
+        <p> sku: @{{ d.sku }} ; 数量: @{{ d.quantity }}</p>
+        <p> 发货: @{{ d.expected_dispatch_date }}</p>
     </div>
 </script>
 <script type="text/html" id="costTEM">
     <div>
-
         <p> 采购价: @{{ d.total_purchase_price }}</p>
         <p> 运费: @{{ d.freight_expect }} ;</p>
         <p> 总成本: @{{ d.cost }}</p>
-
     </div>
 </script>
-<script type="text/html" id="profitExpectTEM">
-    <div>
-        @{{# if(parseFloat(d.profit_expect) >= 0){ }}
-        <span>
-
-        @{{# }else{ }}
-        <span style="color:red">
-        @{{# } }}
-        @{{ d.profit_expect }}</span>
-
-    </div>
-</script>
-
 <script type="text/html" id="trackingTEM">
 
     <div>
@@ -95,14 +75,6 @@
         <p> <a href="@{{ d.tracking_url }}" target="_blank">@{{ d.tracking_number }}</a></p>
         <p> 物流公司: @{{ d.tracking_supplier_name }} </p>
         @{{# } }}
-    </div>
-</script>
-
-<script type="text/html" id="orderIdTEM">
-
-    <div>
-        <p> <a href="@{{ d.tracking_url }}" target="_blank">@{{ d.order_id }}</a></p>
-        <p> @{{ d.date }} </p>
     </div>
 </script>
 
@@ -135,13 +107,14 @@
             ,url: main_url
             ,cols: [[
                 {checkbox: true,field:'id', fixed: true}
-                ,{field:'order_id',title:'订单号',width:120, fixed: 'left',templet:'#orderIdTEM'}
-                ,{field:'goods',title:'产品', width:250,height:48,templet:'#productTEM'}
-                ,{field:'price_total',title:'总价£', width:90,height:48}
-                ,{field:'fee_total_fee_including_vat',title:'平台费£', width:90,height:48}
-                ,{field:'tax_total',title:'税费£', width:90,height:48}
-                ,{field:'cost_expect',title:'预计成本￥', width:120,height:48,templet:'#costTEM'}
-                ,{field:'profit_expect',title:'预计利润￥', width:120,height:48,templet:'#profitExpectTEM'}
+                ,{field:'order_id',title:'订单号',width:120, fixed: 'left'}
+                ,{field:'image_urls',title:'图片', width:120,templet:'#imageTEM',height:48, fixed: 'left'}
+                ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
+                ,{field:'unit_price',title:'单价£', width:90,height:48}
+                ,{field:'total_price',title:'总价£', width:90,height:48}
+                ,{field:'commission_fee_including_tax',title:'税费平台费£', width:100,height:48,templet:'<div><span style="color:red">-@{{ d.commission_fee_including_tax }}</span></div>'}
+                //,{field:'cost_expect',title:'预计成本￥', width:120,height:48,templet:'#costTEM'}
+                //,{field:'profit_expect',title:'预计利润￥', width:120,height:48}
                 ,{field:'paypal_capture_id',title:'paypal', width:120,templet:'<div><a href="https://www.paypal.com/activity/payment/@{{ d.paypal_capture_id }}" target="_blank">@{{ d.paypal_capture_id }}</a></div>',height:48}
                 ,{field:'tracking_number',title:'快递单号', width:120,height:48}
                 ,{field:'date',title:'日期',width:120}
