@@ -98,9 +98,12 @@
             ,url: main_url
             ,cols: [[
                 {checkbox: true,field:'id', fixed: true}
-                ,{field:'order_id',title:'订单号',width:150, fixed: 'left'}
-                ,{field:'image_urls',title:'图片', width:120,templet:'#imageTEM',height:48}
+                ,{field:'order_id',title:'订单号',width:120, fixed: 'left'}
+                ,{field:'image_urls',title:'图片', width:120,templet:'#imageTEM',height:48, fixed: 'left'}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
+                ,{field:'unit_price',title:'单价£', width:90,height:48}
+                ,{field:'total_price',title:'总价£', width:90,height:48}
+                ,{field:'commission_fee_including_tax',title:'税费平台费£', width:100,height:48,templet:'<div><span style="color:red">-@{{ d.commission_fee_including_tax }}</span></div>'}
                 ,{field:'paypal_capture_id',title:'paypal', width:120,templet:'<div><a href="https://www.paypal.com/activity/payment/@{{ d.paypal_capture_id }}" target="_blank">@{{ d.paypal_capture_id }}</a></div>',height:48}
                 ,{field:'tracking_number',title:'快递单号', width:120,height:48}
                 ,{field:'date',title:'日期',width:120}
