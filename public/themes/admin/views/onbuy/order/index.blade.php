@@ -101,7 +101,7 @@
 <script type="text/html" id="orderIdTEM">
 
     <div>
-        <p> <a href="@{{ d.tracking_url }}" target="_blank">@{{ d.order_id }}</a></p>
+        <p> <a href="https://seller.onbuy.com/orders/@{{ d.onbuy_internal_reference }}/" target="_blank">@{{ d.order_id }}</a></p>
         <p> @{{ d.date }} </p>
     </div>
 </script>

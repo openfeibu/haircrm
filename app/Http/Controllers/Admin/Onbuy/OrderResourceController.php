@@ -49,7 +49,7 @@ class OrderResourceController extends BaseController
 
                     }
                 });
-            $orders = $orders->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50));
+            $orders = $orders->groupBy('onbuy_orders.order_id')->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50),['onbuy_orders.*']);
 
 
             $gbp_to_rmb = (float)setting('gbp_to_rmb');
