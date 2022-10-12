@@ -1034,3 +1034,7 @@ function getOnbuyToken()
     );
     return $auth->getToken();
 }
+function international_freight($weight)
+{
+    return $weight ? round($weight * 0.058 + 18,2) : 0;
+}

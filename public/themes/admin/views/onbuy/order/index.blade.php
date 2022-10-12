@@ -1,5 +1,7 @@
 <style>
-    .layui-table-cell{height:80px;}
+    .layui-table-cell{
+        height: auto !important;
+    }
     .layui-table-header .layui-table-cell, .layui-table-tool-panel li{white-space: pre-wrap !important;}
 </style>
 <div class="main">
@@ -54,11 +56,37 @@
 </script>
 <script type="text/html" id="productTEM">
     <div>
-        <p> <a href="@{{ d.product_url }}" target="_blank">@{{ d.name }}</a></p>
-        <p> sku: @{{ d.sku }} ; 数量: @{{ d.quantity }}</p>
-        <p> 发货: @{{ d.expected_dispatch_date }}</p>
+        @{{#  layui.each(d.order_products, function(index, item){ }}
+        <p><a href="@{{ item.product_url }}" target="_blank"><img src="@{{item.image_urls.thumb}}" alt="" height="58"></a></p>
+        <p> <a href="@{{ item.product_url }}" target="_blank">@{{ item.name }}</a></p>
+        <p> sku: @{{ item.sku }} </p>
+        <p> 单价: £@{{ item.unit_price }} * 数量: @{{ item.quantity }} = £@{{ item.total_price }}</p>
+        <p> 发货: @{{ item.expected_dispatch_date }}</p>
+        @{{#  }); }}
     </div>
 </script>
+<script type="text/html" id="costTEM">
+    <div>
+
+        <p> 采购价: @{{ d.total_purchase_price }}</p>
+        <p> 运费: @{{ d.freight_expect }} ;</p>
+        <p> 总成本: @{{ d.cost }}</p>
+
+    </div>
+</script>
+<script type="text/html" id="profitExpectTEM">
+    <div>
+        @{{# if(parseFloat(d.profit_expect) >= 0){ }}
+        <span>
+
+        @{{# }else{ }}
+        <span style="color:red">
+        @{{# } }}
+        @{{ d.profit_expect }}</span>
+
+    </div>
+</script>
+
 <script type="text/html" id="trackingTEM">
 
     <div>
@@ -66,6 +94,14 @@
         <p> <a href="@{{ d.tracking_url }}" target="_blank">@{{ d.tracking_number }}</a></p>
         <p> 物流公司: @{{ d.tracking_supplier_name }} </p>
         @{{# } }}
+    </div>
+</script>
+
+<script type="text/html" id="orderIdTEM">
+
+    <div>
+        <p> <a href="@{{ d.tracking_url }}" target="_blank">@{{ d.order_id }}</a></p>
+        <p> @{{ d.date }} </p>
     </div>
 </script>
 
@@ -98,12 +134,13 @@
             ,url: main_url
             ,cols: [[
                 {checkbox: true,field:'id', fixed: true}
-                ,{field:'order_id',title:'订单号',width:120, fixed: 'left'}
-                ,{field:'image_urls',title:'图片', width:120,templet:'#imageTEM',height:48, fixed: 'left'}
-                ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
-                ,{field:'unit_price',title:'单价£', width:90,height:48}
-                ,{field:'total_price',title:'总价£', width:90,height:48}
-                ,{field:'commission_fee_including_tax',title:'税费平台费£', width:100,height:48,templet:'<div><span style="color:red">-@{{ d.commission_fee_including_tax }}</span></div>'}
+                ,{field:'order_id',title:'订单号',width:120, fixed: 'left',templet:'#orderIdTEM'}
+                ,{field:'goods',title:'产品', width:250,height:48,templet:'#productTEM'}
+                ,{field:'price_total',title:'总价£', width:90,height:48}
+                ,{field:'fee_total_fee_including_vat',title:'平台费£', width:90,height:48}
+                ,{field:'tax_total',title:'税费£', width:90,height:48}
+                ,{field:'cost_expect',title:'预计成本￥', width:120,height:48,templet:'#costTEM'}
+                ,{field:'profit_expect',title:'预计利润￥', width:120,height:48,templet:'#profitExpectTEM'}
                 ,{field:'paypal_capture_id',title:'paypal', width:120,templet:'<div><a href="https://www.paypal.com/activity/payment/@{{ d.paypal_capture_id }}" target="_blank">@{{ d.paypal_capture_id }}</a></div>',height:48}
                 ,{field:'tracking_number',title:'快递单号', width:120,height:48}
                 ,{field:'date',title:'日期',width:120}
@@ -117,7 +154,23 @@
             ,cellMinWidth :'180'
             ,done:function (res, curr, count) {
                 element.init();
-                merge(res);//合并单元格
+                //merge(res);//合并单元格
+                //设置工具栏表头高度
+                $(".layui-table-header").eq(1).find("table").height($(".layui-table-header").eq(0).height()+1);
+                $(".layui-table-header").eq(2).find("table").height($(".layui-table-header").eq(0).height()+1);
+                //设置工具栏按钮栏高度
+                $(".layui-table").eq(1).find("tr").each(function(index,ele){
+                    $(".layui-table-body").eq(1).find("tr").eq(index).height($(ele).height());
+                });
+
+                // 该方法用于解决,使用fixed固定列后,行高和其他列不一致的问题
+                $(".layui-table-main  tr").each(function (index, val) {
+                    console.log($(val).html());
+                    $($(".layui-table-fixed .layui-table-body tbody tr")[index]).height($(val).height());
+                });
+                $(".layui-table-fixed-r  tr").each(function (index, val) {
+                    $($(".layui-table-fixed-r .layui-table-body tbody tr")[index]).height($($(".layui-table-main  tr")[index]).height());
+                });
             }
         });
         //监听工具条

@@ -100,6 +100,7 @@
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
                 ,{field:'purchase_url',title:'采购链接', width:180, edit:'text'}
+                ,{field:'purchase_price',title:'采购价',width:90}
                 ,{field:'total_quantity',title:'销售量',width:90, fixed: 'right' ,sort:true}
                 ,{field:'inventory',title:'库存',width:80, edit:'text', fixed: 'right',sort:true}
                 ,{field:'out_inventory',title:'总出货',width:90,  edit:'text', fixed: 'right',sort:true}

@@ -25,7 +25,79 @@ class OrderResourceController extends BaseController
     {
         if ($this->response->typeIs('json')) {
             $search = $request->get('search',[]);
-            $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')->when($search ,function ($query) use ($search){
+            $orders = OnbuyOrderModel::join('onbuy_order_products','onbuy_orders.order_id','=','onbuy_order_products.order_id')
+                ->when($search ,function ($query) use ($search){
+                    foreach($search as $field => $value)
+                    {
+                        if($value)
+                        {
+                            switch ($field)
+                            {
+                                case 'onbuy_order_products.sku':
+                                    $query->where('onbuy_order_products.sku',$value);
+                                    break;
+                                case 'date':
+                                    $date = explode('~', $value);
+                                    $query->where('onbuy_orders.date','>=', $date[0].' 00:00:00')->where('onbuy_orders.date','<=', $date[1]." 23:59:59");
+                                    break;
+                                default :
+                                    $query->where($field,'like','%'.$value.'%');
+                                    break;
+                            }
+
+                        }
+
+                    }
+                });
+            $orders = $orders->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50));
+
+
+            $gbp_to_rmb = (float)setting('gbp_to_rmb');
+
+            foreach ($orders as $key=> $order)
+            {
+
+                $order_products = OnbuyOrderProductModel::join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')->where('onbuy_order_products.order_id',$order->order_id)->get(['onbuy_order_products.image_urls','onbuy_order_products.name','onbuy_order_products.sku','onbuy_order_products.expected_dispatch_date','onbuy_order_products.quantity','onbuy_order_products.tracking_number','onbuy_order_products.tracking_supplier_name','onbuy_order_products.tracking_url','onbuy_order_products.unit_price','onbuy_order_products.total_price','onbuy_order_products.commission_fee_including_tax','onbuy_products.product_url','onbuy_products.purchase_price','onbuy_products.weight']);
+                $weight = 0;
+                $total_purchase_price = 0;
+                foreach ($order_products as $product_key => $order_product)
+                {
+                    $order_product->total_purchase_price = $order_product->purchase_price *  $order_product->quantity;
+                    $weight += $order_product->weight ? $order_product->weight * $order_product->quantity : 0;
+                    $total_purchase_price += $order_product->total_purchase_price;
+                }
+                $order->weight = $weight;
+                $order->total_purchase_price = $total_purchase_price;
+                $order->order_products = $order_products;
+                $order->freight_expect = international_freight($weight);
+                $order->cost = $total_purchase_price+$order->freight_expect;
+
+                $price_gbp_to_rmb = round(($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total) * $gbp_to_rmb,2);
+
+                $order->profit_expect = round($price_gbp_to_rmb - $order->cost,2);
+
+
+            }
+
+            return $this->response
+                ->success()
+                ->count($orders->total())
+                ->data($orders->toArray()['data'])
+                ->output();
+
+        }
+
+        return $this->response->title("onbuy 订单")
+            ->view('onbuy.order.index')
+            ->data(['limit' => $request->get('limit',50)])
+            ->output();
+
+        exit;
+        if ($this->response->typeIs('json')) {
+            $search = $request->get('search',[]);
+            $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
+                ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
+                ->when($search ,function ($query) use ($search){
                 foreach($search as $field => $value)
                 {
                     if($value)
@@ -48,10 +120,22 @@ class OrderResourceController extends BaseController
 
                 }
             });
-            $order_products = $order_products->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50),['onbuy_orders.order_id','onbuy_orders.paypal_capture_id','onbuy_orders.date','onbuy_orders.status','onbuy_order_products.image_urls','onbuy_order_products.name','onbuy_order_products.sku','onbuy_order_products.expected_dispatch_date','onbuy_order_products.quantity','onbuy_order_products.tracking_number','onbuy_order_products.tracking_supplier_name','onbuy_order_products.tracking_url','onbuy_order_products.unit_price','onbuy_order_products.total_price','onbuy_order_products.commission_fee_including_tax']);
+            $order_products = $order_products->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50),['onbuy_orders.order_id','onbuy_orders.paypal_capture_id','onbuy_orders.date','onbuy_orders.status','onbuy_order_products.image_urls','onbuy_order_products.name','onbuy_order_products.sku','onbuy_order_products.expected_dispatch_date','onbuy_order_products.quantity','onbuy_order_products.tracking_number','onbuy_order_products.tracking_supplier_name','onbuy_order_products.tracking_url','onbuy_order_products.unit_price','onbuy_order_products.total_price','onbuy_order_products.commission_fee_including_tax','onbuy_products.product_url','onbuy_products.purchase_price','onbuy_products.weight']);
+            $gbp_to_rmb = (float)setting('gbp_to_rmb');
+
             foreach ($order_products as $key=> $order_product)
             {
-                $order_product->product_url = OnbuyProductModel::where('sku',$order_product['sku'])->value('product_url');
+
+                $order_product->total_purchase_price = $order_product->purchase_price *  $order_product->quantity;
+
+                $order_product->freight_expect = international_freight($order_product->weight * $order_product->quantity);
+
+                $order_product->cost = $order_product->total_purchase_price + $order_product->purchase_price;
+
+                $price_gbp_to_rmb = round(($order_product->total_price - $order_product->commission_fee_including_tax) * $gbp_to_rmb,2);
+
+                $order_product->profit_expect = round($price_gbp_to_rmb - $order_product->cost,2);
+
             }
 
             return $this->response
@@ -73,7 +157,7 @@ class OrderResourceController extends BaseController
             $search = $request->get('search',[]);
             $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                 ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
-                ->selectRaw("onbuy_order_products.*,SUM(onbuy_order_products.quantity) as total_quantity, (SUM(onbuy_order_products.quantity) - `onbuy_products`.`out_inventory`) as need_out, onbuy_products.product_url,onbuy_products.inventory,onbuy_products.out_inventory,onbuy_products.id as product_id,onbuy_products.purchase_url")
+                ->selectRaw("onbuy_order_products.*,SUM(onbuy_order_products.quantity) as total_quantity, (SUM(onbuy_order_products.quantity) - `onbuy_products`.`out_inventory`) as need_out, onbuy_products.product_url,onbuy_products.inventory,onbuy_products.out_inventory,onbuy_products.id as product_id,onbuy_products.purchase_url,onbuy_products.purchase_price")
                 ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
                 //->whereRaw('need_out > 0')
                 ->when($search ,function ($query) use ($search){

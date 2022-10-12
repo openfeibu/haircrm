@@ -48,7 +48,7 @@ class ListingResourceController extends BaseController
                 $product->min_price_expect = round($product->min_price * (1-$onbuy_fee )* $gbp_to_rmb, 2);
 
                 $product->original_price_expect = round($product->original_price * (1-$onbuy_fee) * $gbp_to_rmb, 2);
-                $product->freight_expect = $product->weight ? round($product->weight * 0.058 + 18,2) : 0;
+                $product->freight_expect =  international_freight($product->weight);
 
                 $product->cost = $product->freight_expect + $product->purchase_price;
                 $product->min_price_advice =  round($product->cost / $gbp_to_rmb / (1-$onbuy_fee),2);
