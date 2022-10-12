@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
         $schedule->command('mail_schedule:auto')->everyMinute();
         $schedule->command('pricing:auto')->everyFiveMinutes();
-        $schedule->command('restore_price:auto')->everyThirtyMinutes();
+        $schedule->command('restore_price:auto')->everyTenMinutes();
         $schedule->command('onbuy_order_sync:auto')->hourly();
         $schedule->command('onbuy_order_sync_update:auto')->hourly()->between('10:00', '13:00');
     }

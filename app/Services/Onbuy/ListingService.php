@@ -96,7 +96,7 @@ class ListingService
     {
         $h = date("G");
         $date = date("Y-m-d");
-        if($h<setting('9'))
+        if($h<9)
         {
             echo "0";
             return false;
