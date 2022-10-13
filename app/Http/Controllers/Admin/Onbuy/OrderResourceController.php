@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Onbuy;
 
+use App\Exports\Onbuy\OrderExpressYanwenExport;
 use App\Http\Controllers\Admin\Onbuy\BaseController;
 use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\Order as OnbuyOrderModel;
@@ -12,6 +13,7 @@ use Xigen\Library\OnBuy\Product\Listing;
 use Xigen\Library\OnBuy\Order\Order;
 use App\Services\Onbuy\OrderService;
 use DB;
+use Excel;
 
 class OrderResourceController extends BaseController
 {
@@ -328,6 +330,14 @@ class OrderResourceController extends BaseController
                 ->redirect();
         }
     }
+    public function exportExpressYanwen(Request $request)
+    {
+        $data = $request->all();
+        $ids = $data['ids'] ?? ['130','180'];
+        $name = '燕文物流'.date('YmdHis').'.xlsx';
+        $search = $request->input('search',[]);
+        return Excel::download(new OrderExpressYanwenExport($ids,$search), $name);
+    }
     public function getWinning()
     {
         $this->list_service->restorePrice();
@@ -353,4 +363,5 @@ class OrderResourceController extends BaseController
         ]);
         var_dump($listing->getResponse());exit;
     }
+
 }

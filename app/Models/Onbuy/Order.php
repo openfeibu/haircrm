@@ -19,6 +19,6 @@ class Order extends BaseModel
 
     public function getDeliveryAddressAttribute($value)
     {
-        return json_decode($value);
+        return json_decode($value, true);
     }
 }

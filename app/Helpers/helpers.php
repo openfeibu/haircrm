@@ -1038,3 +1038,13 @@ function international_freight($weight)
 {
     return $weight ? round($weight * 0.065 + 16,2) : 0;
 }
+
+function excel_column_out_arr($count)
+{
+    $arr = [];
+    for ($i=1;$i<=$count;$i++)
+    {
+        $arr[$i] = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($i);
+    }
+    return $arr;
+}
