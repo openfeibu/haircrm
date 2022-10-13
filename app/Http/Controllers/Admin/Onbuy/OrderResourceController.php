@@ -53,7 +53,7 @@ class OrderResourceController extends BaseController
 
 
             $gbp_to_rmb = (float)setting('gbp_to_rmb');
-
+            $profit_expect = 0;
             foreach ($orders as $key=> $order)
             {
 
@@ -74,15 +74,16 @@ class OrderResourceController extends BaseController
 
                 $price_gbp_to_rmb = round(($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total) * $gbp_to_rmb,2);
 
-                $order->profit_expect = round($price_gbp_to_rmb - $order->cost,2);
+                $order->profit_expect = $order->status == "Refunded" ? 0 : round($price_gbp_to_rmb - $order->cost,2);
 
-
+                $profit_expect += $order->profit_expect;
             }
-
+            $profit_expect = round($profit_expect ,2);
             return $this->response
                 ->success()
                 ->count($orders->total())
                 ->data($orders->toArray()['data'])
+                ->totalRow(compact('profit_expect'))
                 ->output();
 
         }

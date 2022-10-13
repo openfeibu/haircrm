@@ -7,6 +7,7 @@ use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\ProductBid as OnbuyProductBidModel;
 use App\Models\Onbuy\ProductBidTask as OnbuyProductBidTaskModel;
 use App\Models\Onbuy\OrderProduct as OnbuyOrderProductModel;
+use App\Models\Onbuy\ProductBidTask;
 use Illuminate\Http\Request;
 use Xigen\Library\OnBuy\Product\Product;
 use Xigen\Library\OnBuy\Product\Listing;
@@ -62,6 +63,8 @@ class ListingResourceController extends BaseController
                     ->where('onbuy_order_products.sku',$product->sku)
                     ->value('total_quantity') ?: 0;
                 $product->need_purchase = $product->total_quantity - $product->inventory - $product->out_inventory;
+
+                $product->is_auto_pricing = ProductBidTask::where('sku',$product->sku)->value('id') ? 1 : 0;
             }
             return $this->response
                 ->success()

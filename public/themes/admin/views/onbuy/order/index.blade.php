@@ -189,7 +189,7 @@
                 ,{field:'paypal_capture_id',title:'paypal', width:120,templet:'<div><a href="https://www.paypal.com/activity/payment/@{{ d.paypal_capture_id }}" target="_blank">@{{ d.paypal_capture_id }}</a></div>',height:48}
                 ,{field:'tracking_number',title:'快递单号', width:120,height:48}
                 ,{field:'price_detail',title:'费用明细', width:150,height:48,templet:'#priceDetailTEM'}
-//                ,{field:'profit_expect',title:'预计利润￥', width:120,height:48,templet:'#profitExpectTEM'}
+                ,{field:'profit_expect',title:'预计利润￥', width:120,height:48,templet:'#profitExpectTEM', totalRow: true}
 //                ,{field:'price_total',title:'总价£', width:90,height:48}
 //                ,{field:'fee_total_fee_including_vat',title:'平台费£', width:90,height:48}
 //                ,{field:'tax_total',title:'税费£', width:90,height:48}
@@ -204,6 +204,7 @@
             ,limit: '{{ $limit }}'
             ,height: 'full-200'
             ,cellMinWidth :'180'
+            ,totalRow: true //开启合计行
             ,done:function (res, curr, count) {
                 element.init();
                 //merge(res);//合并单元格
