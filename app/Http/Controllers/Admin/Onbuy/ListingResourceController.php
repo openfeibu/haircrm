@@ -241,9 +241,18 @@ class ListingResourceController extends BaseController
         }
 
     }
+    public function restorePrice()
+    {
+        $this->list_service->restorePrice(true);
+        return $this->response->message(trans('messages.operation.success'))
+            ->code(0)
+            ->status('success')
+            ->url(guard_url('onbuy/listing'))
+            ->redirect();
+    }
     public function getWinning()
     {
-        $this->list_service->restorePrice();
+        //$this->list_service->restorePrice();
         exit;
         $this->list_service->automatic();
         exit;

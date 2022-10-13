@@ -92,41 +92,50 @@ class ListingService
         echo "success";
         return $listing->getResponse();
     }
-    public function restorePrice()
+    public function restorePrice($is_manual=false)
     {
-        $h = intval(date("G"));
         $date = date("Y-m-d");
-        if($h<9)
+        if($is_manual)
         {
-            echo "0";
-            return false;
-        }
-        $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->first();
-        if($schedule)
-        {
-            if($schedule->success)
-            {
-                echo "0";
-                return true;
-            }
-        }else{
+
             $schedule = Schedule::create([
                 'name' => 'restore_onbuy_price',
                 'date' => $date,
                 'success' => 0,
             ]);
+        }else
+        {
+            $h = intval(date("G"));
+
+            if($h<9)
+            {
+                return false;
+            }
+            $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->first();
+            if($schedule)
+            {
+                if($schedule->success)
+                {
+                    return true;
+                }
+            }else{
+                $schedule = Schedule::create([
+                    'name' => 'restore_onbuy_price',
+                    'date' => $date,
+                    'success' => 0,
+                ]);
+            }
         }
 
         $product_bid_ids = ProductBid::where('active',1)->pluck('id')->toArray();
         if(!$product_bid_ids)
         {
-            echo "0";
             return true;
         }
         $this->restorePriceHandle($product_bid_ids);
         $schedule->success = 1;
         $schedule->save();
-        echo "success";
+        return true;
     }
     public function restorePriceHandle($product_bid_ids, $offset=0, $limit=50)
     {
@@ -139,7 +148,6 @@ class ListingService
             ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price','onbuy_products.original_price'])->toArray();
         if(!$tasks)
         {
-            echo "0";
             return true;
         }
 
@@ -160,6 +168,6 @@ class ListingService
         $listing->updateListingBySku($data);
         DB::commit();
         $this->restorePriceHandle($product_bid_ids, $offset+$limit);
-
+        return true;
     }
 }

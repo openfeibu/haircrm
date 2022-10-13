@@ -162,6 +162,7 @@ Route::group([
         Route::post('listing/sync', 'ListingResourceController@sync');
         Route::get('listing/handle/getWinning', 'ListingResourceController@getWinning');
         Route::post('listing/automatic', 'ListingResourceController@automatic');
+        Route::post('listing/restore_price', 'ListingResourceController@restorePrice');
         //Route::post('listing/restore_price', 'ListingResourceController@restorePrice');
 
         Route::resource('order', 'OrderResourceController');

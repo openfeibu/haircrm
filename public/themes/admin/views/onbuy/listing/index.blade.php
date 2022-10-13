@@ -17,7 +17,10 @@
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync" data-events="sync">从Onbuy同步新产品</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="automatic" data-events="automatic">自动化定价</button>
                     <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
+                    <button class="layui-btn layui-btn-warm " type="button" data-type="restore_price" data-events="restore_price">自动化全部还原价</button>
                 </div>
+            </div>
+            <div class="tabel-message">
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="sku" id="demoReload" placeholder="sku" autocomplete="off">
                 </div>
@@ -448,6 +451,25 @@
                             }
                         });
                     }
+                });
+            },
+            restore_price:function () {
+                layer.confirm('是否还原(该还原只会还原自动化定价的产品)',{title:'提示'},function(index) {
+                    layer.close(index);
+                    var load = layer.load();
+                    $.ajax({
+                        url: main_url + '/restore_price',
+                        data: {'_token' : "{!! csrf_token() !!}"},
+                        type: 'POST',
+                        success: function (data) {
+                            layer.closeAll();
+                            layer.msg(data.msg);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            layer.close(load);
+                            $.ajax_error(jqXHR, textStatus, errorThrown);
+                        }
+                    });
                 });
             }
         };
