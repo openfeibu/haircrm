@@ -16,4 +16,9 @@ class Order extends BaseModel
     protected $config = 'model.onbuy.order';
 
     public $timestamps = false;
+
+    public function getDeliveryAddressAttribute($value)
+    {
+        return json_decode($value);
+    }
 }

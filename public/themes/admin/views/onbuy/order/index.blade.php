@@ -48,8 +48,12 @@
     </div>
 </div>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-sm" href="{{ guard_url('onbuy/order') }}/@{{ d.order_id }}">{{ trans('app.edit') }}</a>
-    <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
+    <p>
+        <span>@{{ d.status }}</span>
+    </p>
+    <p>
+        <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
+    </p>
 </script>
 <script type="text/html" id="imageTEM">
     <a href="@{{ d.product_url }}" target="_blank"><img src="@{{d.image_urls.thumb}}" alt="" height="58"></a>
@@ -66,11 +70,31 @@
         @{{#  }); }}
     </div>
 </script>
+
+<script type="text/html" id="priceDetailTEM">
+    <div>
+        <p> 总价: £@{{ d.price_total }}</p>
+        <p> 平台费: £@{{ d.fee_total_fee_including_vat }}</p>
+        <p> 税费: £@{{ d.tax_total ?? 0 }}</p>
+        <p> 采购价: ￥@{{ d.total_purchase_price }}</p>
+        <p> 预计运费: ￥@{{ d.freight_expect }} </p>
+        <p> 预计总成本: ￥@{{ d.cost }}</p>
+        <p> 预计利润:
+            @{{# if(parseFloat(d.profit_expect) >= 0){ }}
+                <span>
+
+            @{{# }else{ }}
+                <span style="color:red">
+            @{{# } }}
+                @{{ d.profit_expect }}</span>
+        </p>
+    </div>
+</script>
 <script type="text/html" id="costTEM">
     <div>
 
         <p> 采购价: @{{ d.total_purchase_price }}</p>
-        <p> 运费: @{{ d.freight_expect }} ;</p>
+        <p> 运费: @{{ d.freight_expect }} </p>
         <p> 总成本: @{{ d.cost }}</p>
 
     </div>
@@ -106,6 +130,29 @@
     </div>
 </script>
 
+<script type="text/html" id="customerTEM">
+
+    <div>
+        <p> @{{ d.buyer_name }}</p>
+        <p> @{{ d.buyer_email }} </p>
+        <p> @{{ d.buyer_phone }} </p>
+    </div>
+</script>
+
+<script type="text/html" id="deliveryAddressTEM">
+
+    <div>
+        <p> 名字 @{{ d.delivery_address.name }}</p>
+        <p> 行1: @{{  d.delivery_address.line_1 }} </p>
+        <p> 行2: @{{  d.delivery_address.line_2 }} </p>
+        <p> 行3: @{{  d.delivery_address.line_3 }} </p>
+        <p> 乡镇: @{{  d.delivery_address.town }} </p>
+        <p> 城市: @{{  d.delivery_address.county }} </p>
+        <p> 邮编: @{{  d.delivery_address.postcode }} </p>
+        <p> 国家: @{{  d.delivery_address.country }}  @{{  d.delivery_address.country_code }}</p>
+    </div>
+</script>
+
 <script>
     var main_url = "{{guard_url('onbuy/order')}}";
     var delete_all_url = "{{guard_url('onbuy/order/destroyAll')}}";
@@ -137,16 +184,20 @@
                 {checkbox: true,field:'id', fixed: true}
                 ,{field:'order_id',title:'订单号',width:120, fixed: 'left',templet:'#orderIdTEM'}
                 ,{field:'goods',title:'产品', width:250,height:48,templet:'#productTEM'}
-                ,{field:'price_total',title:'总价£', width:90,height:48}
-                ,{field:'fee_total_fee_including_vat',title:'平台费£', width:90,height:48}
-                ,{field:'tax_total',title:'税费£', width:90,height:48}
-                ,{field:'cost_expect',title:'预计成本￥', width:120,height:48,templet:'#costTEM'}
-                ,{field:'profit_expect',title:'预计利润￥', width:120,height:48,templet:'#profitExpectTEM'}
+                ,{field:'customer',title:'客户', width:150,height:48,templet:'#customerTEM'}
+                ,{field:'delivery_address',title:'地址', width:200,height:48,templet:'#deliveryAddressTEM'}
                 ,{field:'paypal_capture_id',title:'paypal', width:120,templet:'<div><a href="https://www.paypal.com/activity/payment/@{{ d.paypal_capture_id }}" target="_blank">@{{ d.paypal_capture_id }}</a></div>',height:48}
                 ,{field:'tracking_number',title:'快递单号', width:120,height:48}
+                ,{field:'price_detail',title:'费用明细', width:150,height:48,templet:'#priceDetailTEM'}
+//                ,{field:'profit_expect',title:'预计利润￥', width:120,height:48,templet:'#profitExpectTEM'}
+//                ,{field:'price_total',title:'总价£', width:90,height:48}
+//                ,{field:'fee_total_fee_including_vat',title:'平台费£', width:90,height:48}
+//                ,{field:'tax_total',title:'税费£', width:90,height:48}
+//                ,{field:'cost_expect',title:'预计成本￥', width:120,height:48,templet:'#costTEM'}
+
                 ,{field:'date',title:'日期',width:120}
                 ,{field:'status',title:'订单状态',width:200}
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:150, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true

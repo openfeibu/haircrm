@@ -123,9 +123,18 @@ class ListingService
             echo "0";
             return true;
         }
+        $this->restorePriceHandle($product_bid_ids);
+        $schedule->success = 1;
+        $schedule->save();
+        echo "success";
+    }
+    public function restorePriceHandle($product_bid_ids, $offset=0, $limit=50)
+    {
         $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
             ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
             ->where('onbuy_products.min_price','<>',0)
+            ->offset($offset)
+            ->limit($limit)
             ->groupBy('onbuy_product_bid_tasks.sku')
             ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price','onbuy_products.original_price'])->toArray();
         if(!$tasks)
@@ -150,11 +159,7 @@ class ListingService
         $listing = new Listing($onbuy_token);
         $listing->updateListingBySku($data);
         DB::commit();
-        echo "success";
+        $this->restorePriceHandle($product_bid_ids, $offset+$limit);
 
-        $schedule->success = 1;
-        $schedule->save();
-
-        var_dump($listing->getResponse());exit;
     }
 }
