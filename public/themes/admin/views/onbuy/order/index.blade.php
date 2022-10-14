@@ -25,6 +25,15 @@
             </div>
             <div class="tabel-message">
                 <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <select name="onbuy_orders.status" class="search_key layui-select">
+                        <option value="">全部</option>
+                        @foreach(config('model.onbuy.order.status') as $key => $status)
+                            <option value="{{ $status }}">{{ $status }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="layui-inline">
                     <label class="layui-form-label">下单日期 *</label>
                     <div class="layui-input-block">
                         <input type="text" name="onbuy_orders.date" id="date" class="layui-input search_key">

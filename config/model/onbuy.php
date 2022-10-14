@@ -83,6 +83,7 @@ return [
         'search'        => [
             'name'  => 'like',
         ],
+        'status' => ['Awaiting Dispatch','Dispatched','Refunded','Complete','Cancelled','Cancelled By Seller','Cancelled By Buyer','Partially Dispatched','Partially Refunded']
     ],
 
     'order_product'     => [
