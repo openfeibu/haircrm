@@ -38,11 +38,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('mail_schedule:auto')->everyMinute();
-        $schedule->command('pricing:auto')->everyFiveMinutes();
-        $schedule->command('restore_price:auto')->everyFiveMinutes();
-        $schedule->command('onbuy_order_sync:auto')->hourly();
-        $schedule->command('onbuy_order_sync_update:auto')->hourly()->between('10:00', '13:00');
+        $schedule->command('mail_schedule:auto')->everyMinute()->withoutOverlapping();;
+        $schedule->command('pricing:auto')->everyFiveMinutes()->withoutOverlapping();;
+        $schedule->command('restore_price:auto')->everyFiveMinutes()->withoutOverlapping();;
+        $schedule->command('onbuy_order_sync:auto')->hourly()->withoutOverlapping();;
+        $schedule->command('onbuy_order_sync_update:auto')->hourly()->between('10:00', '13:00')->withoutOverlapping();;
     }
 
     /**
