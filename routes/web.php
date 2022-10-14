@@ -169,6 +169,7 @@ Route::group([
         Route::post('order/sync', 'OrderResourceController@sync');
         Route::post('order/sync_update', 'OrderResourceController@syncUpdate');
         Route::get('order/export/express_yanwen', 'OrderResourceController@exportExpressYanwen');
+        Route::post('order/import/express', 'OrderResourceController@importExpress');
 
         Route::get('order_products', 'OrderResourceController@products')->name('order.products');
     });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Onbuy;
 
 use App\Exports\Onbuy\OrderExpressYanwenExport;
 use App\Http\Controllers\Admin\Onbuy\BaseController;
+use App\Imports\Onbuy\OrderExpressImport;
 use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\Order as OnbuyOrderModel;
 use App\Models\Onbuy\OrderProduct as OnbuyOrderProductModel;
@@ -337,6 +338,149 @@ class OrderResourceController extends BaseController
         $name = '燕文物流'.date('YmdHis').'.xlsx';
         $search = $request->input('search',[]);
         return Excel::download(new OrderExpressYanwenExport($ids,$search), $name);
+    }
+    public function importExpress(Request $request)
+    {
+
+        set_time_limit(0);
+        $file = $request->file;
+        isVaildExcel($file);
+        $res = (new OrderExpressImport())->toArray($file)[0];
+        $res = array_filter($res);
+        $all_sheet_count = count($res);
+
+        $excel_key_arr = config('model.onbuy.order.excel');
+
+        $items = [];
+
+        $header_arr = $res[0];
+        $header_keys = [];
+
+        $flip_header_arr = array_flip($res[0]);
+
+        foreach ($excel_key_arr as $key => $header)
+        {
+            //var_dump( isset($flip_header_arr[$key]));
+            $header_keys[$header] = isset($flip_header_arr[$key]) ? $flip_header_arr[$key] : '';
+
+        }
+
+        $data = [];
+        $salesmen = [];
+        $success_count=0;
+        $count = $all_sheet_count-1;
+
+        for ($i=1;$i<$all_sheet_count;$i++)
+        {
+            if($res[$i])
+            {
+                foreach ($header_keys as $header_key => $header_i) {
+                    $data[$i][$header_key] = $res[$i][$header_i] ?? '';
+                }
+                $data[$i]['tracking_supplier_name'] = $data[$i]['tracking_supplier_name'] ?: 'Unknown';
+                $data[$i]['tracking_url'] = $data[$i]['tracking_url'] ?: 'https://track.yw56.com.cn/en/querydel';
+            }
+        }
+        DB::beginTransaction();
+        try{
+            if(!count($data))
+            {
+                return $this->response->message(trans("messages.excel.not_found_data"))
+                    ->status("success")
+                    ->code(400)
+                    ->url(guard_url('onbuy/order'))
+                    ->redirect();
+            }
+
+            $dispatch_orders = [];
+            foreach($data as $key => $express)
+            {
+                $dispatch_orders[$key] = [
+                    'order_id' => $express['order_id'],
+                    "tracking" => [
+                        //"tracking_id" => "bar",
+                        "supplier_name" =>  $express['tracking_supplier_name'],
+                        "number" =>  $express['tracking_number'],
+                        "url" =>  $express['tracking_url'],
+                    ]
+                ];
+
+                $return = OnbuyOrderModel::where('status','Awaiting Dispatch')
+                    ->where('order_id',$express['order_id'])
+                    ->update([
+                        'tracking_number' => $express['tracking_number'],
+                        'tracking_supplier_name' => $express['tracking_supplier_name'],
+                        'tracking_url' => $express['tracking_url'],
+                        'status' => 'Dispatched'
+                    ]);
+                if($return)
+                {
+                    OnbuyOrderProductModel::where('status','Awaiting Dispatch')
+                        ->where('order_id',$express['order_id'])
+                        ->update([
+                            'tracking_number' => $express['tracking_number'],
+                            'tracking_supplier_name' => $express['tracking_supplier_name'],
+                            'tracking_url' => $express['tracking_url'],
+                        ]);
+                }
+
+                $success_count++;
+            }
+            $onbuy_token = getOnbuyToken();
+            $order = new Order($onbuy_token);
+            $order->dispatchOrder($dispatch_orders);
+            $res = $order->getResponse();
+            if($res['success'])
+            {
+                DB::commit();
+                return $this->response->message("共发现".$count."条数据，排除空行后共成功导入".$success_count."条")
+                    ->status("success")
+                    ->code(0)
+                    ->url(guard_url('onbuy/order'))
+                    ->redirect();
+            }else{
+                return $this->response->message("上传数据失败")
+                    ->status("success")
+                    ->code(400)
+                    ->url(guard_url('onbuy/order'))
+                    ->redirect();
+            }
+
+        }
+        catch (Exception $e) {
+            DB::rollback();
+            return $this->response->message("上传数据失败")
+                ->status("success")
+                ->code(400)
+                ->url(guard_url('onbuy/order'))
+                ->redirect();
+        }
+
+
+
+        if(!count($data))
+        {
+            return $this->response->message(trans("messages.excel.not_found_data"))
+                ->status("success")
+                ->code(400)
+                ->url(guard_url('customer_import'))
+                ->redirect();
+        }
+        if($insert_res)
+        {
+            return $this->response->message("共发现".$count."条数据，排除空行后共成功导入".$success_count."条")
+                ->status("success")
+                ->code(0)
+                ->url(guard_url('customer'))
+                ->redirect();
+        }else{
+            return $this->response->message("上传数据失败")
+                ->status("success")
+                ->code(400)
+                ->url(guard_url('customer_import'))
+                ->redirect();
+        }
+
     }
     public function getWinning()
     {

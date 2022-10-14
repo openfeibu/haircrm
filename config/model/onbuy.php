@@ -83,7 +83,13 @@ return [
         'search'        => [
             'name'  => 'like',
         ],
-        'status' => ['Awaiting Dispatch','Dispatched','Refunded','Complete','Cancelled','Cancelled By Seller','Cancelled By Buyer','Partially Dispatched','Partially Refunded']
+        'status' => ['Awaiting Dispatch','Dispatched','Refunded','Complete','Cancelled','Cancelled By Seller','Cancelled By Buyer','Partially Dispatched','Partially Refunded'],
+        'excel' => [
+            '订单号' =>  'order_id',
+            '运单号' => 'tracking_number',
+            '查询链接'=>'tracking_url',
+            '快递公司' => 'tracking_supplier_name',
+        ],
     ],
 
     'order_product'     => [

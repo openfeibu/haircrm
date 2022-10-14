@@ -18,6 +18,7 @@
                 <div class="layui-inline tabel-btn">
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync" data-events="sync">从Onbuy同步新订单</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync_update" data-events="sync_update">从Onbuy同步更新订单</button>
+                    <button class="layui-btn layui-btn-warm " type="button" data-type="import_express_excel" data-events="import_express_excel">导入 快递信息</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_yanwen_excel" data-events="export_yanwen_excel">下载 燕文Excel</button>
                     <!--<button class="layui-btn layui-btn-warm " data-type="mark_purchase" data-events="mark_purchase">标记为已拿货</button>-->
                     <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
@@ -60,7 +61,24 @@
         </div>
     </div>
 </div>
-
+<div class="tabel-message" id="import_express_content" style="display: none;">
+    <form class="form-horizontal" method="POST" action="{{ guard_url('onbuy/order/import/express') }}" enctype="multipart/form-data"  id="import_express_form" lay-filter="import_express_form">
+        <div class="layui-row layui-col-space10">
+            <div class="tabel-btn layui-col-md12">
+                <button class="layui-btn layui-btn-warm "><a href="{{url('image/original/system/onbuy_order_import_express_template.xlsx')}}">下载模板</a></button>
+            </div>
+            <div class="tabel-btn layui-col-md12">
+                {{ csrf_field() }}
+                <div class="input-file" >
+                    选择文件
+                    <input id="file" type="file" class="form-control" name="file" required>
+                </div>
+                <label class="fileText">未选中文件</label>
+                <span class="layui-word-aux des_content">（注意：请严格按照模板的格式上传Excel！）</span>
+            </div>
+        </div>
+    </form>
+</div>
 <script type="text/html" id="barDemo">
     <p>
         <span>@{{ d.status }}</span>
@@ -466,7 +484,46 @@
                 var load =layer.load();
                 window.location.href = url+paramStr;
                 layer.close(load);
-            }
+            },
+            import_express_excel:function () {
+                layer.open({
+                    type: 1,
+                    shade: false,
+                    title: '导入 快递信息', //不显示标题
+                    area: ['420px', '240px'], //宽高
+                    content: $('#import_express_content'),
+                    btn:['{{ trans('app.submit') }}'],
+                    btn1:function()
+                    {
+                        var load = layer.load();
+                        var fileFlag = false;
+
+                        $("input[name='file']").each(function(){
+                            if($(this).val()!="") {
+                                fileFlag = true;
+                            }
+                        });
+                        if(!fileFlag) {
+                            layer.msg("请选择文件");
+                            return false;
+                        }
+
+                        layer.msg('上传中', {
+                            icon: 16
+                            ,shade: 0.01
+                            ,time:0
+                        });
+                        $("#import_express_form").submit();
+                        /*
+                        form.submit("import_express_form", function(data){
+                            // 回调函数返回结果跟上述 submit 事件完全一致
+                            // var field = data.field;
+                            // do something
+                        });
+                        */
+                    }
+                });
+            },
         };
         $('.tabel-message .layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -541,6 +598,11 @@
             elem: '#date' //指定元素
             ,type: 'date'
             ,range: '~'
+        });
+        $(".input-file input").on('change', function( e ){
+            //e.currentTarget.files 是一个数组，如果支持多个文件，则需要遍历
+            var name = e.currentTarget.files[0].name;
+            $(".fileText").text(name)
         });
     });
 </script>

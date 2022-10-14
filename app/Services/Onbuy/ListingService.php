@@ -175,6 +175,7 @@ class ListingService
             $this->restorePriceHandle($product_bid_ids, $offset+$limit);
             return true;
         }
+        DB::rollback();
         return false;
     }
 }
