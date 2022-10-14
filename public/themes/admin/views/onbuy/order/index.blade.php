@@ -27,8 +27,11 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">下单日期 *</label>
                     <div class="layui-input-block">
-                        <input type="text" name="date" id="date" class="layui-input search_key">
+                        <input type="text" name="onbuy_orders.date" id="date" class="layui-input search_key">
                     </div>
+                </div>
+                <div class="layui-inline">
+                    <input class="layui-input search_key" name="onbuy_orders.order_id" id="demoReload" placeholder="订单ID" autocomplete="off">
                 </div>
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="onbuy_order_products.sku" id="demoReload" placeholder="sku" autocomplete="off">

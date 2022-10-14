@@ -36,11 +36,14 @@ class OrderResourceController extends BaseController
                             switch ($field)
                             {
                                 case 'onbuy_order_products.sku':
-                                    $query->where('onbuy_order_products.sku',$value);
+                                    $query->where($field,$value);
                                     break;
-                                case 'date':
+                                case 'onbuy_orders.order_id':
+                                    $query->where($field,$value);
+                                    break;
+                                case 'onbuy_orders.date':
                                     $date = explode('~', $value);
-                                    $query->where('onbuy_orders.date','>=', $date[0].' 00:00:00')->where('onbuy_orders.date','<=', $date[1]." 23:59:59");
+                                    $query->where($field,'>=', $date[0].' 00:00:00')->where($field,'<=', $date[1]." 23:59:59");
                                     break;
                                 default :
                                     $query->where($field,'like','%'.$value.'%');
