@@ -111,13 +111,10 @@ class ListingService
             {
                 return false;
             }
-            $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->first();
+            $schedule = Schedule::where('name','restore_onbuy_price')->where('date',$date)->where('success',1)->first();
             if($schedule)
             {
-                if($schedule->success)
-                {
-                    return true;
-                }
+                return true;
             }else{
                 $schedule = Schedule::create([
                     'name' => 'restore_onbuy_price',
@@ -132,10 +129,15 @@ class ListingService
         {
             return true;
         }
-        $this->restorePriceHandle($product_bid_ids);
-        $schedule->success = 1;
-        $schedule->save();
-        return true;
+        $res = $this->restorePriceHandle($product_bid_ids);
+        if($res)
+        {
+            $schedule->success = 1;
+            $schedule->save();
+            return true;
+        }
+        return false;
+
     }
     public function restorePriceHandle($product_bid_ids, $offset=0, $limit=50)
     {
@@ -166,8 +168,13 @@ class ListingService
         $onbuy_token = getOnbuyToken();
         $listing = new Listing($onbuy_token);
         $listing->updateListingBySku($data);
-        DB::commit();
-        $this->restorePriceHandle($product_bid_ids, $offset+$limit);
-        return true;
+        $result = $listing->getResponse();
+        if($result['success'])
+        {
+            DB::commit();
+            $this->restorePriceHandle($product_bid_ids, $offset+$limit);
+            return true;
+        }
+        return false;
     }
 }
