@@ -415,8 +415,7 @@ class OrderResourceController extends BaseController
                     ]);
                 if($return)
                 {
-                    OnbuyOrderProductModel::where('status','Awaiting Dispatch')
-                        ->where('order_id',$express['order_id'])
+                    OnbuyOrderProductModel::where('order_id',$express['order_id'])
                         ->update([
                             'tracking_number' => $express['tracking_number'],
                             'tracking_supplier_name' => $express['tracking_supplier_name'],
