@@ -17,8 +17,14 @@ class Order extends BaseModel
 
     public $timestamps = false;
 
+    public $appends = ['ch_date'];
+
     public function getDeliveryAddressAttribute($value)
     {
         return json_decode($value, true);
+    }
+    public function getChDateAttribute()
+    {
+        return isset($this->attributes['date']) ?    date('Y-m-d H:i:s',strtotime("+7hour",strtotime($this->attributes['date']))) : '';
     }
 }

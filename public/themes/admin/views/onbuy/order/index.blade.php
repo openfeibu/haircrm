@@ -60,6 +60,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/html" id="barDemo">
     <p>
         <span>@{{ d.status }}</span>
@@ -68,9 +69,22 @@
         <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
     </p>
 </script>
+
+<script type="text/html" id="orderIdTEM">
+
+    <div>
+        <p> <a href="https://seller.onbuy.com/orders/@{{ d.onbuy_internal_reference }}/" target="_blank">@{{ d.order_id }}</a></p>
+        <p> 英:@{{ d.date }} </p>
+        <p> 中:@{{ d.ch_date }} </p>
+
+    </div>
+</script>
+
 <script type="text/html" id="imageTEM">
     <a href="@{{ d.product_url }}" target="_blank"><img src="@{{d.image_urls.thumb}}" alt="" height="58"></a>
 </script>
+
+
 <script type="text/html" id="productTEM">
     <div>
         @{{#  layui.each(d.order_products, function(index, item){ }}
@@ -135,13 +149,6 @@
     </div>
 </script>
 
-<script type="text/html" id="orderIdTEM">
-
-    <div>
-        <p> <a href="https://seller.onbuy.com/orders/@{{ d.onbuy_internal_reference }}/" target="_blank">@{{ d.order_id }}</a></p>
-        <p> @{{ d.date }} </p>
-    </div>
-</script>
 
 <script type="text/html" id="customerTEM">
 
@@ -195,7 +202,7 @@
             ,url: main_url
             ,cols: [[
                 {checkbox: true,field:'id', fixed: true}
-                ,{field:'order_id',title:'订单号',width:120, fixed: 'left',templet:'#orderIdTEM'}
+                ,{field:'order_id',title:'订单号',width:130, fixed: 'left',templet:'#orderIdTEM'}
                 ,{field:'goods',title:'产品', width:250,height:48,templet:'#productTEM'}
                 ,{field:'customer',title:'客户', width:150,height:48,templet:'#customerTEM'}
                 ,{field:'delivery_address',title:'地址', width:200,height:48,templet:'#deliveryAddressTEM'}
