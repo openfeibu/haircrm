@@ -26,8 +26,8 @@ class OrderResourceController extends BaseController
 
     public function index(Request $request)
     {
+        $search = $request->get('search',[]);
         if ($this->response->typeIs('json')) {
-            $search = $request->get('search',[]);
             $orders = OnbuyOrderModel::join('onbuy_order_products','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                 ->when($search ,function ($query) use ($search){
                     foreach($search as $field => $value)
@@ -93,7 +93,7 @@ class OrderResourceController extends BaseController
 
         return $this->response->title("onbuy 订单")
             ->view('onbuy.order.index')
-            ->data(['limit' => $request->get('limit',50)])
+            ->data(['limit' => $request->get('limit',50),'search' => $search])
             ->output();
 
         exit;

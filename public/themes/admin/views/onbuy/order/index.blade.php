@@ -44,7 +44,7 @@
                     <input class="layui-input search_key" name="onbuy_orders.order_id" id="demoReload" placeholder="订单ID" autocomplete="off">
                 </div>
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="onbuy_order_products.sku" id="demoReload" placeholder="sku" autocomplete="off">
+                    <input class="layui-input search_key" name="onbuy_order_products.sku" id="demoReload" placeholder="sku" autocomplete="off" value="{{ $search['onbuy_order_products.sku'] ?? '' }}">
                 </div>
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="onbuy_order_products.name" id="demoReload" placeholder="名称" autocomplete="off">
@@ -201,7 +201,11 @@
         var form = layui.form;
         var element = layui.element;
         var laydate= layui.laydate;
-
+        var where = {};
+        $(".search_key").each(function(){
+            var name = $(this).attr('name');
+            where["search["+name+"]"] = $(this).val();
+        });
         $(document).on('mouseenter', '.analyseTips', function ()
         {
             var tp= $(this).attr("lay-tips");
@@ -234,12 +238,13 @@
 //                ,{field:'cost_expect',title:'预计成本￥', width:120,height:48,templet:'#costTEM'}
 
                 ,{field:'date',title:'日期',width:120}
-                ,{field:'status',title:'订单状态',width:200}
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:150, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'status',title:'订单状态',width:160, fixed: 'right'}
+                //,{field:'score',title:'{{ trans('app.actions') }}', width:150, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true
             ,limit: '{{ $limit }}'
+            ,where: where
             ,height: 'full-200'
             ,cellMinWidth :'180'
             ,totalRow: true //开启合计行
