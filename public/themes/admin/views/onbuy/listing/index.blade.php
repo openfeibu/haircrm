@@ -149,6 +149,7 @@
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:200,templet:'#productTEM'}
                 ,{field:'en_name',title:'英文名', width:100, edit:'text'}
                 ,{field:'ch_name',title:'中文名', width:100, edit:'text'}
+                ,{field:'is_auto_pricing',title:'自动定价', width:100}
                 ,{field:'price',title:'销售价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="同步时的销售价,非及时更新,以onbuy为准">&#xe60b;</i>', width:100, edit:'text'}
                 ,{field:'min_price',title:'最低价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="用于追踪更新最低价竞争使用">&#xe60b;</i>', width:100,edit:'text'}
                 ,{field:'min_price_advice',title:'建议最低价GBP', width:100}
@@ -157,7 +158,6 @@
                 ,{field:'original_price',title:'原价GBP<i class="layui-icon alone-tips analyseTips" lay-tips="用于更新最低价后恢复原价使用">&#xe60b;</i>', width:100,edit:'text'}
                 ,{field:'original_price_expect',title:'原价预计到账RMB<i class="layui-icon alone-tips analyseTips" lay-tips="扣除Onbuy所有费用(16.7% + 9%)和paypal费用(5%)后的资金RMB">&#xe60b;</i>', width:120,hide:true}
                 ,{field:'original_price_profit_expect',title:'原价预计利润RMB', width:100}
-                ,{field:'is_auto_pricing',title:'自动定价', width:100}
                 ,{field:'purchase_price',title:'采购RMB', width:100,edit:'text'}
                 ,{field:'weight',title:'重量/g', width:100, edit:'text'}
                 ,{field:'freight_expect',title:'预计运费RMB', width:100}
@@ -168,9 +168,9 @@
                 ,{field:'handling_time',title:'处理时间', width:100}
                 ,{field:'boost_marketing_commission',title:'推广', width:80}
                 ,{field:'total_quantity',title:'销售量',width:80, fixed: 'right'}
-                ,{field:'inventory',title:'库存',width:80, edit:'text', fixed: 'right'}
-                ,{field:'out_inventory',title:'总出货',width:80,  edit:'text', fixed: 'right'}
-                ,{field:'need_purchase',title:'需拿货',width:80, fixed: 'right',templet:'#needPurchaseTEM'}//需拿货 = 销售量 - 库存 - 总出货
+//                ,{field:'inventory',title:'库存',width:80, edit:'text', fixed: 'right'}
+//                ,{field:'out_inventory',title:'总出货',width:80,  edit:'text', fixed: 'right'}
+//                ,{field:'need_purchase',title:'需拿货',width:80, fixed: 'right',templet:'#needPurchaseTEM'}//需拿货 = 销售量 - 库存 - 总出货
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'

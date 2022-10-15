@@ -69,7 +69,7 @@ class ListingService
             {
                 $data[] = [
                     "sku" => $winning['sku'],
-                    "price" => $winning['lead_price'] - rand(1,5)/100,
+                    "price" => $winning['lead_price'] - rand(1,2)/100,
                 ];
             }
         }
