@@ -21,7 +21,7 @@
                     <button class="layui-btn layui-btn-warm " type="button" data-type="import_express_excel" data-events="import_express_excel">导入 快递信息</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_yanwen_excel" data-events="export_yanwen_excel">下载 燕文Excel</button>
                     <!--<button class="layui-btn layui-btn-warm " data-type="mark_purchase" data-events="mark_purchase">标记为已拿货</button>-->
-                    <button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>
+                    <!--<button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>-->
                 </div>
             </div>
             <div class="tabel-message">
@@ -83,9 +83,9 @@
     <p>
         <span>@{{ d.status }}</span>
     </p>
-    <p>
+    <!--<p>
         <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
-    </p>
+    </p>-->
 </script>
 
 <script type="text/html" id="orderIdTEM">
