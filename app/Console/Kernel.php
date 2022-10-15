@@ -41,8 +41,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('mail_schedule:auto')->everyMinute()->withoutOverlapping();
         $schedule->command('pricing:auto')->everyFiveMinutes()->withoutOverlapping();
         $schedule->command('restore_price:auto')->everyFiveMinutes()->withoutOverlapping();
-        $schedule->command('onbuy_order_sync:auto')->hourly()->withoutOverlapping();
-        $schedule->command('onbuy_order_sync_update:auto')->hourly()->between('10:00', '13:00')->withoutOverlapping();
+        $schedule->command('onbuy_order_sync:auto')->everyFiveMinutes()->withoutOverlapping();
+        $schedule->command('onbuy_order_sync_update:auto')->everyFiveMinutes()->between('10:00', '13:00')->withoutOverlapping();
     }
 
     /**
