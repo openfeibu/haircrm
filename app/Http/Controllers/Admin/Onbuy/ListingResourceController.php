@@ -226,6 +226,7 @@ class ListingResourceController extends BaseController
                     'bid_id' => $product_bid->id,
                 ];
             }
+            OnbuyProductBidTaskModel::whereIn('sku',$attributes['skus'])->delete();
             DB::table('onbuy_product_bid_tasks')->insert($data);
             return $this->response->message(trans('messages.operation.success'))
                 ->code(0)

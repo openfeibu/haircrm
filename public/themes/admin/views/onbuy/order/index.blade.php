@@ -43,13 +43,16 @@
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="onbuy_orders.order_id" id="demoReload" placeholder="订单ID" autocomplete="off">
                 </div>
+
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="onbuy_order_products.sku" id="demoReload" placeholder="sku" autocomplete="off" value="{{ $search['onbuy_order_products.sku'] ?? '' }}">
                 </div>
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="onbuy_order_products.name" id="demoReload" placeholder="名称" autocomplete="off">
                 </div>
-
+                <div class="layui-inline">
+                    <input class="layui-input search_key" name="onbuy_orders.tracking_number" id="demoReload" placeholder="物流单号" autocomplete="off">
+                </div>
                 <div class="layui-inline">
                     <button class="layui-btn" data-type="reload">{{ trans('app.search') }}</button>
                 </div>
@@ -79,9 +82,73 @@
         </div>
     </form>
 </div>
+<div class="tabel-message" id="address_content" style="display: none;">
+    <form class="form-horizontal" method="POST" action="{{ guard_url('onbuy/order/update/express') }}" enctype="multipart/form-data"  id="address_form" lay-filter="address_form">
+        <div class="layui-row layui-col-space10">
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">名字</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">行1</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="line_1" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">行2</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="line_2" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">行3</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="line_3" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">乡镇</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="town" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">城市</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="county" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">邮编</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="postcode" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">国家</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="country" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item fb-form-item2">
+                <label class="layui-form-label">国家编码</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="country_code" autocomplete="off" placeholder="" class="layui-input">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
 <script type="text/html" id="barDemo">
     <p>
         <span>@{{ d.status }}</span>
+    </p>
+    <p>
+        <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="update_address">更新地址</a>
     </p>
     <!--<p>
         <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">{{ trans('app.delete') }}</a>
@@ -238,8 +305,8 @@
 //                ,{field:'cost_expect',title:'预计成本￥', width:120,height:48,templet:'#costTEM'}
 
                 ,{field:'date',title:'日期',width:120}
-                ,{field:'status',title:'订单状态',width:160, fixed: 'right'}
-                //,{field:'score',title:'{{ trans('app.actions') }}', width:150, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'status',title:'订单状态',width:160}
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:150, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
             ,page: true
@@ -295,8 +362,70 @@
                 });
             } else if(obj.event === 'edit'){
                 window.location.href=main_url+'/'+data.id
+            } else if(obj.event === 'update_address'){
+                $('#address_form').find("input[name='name']").val(data.delivery_address.name);
+                $('#address_form').find("input[name='line_1']").val(data.delivery_address.line_1);
+                $('#address_form').find("input[name='line_2']").val(data.delivery_address.line_2);
+                $('#address_form').find("input[name='line_3']").val(data.delivery_address.line_3);
+                $('#address_form').find("input[name='town']").val(data.delivery_address.town);
+                $('#address_form').find("input[name='county']").val(data.delivery_address.county);
+                $('#address_form').find("input[name='postcode']").val(data.delivery_address.postcode);
+                $('#address_form').find("input[name='country']").val(data.delivery_address.country);
+                $('#address_form').find("input[name='country_code']").val(data.delivery_address.country_code);
+
+                layer.open({
+                    type: 1,
+                    shade: false,
+                    title: '更新地址', //不显示标题
+                    area: ['620px', '440px'], //宽高
+                    content: $('#address_content'),
+                    btn:['{{ trans('app.submit') }}'],
+                    btn1:function()
+                    {
+                        var load = layer.load();
+                        var ajax_data = {};
+                        ajax_data['_token'] = "{!! csrf_token() !!}";
+                        ajax_data['name'] =  $('#address_form').find("input[name='name']").val();
+                        ajax_data['line_1'] =  $('#address_form').find("input[name='line_1']").val();
+                        ajax_data['line_2'] =  $('#address_form').find("input[name='line_2']").val();
+                        ajax_data['line_3'] =  $('#address_form').find("input[name='line_3']").val();
+                        ajax_data['town'] =  $('#address_form').find("input[name='town']").val();
+                        ajax_data['county'] =  $('#address_form').find("input[name='county']").val();
+                        ajax_data['postcode'] =  $('#address_form').find("input[name='postcode']").val();
+                        ajax_data['country'] =  $('#address_form').find("input[name='country']").val();
+                        ajax_data['country_code'] =  $('#address_form').find("input[name='country_code']").val();
+                        $.ajax({
+                            url :  "{{ guard_url('onbuy/order/update/address') }}"+'/'+data.id,
+                            data : ajax_data,
+                            type : 'POST',
+                            success : function (data) {
+                                layer.closeAll();
+                                if(data.code == 0)
+                                {
+                                    var nPage = $(".layui-laypage-curr em").eq(1).text();
+                                    //执行重载
+                                    table.reload('fb-table', {
+                                        page: {
+                                            curr: nPage //重新从第 1 页开始
+                                        }
+                                    });
+                                }else{
+                                    layer.msg(data.msg);
+                                }
+                            },
+                            error : function (jqXHR, textStatus, errorThrown) {
+                                layer.close(load);
+                                $.ajax_error(jqXHR, textStatus, errorThrown);
+                            }
+                        });
+
+
+
+                    }
+                });
             }
         });
+
         table.on('edit(fb-table)', function(obj){
             var data = obj.data;
             var value = obj.value //得到修改后的值
@@ -327,6 +456,7 @@
                 }
             });
         });
+
         var $ = layui.$;
         active = {
             reload: function(){

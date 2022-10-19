@@ -223,11 +223,11 @@ class OrderResourceController extends BaseController
             ->data(['limit' => $request->get('limit',50)])
             ->output();
     }
-    public function update(Request $request, OnbuyProductModel $listing)
+    public function update(Request $request, OnbuyOrderModel $order)
     {
         try {
             $attributes = $request->all();
-            $listing->update($attributes);
+	        $order->update($attributes);
             return $this->response->message(trans('messages.success.updated'))
                 ->code(0)
                 ->status('success')
@@ -241,6 +241,39 @@ class OrderResourceController extends BaseController
                 ->redirect();
         }
 
+    }
+    public function updateAddress(Request $request, OnbuyOrderModel $onbuy_order)
+    {
+	    try {
+		    $attributes = $request->all();
+		    $data = [
+			    'name' => $attributes['name'] ?? '',
+			    'line_1' => $attributes['line_1'] ?? '',
+			    'line_2' => $attributes['line_2'] ?? '',
+			    'line_3' => $attributes['line_3'] ?? '',
+			    'town' => $attributes['town'] ?? '',
+			    'county' => $attributes['county'] ?? '',
+			    'postcode' => $attributes['postcode'] ?? '',
+			    'country' => $attributes['country'] ?? '',
+			    'country_code' => $attributes['country_code'] ?? '',
+		    ];
+
+		    $onbuy_order->update([
+		    	'delivery_address' => json_encode($data),
+		    ]);
+		    return $this->response->message(trans('messages.success.updated'))
+			    ->code(0)
+			    ->status('success')
+			    ->url(guard_url('onbuy/order' . $onbuy_order->id))
+			    ->redirect();
+	    } catch (Exception $e) {
+		    return $this->response->message($e->getMessage())
+			    ->code(400)
+			    ->status('error')
+			    ->url(guard_url('onbuy/order/' . $onbuy_order->id))
+			    ->redirect();
+	    }
+	
     }
     public function syncUpdate(Request $request)
     {
