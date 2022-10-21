@@ -20,6 +20,7 @@
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync_update" data-events="sync_update">从Onbuy同步更新订单</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="import_express_excel" data-events="import_express_excel">导入 快递信息</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_yanwen_excel" data-events="export_yanwen_excel">下载 燕文Excel</button>
+                    <button class="layui-btn layui-btn-primary " type="button" data-type="export_hualei_excel" data-events="export_hualei_excel">下载 华磊Excel</button>
                     <!--<button class="layui-btn layui-btn-warm " data-type="mark_purchase" data-events="mark_purchase">标记为已拿货</button>-->
                     <!--<button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>-->
                 </div>
@@ -596,6 +597,36 @@
                 var data_id_obj = {};
                 var i = 0;
                 var url = '{{ guard_url('onbuy/order/export/express_yanwen') }}';
+                var paramStr = "";
+                data.forEach(function(v){
+                    if(i == 0)
+                    {
+                        paramStr += "?ids[]="+v.id;
+                    }else{
+                        paramStr += "&ids[]="+v.id;
+                    }
+                    data_id_obj[i] = v.id; i++
+                });
+                $(".search_key").each(function(){
+                    var name = $(this).attr('name');
+                    if(i == 0)
+                    {
+                        paramStr += "?search["+name+"]="+$(this).val();
+                    }else{
+                        paramStr += "&search["+name+"]="+$(this).val();
+                    }
+                    i++
+                });
+                var load =layer.load();
+                window.location.href = url+paramStr;
+                layer.close(load);
+            },
+            export_hualei_excel:function () {
+                var checkStatus = table.checkStatus('fb-table')
+                        ,data = checkStatus.data;
+                var data_id_obj = {};
+                var i = 0;
+                var url = '{{ guard_url('onbuy/order/export/express_hualei') }}';
                 var paramStr = "";
                 data.forEach(function(v){
                     if(i == 0)

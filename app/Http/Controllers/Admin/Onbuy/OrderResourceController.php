@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Onbuy;
 
+use App\Exports\Onbuy\OrderExpressHualeiExport;
 use App\Exports\Onbuy\OrderExpressYanwenExport;
 use App\Http\Controllers\Admin\Onbuy\BaseController;
 use App\Imports\Onbuy\OrderExpressImport;
@@ -372,6 +373,14 @@ class OrderResourceController extends BaseController
         $search = $request->input('search',[]);
         return Excel::download(new OrderExpressYanwenExport($ids,$search), $name);
     }
+	public function exportExpressHualei(Request $request)
+	{
+		$data = $request->all();
+		$ids = $data['ids'] ?? ['130','180'];
+		$name = '华磊'.date('YmdHis').'.xlsx';
+		$search = $request->input('search',[]);
+		return Excel::download(new OrderExpressHualeiExport($ids,$search), $name);
+	}
     public function importExpress(Request $request)
     {
 

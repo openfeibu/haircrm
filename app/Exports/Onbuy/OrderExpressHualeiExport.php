@@ -17,7 +17,7 @@ use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
-class OrderExpressYanwenExport implements FromCollection,WithEvents
+class OrderExpressHualeiExport implements FromCollection,WithEvents
 {
 
     use RegistersEventListeners;
@@ -39,7 +39,7 @@ class OrderExpressYanwenExport implements FromCollection,WithEvents
         $this->count = $orders->count();
 
         $header_data = [
-            ['订单号','产品名称','收件人姓名','收件人电话','收件人邮箱','收件人税号','收件人公司','收件人国家','收件人省/州','收件人城市','收件人邮编','收件人地址','收件人门牌号','寄件人税号信息','包装尺寸【长】cm','包装尺寸【宽】cm','包装尺寸【高】cm','收款到账日期','币种类型','是否含电','拣货单信息','IOSS税号','中文品名1','英文品名1','单票数量1','重量1(g)','申报价值1','商品材质1','商品海关编码1','商品链接1','中文品名2','英文品名2','单票数量2','重量2(g)','申报价值2','商品材质2','商品海关编码2','商品链接2','中文品名3','英文品名3','单票数量3','重量3(g)','申报价值3','商品材质3','商品海关编码3','商品链接3','中文品名4','英文品名4','单票数量4','重量4(g)','申报价值4','商品材质4','商品海关编码4','商品链接4','中文品名5','英文品名5','单票数量5','重量5(g)','申报价值5','商品材质5','商品海关编码5','商品链接5'
+            ['客户单号','转单号','运输方式','目的国家','寄件人公司名','寄件人姓名','寄件人地址','寄件人电话','寄件人邮编','寄件人传真','收件人公司名','收件人姓名','州,省','城市','联系地址','收件人电话','收件人邮箱','收件人邮编','收件人传真','订单备注','重量','海关报关品名1','配货信息1','申报价值1','申报品数量1','配货备注1','海关报关品名2','配货信息2','申报价值2','申报品数量2','配货备注2','海关报关品名3','配货信息3','申报价值3','申报品数量3','配货备注3','海关报关品名4','配货信息4','申报价值4','申报品数量4','配货备注4','海关报关品名5','配货信息5','申报价值5','申报品数量5','配货备注5'
             ]
         ];
         $order_data = [];
@@ -61,15 +61,20 @@ class OrderExpressYanwenExport implements FromCollection,WithEvents
             }
             $date = date('m/d/Y',strtotime($order->date));
             $order_data[$i] = [
-                $order->order_id,'燕文专线惠选-普货',$order->buyer_name,$order->buyer_phone,$order->buyer_email,"","",$order->delivery_address['country_code'],$order->delivery_address['county'],$order->delivery_address['town'],$order->delivery_address['postcode'],$address,"","","","","",$date,"美元","否","",""
+	            $order->order_id,'','专线E速小包-敏感',$order->delivery_address['country_code'],'','','','','','','',$order->buyer_name,$order->delivery_address['county'],$order->delivery_address['town'],$address,$order->buyer_phone,$order->buyer_email,$order->delivery_address['postcode'],'',''
             ];
+	        $weight = 0;
+	        $product_data = [];
+	        
             foreach ($products as $p_key => $product)
             {
-                $data = [$product->ch_name, $product->en_name, $product->quantity, $product->weight,$product->min_price,"","",""];
-                $order_data[$i] = array_merge($order_data[$i],$data);
+            	$weight += $product->weight;
+                $data = [$product->en_name, $product->ch_name, $product->min_price, $product->quantity,""];
+	            $product_data = array_merge($product_data,$data);
             }
+	        $weight = $weight/1000;
+	        $order_data[$i] = array_merge($order_data[$i],[$weight],$product_data);
             $i++;
-
         }
         $data = array_merge($header_data,$order_data);
         return  new Collection($data);

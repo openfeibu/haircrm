@@ -175,6 +175,7 @@ class OrderService
     }
     public function syncUpdate($orders)
     {
+    	
         foreach ($orders as $key => $order)
         {
             $data = [
@@ -218,7 +219,7 @@ class OrderService
 //                'tax_delivery' => $order['tax']['tax_delivery'],
 
             ];
-            OnbuyOrderModel::where('order_id',$order['order_id'])->update($data);
+          
             foreach($order['products'] as $product)
             {
                 $order_product_data = [
@@ -228,7 +229,14 @@ class OrderService
                     'tracking_url' => $product['tracking']['tracking_url'] ?? '',
                 ];
                 OnbuyOrderProductModel::where('onbuy_internal_reference',$product['onbuy_internal_reference'])->update($order_product_data);
+	            if(!$data['tracking_number'])
+	            {
+		            $data['tracking_number'] = $order_product_data['tracking_number'];
+		            $data['tracking_supplier_name'] = $order_product_data['tracking_supplier_name'];
+		            $data['tracking_url'] = $order_product_data['tracking_url'];
+	            }
             }
+	        OnbuyOrderModel::where('order_id',$order['order_id'])->update($data);
         }
         return true;
     }
