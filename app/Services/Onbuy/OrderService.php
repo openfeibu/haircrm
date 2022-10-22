@@ -89,6 +89,7 @@ class OrderService
                     'tracking_number' => $order['tracking']['tracking_number'] ?? '',
                     'tracking_supplier_name' => $order['tracking']['supplier_name'] ?? '',
                     'tracking_url' => $order['tracking']['tracking_url'] ?? '',
+	                'is_refund' => isset($order['refunds']) && $order['refunds'] ? 1 : 0,
                 ];
 
                 foreach($order['products'] as $product)
@@ -189,6 +190,7 @@ class OrderService
                 'tracking_number' => $order['tracking']['tracking_number'] ?? '',
                 'tracking_supplier_name' => $order['tracking']['supplier_name'] ?? '',
                 'tracking_url' => $order['tracking']['tracking_url'] ?? '',
+	            'is_refund' => isset($order['refunds']) && $order['refunds'] ? 1 : 0,
                 //'date' => $order['date'],
                 //'site_id' => $order['site_id'],
                 //'site_name' => $order['site_name'],
@@ -219,7 +221,7 @@ class OrderService
 //                'tax_delivery' => $order['tax']['tax_delivery'],
 
             ];
-          
+
             foreach($order['products'] as $product)
             {
                 $order_product_data = [

@@ -147,6 +147,9 @@
 <script type="text/html" id="barDemo">
     <p>
         <span>@{{ d.status }}</span>
+        @{{# if(d.is_refund){ }}
+        <span>, 退款</span>
+        @{{# } }}
     </p>
     <p>
         <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="update_address">更新地址</a>
