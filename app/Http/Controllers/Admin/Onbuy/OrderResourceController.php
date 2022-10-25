@@ -75,8 +75,9 @@ class OrderResourceController extends BaseController
                 $order->order_products = $order_products;
                 $order->freight_expect = international_freight($weight);
                 $order->cost = $total_purchase_price+$order->freight_expect;
-
-                $price_gbp_to_rmb = round(($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total) * $gbp_to_rmb,2);
+				//$order->paypal_fee = bcadd(bcmul($order->price_total, 0.044,6),0.2,6);
+	            $order->paypal_fee = round($order->price_total * 0.044 + 0.2,2);
+                $price_gbp_to_rmb = round(($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total - $order->paypal_fee) * $gbp_to_rmb,2);
 
                 $order->profit_expect = $order->status == "Refunded" ? 0 : round($price_gbp_to_rmb - $order->cost,2);
 

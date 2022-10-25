@@ -192,6 +192,7 @@
         <p> 总价: £@{{ d.price_total }}</p>
         <p> 平台费: £@{{ d.fee_total_fee_including_vat }}</p>
         <p> 税费: £@{{ d.tax_total ?? 0 }}</p>
+        <p> PayPal: £@{{ d.paypal_fee ?? 0 }}</p>
         <p> 采购价: ￥@{{ d.total_purchase_price }}</p>
         <p> 预计运费: ￥@{{ d.freight_expect }} </p>
         <p> 预计总成本: ￥@{{ d.cost }}</p>
