@@ -22,6 +22,14 @@
             </div>
             <div class="tabel-message">
                 <div class="layui-inline">
+                    <label class="layui-form-label">店铺</label>
+                    <select name="seller_id" class="search_key layui-select" id="seller_id">
+                        @foreach($onbuy_list as $key => $onbuy)
+                            <option value="{{ $onbuy['seller_id'] }}">{{ $onbuy['name'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="layui-inline">
                     <input class="layui-input search_key" name="sku" id="demoReload" placeholder="sku" autocomplete="off">
                 </div>
                 <div class="layui-inline">
@@ -226,7 +234,7 @@
                             {
 
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -254,7 +262,7 @@
                             {
 
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -286,7 +294,7 @@
                     {
 
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {
@@ -348,7 +356,7 @@
                                             }
                                         });
                                     }else{
-                                        layer.msg(data.msg);
+                                        layer.msg(data.message);
                                     }
                                 },
                                 error : function (jqXHR, textStatus, errorThrown) {
@@ -363,13 +371,14 @@
                 layer.confirm('是否同步(该同步只会导出新产品,不会更新旧产品信息)',{title:'提示'},function(index){
                     layer.close(index);
                     var load = layer.load();
+                    var seller_id = $('#seller_id').val();
                     $.ajax({
                         url : main_url+'/sync',
-                        data :  {'_token' : "{!! csrf_token() !!}"},
+                        data :  {'_token' : "{!! csrf_token() !!}",'seller_id':seller_id},
                         type : 'POST',
                         success : function (data) {
                             layer.close(load);
-                            layer.msg(data.msg);
+                            layer.msg(data.message);
                             if(data.code == 0)
                             {
                                 var nPage = $(".layui-laypage-curr em").eq(1).text();
@@ -399,7 +408,8 @@
                     });
                     return;
                 }
-                var ajax_data = {'_token':"{!! csrf_token() !!}"};
+                var seller_id = $('#seller_id').val();
+                var ajax_data = {'_token':"{!! csrf_token() !!}",'seller_id':seller_id};
                 var i = 0;
                 var count = 0;
                 var skus = [];
@@ -440,11 +450,11 @@
                             type : 'POST',
                             success : function (data) {
                                 layer.closeAll();
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                                /* if(data.code == 0) {
                                     window.location.href=data.url;
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }*/
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
@@ -458,14 +468,15 @@
             restore_price:function () {
                 layer.confirm('是否还原(该还原只会还原自动化定价的产品)',{title:'提示'},function(index) {
                     layer.close(index);
+                    var seller_id = $('#seller_id').val();
                     var load = layer.load();
                     $.ajax({
                         url: main_url + '/restore_price',
-                        data: {'_token' : "{!! csrf_token() !!}"},
+                        data: {'_token' : "{!! csrf_token() !!}",'seller_id':seller_id},
                         type: 'POST',
                         success: function (data) {
                             layer.closeAll();
-                            layer.msg(data.msg);
+                            layer.msg(data.message);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
                             layer.close(load);

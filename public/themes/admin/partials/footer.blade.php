@@ -42,9 +42,9 @@
                 success : function (data) {
                     layer.close(load);
                     if(data.code == 0) {
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {

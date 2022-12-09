@@ -20,7 +20,7 @@ abstract class Response
     /**
      * @var Response message for the response.
      */
-    protected $msg = null;
+    protected $message = null;
 
     /**
      * @var Response status for the response.
@@ -73,20 +73,15 @@ abstract class Response
      */
     public function json()
     {
-        $data = [
-            'msg' => $this->getMessage(),
+        return response()->json([
+            'message' => $this->getMessage(),
             'status' => $this->getStatus(),
             'code' => $this->getCode(),
             'data' => $this->getData(),
+            'totalRow' => $this->getTotalRow(),
             'count' => $this->getCount(),
             'url'     => $this->getUrl(),
-        ];
-        $totalRow = $this->getTotalRow();
-        if($totalRow)
-        {
-            $data['totalRow'] = $totalRow;
-        }
-        return response()->json($data, $this->http_code);
+        ], $this->http_code);
     }
 
     /**
@@ -113,7 +108,7 @@ abstract class Response
      * @return theme page
      *
      */
-    public function http()
+    protected function http()
     {
         Form::populate($this->getFormData());
 
@@ -143,16 +138,6 @@ abstract class Response
             ->withCode($this->getCode());
     }
 
-    public function back()
-    {
-        if ($this->typeIs('json') || $this->typeIs('ajax')) {
-            return $this->json();
-        }
-        return back()
-            ->withMessage($this->getMessage())
-            ->withStatus($this->getStatus())
-            ->withCode($this->getCode());
-    }
     /**
      * Return the output for the current response.
      *
@@ -178,17 +163,17 @@ abstract class Response
      */
     public function getMessage()
     {
-        return $this->msg;
+        return $this->message;
     }
 
     /**
-     * @param mixed $msg
+     * @param mixed $message
      *
      * @return self
      */
-    public function message($msg)
+    public function message($message)
     {
-        $this->msg = $msg;
+        $this->message = $message;
 
         return $this;
     }
@@ -250,18 +235,16 @@ abstract class Response
 
         return $this;
     }
-    public function success($msg=NULL)
+    public function success($message=NULL)
     {
-        $this->code = '0';
+        $this->code = 0;
         $this->status = 'success';
-        $this->msg = $msg;
+        $this->message = $message;
         return $this;
     }
-    public function error($msg=NULL,$code=400)
+    public function error()
     {
-        $this->code = $code;
         $this->status = 'error';
-        $this->msg = $msg;
         return $this;
     }
     /**
@@ -313,7 +296,7 @@ abstract class Response
      */
     public function getData()
     {
-        return is_array($this->data) ? $this->data : [];
+        return $this->data ?? [] ;
     }
 
     public function getTotalRow()

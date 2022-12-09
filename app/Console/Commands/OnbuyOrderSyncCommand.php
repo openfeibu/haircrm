@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Onbuy\Onbuy;
 use App\Services\MailScheduleService;
 use App\Services\Onbuy\OrderService;
 use Illuminate\Console\Command;
@@ -39,7 +40,11 @@ class OnbuyOrderSyncCommand extends Command
      */
     public function handle()
     {
-        $order_service = new OrderService();
-        $order_service->syncHandle();
+        $onbuy_list = Onbuy::where('status',1)->get();
+        foreach ($onbuy_list as $onbuy)
+        {
+            $order_service = new OrderService($onbuy['seller_id']);
+            $order_service->syncHandle();
+        }
     }
 }

@@ -124,7 +124,7 @@
                             {
                                 obj.del();
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -218,7 +218,7 @@
                                             }
                                         });
                                     }else{
-                                        layer.msg(data.msg);
+                                        layer.msg(data.message);
                                     }
                                 },
                                 error : function (jqXHR, textStatus, errorThrown) {

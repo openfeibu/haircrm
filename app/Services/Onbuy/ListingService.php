@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Onbuy;
 
+use App\Models\Onbuy\Onbuy;
 use App\Models\Schedule;
 use GuzzleHttp\Client;
 use App\Exceptions\OutputServerMessageException;
@@ -12,9 +13,11 @@ use Xigen\Library\OnBuy\Product\Listing;
 
 class ListingService
 {
-    public function __construct()
-    {
+    public $seller_id;
 
+    public function __construct($seller_id)
+    {
+        $this->seller_id = $seller_id;
 
     }
     /*
@@ -52,7 +55,7 @@ class ListingService
         }
         $skus = array_column($tasks,'sku');
         $tasks = array_combine($skus,$tasks);
-        $onbuy_token = getOnbuyToken();
+        $onbuy_token = getOnbuyToken($this->seller_id);
         $listing = new Listing($onbuy_token);
         $listing->getWinningListing($skus);
         $response =$listing->getResponse();
@@ -85,7 +88,7 @@ class ListingService
                 'price' => $item['price']
             ]);
         }
-        $onbuy_token = getOnbuyToken();
+        $onbuy_token = getOnbuyToken($this->seller_id);
         $listing = new Listing($onbuy_token);
         $listing->updateListingBySku($data);
         DB::commit();
@@ -124,19 +127,14 @@ class ListingService
             }
         }
 
-        $product_bid_ids = ProductBid::where('active',1)->pluck('id')->toArray();
-        if(!$product_bid_ids)
-        {
-            return true;
+        $product_bid_ids = ProductBid::where('seller_id',$this->seller_id)->where('active',1)->pluck('id')->toArray();
+        if($product_bid_ids){
+            $this->restorePriceHandle($product_bid_ids);
         }
-        $res = $this->restorePriceHandle($product_bid_ids);
-        if($res)
-        {
-            $schedule->success = 1;
-            $schedule->save();
-            return true;
-        }
-        return false;
+
+        $schedule->success = 1;
+        $schedule->save();
+        return true;
 
     }
     public function restorePriceHandle($product_bid_ids, $offset=0, $limit=50)
@@ -157,15 +155,17 @@ class ListingService
         $data = [];
         foreach ($tasks as $item)
         {
-            \App\Models\Onbuy\Product::where('sku',$item['sku'])->update([
-                'price' => $item['original_price']
-            ]);
+            \App\Models\Onbuy\Product::where('seller_id',$this->seller_id)
+                ->where('sku',$item['sku'])
+                ->update([
+                    'price' => $item['original_price']
+                ]);
             $data[] = [
                 "sku" => $item['sku'],
                 "price" => $item['original_price'],
             ];
         }
-        $onbuy_token = getOnbuyToken();
+        $onbuy_token = getOnbuyToken($this->seller_id);
         $listing = new Listing($onbuy_token);
         $listing->updateListingBySku($data);
         $result = $listing->getResponse();

@@ -87,7 +87,7 @@
                         if(data.code != 0)
                         {
                             layer.close(load);
-                            layer.msg(data.msg);
+                            layer.msg(data.message);
                             return false;
                         }
                         if(!$.isEmptyObject(data.data))
@@ -105,7 +105,7 @@
                                 if(data.code != 0)
                                 {
                                     layer.close(load);
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                     return false;
                                 }
                                 var attribute_id = data.data.attribute_id;

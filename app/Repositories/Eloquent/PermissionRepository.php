@@ -111,7 +111,6 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
     {
         $menus = [];
         $father = Auth::user()->menus();
-
         if($father) {
             foreach ($father as $item) {
                 $active = ($item->slug == Route::currentRouteName()) ? true : false;
@@ -131,7 +130,6 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
                 $menus[] = $item;
             }
         }
-
         return $menus;
     }
     public function permissions($parent_id = 0)
@@ -150,5 +148,24 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
             $permissions[$item->id] = $item;
         }
         return $permissions;
+    }
+    public function permissionList($id,$list=[])
+    {
+        $permission = $this->model->where('id',$id)->first();
+        if(!$permission)
+        {
+            return $list;
+        }
+        array_unshift($list,$permission);
+        if($permission->parent_id)
+        {
+            return $this->permissionList($permission->parent_id,$list);
+        }
+        return $list;
+    }
+    public function permissionParent($parent_id)
+    {
+        $parent = $this->model->where('id',$parent_id)->first();
+        return $parent ? $parent->toArray() : [];
     }
 }

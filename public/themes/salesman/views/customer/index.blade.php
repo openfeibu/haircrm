@@ -203,7 +203,7 @@
                             success : function (data) {
                                 layer.closeAll();
                                 if(data.code == 0) {
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                     console.log(obj);
                                     if(typeof(obj['nPage']) != "undefined") {
                                         var nPage = $(".layui-laypage-curr em").eq(1).text();
@@ -215,7 +215,7 @@
                                         });
                                     }
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {

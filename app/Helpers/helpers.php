@@ -1023,11 +1023,12 @@ if (!function_exists('rate_style')) {
     }
 }
 
-function getOnbuyToken()
+function getOnbuyToken($seller_id)
 {
+    $onbuy = App\Models\Onbuy\Onbuy::where('seller_id',$seller_id)->first();
     $config = [
-        'consumer_key' => config('onbuy.consumer_key'),
-        'secret_key' => config('onbuy.secret_key'),
+        'consumer_key' => $onbuy['consumer_key'],
+        'secret_key' =>  $onbuy['secret_key'],
     ];
     $auth = new OnBuyAuth(
         $config

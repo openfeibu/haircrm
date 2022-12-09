@@ -156,6 +156,9 @@ Route::group([
     Route::post('/price_calculation_of_plastic_bag/get_price', 'PriceCalculationOfPlasticBagResourceController@getPrice')->name('price_calculation_of_plastic_bag.get_price');
 
     Route::group(['namespace' => 'onbuy', 'prefix' => 'onbuy','as' => 'onbuy.'], function ($router) {
+        Route::resource('onbuy', 'OnbuyResourceController');
+        Route::post('/onbuy/destroyAll', 'OnbuyResourceController@destroyAll')->name('onbuy.destroy_all');
+
         Route::resource('listing', 'ListingResourceController');
         Route::post('/listing/destroyAll', 'ListingResourceController@destroyAll')->name('listing.destroy_all');
         Route::resource('product_bid', 'ProductBidResourceController');

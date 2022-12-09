@@ -15,14 +15,16 @@ use App\Models\Onbuy\Order as OnbuyOrderModel;
 
 class OrderService
 {
-    public function __construct()
-    {
+    public $seller_id;
 
+    public function __construct($seller_id)
+    {
+        $this->seller_id = $seller_id;
 
     }
     public function syncHandle($offset=0,$limit=50)
     {
-        $onbuy_token = getOnbuyToken();
+        $onbuy_token = getOnbuyToken($this->seller_id);
         $orders = new Order($onbuy_token);
         $orders->getOrder(
             ['status' => 'all'],
@@ -40,7 +42,7 @@ class OrderService
         $picked = false;
         foreach ($orders['results'] as $key => $order)
         {
-            $is_exist = OnbuyOrderModel::where('order_id',$order['order_id'])->value('id');
+            $is_exist = OnbuyOrderModel::where('seller_id',$this->seller_id)->where('order_id',$order['order_id'])->value('id');
             if($is_exist)
             {
                 $picked = true;
@@ -90,6 +92,7 @@ class OrderService
                     'tracking_supplier_name' => $order['tracking']['supplier_name'] ?? '',
                     'tracking_url' => $order['tracking']['tracking_url'] ?? '',
 	                'is_refund' => isset($order['refunds']) && $order['refunds'] ? 1 : 0,
+                    'seller_id' => $this->seller_id,
                 ];
 
                 foreach($order['products'] as $product)
@@ -120,6 +123,7 @@ class OrderService
                         'tracking_number' => $product['tracking']['tracking_number'] ?? '',
                         'tracking_supplier_name' => $product['tracking']['supplier_name'] ?? '',
                         'tracking_url' => $product['tracking']['tracking_url'] ?? '',
+                        'seller_id' => $this->seller_id,
                     ];
                 }
             }
@@ -143,6 +147,7 @@ class OrderService
     public function automaticSyncUpdate($offset=0,$limit=50)
     {
         $order_ids = OnbuyOrderModel::where('status','Awaiting Dispatch')
+            ->where('seller_id',$this->seller_id)
             ->offset($offset)
             ->limit($limit)
             ->pluck('order_id')
@@ -150,7 +155,7 @@ class OrderService
 
         if(count($order_ids))
         {
-            $onbuy_token = getOnbuyToken();
+            $onbuy_token = getOnbuyToken($this->seller_id);
             $orders = new Order($onbuy_token);
             $order_ids = implode(',',$order_ids);
             $orders->getOrder(
@@ -230,7 +235,7 @@ class OrderService
                     'tracking_supplier_name' => $product['tracking']['supplier_name'] ?? '',
                     'tracking_url' => $product['tracking']['tracking_url'] ?? '',
                 ];
-                OnbuyOrderProductModel::where('onbuy_internal_reference',$product['onbuy_internal_reference'])->update($order_product_data);
+                OnbuyOrderProductModel::where('seller_id',$this->seller_id)->where('onbuy_internal_reference',$product['onbuy_internal_reference'])->update($order_product_data);
 	            if(!$data['tracking_number'])
 	            {
 		            $data['tracking_number'] = $order_product_data['tracking_number'];
@@ -238,7 +243,7 @@ class OrderService
 		            $data['tracking_url'] = $order_product_data['tracking_url'];
 	            }
             }
-	        OnbuyOrderModel::where('order_id',$order['order_id'])->update($data);
+	        OnbuyOrderModel::where('seller_id',$this->seller_id)->where('order_id',$order['order_id'])->update($data);
         }
         return true;
     }

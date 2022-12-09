@@ -196,7 +196,7 @@
                     {
 
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {
@@ -257,7 +257,7 @@
                                             }
                                         });
                                     }else{
-                                        layer.msg(data.msg);
+                                        layer.msg(data.message);
                                     }
                                 },
                                 error : function (jqXHR, textStatus, errorThrown) {
@@ -299,7 +299,7 @@
                                 }
                             });
                         }else{
-                            layer.msg(data.msg);
+                            layer.msg(data.message);
                         }
                     },
                     error : function (jqXHR, textStatus, errorThrown) {
@@ -319,7 +319,7 @@
                         type : 'POST',
                         success : function (data) {
                             layer.close(load);
-                            layer.msg(data.msg);
+                            layer.msg(data.message);
                             if(data.code == 0)
                             {
                                 var nPage = $(".layui-laypage-curr em").eq(1).text();

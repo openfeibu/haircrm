@@ -262,7 +262,7 @@
                                         if(data.code == 0) {
                                             window.location.href=data.url;
                                         }else{
-                                            layer.msg(data.msg);
+                                            layer.msg(data.message);
                                         }
                                     },
                                     error : function (jqXHR, textStatus, errorThrown) {
@@ -273,7 +273,7 @@
                             }
                         });
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {

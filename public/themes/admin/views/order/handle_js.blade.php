@@ -88,7 +88,7 @@
                                 layer.closeAll();
                                 if(data.code == 0)
                                 {
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                     if(typeof(obj['nPage']) != "undefined") {
                                         var nPage = $(".layui-laypage-curr em").eq(1).text();
                                         //执行重载
@@ -99,7 +99,7 @@
                                         });
                                     }
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
@@ -138,7 +138,7 @@
                                 layer.closeAll();
                                 if(data.code == 0)
                                 {
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                     if(typeof(obj['nPage']) != "undefined") {
                                         var nPage = $(".layui-laypage-curr em").eq(1).text();
                                         //执行重载
@@ -149,7 +149,7 @@
                                         });
                                     }
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
@@ -220,7 +220,7 @@
                                     }
                                 });
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -250,7 +250,7 @@
                                     }
                                 });
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -280,7 +280,7 @@
                                     }
                                 });
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {

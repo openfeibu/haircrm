@@ -172,7 +172,7 @@
                             layer.close(load);
                             if(data.code != 0)
                             {
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }else{
                                 obj.del();
                             }
@@ -206,7 +206,7 @@
                                 if(data.code == 0) {
                                     window.location.reload();
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
@@ -235,7 +235,7 @@
                             layer.close(load);
                             if(data.code != 0)
                             {
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }else{
                                 obj.del();
                             }
@@ -269,7 +269,7 @@
                                 if(data.code == 0) {
                                     window.location.reload();
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
@@ -303,7 +303,7 @@
                                 if(data.code == 0) {
                                     window.location.reload();
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {

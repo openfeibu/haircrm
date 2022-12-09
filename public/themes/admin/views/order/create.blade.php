@@ -196,7 +196,7 @@
                         window.location.href = "{{ guard_url('order') }}"
                     }else{
                         layer.close(load);
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {

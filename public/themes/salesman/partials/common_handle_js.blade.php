@@ -26,7 +26,7 @@
                             {
                                 obj.del();
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -63,7 +63,7 @@
                     if(data.code == 0)
                     {
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
 
                 },
@@ -125,7 +125,7 @@
                                             }
                                         });
                                     }else{
-                                        layer.msg(data.msg);
+                                        layer.msg(data.message);
                                     }
                                 },
                                 error : function (jqXHR, textStatus, errorThrown) {

@@ -14,6 +14,7 @@ use Xigen\Library\OnBuy\Product\Product;
 use Xigen\Library\OnBuy\Product\Listing;
 use Xigen\Library\OnBuy\Order\Order;
 use App\Services\Onbuy\OrderService;
+use App\Models\Onbuy\Onbuy;
 use DB;
 use Excel;
 
@@ -22,12 +23,16 @@ class OrderResourceController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->orderService = new OrderService();
     }
 
     public function index(Request $request)
     {
+        $onbuy_list = Onbuy::getAll();
         $search = $request->get('search',[]);
+        if(!isset($search['onbuy_orders.seller_id']) || !$search['onbuy_orders.seller_id'])
+        {
+            $search['onbuy_orders.seller_id'] = $onbuy_list->toArray()[0]['seller_id'];
+        }
         if ($this->response->typeIs('json')) {
             $orders = OnbuyOrderModel::join('onbuy_order_products','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                 ->when($search ,function ($query) use ($search){
@@ -95,72 +100,23 @@ class OrderResourceController extends BaseController
 
         return $this->response->title("onbuy 订单")
             ->view('onbuy.order.index')
-            ->data(['limit' => $request->get('limit',50),'search' => $search])
+            ->data([
+                'limit' => $request->get('limit',50),
+                'search' => $search,
+                'onbuy_list' => $onbuy_list
+            ])
             ->output();
 
-        exit;
-        if ($this->response->typeIs('json')) {
-            $search = $request->get('search',[]);
-            $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
-                ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
-                ->when($search ,function ($query) use ($search){
-                foreach($search as $field => $value)
-                {
-                    if($value)
-                    {
-                        switch ($field)
-                        {
-                            case 'onbuy_order_products.sku':
-                                $query->where('onbuy_order_products.sku',$value);
-                                break;
-                            case 'date':
-                                $date = explode('~', $value);
-                                $query->where('onbuy_orders.date','>=', $date[0].' 00:00:00')->where('onbuy_orders.date','<=', $date[1]." 23:59:59");
-                                break;
-                            default :
-                                $query->where($field,'like','%'.$value.'%');
-                                break;
-                        }
-
-                    }
-
-                }
-            });
-            $order_products = $order_products->orderBy('onbuy_orders.date','desc')->paginate($request->get('limit',50),['onbuy_orders.order_id','onbuy_orders.paypal_capture_id','onbuy_orders.date','onbuy_orders.status','onbuy_order_products.image_urls','onbuy_order_products.name','onbuy_order_products.sku','onbuy_order_products.expected_dispatch_date','onbuy_order_products.quantity','onbuy_order_products.tracking_number','onbuy_order_products.tracking_supplier_name','onbuy_order_products.tracking_url','onbuy_order_products.unit_price','onbuy_order_products.total_price','onbuy_order_products.commission_fee_including_tax','onbuy_products.product_url','onbuy_products.purchase_price','onbuy_products.weight']);
-            $gbp_to_rmb = (float)setting('gbp_to_rmb');
-
-            foreach ($order_products as $key=> $order_product)
-            {
-
-                $order_product->total_purchase_price = $order_product->purchase_price *  $order_product->quantity;
-
-                $order_product->freight_expect = international_freight($order_product->weight * $order_product->quantity);
-
-                $order_product->cost = $order_product->total_purchase_price + $order_product->purchase_price;
-
-                $price_gbp_to_rmb = round(($order_product->total_price - $order_product->commission_fee_including_tax) * $gbp_to_rmb,2);
-
-                $order_product->profit_expect = round($price_gbp_to_rmb - $order_product->cost,2);
-
-            }
-
-            return $this->response
-                ->success()
-                ->count($order_products->total())
-                ->data($order_products->toArray()['data'])
-                ->output();
-
-        }
-
-        return $this->response->title("onbuy 订单")
-            ->view('onbuy.order.index')
-            ->data(['limit' => $request->get('limit',50)])
-            ->output();
     }
     public function products(Request $request)
     {
+        $onbuy_list = Onbuy::getAll();
         if ($this->response->typeIs('json')) {
             $search = $request->get('search',[]);
+            if(!isset($search['onbuy_orders.seller_id']) || !$search['onbuy_orders.seller_id'])
+            {
+                $search['onbuy_orders.seller_id'] = $onbuy_list->toArray()[0]['seller_id'];
+            }
             $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                 ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
                 ->selectRaw("onbuy_order_products.*,SUM(onbuy_order_products.quantity) as total_quantity, (SUM(onbuy_order_products.quantity) - `onbuy_products`.`out_inventory`) as need_out, onbuy_products.product_url,onbuy_products.inventory,onbuy_products.out_inventory,onbuy_products.id as product_id,onbuy_products.purchase_url,onbuy_products.purchase_price")
@@ -174,6 +130,9 @@ class OrderResourceController extends BaseController
                             switch ($field) {
                                 case 'onbuy_order_products.sku':
                                     $query->where('onbuy_order_products.sku', $value);
+                                    break;
+                                case 'onbuy_orders.seller_id':
+                                    $query->where('onbuy_orders.seller_id', $value);
                                     break;
                                 case 'date':
                                     $date = explode('~', $value);
@@ -223,7 +182,7 @@ class OrderResourceController extends BaseController
         }
         return $this->response->title("onbuy 产品出单量")
             ->view('onbuy.order.products')
-            ->data(['limit' => $request->get('limit',50)])
+            ->data(['limit' => $request->get('limit',50),'onbuy_list' => $onbuy_list])
             ->output();
     }
     public function update(Request $request, OnbuyOrderModel $order)
@@ -284,7 +243,7 @@ class OrderResourceController extends BaseController
             $data = $request->all();
             $order_ids = $data['order_ids'];
             $order_ids = implode(",",$order_ids);
-            $onbuy_token = getOnbuyToken();
+            $onbuy_token = getOnbuyToken($data['seller_id']);
             $orders = new Order($onbuy_token);
 
             $orders->getOrder(
@@ -297,9 +256,10 @@ class OrderResourceController extends BaseController
                 ]
             );
             $orders = $orders->getResponse();
+            $orderService = new OrderService($data['seller_id']);
             if(count($orders['results']) !=0 )
             {
-                $this->orderService->syncUpdate($orders['results']);
+                $orderService->syncUpdate($orders['results']);
             }
 
             return $this->response->message(trans('messages.operation.success'))
@@ -316,9 +276,11 @@ class OrderResourceController extends BaseController
                 ->redirect();
         }
     }
-    public function sync()
+    public function sync(Request $request)
     {
-        $this->orderService->syncHandle();
+        $seller_id = $request->get('seller_id');
+        $orderService = new OrderService($seller_id);
+        $orderService->syncHandle();
         return $this->response->message(trans('messages.operation.success'))
             ->status("success")
             ->http_code(202)
@@ -388,6 +350,7 @@ class OrderResourceController extends BaseController
 
         set_time_limit(0);
         $file = $request->file;
+        $seller_id = $request->get('seller_id');
         isVaildExcel($file);
         $res = (new OrderExpressImport())->toArray($file)[0];
         $res = array_filter($res);
@@ -469,7 +432,7 @@ class OrderResourceController extends BaseController
 
                 $success_count++;
             }
-            $onbuy_token = getOnbuyToken();
+            $onbuy_token = getOnbuyToken($seller_id);
             $order = new Order($onbuy_token);
             $order->dispatchOrder($dispatch_orders);
             $res = $order->getResponse();

@@ -13,27 +13,32 @@ use Xigen\Library\OnBuy\Product\Product;
 use Xigen\Library\OnBuy\Product\Listing;
 use DB;
 use App\Services\Onbuy\ListingService;
+use App\Models\Onbuy\Onbuy;
 
 class ListingResourceController extends BaseController
 {
     public function __construct()
     {
         parent::__construct();
-        $this->list_service = new ListingService();
     }
 
     public function index(Request $request)
     {
+        $onbuy_list = Onbuy::getAll();
+        $search = $request->get('search',[]);
+        if(!isset($search['seller_id']) || !$search['seller_id'])
+        {
+            $search['seller_id'] = $onbuy_list->toArray()[0]['seller_id'];
+        }
         if ($this->response->typeIs('json')) {
-            $search = $request->get('search',[]);
             $products = OnbuyProductModel::when($search ,function ($query) use ($search){
                 foreach($search as $field => $value)
                 {
                     if($value)
                     {
-                        if($field == 'sku')
+                        if($field == 'sku'|| $field == 'seller_id')
                         {
-                            $query->where('sku',$value);
+                            $query->where($field,$value);
                         }else{
                             $query->where($field,'like','%'.$value.'%');
                         }
@@ -60,11 +65,12 @@ class ListingResourceController extends BaseController
                 $product->total_quantity = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                     ->selectRaw("SUM(onbuy_order_products.quantity) as total_quantity ")
                     ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
+                    ->where('onbuy_order_products.seller_id',$product->seller_id)
                     ->where('onbuy_order_products.sku',$product->sku)
                     ->value('total_quantity') ?: 0;
                 $product->need_purchase = $product->total_quantity - $product->inventory - $product->out_inventory;
 
-                $product->is_auto_pricing = ProductBidTask::where('sku',$product->sku)->value('id') ? 1 : 0;
+                $product->is_auto_pricing = ProductBidTask::where('seller_id',$product->seller_id)->where('sku',$product->sku)->value('id') ? 1 : 0;
             }
             return $this->response
                 ->success()
@@ -76,7 +82,7 @@ class ListingResourceController extends BaseController
 
         return $this->response->title(trans('goods.name'))
             ->view('onbuy.listing.index')
-            ->data(['limit' => $request->get('limit',50)])
+            ->data(['limit' => $request->get('limit',50),'onbuy_list' => $onbuy_list])
             ->output();
     }
     public function update(Request $request, OnbuyProductModel $listing)
@@ -98,18 +104,19 @@ class ListingResourceController extends BaseController
         }
 
     }
-    public function sync()
+    public function sync(Request $request)
     {
-        $this->syncHandle();
+        $seller_id = $request->get('seller_id','');
+        $this->syncHandle($seller_id);
         return $this->response->message(trans('messages.operation.success'))
             ->status("success")
             ->http_code(202)
             ->url(guard_url('goods'))
             ->redirect();
     }
-    public function syncHandle($offset=0,$limit=50)
+    public function syncHandle($seller_id,$offset=0,$limit=50)
     {
-        $onbuy_token = getOnbuyToken();
+        $onbuy_token = getOnbuyToken($seller_id);
         $listing = new Listing($onbuy_token);
         $listing->getListing(
             ['last_created' => 'desc'],
@@ -126,7 +133,7 @@ class ListingResourceController extends BaseController
         $picked = false;
         foreach ($products['results'] as $key => $product)
         {
-            $is_exist = OnbuyProductModel::where('sku',$product['sku'])->value('id');
+            $is_exist = OnbuyProductModel::where('seller_id',$seller_id)->where('sku',$product['sku'])->value('id');
             if($is_exist)
             {
                 $picked = true;
@@ -154,6 +161,7 @@ class ListingResourceController extends BaseController
                     'sale_price' => $product['sale_price'],
                     'min_price' => 0,
                     'original_price' => $product['price'],
+                    'seller_id' => $seller_id,
                     'created_at' => $product['created_at'],
                     'updated_at' => $product['updated_at'],
                 ];
@@ -167,7 +175,7 @@ class ListingResourceController extends BaseController
         }
         //还不是最新数据
         if(!$picked){
-            $this->syncHandle($offset+$limit);
+            $this->syncHandle($seller_id,$offset+$limit);
         }
         return true;
     }
@@ -224,6 +232,7 @@ class ListingResourceController extends BaseController
                 $data[] = [
                     'sku' => $sku,
                     'bid_id' => $product_bid->id,
+                    'seller_id' => $attributes['seller_id'],
                 ];
             }
             OnbuyProductBidTaskModel::whereIn('sku',$attributes['skus'])->delete();
@@ -242,9 +251,11 @@ class ListingResourceController extends BaseController
         }
 
     }
-    public function restorePrice()
+    public function restorePrice(Request $request)
     {
-        $this->list_service->restorePrice(true);
+        $seller_id = $request->get('seller_id');
+        $list_service = new ListingService($seller_id);
+        $list_service->restorePrice(true);
         return $this->response->message(trans('messages.operation.success'))
             ->code(0)
             ->status('success')

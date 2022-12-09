@@ -5,12 +5,7 @@
     .layui-table-header .layui-table-cell, .layui-table-tool-panel li{white-space: pre-wrap !important;}
 </style>
 <div class="main">
-    <div class="layui-card fb-minNav">
-        <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
-            <a href="{{ guard_url('home') }}">{{ trans('app.home') }}</a><span lay-separator="">/</span>
-            <a href="{{ guard_url('onbuy/order/index') }}"><cite>Onbuy 订单</cite></a>
-        </div>
-    </div>
+    {!! Theme::widget('breadcrumb')->render() !!}
     <div class="main_full">
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
@@ -26,6 +21,14 @@
                 </div>
             </div>
             <div class="tabel-message">
+                <div class="layui-inline">
+                    <label class="layui-form-label">店铺</label>
+                    <select name="onbuy_orders.seller_id" class="search_key layui-select" id="seller_id">
+                        @foreach($onbuy_list as $key => $onbuy)
+                            <option value="{{ $onbuy['seller_id'] }}">{{ $onbuy['name'] }}</option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="layui-inline">
                     <label class="layui-form-label">状态</label>
                     <select name="onbuy_orders.status" class="search_key layui-select">
@@ -66,7 +69,7 @@
     </div>
 </div>
 <div class="tabel-message" id="import_express_content" style="display: none;">
-    <form class="form-horizontal" method="POST" action="{{ guard_url('onbuy/order/import/express') }}" enctype="multipart/form-data"  id="import_express_form" lay-filter="import_express_form">
+    <form class="form-horizontal" method="POST" name="import_express_form" action="{{ guard_url('onbuy/order/import/express') }}" enctype="multipart/form-data"  id="import_express_form" lay-filter="import_express_form">
         <div class="layui-row layui-col-space10">
             <div class="tabel-btn layui-col-md12">
                 <button class="layui-btn layui-btn-warm "><a href="{{url('image/original/system/onbuy_order_import_express_template.xlsx')}}">下载模板</a></button>
@@ -415,7 +418,7 @@
                                         }
                                     });
                                 }else{
-                                    layer.msg(data.msg);
+                                    layer.msg(data.message);
                                 }
                             },
                             error : function (jqXHR, textStatus, errorThrown) {
@@ -452,7 +455,7 @@
                     {
 
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {
@@ -514,7 +517,7 @@
                                             }
                                         });
                                     }else{
-                                        layer.msg(data.msg);
+                                        layer.msg(data.message);
                                     }
                                 },
                                 error : function (jqXHR, textStatus, errorThrown) {
@@ -540,9 +543,10 @@
                 }
 
                 var load = layer.load();
+                var seller_id = $('#seller_id').val();
                 $.ajax({
                     url : main_url+'/sync_update',
-                    data :  {'order_ids':data_id_obj,'_token' : "{!! csrf_token() !!}"},
+                    data :  {'order_ids':data_id_obj,'_token' : "{!! csrf_token() !!}",'seller_id':seller_id},
                     type : 'POST',
                     success : function (data) {
                         layer.close(load);
@@ -556,7 +560,7 @@
                                 }
                             });
                         }else{
-                            layer.msg(data.msg);
+                            layer.msg(data.message);
                         }
                     },
                     error : function (jqXHR, textStatus, errorThrown) {
@@ -570,13 +574,14 @@
                 layer.confirm('是否同步(该同步只会导出新产品,不会更新旧产品信息)',{title:'提示'},function(index){
                     layer.close(index);
                     var load = layer.load();
+                    var seller_id = $('#seller_id').val();
                     $.ajax({
                         url : main_url+'/sync',
-                        data :  {'_token' : "{!! csrf_token() !!}"},
+                        data :  {'_token' : "{!! csrf_token() !!}",'seller_id':seller_id},
                         type : 'POST',
                         success : function (data) {
                             layer.close(load);
-                            layer.msg(data.msg);
+                            layer.msg(data.message);
                             if(data.code == 0)
                             {
                                 var nPage = $(".layui-laypage-curr em").eq(1).text();
@@ -683,6 +688,10 @@
                             ,shade: 0.01
                             ,time:0
                         });
+                        var seller_id = $('#seller_id').val();
+                        var op=$("<input type='hidden' name='seller_id' value='"+seller_id+"'/>");
+                        op.attr("form","import_express_form");
+                        $("#import_express_form").append(op);
                         $("#import_express_form").submit();
                         /*
                         form.submit("import_express_form", function(data){

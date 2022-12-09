@@ -3,19 +3,20 @@
     .layui-table-header .layui-table-cell, .layui-table-tool-panel li{white-space: pre-wrap !important;}
 </style>
 <div class="main">
-    <div class="layui-card fb-minNav">
-        <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
-            <a href="{{ guard_url('home') }}">{{ trans('app.home') }}</a><span lay-separator="">/</span>
-            <a href="{{ guard_url('onbuy/order/index') }}"><cite>Onbuy 产品出单量</cite></a>
-        </div>
-    </div>
+    {!! Theme::widget('breadcrumb')->render() !!}
     <div class="main_full">
         {!! Theme::partial('message') !!}
         <div class="layui-col-md12">
             <div class="tabel-message">
-                <div class="layui-inline tabel-btn">
-
+                <div class="layui-inline">
+                    <label class="layui-form-label">店铺</label>
+                    <select name="onbuy_orders.seller_id" class="search_key layui-select">
+                        @foreach($onbuy_list as $key => $onbuy)
+                            <option value="{{ $onbuy['seller_id'] }}">{{ $onbuy['name'] }}</option>
+                        @endforeach
+                    </select>
                 </div>
+
                 <div class="layui-inline">
                     <label class="layui-form-label">下单日期 *</label>
                     <div class="layui-input-block">
@@ -172,7 +173,7 @@
                                     }
                                 });
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -208,7 +209,7 @@
                                     }
                                 });
                             }else{
-                                layer.msg(data.msg);
+                                layer.msg(data.message);
                             }
                         },
                         error : function (jqXHR, textStatus, errorThrown) {
@@ -239,7 +240,7 @@
                     {
 
                     }else{
-                        layer.msg(data.msg);
+                        layer.msg(data.message);
                     }
                 },
                 error : function (jqXHR, textStatus, errorThrown) {

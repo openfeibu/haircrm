@@ -161,7 +161,7 @@
                             }
                         }else{
                             //$('#submit-btn').attr('disabled',true).removeClass('layui-btn-submit').addClass('layui-btn-disabled');
-                            that.parent().after('<div class="layui-form-mid layui-word-aux email-aux error-aux">'+data.msg+'</div>')
+                            that.parent().after('<div class="layui-form-mid layui-word-aux email-aux error-aux">'+data.message+'</div>')
                         }
                     },
                     error : function (jqXHR, textStatus, errorThrown) {
