@@ -37,7 +37,7 @@ class ListingService
     {
         $time = date("H:i:s");
         $date = date("Y-m-d");
-        $product_bid_ids = ProductBid::where('active',1)->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )->pluck('id')->toArray();
+        $product_bid_ids = ProductBid::where('seller_id',$this->seller_id)->where('active',1)->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )->pluck('id')->toArray();
         if(!$product_bid_ids)
         {
             echo "0";
