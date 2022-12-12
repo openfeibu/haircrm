@@ -110,7 +110,7 @@ class ListingService
         {
             $h = intval(date("G"));
 
-            if($h<9)
+            if($h<intval(setting('onbuy_restore_hours')))
             {
                 return false;
             }
