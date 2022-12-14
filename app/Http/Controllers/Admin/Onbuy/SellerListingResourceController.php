@@ -98,7 +98,7 @@ class SellerListingResourceController extends BaseController
     {
         $seller_id = $request->get('seller_id','');
         $lisService = new ListingService($seller_id);
-        $lisService->syncHandle($seller_id);
+        $lisService->syncHandle();
         return $this->response->message(trans('messages.operation.success'))
             ->status("success")
             ->http_code(202)
