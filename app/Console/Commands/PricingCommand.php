@@ -6,6 +6,7 @@ use App\Models\Onbuy\Onbuy;
 use App\Services\MailScheduleService;
 use App\Services\Onbuy\ListingService;
 use Illuminate\Console\Command;
+use Log;
 
 class PricingCommand extends Command
 {
@@ -44,7 +45,8 @@ class PricingCommand extends Command
         foreach ($onbuy_list as $onbuy)
         {
             $list_service = new ListingService($onbuy['seller_id']);
-            $list_service->automatic();
+			Log::info('price_auto seller_id:'.$onbuy['seller_id']);           
+		   $list_service->automatic();
         }
     }
 }

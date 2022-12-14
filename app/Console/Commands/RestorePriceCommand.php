@@ -45,7 +45,7 @@ class RestorePriceCommand extends Command
         foreach ($onbuy_list as $onbuy)
         {
             $list_service = new ListingService($onbuy['seller_id']);
-            Log::info('seller_id:'.$onbuy['seller_id']);
+            Log::info('restore price seller_id:'.$onbuy['seller_id']);
 			$list_service->restorePrice();
         }
     }
