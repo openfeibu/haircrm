@@ -44,6 +44,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('restore_price:auto')->everyFiveMinutes();
         $schedule->command('onbuy_order_sync:auto')->everyFiveMinutes();
         $schedule->command('onbuy_order_sync_update:auto')->everyFiveMinutes()->between('10:00', '13:00');
+		Log::info('schedule');
     }
 
     /**
