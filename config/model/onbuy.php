@@ -128,4 +128,21 @@ return [
             'name'  => 'like',
         ],
     ],
+    'seller_product'=> [
+        'model'        => 'App\Models\Onbuy\SellerProduct',
+        'table'        => 'onbuy_seller_product',
+        'primaryKey'   => 'id',
+        'hidden'       => [],
+        'visible'      => [],
+        'guarded'      => ['*'],
+        'fillable'     => ['seller_id', 'product_sku','created_at','updated_at'],
+        'translate'    => [],
+        'upload_folder' => '',
+        'encrypt'      => ['id'],
+        'revision'     => ['name'],
+        'perPage'      => '20',
+        'search'        => [
+            'name'  => 'like',
+        ],
+    ],
 ];

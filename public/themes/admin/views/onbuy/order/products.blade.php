@@ -11,6 +11,7 @@
                 <div class="layui-inline">
                     <label class="layui-form-label">店铺</label>
                     <select name="onbuy_orders.seller_id" class="search_key layui-select">
+                        <option value="">全部</option>
                         @foreach($onbuy_list as $key => $onbuy)
                             <option value="{{ $onbuy['seller_id'] }}">{{ $onbuy['name'] }}</option>
                         @endforeach
