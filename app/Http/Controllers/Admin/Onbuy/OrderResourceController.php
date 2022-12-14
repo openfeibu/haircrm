@@ -113,10 +113,10 @@ class OrderResourceController extends BaseController
         $onbuy_list = Onbuy::getAll();
         if ($this->response->typeIs('json')) {
             $search = $request->get('search',[]);
-            if(!isset($search['onbuy_orders.seller_id']) || !$search['onbuy_orders.seller_id'])
-            {
-                $search['onbuy_orders.seller_id'] = $onbuy_list->toArray()[0]['seller_id'];
-            }
+//            if(!isset($search['onbuy_orders.seller_id']) || !$search['onbuy_orders.seller_id'])
+//            {
+//                $search['onbuy_orders.seller_id'] = $onbuy_list->toArray()[0]['seller_id'];
+//            }
             $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                 ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
                 ->selectRaw("onbuy_order_products.*,SUM(onbuy_order_products.quantity) as total_quantity, (SUM(onbuy_order_products.quantity) - `onbuy_products`.`out_inventory`) as need_out, onbuy_products.product_url,onbuy_products.inventory,onbuy_products.out_inventory,onbuy_products.id as product_id,onbuy_products.purchase_url,onbuy_products.purchase_price")

@@ -2,6 +2,8 @@
 namespace App\Services\Onbuy;
 
 use App\Models\Onbuy\Onbuy;
+use App\Models\Onbuy\Product as OnbuyProductModel;
+use App\Models\Onbuy\SellerProduct;
 use App\Models\Schedule;
 use GuzzleHttp\Client;
 use App\Exceptions\OutputServerMessageException;
@@ -178,5 +180,92 @@ class ListingService
         }
         DB::rollback();
         return false;
+    }
+
+    public function syncHandle($offset=0,$limit=50)
+    {
+        DB::beginTransaction();
+        try{
+            $onbuy_token = getOnbuyToken($this->seller_id);
+            $listing = new Listing($onbuy_token);
+            $listing->getListing(
+                ['last_created' => 'desc'],
+                [],
+                $limit,
+                $offset
+            );
+            $products = $listing->getResponse();
+            if(count($products['results']) <=0 )
+            {
+                return true;
+            }
+            $data = [];
+            $seller_product_data = [];
+            $picked = false;
+            foreach ($products['results'] as $key => $product)
+            {
+                $is_exist_seller_product = SellerProduct::where('seller_id',$this->seller_id)->where('product_sku',$product['sku'])->value('id');
+                $is_exist_product = OnbuyProductModel::where('sku',$product['sku'])->value('id');
+                if($is_exist_seller_product && $is_exist_product)
+                {
+                    $picked = true;
+                }
+
+                if(!$is_exist_product)
+                {
+                    $data[$key] = [
+                        'name' => $product['name'],
+                        'sku' => $product['sku'],
+                        'group_sku' => $product['group_sku'],
+                        'price' => $product['price'],
+                        'stock' => $product['stock'],
+                        'product_listing_id' => $product['product_listing_id'],
+                        'product_listing_condition_id' => $product['product_listing_condition_id'],
+                        'condition' => $product['condition'],
+                        'handling_time' => $product['handling_time'],
+                        'boost_marketing_commission' => $product['boost_marketing_commission'],
+                        'product_encoded_id' => $product['product_encoded_id'],
+                        'delivery_weight' => $product['delivery_weight'],
+                        'delivery_template_id' => $product['delivery_template_id'],
+                        'opc' => $product['opc'],
+                        'product_url' => $product['product_url'],
+                        'image_url' => $product['image_url'],
+                        'sale_price' => $product['sale_price'],
+                        'min_price' => 0,
+                        'original_price' => $product['price'],
+                        'created_at' => $product['created_at'],
+                        'updated_at' => $product['updated_at'],
+                    ];
+                }
+                if(!$is_exist_seller_product){
+                    $seller_product_data[$key] = [
+                        'seller_id' => $this->seller_id,
+                        'product_sku' => $product['sku'],
+                        'created_at' => $product['created_at'],
+                        'updated_at' => $product['updated_at'],
+                    ];
+                }
+            }
+            //插入数据库
+            if(count($data))
+            {
+                DB::table("onbuy_products")->insert($data);
+            }
+            if(count($seller_product_data))
+            {
+                DB::table("onbuy_seller_product")->insert($seller_product_data);
+            }
+            DB::commit();
+            //还不是最新数据
+            if(!$picked){
+                $this->syncHandle($offset+$limit);
+            }
+            return true;
+
+        } catch (Exception $e){
+            DB::rollback();
+            throw new OutputServerMessageException($e->getMessage());
+        }
+
     }
 }

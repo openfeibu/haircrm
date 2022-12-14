@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Onbuy;
 
+use App\Exceptions\OutputServerMessageException;
 use App\Http\Controllers\Admin\Onbuy\BaseController;
 use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\ProductBid as OnbuyProductBidModel;
@@ -16,7 +17,7 @@ use DB;
 use App\Services\Onbuy\ListingService;
 use App\Models\Onbuy\Onbuy;
 
-class ListingResourceController extends BaseController
+class SellerListingResourceController extends BaseController
 {
     public function __construct()
     {
@@ -27,23 +28,33 @@ class ListingResourceController extends BaseController
     {
         $onbuy_list = Onbuy::getAll();
         $search = $request->get('search',[]);
-
+        if(!isset($search['onbuy_seller_product.seller_id']) || !$search['onbuy_seller_product.seller_id'])
+        {
+            $search['onbuy_seller_product.seller_id'] = $onbuy_list->toArray()[0]['seller_id'];
+        }
         if ($this->response->typeIs('json')) {
-            $products = OnbuyProductModel::when($search ,function ($query) use ($search){
+            $products = SellerProduct::join('onbuy_products','onbuy_seller_product.product_sku','onbuy_products.sku')
+            ->when($search ,function ($query) use ($search){
                 foreach($search as $field => $value)
                 {
                     if($value)
                     {
-                        if($field == 'sku')
+                        if($field == 'onbuy_products.sku')
                         {
+                            $query->where($field,$value);
+                        }else if($field == 'onbuy_seller_product.seller_id'){
                             $query->where($field,$value);
                         }else{
                             $query->where($field,'like','%'.$value.'%');
                         }
                     }
+
                 }
             });
-            $products = $products->orderBy('created_at','desc')->paginate($request->get('limit',50));
+            $products = $products
+                //->groupBy('onbuy_seller_product.product_sku')
+                ->orderBy('onbuy_seller_product.created_at','desc')
+                ->paginate($request->get('limit',50),['onbuy_seller_product.*','onbuy_products.*','onbuy_products.id as product_id']);
             $onbuy_fee = (float)setting('onbuy_fee');
             $gbp_to_rmb = (float)setting('gbp_to_rmb');
             foreach ($products as $key=> $product)
@@ -78,35 +89,27 @@ class ListingResourceController extends BaseController
         }
 
         return $this->response->title(trans('goods.name'))
-            ->view('onbuy.listing.index')
+            ->view('onbuy.seller_listing.index')
             ->data(['limit' => $request->get('limit',50),'onbuy_list' => $onbuy_list])
             ->output();
     }
-    public function update(Request $request, OnbuyProductModel $listing)
-    {
-        try {
-            $attributes = $request->all();
-            $listing->update($attributes);
-            return $this->response->message(trans('messages.success.updated'))
-                ->code(0)
-                ->status('success')
-                ->url(guard_url('onbuy/listing' . $listing->id))
-                ->redirect();
-        } catch (Exception $e) {
-            return $this->response->message($e->getMessage())
-                ->code(400)
-                ->status('error')
-                ->url(guard_url('onbuy/listing/' . $listing->id))
-                ->redirect();
-        }
 
+    public function sync(Request $request)
+    {
+        $seller_id = $request->get('seller_id','');
+        $lisService = new ListingService($seller_id);
+        $lisService->syncHandle($seller_id);
+        return $this->response->message(trans('messages.operation.success'))
+            ->status("success")
+            ->http_code(202)
+            ->url(guard_url('goods'))
+            ->redirect();
     }
 
     public function destroy(Request $request,OnbuyProductModel $listing)
     {
         try {
             $listing->delete();
-            SellerProduct::where('product_sku',$listing['sku'])->delete();
             return $this->response->message(trans('messages.success.deleted', ['Module' => '产品']))
                 ->status("success")
                 ->http_code(202)
@@ -144,5 +147,71 @@ class ListingResourceController extends BaseController
                 ->redirect();
         }
     }
+    public function automatic(Request $request)
+    {
+        try {
+            $attributes = $request->all();
+            $product_bid = OnbuyProductBidModel::create($attributes);
 
+            $data = [];
+            foreach ($attributes['skus'] as $sku)
+            {
+                $data[] = [
+                    'sku' => $sku,
+                    'bid_id' => $product_bid->id,
+                    'seller_id' => $attributes['seller_id'],
+                ];
+            }
+            OnbuyProductBidTaskModel::whereIn('sku',$attributes['skus'])->delete();
+            DB::table('onbuy_product_bid_tasks')->insert($data);
+            return $this->response->message(trans('messages.operation.success'))
+                ->code(0)
+                ->status('success')
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+        } catch (Exception $e) {
+            return $this->response->message($e->getMessage())
+                ->code(400)
+                ->status('error')
+                ->url(guard_url('onbuy/listing'))
+                ->redirect();
+        }
+
+    }
+    public function restorePrice(Request $request)
+    {
+        $seller_id = $request->get('seller_id');
+        $list_service = new ListingService($seller_id);
+        $list_service->restorePrice(true);
+        return $this->response->message(trans('messages.operation.success'))
+            ->code(0)
+            ->status('success')
+            ->url(guard_url('onbuy/listing'))
+            ->redirect();
+    }
+    public function getWinning()
+    {
+        //$this->list_service->restorePrice();
+        exit;
+        $this->list_service->automatic();
+        exit;
+        $onbuy_token = getOnbuyToken();
+        $listing = new Listing($onbuy_token);
+
+//        $listing->getListing(
+//            ['last_created' => 'desc'],
+//            [],
+//            20,
+//            0
+//        );
+//        $products = $listing->getResponse();
+//        var_dump($products);exit;
+
+        $listing->getWinningListing([
+            "0426386615889",
+            "0711719894858",
+            "0711719874263"
+        ]);
+        var_dump($listing->getResponse());exit;
+    }
 }
