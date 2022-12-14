@@ -10,6 +10,7 @@ use App\Console\Commands\RestorePriceCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Console\Commands\CmsCommand;
+use Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -38,11 +39,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('mail_schedule:auto')->everyMinute()->withoutOverlapping();
-        $schedule->command('pricing:auto')->everyFiveMinutes()->withoutOverlapping();
-        $schedule->command('restore_price:auto')->everyFiveMinutes()->withoutOverlapping();
-        $schedule->command('onbuy_order_sync:auto')->everyFiveMinutes()->withoutOverlapping();
-        $schedule->command('onbuy_order_sync_update:auto')->everyFiveMinutes()->between('10:00', '13:00')->withoutOverlapping();
+        $schedule->command('mail_schedule:auto')->everyMinute();
+        $schedule->command('pricing:auto')->everyFiveMinutes();
+        $schedule->command('restore_price:auto')->everyFiveMinutes();
+        $schedule->command('onbuy_order_sync:auto')->everyFiveMinutes();
+        $schedule->command('onbuy_order_sync_update:auto')->everyFiveMinutes()->between('10:00', '13:00');
     }
 
     /**

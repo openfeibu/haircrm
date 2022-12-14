@@ -98,6 +98,7 @@ class ListingService
     public function restorePrice($is_manual=false)
     {
         $date = date("Y-m-d");
+		Log::info($date);
         if($is_manual)
         {
 
