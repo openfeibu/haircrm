@@ -159,8 +159,7 @@ class ListingService
         $data = [];
         foreach ($tasks as $item)
         {
-            \App\Models\Onbuy\Product::where('seller_id',$this->seller_id)
-                ->where('sku',$item['sku'])
+            \App\Models\Onbuy\Product::where('sku',$item['sku'])
                 ->update([
                     'price' => $item['original_price']
                 ]);
