@@ -230,6 +230,7 @@
                     layer.close(load);
                     if(data.code == 0)
                     {
+                        /*
                         var nPage = $(".layui-laypage-curr em").eq(1).text();
                         //执行重载
                         table.reload('fb-table', {
@@ -237,6 +238,8 @@
                                 curr: nPage //重新从第 1 页开始
                             }
                         });
+
+                         */
                     }else{
                         layer.msg(data.message);
                     }
