@@ -40,8 +40,8 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('mail_schedule:auto')->everyMinute();
-        $schedule->command('pricing:auto')->everyFiveMinutes();
-        $schedule->command('restore_price:auto')->everyFiveMinutes();
+        $schedule->command('pricing:auto')->everyMinute();
+        $schedule->command('restore_price:auto')->everyMinute();
         $schedule->command('onbuy_order_sync:auto')->everyFiveMinutes();
         $schedule->command('onbuy_order_sync_update:auto')->everyFiveMinutes()->between('10:00', '13:00');
 		Log::info('schedule');

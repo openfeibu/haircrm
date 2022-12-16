@@ -42,6 +42,7 @@ class RestorePriceCommand extends Command
     public function handle()
     {
         $onbuy_list = Onbuy::where('status',1)->get();
+		Log::info('restore price start');
         foreach ($onbuy_list as $onbuy)
         {
             $list_service = new ListingService($onbuy['seller_id']);
