@@ -205,12 +205,12 @@
             'dev_requirement' => false,
         ),
         'filp/whoops' => array(
-            'pretty_version' => '2.1.14',
-            'version' => '2.1.14.0',
+            'pretty_version' => '2.9.2',
+            'version' => '2.9.2.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../filp/whoops',
             'aliases' => array(),
-            'reference' => 'c6081b8838686aa04f1e83ba7e91f78b7b2a23e6',
+            'reference' => 'df7933820090489623ce0be5e85c7e693638e536',
             'dev_requirement' => true,
         ),
         'fzaninotto/faker' => array(
@@ -1208,6 +1208,15 @@
             'install_path' => __DIR__ . '/../spatie/string',
             'aliases' => array(),
             'reference' => '28607b9925b4f0499d48570553ca419c6298e26b',
+            'dev_requirement' => false,
+        ),
+        'srmklive/paypal' => array(
+            'pretty_version' => '2.0.10',
+            'version' => '2.0.10.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../srmklive/paypal',
+            'aliases' => array(),
+            'reference' => 'd79b43aaf5c71f07ac015392454db32517db0675',
             'dev_requirement' => false,
         ),
         'swiftmailer/swiftmailer' => array(
