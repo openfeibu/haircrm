@@ -53,11 +53,11 @@ class OrderExpressYanwenExport implements FromCollection,WithEvents
             $address = $order->delivery_address['line_1'];
             if($order->delivery_address['line_2'])
             {
-                $address.= ' '.$order->delivery_address['line_2'];
+                $address.= ', '.$order->delivery_address['line_2'];
             }
             if($order->delivery_address['line_3'])
             {
-                $address.= ' '.$order->delivery_address['line_3'];
+                $address.= ', '.$order->delivery_address['line_3'];
             }
             $date = date('m/d/Y',strtotime($order->date));
             $order_data[$i] = [

@@ -14,8 +14,10 @@
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync" data-events="sync">从Onbuy同步新订单</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync_update" data-events="sync_update">从Onbuy同步更新订单</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="import_express_excel" data-events="import_express_excel">导入 快递信息</button>
+                    <button class="layui-btn layui-btn-warm " type="button" data-type="import_shipping_fee" data-events="import_shipping_fee">导入 运费信息</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_yanwen_excel" data-events="export_yanwen_excel">下载 燕文Excel</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_hualei_excel" data-events="export_hualei_excel">下载 华磊Excel</button>
+                    <button class="layui-btn layui-btn-primary " type="button" data-type="export_4px_excel" data-events="export_4px_excel">下载 4PX Excel Test</button>
                     <!--<button class="layui-btn layui-btn-warm " data-type="mark_purchase" data-events="mark_purchase">标记为已拿货</button>-->
                     <!--<button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>-->
                 </div>
@@ -69,19 +71,46 @@
     </div>
 </div>
 <div class="tabel-message" id="import_express_content" style="display: none;">
-    <form class="form-horizontal" method="POST" name="import_express_form" action="{{ guard_url('onbuy/order/import/express') }}" enctype="multipart/form-data"  id="import_express_form" lay-filter="import_express_form">
+    <form class="form-horizontal layui-form" method="POST" name="import_express_form" action="{{ guard_url('onbuy/order/import/express') }}" enctype="multipart/form-data"  id="import_express_form" lay-filter="import_express_form">
         <div class="layui-row layui-col-space10">
-            <div class="tabel-btn layui-col-md12">
+            <!--<div class="tabel-btn layui-col-md12">
                 <button class="layui-btn layui-btn-warm "><a href="{{url('image/original/system/onbuy_order_import_express_template.xlsx')}}">下载模板</a></button>
-            </div>
+            </div>-->
             <div class="tabel-btn layui-col-md12">
                 {{ csrf_field() }}
+                <div class="layui-form-item">
+                    <label class="layui-form-label">物流</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="express" value="yanwen" title="燕文" checked>
+                        <input type="radio" name="express" value="4px" title="4px" >
+                    </div>
+                </div>
+
                 <div class="input-file" >
                     选择文件
                     <input id="file" type="file" class="form-control" name="file" required>
                 </div>
                 <label class="fileText">未选中文件</label>
-                <span class="layui-word-aux des_content">（注意：请严格按照模板的格式上传Excel！）</span>
+                <span class="layui-word-aux des_content">（注意：上传物流平台下载的物流订单Excel！）</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="tabel-message" id="import_shipping_fee_content" style="display: none;">
+    <form class="form-horizontal layui-form" method="POST" name="import_shipping_fee_form" action="{{ guard_url('onbuy/order/import/shipping_fee') }}" enctype="multipart/form-data"  id="import_shipping_fee_form" lay-filter="import_shipping_fee_form">
+        <div class="layui-row layui-col-space10">
+        <!--<div class="tabel-btn layui-col-md12">
+                <button class="layui-btn layui-btn-warm "><a href="{{url('image/original/system/onbuy_order_import_express_template.xlsx')}}">下载模板</a></button>
+            </div>-->
+            <div class="tabel-btn layui-col-md12">
+                {{ csrf_field() }}
+
+                <div class="input-file" >
+                    选择文件
+                    <input id="file" type="file" class="form-control" name="file" required>
+                </div>
+                <label class="fileText">未选中文件</label>
+                <span class="layui-word-aux des_content">（注意：上传物流平台下载的物流订单Excel！）</span>
             </div>
         </div>
     </form>
@@ -198,6 +227,7 @@
         <p> PayPal: £@{{ d.paypal_fee ?? 0 }}</p>
         <p> 采购价: ￥@{{ d.total_purchase_price }}</p>
         <p> 预计运费: ￥@{{ d.freight_expect }} </p>
+        <p> 实际运费: ￥@{{ d.shipping_fee }} </p>
         <p> 预计总成本: ￥@{{ d.cost }}</p>
         <p> 预计利润:
             @{{# if(parseFloat(d.profit_expect) >= 0){ }}
@@ -305,6 +335,7 @@
                 ,{field:'delivery_address',title:'地址', width:200,height:48,templet:'#deliveryAddressTEM'}
                 ,{field:'paypal_capture_id',title:'paypal', width:120,templet:'<div><a href="https://www.paypal.com/activity/payment/@{{ d.paypal_capture_id }}" target="_blank">@{{ d.paypal_capture_id }}</a></div>',height:48}
                 ,{field:'tracking_number',title:'快递单号', width:120,height:48}
+                ,{field:'shipping_fee',title:'实际运费', width:120,height:4,edit:'text'}
                 ,{field:'price_detail',title:'费用明细', width:150,height:48,templet:'#priceDetailTEM'}
                 ,{field:'profit_expect',title:'预计利润￥', width:120,height:48,templet:'#profitExpectTEM', totalRow: true}
 //                ,{field:'price_total',title:'总价£', width:90,height:48}
@@ -660,6 +691,36 @@
                 window.location.href = url+paramStr;
                 layer.close(load);
             },
+            export_4px_excel:function () {
+                var checkStatus = table.checkStatus('fb-table')
+                    ,data = checkStatus.data;
+                var data_id_obj = {};
+                var i = 0;
+                var url = '{{ guard_url('onbuy/order/export/express_4px') }}';
+                var paramStr = "";
+                data.forEach(function(v){
+                    if(i == 0)
+                    {
+                        paramStr += "?ids[]="+v.id;
+                    }else{
+                        paramStr += "&ids[]="+v.id;
+                    }
+                    data_id_obj[i] = v.id; i++
+                });
+                $(".search_key").each(function(){
+                    var name = $(this).attr('name');
+                    if(i == 0)
+                    {
+                        paramStr += "?search["+name+"]="+$(this).val();
+                    }else{
+                        paramStr += "&search["+name+"]="+$(this).val();
+                    }
+                    i++
+                });
+                var load =layer.load();
+                window.location.href = url+paramStr;
+                layer.close(load);
+            },
             import_express_excel:function () {
                 layer.open({
                     type: 1,
@@ -695,6 +756,49 @@
                         $("#import_express_form").submit();
                         /*
                         form.submit("import_express_form", function(data){
+                            // 回调函数返回结果跟上述 submit 事件完全一致
+                            // var field = data.field;
+                            // do something
+                        });
+                        */
+                    }
+                });
+            },
+            import_shipping_fee:function () {
+                layer.open({
+                    type: 1,
+                    shade: false,
+                    title: '导入 快递信息', //不显示标题
+                    area: ['420px', '240px'], //宽高
+                    content: $('#import_shipping_fee_content'),
+                    btn:['{{ trans('app.submit') }}'],
+                    btn1:function()
+                    {
+                        var load = layer.load();
+                        var fileFlag = false;
+
+                        $("input[name='file']").each(function(){
+                            if($(this).val()!="") {
+                                fileFlag = true;
+                            }
+                        });
+                        if(!fileFlag) {
+                            layer.msg("请选择文件");
+                            return false;
+                        }
+
+                        layer.msg('上传中', {
+                            icon: 16
+                            ,shade: 0.01
+                            ,time:0
+                        });
+                        var seller_id = $('#seller_id').val();
+                        var op=$("<input type='hidden' name='seller_id' value='"+seller_id+"'/>");
+                        op.attr("form","import_shipping_fee_form");
+                        $("#import_shipping_fee_form").append(op);
+                        $("#import_shipping_fee_form").submit();
+                        /*
+                        form.submit("import_shipping_fee_form", function(data){
                             // 回调函数返回结果跟上述 submit 事件完全一致
                             // var field = data.field;
                             // do something

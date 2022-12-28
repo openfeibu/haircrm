@@ -67,7 +67,8 @@ class ListingResourceController extends BaseController
                     ->value('total_quantity') ?: 0;
                 $product->need_purchase = $product->total_quantity - $product->inventory - $product->out_inventory;
 
-                $product->is_auto_pricing = ProductBidTask::where('seller_id',$product->seller_id)->where('sku',$product->sku)->value('id') ? 1 : 0;
+                $auto_pricing = ProductBidTask::join('onbuy_product_bid','onbuy_product_bid.id','=','onbuy_product_bid_tasks.bid_id')->where('onbuy_product_bid_tasks.seller_id',$product->seller_id)->where('onbuy_product_bid_tasks.sku',$product->sku)->first();
+                $product->is_auto_pricing = $auto_pricing ? $auto_pricing->start_time.'~'.$auto_pricing->end_time : '';
             }
             return $this->response
                 ->success()

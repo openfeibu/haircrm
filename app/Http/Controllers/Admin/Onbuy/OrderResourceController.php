@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Onbuy;
 
+use App\Exports\Onbuy\OrderExpressFourPxExport;
 use App\Exports\Onbuy\OrderExpressHualeiExport;
 use App\Exports\Onbuy\OrderExpressYanwenExport;
 use App\Http\Controllers\Admin\Onbuy\BaseController;
@@ -9,6 +10,7 @@ use App\Imports\Onbuy\OrderExpressImport;
 use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\Order as OnbuyOrderModel;
 use App\Models\Onbuy\OrderProduct as OnbuyOrderProductModel;
+use App\Services\Paypal\TrackingService;
 use Illuminate\Http\Request;
 use Xigen\Library\OnBuy\Product\Product;
 use Xigen\Library\OnBuy\Product\Listing;
@@ -79,7 +81,9 @@ class OrderResourceController extends BaseController
                 $order->total_purchase_price = $total_purchase_price;
                 $order->order_products = $order_products;
                 $order->freight_expect = international_freight($weight);
-                $order->cost = $total_purchase_price+$order->freight_expect;
+
+                $order->cost = $order->shipping_fee ? $total_purchase_price+$order->shipping_fee :  $total_purchase_price+$order->freight_expect;
+
 				//$order->paypal_fee = bcadd(bcmul($order->price_total, 0.044,6),0.2,6);
 	            $order->paypal_fee = round($order->price_total * 0.044 + 0.2,2);
                 $price_gbp_to_rmb = round(($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total - $order->paypal_fee) * $gbp_to_rmb,2);
@@ -193,13 +197,13 @@ class OrderResourceController extends BaseController
             return $this->response->message(trans('messages.success.updated'))
                 ->code(0)
                 ->status('success')
-                ->url(guard_url('onbuy/listing' . $listing->id))
+                ->url(guard_url('onbuy/listing' . $order->id))
                 ->redirect();
         } catch (Exception $e) {
             return $this->response->message($e->getMessage())
                 ->code(400)
                 ->status('error')
-                ->url(guard_url('onbuy/listing/' . $listing->id))
+                ->url(guard_url('onbuy/listing/' . $order->id))
                 ->redirect();
         }
 
@@ -345,18 +349,42 @@ class OrderResourceController extends BaseController
 		$search = $request->input('search',[]);
 		return Excel::download(new OrderExpressHualeiExport($ids,$search), $name);
 	}
+    public function exportExpressFourPx(Request $request)
+    {
+        $data = $request->all();
+        $ids = $data['ids'] ?? ['130','180'];
+        $name = '4PX'.date('YmdHis').'.xlsx';
+        $search = $request->input('search',[]);
+        return Excel::download(new OrderExpressFourPxExport($ids,$search), $name);
+    }
+
     public function importExpress(Request $request)
     {
 
         set_time_limit(0);
         $file = $request->file;
         $seller_id = $request->get('seller_id');
+        $express = $request->get('express');
+
         isVaildExcel($file);
         $res = (new OrderExpressImport())->toArray($file)[0];
         $res = array_filter($res);
         $all_sheet_count = count($res);
 
-        $excel_key_arr = config('model.onbuy.order.excel');
+        switch ($express){
+            case 'yanwen':
+            case '4px':
+                $config_express = config('express.'.$express);
+                break;
+            default:
+                return $this->response->message("express 字段错误")
+                    ->status("success")
+                    ->code(400)
+                    ->url(guard_url('onbuy/order'))
+                    ->redirect();
+                break;
+        }
+        $excel_key_arr = $config_express['excel'];
 
         $items = [];
 
@@ -367,7 +395,6 @@ class OrderResourceController extends BaseController
 
         foreach ($excel_key_arr as $key => $header)
         {
-            //var_dump( isset($flip_header_arr[$key]));
             $header_keys[$header] = isset($flip_header_arr[$key]) ? $flip_header_arr[$key] : '';
 
         }
@@ -376,7 +403,6 @@ class OrderResourceController extends BaseController
         $salesmen = [];
         $success_count=0;
         $count = $all_sheet_count-1;
-
         for ($i=1;$i<$all_sheet_count;$i++)
         {
             if($res[$i])
@@ -384,11 +410,13 @@ class OrderResourceController extends BaseController
                 foreach ($header_keys as $header_key => $header_i) {
                     $data[$i][$header_key] = $res[$i][$header_i] ?? '';
                 }
-                $data[$i]['tracking_supplier_name'] = $data[$i]['tracking_supplier_name'] ?: 'Unknown';
-                $data[$i]['tracking_url'] = $data[$i]['tracking_url'] ?: 'https://track.yw56.com.cn/en/querydel';
+                $data[$i]['tracking_supplier_name'] = $data[$i]['tracking_supplier_name'] ?: $config_express['tracking_supplier_name']['onbuy'];
+                $data[$i]['paypal_tracking_supplier_name'] = $data[$i]['tracking_supplier_name'] ?: $config_express['tracking_supplier_name']['paypal'];
+                $data[$i]['tracking_url'] = $data[$i]['tracking_url'] ?: sprintf($config_express['tracking_url'],$data[$i]['tracking_number']);
             }
         }
         DB::beginTransaction();
+        $logisticsInfo['trackers'] = [];
         try{
             if(!count($data))
             {
@@ -400,9 +428,16 @@ class OrderResourceController extends BaseController
             }
 
             $dispatch_orders = [];
+            $i = 0;
             foreach($data as $key => $express)
             {
-                $dispatch_orders[$key] = [
+
+                if(!$express['order_id'] || !$express['tracking_number'])
+                {
+                    continue;
+                }
+
+                $dispatch_orders[$i] = [
                     'order_id' => $express['order_id'],
                     "tracking" => [
                         //"tracking_id" => "bar",
@@ -411,8 +446,14 @@ class OrderResourceController extends BaseController
                         "url" =>  $express['tracking_url'],
                     ]
                 ];
-
-                $return = OnbuyOrderModel::where('status','Awaiting Dispatch')
+                $logisticsInfo['trackers'][$i] = [
+                        'transaction_id'=> \App\Models\Onbuy\Order::where('order_id',$express['order_id'])->value('paypal_capture_id'),
+                        'tracking_number'=> $express['tracking_number'],
+                        'status'=>'SHIPPED',
+                        'carrier'=> $express['paypal_tracking_supplier_name'],
+                ];
+                $i++;
+                OnbuyOrderModel::where('status','Awaiting Dispatch')
                     ->where('order_id',$express['order_id'])
                     ->update([
                         'tracking_number' => $express['tracking_number'],
@@ -420,22 +461,39 @@ class OrderResourceController extends BaseController
                         'tracking_url' => $express['tracking_url'],
                         'status' => 'Dispatched'
                     ]);
-                if($return)
-                {
-                    OnbuyOrderProductModel::where('order_id',$express['order_id'])
-                        ->update([
-                            'tracking_number' => $express['tracking_number'],
-                            'tracking_supplier_name' => $express['tracking_supplier_name'],
-                            'tracking_url' => $express['tracking_url'],
-                        ]);
-                }
+
+                OnbuyOrderProductModel::where('order_id',$express['order_id'])
+                    ->update([
+                        'tracking_number' => $express['tracking_number'],
+                        'tracking_supplier_name' => $express['tracking_supplier_name'],
+                        'tracking_url' => $express['tracking_url'],
+                    ]);
 
                 $success_count++;
             }
-            $onbuy_token = getOnbuyToken($seller_id);
-            $order = new Order($onbuy_token);
-            $order->dispatchOrder($dispatch_orders);
-            $res = $order->getResponse();
+
+            if(count($dispatch_orders)) {
+                $onbuy_token = getOnbuyToken($seller_id);
+                $order = new Order($onbuy_token);
+                $order->dispatchOrder($dispatch_orders);
+                $res = $order->getResponse();
+            }
+
+            if(count($logisticsInfo['trackers']))
+            {
+                $trackingService = new TrackingService();
+                $tracking_res = $trackingService->addTracking($logisticsInfo);
+                if(isset($tracking_res['type']) && $tracking_res['type'] == 'error')
+                {
+                    return $this->response->message("paypal 跟踪物流信息失败，请查看日志文件")
+                        ->status("success")
+                        ->code(0)
+                        ->url(guard_url('onbuy/order'))
+                        ->redirect();
+                }
+            }
+
+
             if($res['success'])
             {
                 DB::commit();
@@ -462,31 +520,83 @@ class OrderResourceController extends BaseController
                 ->redirect();
         }
 
+    }
+    public function importShippingFee(Request $request)
+    {
+        set_time_limit(0);
+        $file = $request->file;
+        $seller_id = $request->get('seller_id');
 
+        isVaildExcel($file);
+        $res = (new OrderExpressImport())->toArray($file)[0];
+        $res = array_filter($res);
+        $all_sheet_count = count($res);
 
-        if(!count($data))
+        $excel_key_arr = ['客户单号' =>  'order_id','总金额'=>  'shipping_fee'];
+
+        $header_keys = [];
+
+        $flip_header_arr = array_flip($res[0]);
+
+        foreach ($excel_key_arr as $key => $header)
         {
-            return $this->response->message(trans("messages.excel.not_found_data"))
-                ->status("success")
-                ->code(400)
-                ->url(guard_url('customer_import'))
-                ->redirect();
+            $header_keys[$header] = isset($flip_header_arr[$key]) ? $flip_header_arr[$key] : '';
+
         }
-        if($insert_res)
+        $data = [];
+        $success_count=0;
+        $count = $all_sheet_count-1;
+        for ($i=1;$i<$all_sheet_count;$i++)
         {
+            if($res[$i])
+            {
+                foreach ($header_keys as $header_key => $header_i) {
+                    $data[$i][$header_key] = $res[$i][$header_i] ?? '';
+                }
+            }
+        }
+        DB::beginTransaction();
+        try{
+            if(!count($data))
+            {
+                return $this->response->message(trans("messages.excel.not_found_data"))
+                    ->status("success")
+                    ->code(400)
+                    ->url(guard_url('onbuy/order'))
+                    ->redirect();
+            }
+
+            foreach($data as $key => $item)
+            {
+                if(!$item['order_id'])
+                {
+                    continue;
+                }
+                $shipping_fee = floatval(str_replace(' CNY','',$item['shipping_fee']));
+                OnbuyOrderModel::where('order_id',$item['order_id'])
+                    ->update([
+                        'shipping_fee' => $shipping_fee,
+                    ]);
+
+                $success_count++;
+            }
+
+            DB::commit();
             return $this->response->message("共发现".$count."条数据，排除空行后共成功导入".$success_count."条")
                 ->status("success")
                 ->code(0)
-                ->url(guard_url('customer'))
+                ->url(guard_url('onbuy/order'))
                 ->redirect();
-        }else{
+
+        }
+        catch (Exception $e) {
+            DB::rollback();
             return $this->response->message("上传数据失败")
                 ->status("success")
                 ->code(400)
-                ->url(guard_url('customer_import'))
+                ->url(guard_url('onbuy/order'))
                 ->redirect();
         }
-
     }
     public function getWinning()
     {

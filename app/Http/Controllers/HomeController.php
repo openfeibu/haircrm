@@ -10,6 +10,8 @@ use App\Models\Salesman;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\GoodsRepository;
 use App\Services\MailScheduleService;
+use App\Services\Onbuy\ListingService;
+use App\Services\Paypal\TrackingService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BaseController;
 use Log,Mail;
@@ -38,6 +40,12 @@ class HomeController extends BaseController
     }
     public function test()
     {
+        $listingService = new ListingService(22422);
+        $listingService->automatic();
+
+        //$trackingService = new TrackingService();
+        //var_dump($trackingService->addTracking());
+        exit;
         $result = $this->mailScheduleService->send();
         var_dump($result);
         exit;

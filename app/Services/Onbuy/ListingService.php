@@ -40,22 +40,39 @@ class ListingService
         $time = date("H:i:s");
         $date = date("Y-m-d");
 		Log::info('price_auto date:'.$date);
-        $product_bid_ids = ProductBid::where('seller_id',$this->seller_id)->where('active',1)->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )->pluck('id')->toArray();
+        $product_bid_ids = ProductBid::where('seller_id',$this->seller_id)
+            ->where('active',1)
+            //->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )
+            ->pluck('id')
+            ->toArray();
+
         if(!$product_bid_ids)
         {
             echo "0";
             return true;
         }
-        $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
-            ->where('onbuy_products.min_price','>',0)
-            ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
-            ->groupBy('onbuy_product_bid_tasks.sku')
-            ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
+        if($time >= '02:00:00' && $time <= '07:00:00')
+        {
+            $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
+                ->where('onbuy_products.min_price','>',0)
+                ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
+                ->groupBy('onbuy_product_bid_tasks.sku')
+                ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
+        }else{
+            $tasks = ProductBidTask::from('onbuy_product_bid_tasks as onbuy_product_bid_tasks')->join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
+                ->where('onbuy_products.min_price','>',0)
+                ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
+                ->whereRaw("`onbuy_product_bid_tasks`.`sku` NOT IN (select `sku` from `haircrm`.`onbuy_products`) ")
+                ->groupBy('onbuy_product_bid_tasks.sku')
+                ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
+        }
+
         if(!$tasks)
         {
             echo "0";
             return true;
         }
+
         $skus = array_column($tasks,'sku');
         $tasks = array_combine($skus,$tasks);
         $onbuy_token = getOnbuyToken($this->seller_id);
