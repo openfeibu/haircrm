@@ -10,9 +10,9 @@ use Log;
 class TrackingService extends BaseService
 {
 
-    public function __construct()
+    public function __construct($seller_id)
     {
-        parent::__construct();
+        parent::__construct($seller_id);
     }
     public function addTracking($data=[])
     {

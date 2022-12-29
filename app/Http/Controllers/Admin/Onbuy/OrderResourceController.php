@@ -481,7 +481,7 @@ class OrderResourceController extends BaseController
 
             if(count($logisticsInfo['trackers']))
             {
-                $trackingService = new TrackingService();
+                $trackingService = new TrackingService($seller_id);
                 $tracking_res = $trackingService->addTracking($logisticsInfo);
                 if(isset($tracking_res['type']) && $tracking_res['type'] == 'error')
                 {
