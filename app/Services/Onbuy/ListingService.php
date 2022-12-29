@@ -51,7 +51,7 @@ class ListingService
             echo "0";
             return true;
         }
-        if($time >= '02:00:00' && $time <= '07:00:00')
+        if($time >= '02:00:00' && $time <= '07:00:00' && setting('price_auto_is_limit_time'))
         {
             $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
                 ->where('onbuy_products.min_price','>',0)
