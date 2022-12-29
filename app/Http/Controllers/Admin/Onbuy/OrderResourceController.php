@@ -411,7 +411,7 @@ class OrderResourceController extends BaseController
                     $data[$i][$header_key] = $res[$i][$header_i] ?? '';
                 }
                 $data[$i]['tracking_supplier_name'] = $data[$i]['tracking_supplier_name'] ?: $config_express['tracking_supplier_name']['onbuy'];
-                $data[$i]['paypal_tracking_supplier_name'] = $data[$i]['tracking_supplier_name'] ?: $config_express['tracking_supplier_name']['paypal'];
+                $data[$i]['paypal_tracking_supplier_name'] = $config_express['tracking_supplier_name']['paypal'];
                 $data[$i]['tracking_url'] = $data[$i]['tracking_url'] ?: sprintf($config_express['tracking_url'],$data[$i]['tracking_number']);
             }
         }

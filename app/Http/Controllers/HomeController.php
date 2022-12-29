@@ -40,11 +40,11 @@ class HomeController extends BaseController
     }
     public function test()
     {
-//        exit;
+        exit;
 //        $listingService = new ListingService(22422);
 //        $listingService->automatic();
 
-        $trackingService = new TrackingService(22422);
+        $trackingService = new TrackingService(18893);
         var_dump($trackingService->addTracking());
         exit;
         $result = $this->mailScheduleService->send();
