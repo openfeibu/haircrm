@@ -53,7 +53,6 @@ trait PayPalAPI
 
         if (isset($response['access_token'])) {
             $this->setAccessToken($response);
-
             $this->setPayPalAppId($response);
         }
 
