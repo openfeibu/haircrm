@@ -42,7 +42,7 @@ class ListingService
 		Log::info('price_auto date:'.$date);
         $product_bid_ids = ProductBid::where('seller_id',$this->seller_id)
             ->where('active',1)
-            //->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )
+            ->whereRaw(" IF (`start_time` > `end_time`, ('".$time."' > `start_time` or '". $time."' < `end_time`), ('".$time."' >= `start_time` and '". $time."' <= `end_time`))" )
             ->pluck('id')
             ->toArray();
 
