@@ -62,8 +62,9 @@
         @{{# }else{  }}
         <p ><a href="@{{ d.product_url }}" target="_blank" >@{{ d.name }}</a></p>
         @{{# }  }}
-        <p><a class="" href="{{ guard_url('onbuy/listing/') }}?search[sku]=@{{ d.sku }}" target="_blank">sku: @{{ d.sku }}</a></p>
-
+        @{{#  layui.each(d.products, function(index, item){ }}
+        <p><a class="" href="{{ guard_url('onbuy/seller_listing/') }}?search[onbuy_products.sku]=@{{ d.sku }}&search[onbuy_products.seller_id]=@{{ item.seller_id }}" target="_blank">sku: @{{ item.seller_name }} - @{{ d.sku }}</a></p>
+        @{{#  }); }}
     </div>
 </script>
 <script type="text/html" id="needPurchaseTEM">

@@ -91,7 +91,10 @@ class SellerListingResourceController extends BaseController
 
         return $this->response->title(trans('goods.name'))
             ->view('onbuy.seller_listing.index')
-            ->data(['limit' => $request->get('limit',50),'onbuy_list' => $onbuy_list])
+            ->data([
+                'limit' => $request->get('limit',50),
+                'search' => $search,
+                'onbuy_list' => $onbuy_list])
             ->output();
     }
 

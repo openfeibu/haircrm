@@ -25,12 +25,12 @@
                     <label class="layui-form-label">店铺</label>
                     <select name="onbuy_seller_product.seller_id" class="search_key layui-select" id="seller_id">
                         @foreach($onbuy_list as $key => $onbuy)
-                            <option value="{{ $onbuy['seller_id'] }}">{{ $onbuy['name'] }}</option>
+                            <option value="{{ $onbuy['seller_id'] }}" @if(isset($search['onbuy_products.seller_id']) && $search['onbuy_products.seller_id'] == $onbuy['seller_id']) selected @endif>{{ $onbuy['name'] }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="onbuy_products.sku" id="demoReload" placeholder="sku" autocomplete="off">
+                    <input class="layui-input search_key" name="onbuy_products.sku" id="demoReload" placeholder="sku" autocomplete="off" value="{{ $search['onbuy_products.sku'] ?? '' }}">
                 </div>
                 <div class="layui-inline">
 
@@ -137,7 +137,11 @@
         var form = layui.form;
         var element = layui.element;
         var laydate= layui.laydate;
-
+        var where = {};
+        $(".search_key").each(function(){
+            var name = $(this).attr('name');
+            where["search["+name+"]"] = $(this).val();
+        });
         $(document).on('mouseenter', '.analyseTips', function ()
         {
             var tp= $(this).attr("lay-tips");
@@ -186,6 +190,7 @@
             ,id: 'fb-table'
             ,page: true
             ,limit: '{{ $limit }}'
+            ,where: where
             ,height: 'full-200'
             ,cellMinWidth :'180'
             ,done:function () {

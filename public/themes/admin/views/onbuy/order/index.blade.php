@@ -211,7 +211,7 @@
         @{{#  layui.each(d.order_products, function(index, item){ }}
         <p><a href="@{{ item.product_url }}" target="_blank"><img src="@{{item.image_urls.thumb}}" alt="" height="58"></a></p>
         <p> <a href="@{{ item.product_url }}" target="_blank">@{{ item.name }}</a></p>
-        <p><a class="" href="{{ guard_url('onbuy/listing/') }}?search[sku]=@{{ item.sku }}" target="_blank">sku: @{{ item.sku }}</a></p>
+        <p><a class="" href="{{ guard_url('onbuy/seller_listing/') }}?search[onbuy_products.sku]=@{{ item.sku }}&search[onbuy_products.seller_id]=@{{ d.seller_id }}" target="_blank">sku: @{{ item.sku }}</a></p>
         <p> 单价: £@{{ item.unit_price }} * 数量: @{{ item.quantity }} = £@{{ item.total_price }}</p>
         <p> 采购价:￥@{{ item.purchase_price }} </p>
         <p> 发货: @{{ item.expected_dispatch_date }}</p>

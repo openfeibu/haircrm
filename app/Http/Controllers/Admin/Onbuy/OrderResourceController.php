@@ -10,6 +10,7 @@ use App\Imports\Onbuy\OrderExpressImport;
 use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\Order as OnbuyOrderModel;
 use App\Models\Onbuy\OrderProduct as OnbuyOrderProductModel;
+use App\Models\Onbuy\SellerProduct;
 use App\Services\Paypal\TrackingService;
 use Illuminate\Http\Request;
 use Xigen\Library\OnBuy\Product\Product;
@@ -175,6 +176,9 @@ class OrderResourceController extends BaseController
 
                 }*/
                 $order_product->need_purchase = $order_product->total_quantity - $order_product->inventory - $order_product->out_inventory;
+                $order_product->products = SellerProduct::join('onbuy','onbuy.seller_id','onbuy_seller_product.seller_id')
+                    ->where('onbuy_seller_product.product_sku',$order_product->sku)
+                    ->get(['onbuy.name as seller_name','onbuy.seller_id','onbuy_seller_product.product_sku']);
             }
 
             return $this->response
