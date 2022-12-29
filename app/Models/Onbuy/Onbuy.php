@@ -18,8 +18,9 @@ class Onbuy extends BaseModel
     public static function getAll()
     {
         return self::orderBy('default','desc')
-        ->orderBy('order','asc')
-        ->orderBy('id','asc')
-        ->get();
+            ->orderBy('status','desc')
+            ->orderBy('order','asc')
+            ->orderBy('id','asc')
+            ->get();
     }
 }
