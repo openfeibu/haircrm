@@ -52,7 +52,7 @@ class ListingService
             return true;
         }
         //测试的时候，时间限制， 且时间不在02:00:00：00~07:00:00时，进行不冲突运行
-        if(setting('price_auto_is_limit_time') && !($time >= '02:00:00' && $time <= '07:00:00'))
+        if(setting('price_auto_is_limit_time') && !($time >= setting('price_auto_limit_start_time') && $time <= setting('price_auto_limit_end_time')))
         {
             $tasks = ProductBidTask::from('onbuy_product_bid_tasks as onbuy_product_bid_tasks')->join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
                 ->where('onbuy_products.min_price','>',0)
