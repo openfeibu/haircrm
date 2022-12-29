@@ -80,7 +80,11 @@ class ListingResourceController extends BaseController
 
         return $this->response->title(trans('goods.name'))
             ->view('onbuy.listing.index')
-            ->data(['limit' => $request->get('limit',50),'onbuy_list' => $onbuy_list])
+            ->data([
+                'limit' => $request->get('limit',50),
+                'search' => $search,
+                'onbuy_list' => $onbuy_list
+            ])
             ->output();
     }
     public function update(Request $request, OnbuyProductModel $listing)
