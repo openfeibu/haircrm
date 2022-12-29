@@ -62,8 +62,8 @@
         @{{# }else{  }}
         <p ><a href="@{{ d.product_url }}" target="_blank" >@{{ d.name }}</a></p>
         @{{# }  }}
+        <p><a class="" href="{{ guard_url('onbuy/listing/') }}?search[sku]=@{{ d.sku }}" target="_blank">sku: @{{ d.sku }}</a></p>
 
-        <p> sku: @{{ d.sku }} </p>
     </div>
 </script>
 <script type="text/html" id="needPurchaseTEM">

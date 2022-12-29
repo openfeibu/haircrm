@@ -15,7 +15,7 @@
             <div class="tabel-message">
 
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="sku" id="demoReload" placeholder="sku" autocomplete="off">
+                    <input class="layui-input search_key" name="sku" id="demoReload" placeholder="sku" autocomplete="off" value="{{ $search['sku'] ?? '' }}">
                 </div>
                 <div class="layui-inline">
 
@@ -73,7 +73,11 @@
         var form = layui.form;
         var element = layui.element;
         var laydate= layui.laydate;
-
+        var where = {};
+        $(".search_key").each(function(){
+            var name = $(this).attr('name');
+            where["search["+name+"]"] = $(this).val();
+        });
         $(document).on('mouseenter', '.analyseTips', function ()
         {
             var tp= $(this).attr("lay-tips");
@@ -122,6 +126,7 @@
             ,id: 'fb-table'
             ,page: true
             ,limit: '{{ $limit }}'
+            ,where: where
             ,height: 'full-200'
             ,cellMinWidth :'180'
             ,done:function () {

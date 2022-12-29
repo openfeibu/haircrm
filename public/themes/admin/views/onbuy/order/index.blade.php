@@ -14,7 +14,7 @@
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync" data-events="sync">从Onbuy同步新订单</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync_update" data-events="sync_update">从Onbuy同步更新订单</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="import_express_excel" data-events="import_express_excel">导入 快递信息</button>
-                    <button class="layui-btn layui-btn-warm " type="button" data-type="import_shipping_fee" data-events="import_shipping_fee">导入 运费信息</button>
+                    <button class="layui-btn layui-btn-warm " type="button" data-type="import_shipping_fee" data-events="import_shipping_fee">导入 运费信息 test</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_yanwen_excel" data-events="export_yanwen_excel">下载 燕文Excel</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_hualei_excel" data-events="export_hualei_excel">下载 华磊Excel</button>
                     <button class="layui-btn layui-btn-primary " type="button" data-type="export_4px_excel" data-events="export_4px_excel">下载 4PX Excel Test</button>
@@ -82,7 +82,7 @@
                     <label class="layui-form-label">物流</label>
                     <div class="layui-input-block">
                         <input type="radio" name="express" value="yanwen" title="燕文" checked>
-                        <input type="radio" name="express" value="4px" title="4px" >
+                        <input type="radio" name="express" value="4px" title="4px test" >
                     </div>
                 </div>
 
@@ -211,7 +211,7 @@
         @{{#  layui.each(d.order_products, function(index, item){ }}
         <p><a href="@{{ item.product_url }}" target="_blank"><img src="@{{item.image_urls.thumb}}" alt="" height="58"></a></p>
         <p> <a href="@{{ item.product_url }}" target="_blank">@{{ item.name }}</a></p>
-        <p> sku: @{{ item.sku }} </p>
+        <p><a class="" href="{{ guard_url('onbuy/listing/') }}?search[sku]=@{{ item.sku }}" target="_blank">sku: @{{ item.sku }}</a></p>
         <p> 单价: £@{{ item.unit_price }} * 数量: @{{ item.quantity }} = £@{{ item.total_price }}</p>
         <p> 采购价:￥@{{ item.purchase_price }} </p>
         <p> 发货: @{{ item.expected_dispatch_date }}</p>
