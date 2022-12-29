@@ -51,18 +51,19 @@ class ListingService
             echo "0";
             return true;
         }
-        if($time >= '02:00:00' && $time <= '07:00:00' && setting('price_auto_is_limit_time'))
+        //测试的时候，时间限制， 且时间不在02:00:00：00~07:00:00时，进行不冲突运行
+        if(setting('price_auto_is_limit_time') && !($time >= '02:00:00' && $time <= '07:00:00'))
         {
-            $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
-                ->where('onbuy_products.min_price','>',0)
-                ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
-                ->groupBy('onbuy_product_bid_tasks.sku')
-                ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
-        }else{
             $tasks = ProductBidTask::from('onbuy_product_bid_tasks as onbuy_product_bid_tasks')->join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
                 ->where('onbuy_products.min_price','>',0)
                 ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
                 ->whereRaw("`onbuy_product_bid_tasks`.`sku` NOT IN (select `sku` from `haircrm`.`onbuy_products`) ")
+                ->groupBy('onbuy_product_bid_tasks.sku')
+                ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
+        }else{
+            $tasks = ProductBidTask::join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
+                ->where('onbuy_products.min_price','>',0)
+                ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
                 ->groupBy('onbuy_product_bid_tasks.sku')
                 ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
         }
