@@ -12,9 +12,9 @@ return [
         'app_id'            => 'APP-80W284485P519543T',
     ],
     'live' => [
-        'client_id'         => env('PAYPAL_LIVE_CLIENT_ID', 'AXfAKkapgBKmUZ7nWhr8iCeF1oEMQHzx_2Yrx3oTRHI69gNLu_adz2oFIZzhG-VX5gE44T8zhMfEKqRY'),
-        'client_secret'     => env('PAYPAL_LIVE_CLIENT_SECRET', 'EE9Rez25HH4keOWBv-PHzdKvM04IbpjIp6R7Forq3mxEwD7zEsbZkCM6dlsK4uSDp8pqkAtxFle2utwg'),
-        'app_id'            => env('PAYPAL_LIVE_APP_ID', 'APP-30E83770MU6588636'),
+        'client_id'         => env('PAYPAL_LIVE_CLIENT_ID', 'AU2NrqePdJd4lZWt4xeDbSg-z_9qrk_FkZ-mDZinUhbu4tGTxuXBQ8_1rVI1ggNtc9_k4rWqSKJ4UVqY'),
+        'client_secret'     => env('PAYPAL_LIVE_CLIENT_SECRET', 'EIoreSDRaDyhS8CpAiPYZ1xbWUSfYO3x_Zy2O9R-NnY8QZaEk6tTObfEs45oRK7pvdB7rHmiX81ra2YS'),
+        'app_id'            => env('PAYPAL_LIVE_APP_ID', 'APP-1WJ92261DX832905Y'),
     ],
 
     'payment_action' => env('PAYPAL_PAYMENT_ACTION', 'Sale'), // Can only be 'Sale', 'Authorization' or 'Order'

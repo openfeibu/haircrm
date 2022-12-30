@@ -518,13 +518,13 @@
         laydate.render({
             elem: '#start_time'
             ,type: 'time'
-            ,value: "20:00:00"
+            ,value: "14:00:00"
             //,format:"HH:mm"
         });
         laydate.render({
             elem: '#end_time'
             ,type: 'time'
-            ,value: "09:00:00"
+            ,value: "13:50:00"
         });
     });
 </script>

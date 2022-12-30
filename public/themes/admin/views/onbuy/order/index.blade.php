@@ -111,7 +111,7 @@
                         <input type="radio" name="express" value="4px" title="4px test" >
                     </div>
                 </div>
-                <div class="input-file" >
+                <div class="input-file">
                     选择文件
                     <input id="file" type="file" class="form-control" name="file" required>
                 </div>
