@@ -530,17 +530,34 @@ class OrderResourceController extends BaseController
         set_time_limit(0);
         $file = $request->file;
         $seller_id = $request->get('seller_id');
-
+        $express = $request->get('express');
         isVaildExcel($file);
         $res = (new OrderExpressImport())->toArray($file)[0];
         $res = array_filter($res);
         $all_sheet_count = count($res);
+        switch ($express){
+            case 'yanwen':
+                $initial_line = 3;
+                $config_express = config('express.'.$express);
+                break;
+            case '4px':
+                $initial_line = 0;
+                $config_express = config('express.'.$express);
+                break;
+            default:
+                return $this->response->message("express 字段错误")
+                    ->status("success")
+                    ->code(400)
+                    ->url(guard_url('onbuy/order'))
+                    ->redirect();
+                break;
+        }
 
-        $excel_key_arr = ['客户单号' =>  'order_id','总金额'=>  'shipping_fee'];
+        $excel_key_arr = $config_express['shipping_excel'];
 
         $header_keys = [];
 
-        $flip_header_arr = array_flip($res[0]);
+        $flip_header_arr = array_flip($res[$initial_line]);
 
         foreach ($excel_key_arr as $key => $header)
         {
@@ -550,7 +567,7 @@ class OrderResourceController extends BaseController
         $data = [];
         $success_count=0;
         $count = $all_sheet_count-1;
-        for ($i=1;$i<$all_sheet_count;$i++)
+        for ($i=$initial_line+1;$i<$all_sheet_count;$i++)
         {
             if($res[$i])
             {
@@ -577,6 +594,7 @@ class OrderResourceController extends BaseController
                     continue;
                 }
                 $shipping_fee = floatval(str_replace(' CNY','',$item['shipping_fee']));
+                var_dump($shipping_fee);exit;
                 OnbuyOrderModel::where('order_id',$item['order_id'])
                     ->update([
                         'shipping_fee' => $shipping_fee,

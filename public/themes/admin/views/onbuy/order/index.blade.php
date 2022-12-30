@@ -104,13 +104,19 @@
             </div>-->
             <div class="tabel-btn layui-col-md12">
                 {{ csrf_field() }}
-
+                <div class="layui-form-item">
+                    <label class="layui-form-label">物流</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="express" value="yanwen" title="燕文" checked>
+                        <input type="radio" name="express" value="4px" title="4px test" >
+                    </div>
+                </div>
                 <div class="input-file" >
                     选择文件
                     <input id="file" type="file" class="form-control" name="file" required>
                 </div>
                 <label class="fileText">未选中文件</label>
-                <span class="layui-word-aux des_content">（注意：上传物流平台下载的物流订单Excel！）</span>
+                <span class="layui-word-aux des_content">（燕文：财务管理-我的账单-账期清单-详情-详情）</span>
             </div>
         </div>
     </form>
