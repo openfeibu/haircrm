@@ -124,7 +124,7 @@ class OrderResourceController extends BaseController
 //            }
             $order_products = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
                 ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
-                ->selectRaw("onbuy_order_products.*,SUM(onbuy_order_products.quantity) as total_quantity, (SUM(onbuy_order_products.quantity) - `onbuy_products`.`out_inventory`) as need_out, onbuy_products.product_url,onbuy_products.inventory,onbuy_products.out_inventory,onbuy_products.id as product_id,onbuy_products.purchase_url,onbuy_products.purchase_price")
+                ->selectRaw("onbuy_order_products.*,SUM(onbuy_order_products.quantity) as total_quantity, (SUM(onbuy_order_products.quantity) - `onbuy_products`.`out_inventory`) as need_out, onbuy_products.product_url,onbuy_products.inventory,onbuy_products.out_inventory,onbuy_products.id as product_id,onbuy_products.purchase_url,onbuy_products.purchase_price,onbuy_products.ch_name,onbuy_products.en_name")
                 ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
 	            ->where('onbuy_orders.is_refund',0)
                 //->whereRaw('need_out > 0')
