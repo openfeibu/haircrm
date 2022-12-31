@@ -56,7 +56,7 @@
     <p>
         <a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="in_inventory">进货</a>
         <a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="out_inventory">出货</a>
-        <a class="layui-btn layui-btn-normal layui-btn-sm" href="{{ guard_url('onbuy/order/') }}?search[onbuy_order_products.sku]=@{{ d.sku }}&search[onbuy_order_products.seller_id]=@{{ d.seller_id }}" target="_blank">订单</a>
+        <a class="layui-btn layui-btn-normal layui-btn-sm" href="{{ guard_url('onbuy/order/') }}?search[onbuy_order_products.sku]=@{{ d.sku }}&search[onbuy_orders.seller_id]=@{{ d.seller_id }}" target="_blank">订单</a>
     </p>
 </script>
 <script type="text/html" id="imageTEM">

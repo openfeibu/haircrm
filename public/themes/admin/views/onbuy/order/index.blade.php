@@ -27,7 +27,7 @@
                     <label class="layui-form-label">店铺</label>
                     <select name="onbuy_orders.seller_id" class="search_key layui-select" id="seller_id">
                         @foreach($onbuy_list as $key => $onbuy)
-                            <option value="{{ $onbuy['seller_id'] }}">{{ $onbuy['name'] }}</option>
+                            <option value="{{ $onbuy['seller_id'] }}" @if(isset($search['onbuy_orders.seller_id']) && $search['onbuy_orders.seller_id'] == $onbuy['seller_id']) selected @endif>{{ $onbuy['name'] }}</option>
                         @endforeach
                     </select>
                 </div>
