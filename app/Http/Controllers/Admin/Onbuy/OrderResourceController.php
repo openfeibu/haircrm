@@ -487,6 +487,7 @@ class OrderResourceController extends BaseController
             {
                 $trackingService = new TrackingService($seller_id);
                 $tracking_res = $trackingService->addTracking($logisticsInfo);
+                var_dump($tracking_res);exit;
                 if(isset($tracking_res['type']) && $tracking_res['type'] == 'error')
                 {
                     return $this->response->message("paypal 跟踪物流信息失败，请查看日志文件")
@@ -496,7 +497,7 @@ class OrderResourceController extends BaseController
                         ->redirect();
                 }
             }
-			
+
 
             if($res['success'])
             {
@@ -594,7 +595,6 @@ class OrderResourceController extends BaseController
                     continue;
                 }
                 $shipping_fee = floatval(str_replace(' CNY','',$item['shipping_fee']));
-                var_dump($shipping_fee);exit;
                 OnbuyOrderModel::where('order_id',$item['order_id'])
                     ->update([
                         'shipping_fee' => $shipping_fee,
