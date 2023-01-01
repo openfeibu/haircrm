@@ -482,7 +482,7 @@ class OrderResourceController extends BaseController
                 $order->dispatchOrder($dispatch_orders);
                 $res = $order->getResponse();
             }
-			/*
+
             if(count($logisticsInfo['trackers']))
             {
                 $trackingService = new TrackingService($seller_id);
@@ -496,7 +496,7 @@ class OrderResourceController extends BaseController
                         ->redirect();
                 }
             }
-			*/
+			
 
             if($res['success'])
             {
