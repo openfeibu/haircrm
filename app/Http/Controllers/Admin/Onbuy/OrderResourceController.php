@@ -487,7 +487,6 @@ class OrderResourceController extends BaseController
             {
                 $trackingService = new TrackingService($seller_id);
                 $tracking_res = $trackingService->addTracking($logisticsInfo);
-                var_dump($tracking_res);exit;
                 if(isset($tracking_res['type']) && $tracking_res['type'] == 'error')
                 {
                     return $this->response->message("paypal 跟踪物流信息失败，请查看日志文件")
