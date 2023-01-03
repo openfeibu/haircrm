@@ -537,7 +537,7 @@ class OrderResourceController extends BaseController
         $all_sheet_count = count($res);
         switch ($express){
             case 'yanwen':
-                $initial_line = 3;
+                $initial_line = 0;
                 $config_express = config('express.'.$express);
                 break;
             case '4px':
@@ -557,7 +557,7 @@ class OrderResourceController extends BaseController
 
         $header_keys = [];
 
-        $flip_header_arr = array_flip($res[$initial_line]);
+        $flip_header_arr = array_flip(array_filter($res[$initial_line]));
 
         foreach ($excel_key_arr as $key => $header)
         {
@@ -576,6 +576,7 @@ class OrderResourceController extends BaseController
                 }
             }
         }
+
         DB::beginTransaction();
         try{
             if(!count($data))

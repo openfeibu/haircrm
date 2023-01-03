@@ -116,7 +116,7 @@
                     <input id="file" type="file" class="form-control" name="file" required>
                 </div>
                 <label class="fileText">未选中文件</label>
-                <span class="layui-word-aux des_content">（燕文：财务管理-我的账单-账期清单-详情-详情）</span>
+                <span class="layui-word-aux des_content">（燕文：财务管理-我的账单-运单明细-导出）</span>
             </div>
         </div>
     </form>
@@ -217,6 +217,7 @@
         @{{#  layui.each(d.order_products, function(index, item){ }}
         <p><a href="@{{ item.product_url }}" target="_blank"><img src="@{{item.image_urls.thumb}}" alt="" height="58"></a></p>
         <p> <a href="@{{ item.product_url }}" target="_blank">@{{ item.name }}</a></p>
+        <p ><a href="@{{ d.product_url }}" target="_blank" >@{{ item.ch_name }}</a></p>
         <p><a class="" href="{{ guard_url('onbuy/seller_listing/') }}?search[onbuy_products.sku]=@{{ item.sku }}&search[onbuy_products.seller_id]=@{{ d.seller_id }}" target="_blank">sku: @{{ item.sku }}</a></p>
         <p> 单价: £@{{ item.unit_price }} * 数量: @{{ item.quantity }} = £@{{ item.total_price }}</p>
         <p> 采购价:￥@{{ item.purchase_price }} </p>
