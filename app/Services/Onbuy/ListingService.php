@@ -64,7 +64,7 @@ class ListingService
                 $tasks = ProductBidTask::from('onbuy_product_bid_tasks as onbuy_product_bid_tasks')->join('onbuy_products','onbuy_product_bid_tasks.sku','=','onbuy_products.sku')
                     ->where('onbuy_products.min_price','>',0)
                     ->whereIn('onbuy_product_bid_tasks.bid_id',$product_bid_ids)
-                    ->whereRaw("`onbuy_product_bid_tasks`.`sku` NOT IN (select `sku` from `haircrm`.`onbuy_products`) ")
+                    ->whereRaw("`onbuy_product_bid_tasks`.`sku` NOT IN (select `sku` from `haircrm`.`onbuy_products` where cancel_conflict = 0) ")
                     ->groupBy('onbuy_product_bid_tasks.sku')
                     ->get(['onbuy_products.sku','onbuy_products.price','onbuy_products.min_price'])->toArray();
             }
