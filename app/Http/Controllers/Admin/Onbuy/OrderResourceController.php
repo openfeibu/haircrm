@@ -65,7 +65,7 @@ class OrderResourceController extends BaseController
 
 
             $gbp_to_rmb = (float)setting('gbp_to_rmb');
-            $profit_expect = 0;
+            $profit_expect = $total_price_gbp = 0;
             foreach ($orders as $key=> $order)
             {
 
@@ -87,18 +87,21 @@ class OrderResourceController extends BaseController
 
 				//$order->paypal_fee = bcadd(bcmul($order->price_total, 0.044,6),0.2,6);
 	            $order->paypal_fee = round($order->price_total * 0.044 + 0.2,2);
-                $price_gbp_to_rmb = round(($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total - $order->paypal_fee) * $gbp_to_rmb,2);
+                $order->price_gbp = round($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total - $order->paypal_fee,2);
+                $price_gbp_to_rmb = round($order->price_gbp * $gbp_to_rmb,2);
 
                 $order->profit_expect = $order->status == "Refunded" ? 0 : round($price_gbp_to_rmb - $order->cost,2);
 
                 $profit_expect += $order->profit_expect;
+                $total_price_gbp += $order->price_gbp;
             }
             $profit_expect = round($profit_expect ,2);
+            $total_price_gbp = round($total_price_gbp,2);
             return $this->response
                 ->success()
                 ->count($orders->total())
                 ->data($orders->toArray()['data'])
-                ->totalRow(compact('profit_expect'))
+                ->totalRow(compact('profit_expect','total_price_gbp'))
                 ->output();
 
         }
@@ -476,12 +479,12 @@ class OrderResourceController extends BaseController
                 $success_count++;
             }
 
-            if(count($dispatch_orders)) {
-                $onbuy_token = getOnbuyToken($seller_id);
-                $order = new Order($onbuy_token);
-                $order->dispatchOrder($dispatch_orders);
-                $res = $order->getResponse();
-            }
+//            if(count($dispatch_orders)) {
+//                $onbuy_token = getOnbuyToken($seller_id);
+//                $order = new Order($onbuy_token);
+//                $order->dispatchOrder($dispatch_orders);
+//                $res = $order->getResponse();
+//            }
 
             if(count($logisticsInfo['trackers']))
             {

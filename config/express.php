@@ -41,4 +41,22 @@ return [
         ],
 
     ],
+    'cne' => [
+        'excel' => [
+            '客户单号' =>  'order_id',
+            '4px单号' => 'tracking_number',
+            '查询链接' => 'tracking_url',
+            '快递公司' => 'tracking_supplier_name',
+        ],
+        'shipping_excel' => [
+            '客户单号' =>  'order_id',
+            '总金额'=>  'shipping_fee'
+        ],
+        'tracking_url' => 'https://track.4px.com/#/result/0/%s',
+        'tracking_supplier_name' => [
+            'onbuy' => '4PX',
+            'paypal' => 'CNEXPS'
+        ],
+
+    ],
 ];
