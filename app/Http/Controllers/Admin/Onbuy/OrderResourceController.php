@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Onbuy;
 
+use App\Exports\Onbuy\OrderExpressCneExport;
 use App\Exports\Onbuy\OrderExpressFourPxExport;
 use App\Exports\Onbuy\OrderExpressHualeiExport;
 use App\Exports\Onbuy\OrderExpressYanwenExport;
@@ -358,13 +359,15 @@ class OrderResourceController extends BaseController
                 $name = '4PX'.date('YmdHis').'.xlsx';
                 return Excel::download(new OrderExpressFourPxExport($ids,$search), $name);
                 break;
+            case 'hualei':
+                return Excel::download(new OrderExpressHualeiExport($ids,$search), $name);
+                break;
             case 'cne':
-                $name = 'CNE'.date('YmdHis').'.xlsx';
                 return Excel::download(new OrderExpressCneExport($ids,$search), $name);
                 break;
         }
     }
-    
+
 
     public function importExpress(Request $request)
     {
