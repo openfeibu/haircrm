@@ -52,9 +52,9 @@ return [
             '客户单号' =>  'order_id',
             '总金额'=>  'shipping_fee'
         ],
-        'tracking_url' => 'https://track.4px.com/#/result/0/%s',
+        'tracking_url' => 'https://www.cne.com/English/?no=%s',
         'tracking_supplier_name' => [
-            'onbuy' => '4PX',
+            'onbuy' => 'Unknown',
             'paypal' => 'CNEXPS'
         ],
 

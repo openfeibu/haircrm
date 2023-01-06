@@ -479,12 +479,12 @@ class OrderResourceController extends BaseController
                 $success_count++;
             }
 
-//            if(count($dispatch_orders)) {
-//                $onbuy_token = getOnbuyToken($seller_id);
-//                $order = new Order($onbuy_token);
-//                $order->dispatchOrder($dispatch_orders);
-//                $res = $order->getResponse();
-//            }
+            if(count($dispatch_orders)) {
+                $onbuy_token = getOnbuyToken($seller_id);
+                $order = new Order($onbuy_token);
+                $order->dispatchOrder($dispatch_orders);
+                $res = $order->getResponse();
+            }
 
             if(count($logisticsInfo['trackers']))
             {
