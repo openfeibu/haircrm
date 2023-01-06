@@ -138,10 +138,13 @@
         var element = layui.element;
         var laydate= layui.laydate;
         var where = {};
-        $(".search_key").each(function(){
-            var name = $(this).attr('name');
-            where["search["+name+"]"] = $(this).val();
-        });
+        @foreach($search as $key => $value)
+        where["search[{{$key}}]"] = "{{$value}}";
+        @endforeach
+        // $(".search_key").each(function(){
+        //     var name = $(this).attr('name');
+        //     where["search["+name+"]"] = $(this).val();
+        // });
         $(document).on('mouseenter', '.analyseTips', function ()
         {
             var tp= $(this).attr("lay-tips");
