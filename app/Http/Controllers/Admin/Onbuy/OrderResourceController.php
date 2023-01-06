@@ -74,11 +74,13 @@ class OrderResourceController extends BaseController
                 $order_products = OnbuyOrderProductModel::join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')->where('onbuy_order_products.order_id',$order->order_id)->get(['onbuy_order_products.image_urls','onbuy_order_products.name','onbuy_order_products.sku','onbuy_order_products.expected_dispatch_date','onbuy_order_products.quantity','onbuy_order_products.tracking_number','onbuy_order_products.tracking_supplier_name','onbuy_order_products.tracking_url','onbuy_order_products.unit_price','onbuy_order_products.total_price','onbuy_order_products.commission_fee_including_tax','onbuy_products.product_url','onbuy_products.purchase_price','onbuy_products.weight','onbuy_products.ch_name']);
                 $weight = 0;
                 $total_purchase_price = 0;
+                $is_refund = 0;
                 foreach ($order_products as $product_key => $order_product)
                 {
                     $order_product->total_purchase_price = $order_product->purchase_price *  $order_product->quantity;
                     $weight += $order_product->weight ? $order_product->weight * $order_product->quantity : 0;
                     $total_purchase_price += $order_product->total_purchase_price;
+                    $is_refund =$order_product->is_refund;
                 }
                 $order->weight = $weight;
                 $order->total_purchase_price = $total_purchase_price;
@@ -92,7 +94,7 @@ class OrderResourceController extends BaseController
                 $order->price_gbp = round($order->price_total - $order->fee_total_fee_including_vat- $order->tax_total - $order->paypal_fee,2);
                 $price_gbp_to_rmb = round($order->price_gbp * $gbp_to_rmb,2);
 
-                $order->profit_expect = $order->status == "Refunded" ? 0 : round($price_gbp_to_rmb - $order->cost,2);
+                $order->profit_expect = $order->status == "Refunded" || $is_refund ? 0 : round($price_gbp_to_rmb - $order->cost,2);
 
                 $profit_expect += $order->profit_expect;
                 $total_price_gbp += $order->price_gbp;
