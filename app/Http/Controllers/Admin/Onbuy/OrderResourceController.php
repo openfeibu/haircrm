@@ -7,6 +7,7 @@ use App\Exports\Onbuy\OrderExpressHualeiExport;
 use App\Exports\Onbuy\OrderExpressYanwenExport;
 use App\Http\Controllers\Admin\Onbuy\BaseController;
 use App\Imports\Onbuy\OrderExpressImport;
+use App\Models\Carry;
 use App\Models\Onbuy\Product as OnbuyProductModel;
 use App\Models\Onbuy\Order as OnbuyOrderModel;
 use App\Models\Onbuy\OrderProduct as OnbuyOrderProductModel;
@@ -105,13 +106,14 @@ class OrderResourceController extends BaseController
                 ->output();
 
         }
-
+        $carries = Carry::getAll();
         return $this->response->title("onbuy 订单")
             ->view('onbuy.order.index')
             ->data([
                 'limit' => $request->get('limit',50),
                 'search' => $search,
-                'onbuy_list' => $onbuy_list
+                'onbuy_list' => $onbuy_list,
+                'carries' => $carries
             ])
             ->output();
 
@@ -191,6 +193,7 @@ class OrderResourceController extends BaseController
                 ->output();
 
         }
+
         return $this->response->title("onbuy 产品出单量")
             ->view('onbuy.order.products')
             ->data(['limit' => $request->get('limit',50),'onbuy_list' => $onbuy_list])
@@ -340,30 +343,28 @@ class OrderResourceController extends BaseController
                 ->redirect();
         }
     }
-    public function exportExpressYanwen(Request $request)
+    public function exportExpress(Request $request)
     {
         $data = $request->all();
-        $ids = $data['ids'] ?? ['130','180'];
-        $name = '燕文物流'.date('YmdHis').'.xlsx';
+        $ids = $data['ids'] ?? [];
         $search = $request->input('search',[]);
-        return Excel::download(new OrderExpressYanwenExport($ids,$search), $name);
+        $carry = $request->input('carry',[]);
+        $name = $carry.date('YmdHis').'.xlsx';
+        switch ($carry){
+            case 'yanwen':
+                return Excel::download(new OrderExpressYanwenExport($ids,$search), $name);
+                break;
+            case '4px':
+                $name = '4PX'.date('YmdHis').'.xlsx';
+                return Excel::download(new OrderExpressFourPxExport($ids,$search), $name);
+                break;
+            case 'cne':
+                $name = 'CNE'.date('YmdHis').'.xlsx';
+                return Excel::download(new OrderExpressCneExport($ids,$search), $name);
+                break;
+        }
     }
-	public function exportExpressHualei(Request $request)
-	{
-		$data = $request->all();
-		$ids = $data['ids'] ?? ['130','180'];
-		$name = '华磊'.date('YmdHis').'.xlsx';
-		$search = $request->input('search',[]);
-		return Excel::download(new OrderExpressHualeiExport($ids,$search), $name);
-	}
-    public function exportExpressFourPx(Request $request)
-    {
-        $data = $request->all();
-        $ids = $data['ids'] ?? ['130','180'];
-        $name = '4PX'.date('YmdHis').'.xlsx';
-        $search = $request->input('search',[]);
-        return Excel::download(new OrderExpressFourPxExport($ids,$search), $name);
-    }
+    
 
     public function importExpress(Request $request)
     {

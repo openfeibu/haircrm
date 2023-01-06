@@ -15,9 +15,11 @@
                     <button class="layui-btn layui-btn-warm " type="button" data-type="sync_update" data-events="sync_update">从Onbuy同步更新订单</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="import_express_excel" data-events="import_express_excel">导入 快递信息</button>
                     <button class="layui-btn layui-btn-warm " type="button" data-type="import_shipping_fee" data-events="import_shipping_fee">导入 运费信息 test</button>
-                    <button class="layui-btn layui-btn-primary " type="button" data-type="export_yanwen_excel" data-events="export_yanwen_excel">下载 燕文Excel</button>
-                    <button class="layui-btn layui-btn-primary " type="button" data-type="export_hualei_excel" data-events="export_hualei_excel">下载 华磊Excel</button>
-                    <button class="layui-btn layui-btn-primary " type="button" data-type="export_4px_excel" data-events="export_4px_excel">下载 4PX Excel Test</button>
+                    @foreach($carries as $key => $carry)
+                        <button class="layui-btn layui-btn-primary " type="button" data-type="export_express_excel" data-events="export_express_excel" data-arg="{{$carry['sign']}}">下载 {{$carry['name']}} Excel</button>
+                    @endforeach
+
+                    <!--<button class="layui-btn layui-btn-primary " type="button" data-type="export_yanwen_excel" data-events="export_yanwen_excel">下载 燕文Excel</button>-->
                     <!--<button class="layui-btn layui-btn-warm " data-type="mark_purchase" data-events="mark_purchase">标记为已拿货</button>-->
                     <!--<button class="layui-btn layui-btn-danger " data-type="del" data-events="del">{{ trans('app.delete') }}</button>-->
                 </div>
@@ -374,7 +376,6 @@
 
                 // 该方法用于解决,使用fixed固定列后,行高和其他列不一致的问题
                 $(".layui-table-main  tr").each(function (index, val) {
-                    console.log($(val).html());
                     $($(".layui-table-fixed .layui-table-body tbody tr")[index]).height($(val).height());
                 });
                 $(".layui-table-fixed-r  tr").each(function (index, val) {
@@ -638,73 +639,13 @@
                     });
                 })  ;
             },
-            export_yanwen_excel:function () {
-                var checkStatus = table.checkStatus('fb-table')
-                        ,data = checkStatus.data;
-                var data_id_obj = {};
-                var i = 0;
-                var url = '{{ guard_url('onbuy/order/export/express_yanwen') }}';
-                var paramStr = "";
-                data.forEach(function(v){
-                    if(i == 0)
-                    {
-                        paramStr += "?ids[]="+v.id;
-                    }else{
-                        paramStr += "&ids[]="+v.id;
-                    }
-                    data_id_obj[i] = v.id; i++
-                });
-                $(".search_key").each(function(){
-                    var name = $(this).attr('name');
-                    if(i == 0)
-                    {
-                        paramStr += "?search["+name+"]="+$(this).val();
-                    }else{
-                        paramStr += "&search["+name+"]="+$(this).val();
-                    }
-                    i++
-                });
-                var load =layer.load();
-                window.location.href = url+paramStr;
-                layer.close(load);
-            },
-            export_hualei_excel:function () {
-                var checkStatus = table.checkStatus('fb-table')
-                        ,data = checkStatus.data;
-                var data_id_obj = {};
-                var i = 0;
-                var url = '{{ guard_url('onbuy/order/export/express_hualei') }}';
-                var paramStr = "";
-                data.forEach(function(v){
-                    if(i == 0)
-                    {
-                        paramStr += "?ids[]="+v.id;
-                    }else{
-                        paramStr += "&ids[]="+v.id;
-                    }
-                    data_id_obj[i] = v.id; i++
-                });
-                $(".search_key").each(function(){
-                    var name = $(this).attr('name');
-                    if(i == 0)
-                    {
-                        paramStr += "?search["+name+"]="+$(this).val();
-                    }else{
-                        paramStr += "&search["+name+"]="+$(this).val();
-                    }
-                    i++
-                });
-                var load =layer.load();
-                window.location.href = url+paramStr;
-                layer.close(load);
-            },
-            export_4px_excel:function () {
+            export_express_excel:function (type){
                 var checkStatus = table.checkStatus('fb-table')
                     ,data = checkStatus.data;
                 var data_id_obj = {};
-                var i = 0;
-                var url = '{{ guard_url('onbuy/order/export/express_4px') }}';
-                var paramStr = "";
+                var i = 1;
+                var url = '{{ guard_url('onbuy/order/export/express') }}';
+                var paramStr = "?carry="+type;
                 data.forEach(function(v){
                     if(i == 0)
                     {
@@ -728,6 +669,7 @@
                 window.location.href = url+paramStr;
                 layer.close(load);
             },
+
             import_express_excel:function () {
                 layer.open({
                     type: 1,
@@ -817,7 +759,13 @@
         };
         $('.tabel-message .layui-btn').on('click', function(){
             var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
+            if(type == 'export_express_excel'){
+                var arg = $(this).data('arg');
+                active[type] ? active[type].call(this,arg) : '';
+            }else{
+                active[type] ? active[type].call(this) : '';
+            }
+
         });
 
 

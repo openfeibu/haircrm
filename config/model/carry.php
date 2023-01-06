@@ -22,7 +22,7 @@ return [
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name','seller_id', 'consumer_key', 'secret_key','status'],
+        'fillable'     => ['name', 'sign', 'paypal', 'onbuy', 'tracking_url', 'status'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],
@@ -33,14 +33,14 @@ return [
         ],
     ],
 
-    'product'     => [
-        'model'        => 'App\Models\Onbuy\Product',
-        'table'        => 'onbuy_products',
+    'carry_product'     => [
+        'model'        => 'App\Models\Onbuy\CarryProduct',
+        'table'        => 'carry_products',
         'primaryKey'   => 'id',
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['name','ch_name', 'en_name', 'sku','group_sku',  'price','stock','product_listing_id','product_listing_condition_id','condition','handling_time','boost_marketing_commission','original_price','min_price','purchase_price','weight','product_encoded_id','delivery_weight','delivery_template_id','opc','product_url','image_url','sale_price','out_inventory','inventory','purchase_url','created_at','updated_at','seller_id'],
+        'fillable'     => ['carry_id','name','code','type'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],
@@ -51,14 +51,14 @@ return [
         ],
     ],
 
-    'product_bid'     => [
-        'model'        => 'App\Models\Onbuy\ProductBid',
-        'table'        => 'onbuy_product_bid',
+    'carry_product_price'     => [
+        'model'        => 'App\Models\Onbuy\CarryProductPrice',
+        'table'        => 'carry_product_prices',
         'primaryKey'   => 'id',
         'hidden'       => [],
         'visible'      => [],
         'guarded'      => ['*'],
-        'fillable'     => ['start_date', 'end_date','start_time',  'end_time','everyday','active','created_at','updated_at','seller_id'],
+        'fillable'     => ['carry_id',  'carry_product_id',  'first_weight',  'additional_weight',  'first_weight_shipping',  'additional_weight_shipping',  'registered_fee',  'max_weight',  'country_code',  'country'],
         'translate'    => [],
         'upload_folder' => '',
         'encrypt'      => ['id'],
