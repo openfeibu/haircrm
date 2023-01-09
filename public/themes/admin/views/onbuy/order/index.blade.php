@@ -49,7 +49,8 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="onbuy_orders.order_id" id="demoReload" placeholder="订单ID" autocomplete="off">
+{{--                    <input class="layui-input search_key" name="onbuy_orders.order_id" id="demoReload" placeholder="订单ID" autocomplete="off">--}}
+                    <textarea class="layui-input search_key" name="onbuy_orders.order_id"  id="demoReload" placeholder="订单ID，逗号或换行" autocomplete="off"></textarea>
                 </div>
 
                 <div class="layui-inline">
@@ -83,8 +84,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">物流</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="express" value="yanwen" title="燕文" checked>
-                        <input type="radio" name="express" value="4px" title="4px test" >
+                        @foreach($carries as $key => $carry)
+                            <input type="radio" name="express" value="{{$carry['sign']}}" title="{{$carry['name']}}" @if($key == 0) checked @endif>
+                        @endforeach
                     </div>
                 </div>
 
@@ -109,8 +111,9 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">物流</label>
                     <div class="layui-input-block">
-                        <input type="radio" name="express" value="yanwen" title="燕文" checked>
-                        <input type="radio" name="express" value="4px" title="4px test" >
+                        @foreach($carries as $key => $carry)
+                            <input type="radio" name="express" value="{{$carry['sign']}}" title="{{$carry['name']}}" @if($key == 0) checked @endif>
+                        @endforeach
                     </div>
                 </div>
                 <div class="input-file">
@@ -203,6 +206,7 @@
 
     <div>
         <p> <a href="https://seller.onbuy.com/orders/@{{ d.onbuy_internal_reference }}/" target="_blank">@{{ d.order_id }}</a></p>
+        <p> 总数:@{{ d.goods_count }} </p>
         <p> 英:@{{ d.date }} </p>
         <p> 中:@{{ d.ch_date }} </p>
 

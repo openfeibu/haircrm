@@ -43,8 +43,8 @@ return [
     ],
     'cne' => [
         'excel' => [
-            '客户单号' =>  'order_id',
-            '4px单号' => 'tracking_number',
+            '订单号' =>  'order_id',
+            '内单号' => 'tracking_number',
             '查询链接' => 'tracking_url',
             '快递公司' => 'tracking_supplier_name',
         ],

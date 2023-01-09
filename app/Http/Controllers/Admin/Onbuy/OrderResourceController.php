@@ -47,6 +47,11 @@ class OrderResourceController extends BaseController
                         {
                             switch ($field)
                             {
+                                case 'onbuy_orders.order_id':
+                                    $order_id = preg_replace("/(\n)|(\s)|(\t)|(\')|(')|(，)/" ,',' ,$value);
+                                    $order_ids = explode("," ,$order_id);
+                                    $query->whereIn($field,$order_ids);
+                                    break;
                                 case 'onbuy_order_products.name':
                                     $query->where($field,'like','%'.$value.'%');
                                     break;
@@ -75,12 +80,14 @@ class OrderResourceController extends BaseController
                 $weight = 0;
                 $total_purchase_price = 0;
                 $is_refund = 0;
+                $goods_count = 0;
                 foreach ($order_products as $product_key => $order_product)
                 {
                     $order_product->total_purchase_price = $order_product->purchase_price *  $order_product->quantity;
                     $weight += $order_product->weight ? $order_product->weight * $order_product->quantity : 0;
                     $total_purchase_price += $order_product->total_purchase_price;
                     $is_refund = $order_product->is_refund;
+                    $goods_count +=$order_product->quantity;
                 }
                 $order->weight = $weight;
                 $order->total_purchase_price = $total_purchase_price;
@@ -98,6 +105,7 @@ class OrderResourceController extends BaseController
 
                 $profit_expect += $order->profit_expect;
                 $total_price_gbp += $order->price_gbp;
+                $order->goods_count = $goods_count;
             }
             $profit_expect = round($profit_expect ,2);
             $total_price_gbp = round($total_price_gbp,2);
@@ -386,6 +394,7 @@ class OrderResourceController extends BaseController
 
         switch ($express){
             case 'yanwen':
+            case 'cne':
             case '4px':
                 $config_express = config('express.'.$express);
                 break;
