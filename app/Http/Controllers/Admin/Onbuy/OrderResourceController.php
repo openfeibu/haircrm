@@ -191,10 +191,25 @@ class OrderResourceController extends BaseController
                     $order_product->purchase_url = '';
 
                 }*/
-                $order_product->need_purchase = $order_product->total_quantity - $order_product->inventory - $order_product->out_inventory;
+
                 $order_product->products = SellerProduct::join('onbuy','onbuy.seller_id','onbuy_seller_product.seller_id')
                     ->where('onbuy_seller_product.product_sku',$order_product->sku)
-                    ->get(['onbuy.name as seller_name','onbuy.seller_id','onbuy_seller_product.product_sku']);
+                    ->selectRaw("onbuy.name as seller_name,onbuy.seller_id")
+                    ->get();
+                foreach ($order_product->products as $product)
+                {
+                    $product->quantity = OnbuyOrderProductModel::where('seller_id',$product->seller_id)
+                        ->where('sku',$order_product->sku)
+                        ->sum('quantity');
+                }
+
+                $order_product->all_total_quantity = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
+                    ->join('onbuy_products','onbuy_products.sku','=','onbuy_order_products.sku')
+                    ->where('onbuy_order_products.sku',$order_product->sku)
+                    ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
+                    ->where('onbuy_orders.is_refund',0)
+                    ->sum('onbuy_order_products.quantity');
+                $order_product->need_purchase = $order_product->all_total_quantity - $order_product->inventory - $order_product->out_inventory;
             }
 
             return $this->response

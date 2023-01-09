@@ -1,5 +1,7 @@
 <style>
-    .layui-table-cell{height:80px;}
+    .layui-table-cell{
+        height: auto !important;
+    }
     .layui-table-header .layui-table-cell, .layui-table-tool-panel li{white-space: pre-wrap !important;}
 </style>
 <div class="main">
@@ -64,7 +66,12 @@
         @{{# }  }}
         <p ><a href="@{{ d.product_url }}" target="_blank" >@{{ d.ch_name }}</a></p>
         @{{#  layui.each(d.products, function(index, item){ }}
-        <p><a class="" href="{{ guard_url('onbuy/seller_listing/') }}?search[onbuy_products.sku]=@{{ d.sku }}&search[onbuy_seller_product.seller_id]=@{{ item.seller_id }}" target="_blank">sku: @{{ item.seller_name }} - @{{ d.sku }}</a></p>
+        <p>
+            <a class="" href="{{ guard_url('onbuy/seller_listing/') }}?search[onbuy_products.sku]=@{{ d.sku }}&search[onbuy_seller_product.seller_id]=@{{ item.seller_id }}" target="_blank">
+                sku: @{{ item.seller_name }} - @{{ d.sku }} * @{{ item.quantity }}
+            </a>
+
+        </p>
         @{{#  }); }}
     </div>
 </script>
@@ -107,10 +114,10 @@
             ,cols: [[
                 {checkbox: true, fixed: true}
                 ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
-                ,{field:'name',title:'{{ trans('goods.name') }}',width:250,templet:'#productTEM'}
+                ,{field:'name',title:'{{ trans('goods.name') }}',width:300,height:48,templet:'#productTEM'}
                 ,{field:'purchase_url',title:'采购链接', width:180, edit:'text'}
                 ,{field:'purchase_price',title:'采购价',width:90}
-                ,{field:'total_quantity',title:'销售量',width:90, fixed: 'right' ,sort:true}
+                ,{field:'all_total_quantity',title:'所有店铺销售',width:90, fixed: 'right' ,sort:true}
                 ,{field:'inventory',title:'库存',width:80, edit:'text', fixed: 'right',sort:true}
                 ,{field:'out_inventory',title:'总出货',width:90,  edit:'text', fixed: 'right',sort:true}
                 ,{field:'need_purchase',title:'需拿货',width:90, fixed: 'right',templet:'#needPurchaseTEM',sort:true}//需拿货 = 销售量 - 库存 - 总出货
@@ -123,6 +130,22 @@
             ,cellMinWidth :'180'
             ,done:function (res, curr, count) {
                 element.init();
+                //merge(res);//合并单元格
+                //设置工具栏表头高度
+                $(".layui-table-header").eq(1).find("table").height($(".layui-table-header").eq(0).height()+1);
+                $(".layui-table-header").eq(2).find("table").height($(".layui-table-header").eq(0).height()+1);
+                //设置工具栏按钮栏高度
+                $(".layui-table").eq(1).find("tr").each(function(index,ele){
+                    $(".layui-table-body").eq(1).find("tr").eq(index).height($(ele).height());
+                });
+
+                // 该方法用于解决,使用fixed固定列后,行高和其他列不一致的问题
+                $(".layui-table-main  tr").each(function (index, val) {
+                    $($(".layui-table-fixed .layui-table-body tbody tr")[index]).height($(val).height());
+                });
+                $(".layui-table-fixed-r  tr").each(function (index, val) {
+                    $($(".layui-table-fixed-r .layui-table-body tbody tr")[index]).height($($(".layui-table-main  tr")[index]).height());
+                });
             }
         });
         //监听工具条
