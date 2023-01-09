@@ -157,10 +157,10 @@
                         {
                             if(!$('error-aux').length)
                             {
-                                //$('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
+                                $('#submit-btn').attr('disabled',false).removeClass('layui-btn-disabled').addClass('layui-btn-submit');
                             }
                         }else{
-                            //$('#submit-btn').attr('disabled',true).removeClass('layui-btn-submit').addClass('layui-btn-disabled');
+                            $('#submit-btn').attr('disabled',true).removeClass('layui-btn-submit').addClass('layui-btn-disabled');
 
                             that.parent().after('<div class="layui-form-mid layui-word-aux email-aux error-aux">'+data.message+'</div>')
                         }

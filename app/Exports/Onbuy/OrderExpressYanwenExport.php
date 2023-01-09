@@ -61,13 +61,20 @@ class OrderExpressYanwenExport implements FromCollection,WithEvents
             }
             $date = date('m/d/Y',strtotime($order->date));
             $order_data[$i] = [
-                $order->order_id,'燕文专线惠选-普货',$order->buyer_name,$order->buyer_phone,$order->buyer_email,"","",$order->delivery_address['country_code'],$order->delivery_address['county'],$order->delivery_address['town'],$order->delivery_address['postcode'],$address,"","","","","",$date,"美元","否","",""
+                $order->order_id,'燕文专线惠选-普货',$order->buyer_name,$order->buyer_phone,$order->buyer_email,"","",$order->delivery_address['country_code'],$order->delivery_address['county'],$order->delivery_address['town'],$order->delivery_address['postcode'],$address,"",""/*'寄件人税号信息'*/,""/*'包装尺寸【长】cm'*/,""/*'包装尺寸【宽】cm'*/,""/*'包装尺寸【高】cm'*/,$date/*'收款到账日期'*/,"美元","否",
             ];
+            $product_data = [];
+            $picking_list = '';
+            $total_quantity = 0;
             foreach ($products as $p_key => $product)
             {
                 $data = [$product->ch_name, $product->en_name, $product->quantity, $product->weight,$product->min_price,"","",""];
-                $order_data[$i] = array_merge($order_data[$i],$data);
+                $product_data = array_merge($product_data,$data);
+                $picking_list .= $product->ch_name.' * '. $product->quantity.PHP_EOL;
+                $total_quantity +=  $product->quantity;
             }
+            $picking_list = '共：'.$total_quantity.PHP_EOL.$picking_list;
+            $order_data[$i] = array_merge($order_data[$i],[$picking_list/*拣货单信息*/,""/*IOSS税号*/],$product_data);
             $i++;
 
         }
@@ -93,6 +100,7 @@ class OrderExpressYanwenExport implements FromCollection,WithEvents
                 //设置行高，$i为数据行数
                 for ($i = 0; $i<=$this->count+1; $i++) {
                     $event->sheet->getDelegate()->getRowDimension($i)->setRowHeight(30);
+                    $event->sheet->getDelegate()->getStyle("A" . $i.":BJ".$i)->getAlignment()->setWrapText(true);
                 }
                 //设置区域单元格垂直居中
                 $event->sheet->getDelegate()->getStyle('A1:K'.($this->count+1))->getAlignment()->setVertical('center');
