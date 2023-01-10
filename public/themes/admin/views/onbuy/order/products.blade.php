@@ -112,8 +112,7 @@
             ,id:'fb-table'
             ,url: main_url
             ,cols: [[
-                {checkbox: true, fixed: true}
-                ,{field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
+               {field:'image',title:'图片', width:120,templet:'#imageTEM',height:48, fixed: true}
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:300,height:48,templet:'#productTEM'}
                 ,{field:'purchase_url',title:'采购链接', width:180, edit:'text'}
                 ,{field:'purchase_price',title:'采购价',width:90}
