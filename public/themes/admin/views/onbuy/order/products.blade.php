@@ -116,10 +116,10 @@
                 ,{field:'name',title:'{{ trans('goods.name') }}',width:300,height:48,templet:'#productTEM'}
                 ,{field:'purchase_url',title:'采购链接', width:180, edit:'text'}
                 ,{field:'purchase_price',title:'采购价',width:90}
-                ,{field:'all_total_quantity',title:'所有店铺销售',width:90, fixed: 'right' ,sort:true}
-                ,{field:'inventory',title:'库存',width:80, edit:'text', fixed: 'right',sort:true}
+                ,{field:'all_total_quantity',title:'总销售',width:90, fixed: 'right' ,sort:true}
+                ,{field:'inventory',title:'总库存',width:80, edit:'text', fixed: 'right',sort:true}
                 ,{field:'out_inventory',title:'总出货',width:90,  edit:'text', fixed: 'right',sort:true}
-                ,{field:'need_purchase',title:'需拿货',width:90, fixed: 'right',templet:'#needPurchaseTEM',sort:true}//需拿货 = 销售量 - 库存 - 总出货
+                ,{field:'need_purchase',title:'总需拿货',width:90, fixed: 'right',templet:'#needPurchaseTEM',sort:true}//需拿货 = 销售量 - 库存 - 总出货
                 ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
             ]]
             ,id: 'fb-table'
