@@ -112,15 +112,15 @@
             ,id:'fb-table'
             ,url: main_url
             ,cols: [[
-               {field:'image',title:'图片', width:120,templet:'#imageTEM',height:48, fixed: true}
-                ,{field:'name',title:'{{ trans('goods.name') }}',width:300,height:48,templet:'#productTEM'}
+               {field:'image',title:'图片', width:120,templet:'#imageTEM',height:48}
+                ,{field:'name',title:'{{ trans('goods.name') }}',width:280,height:48,templet:'#productTEM'}
                 ,{field:'purchase_url',title:'采购链接', width:180, edit:'text'}
                 ,{field:'purchase_price',title:'采购价',width:90}
-                ,{field:'all_total_quantity',title:'总销售',width:90, fixed: 'right' ,sort:true}
-                ,{field:'inventory',title:'总库存',width:80, edit:'text', fixed: 'right',sort:true}
-                ,{field:'out_inventory',title:'总出货',width:90,  edit:'text', fixed: 'right',sort:true}
-                ,{field:'need_purchase',title:'总需拿货',width:90, fixed: 'right',templet:'#needPurchaseTEM',sort:true}//需拿货 = 销售量 - 库存 - 总出货
-                ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo', fixed: 'right'}
+                ,{field:'all_total_quantity',title:'总销售',width:90,sort:true}
+                ,{field:'inventory',title:'总库存',width:80, edit:'text',sort:true}
+                ,{field:'out_inventory',title:'总出货',width:90,  edit:'text',sort:true}
+                ,{field:'need_purchase',title:'总需拿货',width:90,templet:'#needPurchaseTEM',sort:true}//需拿货 = 销售量 - 库存 - 总出货
+                ,{field:'score',title:'{{ trans('app.actions') }}', width:180, align: 'right',toolbar:'#barDemo'}
             ]]
             ,id: 'fb-table'
             ,page: true
