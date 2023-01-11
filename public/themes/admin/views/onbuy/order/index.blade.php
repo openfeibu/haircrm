@@ -60,7 +60,7 @@
                     <input class="layui-input search_key" name="onbuy_order_products.name" id="demoReload" placeholder="名称" autocomplete="off">
                 </div>
                 <div class="layui-inline">
-                    <input class="layui-input search_key" name="onbuy_order_products.paypal_capture_id" id="demoReload" placeholder="Paypal交易号" autocomplete="off">
+                    <input class="layui-input search_key" name="onbuy_orders.paypal_capture_id" id="demoReload" placeholder="Paypal交易号" autocomplete="off">
                 </div>
                 <div class="layui-inline">
                     <input class="layui-input search_key" name="onbuy_orders.tracking_number" id="demoReload" placeholder="物流单号" autocomplete="off">
