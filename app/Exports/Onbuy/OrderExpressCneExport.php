@@ -74,11 +74,11 @@ class OrderExpressCneExport implements FromCollection,WithEvents
             {
                 $total_weight += $product->weight * $product->quantity;
                 $total_quantity += $product->quantity;
-                $ch_name .= $ch_name ? PHP_EOL.$ch_name : $product->ch_name;
-                $en_name .= $en_name ? PHP_EOL.$en_name : $product->en_name;
-                $quantity .= $quantity ? PHP_EOL.$quantity : $product->quantity;
-                $price .= $price ? PHP_EOL.$price : $product->min_price;
-                $sku .= $sku ? PHP_EOL.$sku : $product->sku;
+                $ch_name .= $ch_name ? PHP_EOL.$product->ch_name : $product->ch_name;
+                $en_name .= $en_name ? PHP_EOL.$product->en_name : $product->en_name;
+                $quantity .= $quantity ? PHP_EOL.$product->quantity : $product->quantity;
+                $price .= $price ? PHP_EOL.$product->min_price : $product->min_price;
+                $sku .= $sku ? PHP_EOL.$product->sku : $product->sku;
                 $currency .= $currency ? PHP_EOL.'英镑' : '英镑';
 //                $data = [$product->ch_name, $product->en_name, $product->quantity, $product->weight,$product->min_price,"","",""];
 //                $order_data[$i] = array_merge($order_data[$i],$data);

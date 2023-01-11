@@ -198,9 +198,12 @@ class OrderResourceController extends BaseController
                     ->get();
                 foreach ($order_product->products as $product)
                 {
-                    $product->quantity = OnbuyOrderProductModel::where('seller_id',$product->seller_id)
-                        ->where('sku',$order_product->sku)
-                        ->sum('quantity');
+                    $product->quantity = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
+                        ->where('onbuy_order_products.seller_id',$product->seller_id)
+                        ->where('onbuy_order_products.sku',$order_product->sku)
+                        ->whereIn('onbuy_orders.status',['Awaiting Dispatch','Dispatched','Partially Dispatched','Complete'])
+                        ->where('onbuy_orders.is_refund',0)
+                        ->sum('onbuy_order_products.quantity');
                 }
 
                 $order_product->all_total_quantity = OnbuyOrderProductModel::join('onbuy_orders','onbuy_orders.order_id','=','onbuy_order_products.order_id')
