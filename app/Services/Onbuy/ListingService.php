@@ -268,7 +268,7 @@ class ListingService
                         'image_url' => $product['image_url'],
                         'sale_price' => $product['sale_price'],
                         'min_price' => 0,
-                        'original_price' => $product['price'],
+                        'original_price' => $product['price'] + 10,
                         'created_at' => $product['created_at'],
                         'updated_at' => $product['updated_at'],
                     ];
