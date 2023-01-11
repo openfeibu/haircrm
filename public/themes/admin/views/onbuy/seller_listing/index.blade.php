@@ -211,7 +211,7 @@
                     layer.close(index);
                     var load = layer.load();
                     $.ajax({
-                        url : listing_url+'/'+data.id,
+                        url : main_url+'/'+data.seller_product_id,
                         data : data,
                         type : 'delete',
                         success : function (data) {
@@ -349,7 +349,7 @@
                         ,data = checkStatus.data;
                 var data_id_obj = {};
                 var i = 0;
-                data.forEach(function(v){ data_id_obj[i] = v.id; i++});
+                data.forEach(function(v){ data_id_obj[i] = v.seller_product_id; i++});
                 data.length == 0 ?
                         layer.msg('请选择要删除的数据', {
                             time: 2000 //2秒关闭（如果不配置，默认是3秒）

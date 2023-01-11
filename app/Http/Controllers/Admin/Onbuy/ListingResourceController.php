@@ -110,6 +110,7 @@ class ListingResourceController extends BaseController
     public function destroy(Request $request,OnbuyProductModel $listing)
     {
         try {
+            var_dump($listing);exit;
             $listing->delete();
             SellerProduct::where('product_sku',$listing['sku'])->delete();
             return $this->response->message(trans('messages.success.deleted', ['Module' => '产品']))

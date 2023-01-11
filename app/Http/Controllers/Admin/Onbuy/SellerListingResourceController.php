@@ -54,7 +54,7 @@ class SellerListingResourceController extends BaseController
             $products = $products
                 //->groupBy('onbuy_seller_product.product_sku')
                 ->orderBy('onbuy_seller_product.created_at','desc')
-                ->paginate($request->get('limit',50),['onbuy_seller_product.*','onbuy_products.*','onbuy_products.id as product_id']);
+                ->paginate($request->get('limit',50),['onbuy_seller_product.*','onbuy_seller_product.id as seller_product_id','onbuy_products.*','onbuy_products.id as product_id']);
             $onbuy_fee = (float)setting('onbuy_fee');
             $gbp_to_rmb = (float)setting('gbp_to_rmb');
             foreach ($products as $key=> $product)
@@ -110,10 +110,10 @@ class SellerListingResourceController extends BaseController
             ->redirect();
     }
 
-    public function destroy(Request $request,OnbuyProductModel $listing)
+    public function destroy(Request $request,SellerProduct $seller_listing)
     {
         try {
-            $listing->delete();
+            $seller_listing->delete();
             return $this->response->message(trans('messages.success.deleted', ['Module' => '产品']))
                 ->status("success")
                 ->http_code(202)
@@ -135,7 +135,7 @@ class SellerListingResourceController extends BaseController
         try {
             $data = $request->all();
             $ids = $data['ids'];
-            OnbuyProductModel::destroy($ids);
+            SellerProduct::destroy($ids);
 
             return $this->response->message(trans('messages.operation.success'))
                 ->status("success")

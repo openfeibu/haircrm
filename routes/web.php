@@ -182,7 +182,7 @@ Route::group([
         Route::get('order_products', 'OrderResourceController@products')->name('order.products');
 
         Route::resource('seller_listing', 'SellerListingResourceController');
-        Route::post('/seller_listing/destroyAll', 'SellerListingResourceController@products')->name('seller_listing.destroy_all');
+        Route::post('/seller_listing/destroyAll', 'SellerListingResourceController@destroyAll')->name('seller_listing.destroy_all');
         Route::post('seller_listing/sync', 'SellerListingResourceController@sync');
         Route::get('seller_listing/handle/getWinning', 'SellerListingResourceController@getWinning');
         Route::post('seller_listing/automatic', 'SellerListingResourceController@automatic');
