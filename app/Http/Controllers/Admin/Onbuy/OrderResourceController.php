@@ -631,12 +631,16 @@ class OrderResourceController extends BaseController
                     continue;
                 }
                 $shipping_fee = floatval(str_replace(' CNY','',$item['shipping_fee']));
-                OnbuyOrderModel::where('order_id',$item['order_id'])
-                    ->update([
-                        'shipping_fee' => $shipping_fee,
-                    ]);
+                if($shipping_fee>=0)
+                {
+                    OnbuyOrderModel::where('order_id',$item['order_id'])
+                        ->update([
+                            'shipping_fee' => $shipping_fee,
+                        ]);
 
-                $success_count++;
+                    $success_count++;
+                };
+
             }
 
             DB::commit();
